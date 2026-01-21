@@ -1,7 +1,7 @@
 import 'package:get/get.dart';
 
-import 'package:sukientotapp/core/service/api_service.dart';
-import 'package:sukientotapp/core/service/localstorage_service.dart';
+import 'package:sukientotapp/core/services/api_service.dart';
+import 'package:sukientotapp/core/services/localstorage_service.dart';
 
 class SplashController extends GetxController {
   final ApiService _apiService = ApiService();
