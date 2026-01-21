@@ -56,22 +56,23 @@ flutter:
     - assets/fonts/
 
   fonts:
-    - family: Medium
+    - family: Lexend
       fonts:
-        - asset: assets/fonts/Lexend-Medium.ttf
-
-    - family: Bold
-      fonts:
-        - asset: assets/fonts/Lexend-Black.ttf
-
-    - family: Light
-      fonts:
+        - asset: assets/fonts/Lexend-Thin.ttf
+          weight: 100
+        - asset: assets/fonts/Lexend-ExtraLight.ttf
+          weight: 200
         - asset: assets/fonts/Lexend-Light.ttf
-
-    - family: Regular
-      fonts:
+          weight: 300
         - asset: assets/fonts/Lexend-Regular.ttf
-
-    - family: SemiBold
-      fonts:
+          weight: 400
+        - asset: assets/fonts/Lexend-Medium.ttf
+          weight: 500
+        - asset: assets/fonts/Lexend-SemiBold.ttf
+          weight: 600
         - asset: assets/fonts/Lexend-Bold.ttf
+          weight: 700
+        - asset: assets/fonts/Lexend-ExtraBold.ttf
+          weight: 800
+        - asset: assets/fonts/Lexend-Black.ttf
+          weight: 900
