@@ -1,0 +1,1 @@
+export 'package:sukientotapp/core/bindings/splash_binding.dart';
