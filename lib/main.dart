@@ -1,6 +1,5 @@
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
-import 'package:get/get_connect/http/src/utils/utils.dart';
 
 import 'package:get/get_navigation/src/root/get_material_app.dart';
 import 'package:get_storage/get_storage.dart';
@@ -10,7 +9,7 @@ import 'package:forui/forui.dart';
 import 'package:stack_trace/stack_trace.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 
-import 'package:sukientotapp/features/common/splash/splash_screen.dart';
+import 'package:sukientotapp/core/routes/pages.dart';
 
 Future<void> main() async {
   Chain.capture(
@@ -42,7 +41,8 @@ class GoodEvent extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return GetMaterialApp(
-      title: 'Sự kiện tốt',
+      initialRoute: Pages.initialRoute,
+      getPages: Pages.routes,
       debugShowCheckedModeBanner: false,
       theme: FThemeData(
         colors: FThemes.rose.light.colors,
@@ -53,7 +53,6 @@ class GoodEvent extends StatelessWidget {
       builder: (context, child) {
         return FTheme(data: FThemes.rose.light, child: child!);
       },
-      home: const SplashScreen(),
     );
   }
 }
