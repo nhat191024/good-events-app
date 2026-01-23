@@ -16,5 +16,10 @@ class Pages {
       page: () => const SplashScreen(),
       binding: SplashBinding(),
     ),
+    GetPage(
+      name: Routes.chooseYoSideScreen,
+      page: () => const ChooseYoSideScreen(),
+      binding: ChooseYoSideBinding(),
+    ),
   ];
 }
