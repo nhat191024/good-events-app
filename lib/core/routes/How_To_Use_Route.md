@@ -49,7 +49,7 @@ class ChooseYoSideScreen extends GetView<ChooseYoSideController> {
 }
 ```
 
-### 2. Controller File
+### 3. Controller File
 
 **Example:**
 
