@@ -1,0 +1,261 @@
+import 'package:sukientotapp/core/utils/import/global.dart';
+
+import 'choose_yo_side_controller.dart';
+
+class ChooseYoSideScreen extends GetView<ChooseYoSideController> {
+  const ChooseYoSideScreen({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    final double splitRatio = 0.51;
+    final double slopeHeight = 150.0;
+
+    return Scaffold(
+      backgroundColor: Colors.white,
+      body: Padding(
+        padding: const EdgeInsets.symmetric(horizontal: 12.0),
+        child: Stack(
+          children: [
+            //Service Provider Section
+            Positioned.fill(
+              child: GestureDetector(
+                onTap: () {
+                  if (kDebugMode) {
+                    loggerNoStack.i("Service Provider section tapped");
+                  }
+                  controller.isServiceProvider.value = true;
+                },
+                child: Obx(
+                  () => ClipPath(
+                    clipper: BottomStackClipper(splitRatio: splitRatio, slopeHeight: slopeHeight),
+                    child: Container(
+                      decoration: BoxDecoration(
+                        gradient: LinearGradient(
+                          colors: controller.isServiceProvider.value
+                              ? [
+                                  Colors.red[900]!, // Primary color
+                                  Colors.red[300]!, // White-ish
+                                  Colors.white, // Pure white (if desired)
+                                ]
+                              : [
+                                  Colors.grey[800]!, // Primary color
+                                  Colors.grey[350]!, // White-ish
+                                  Colors.white, // Pure white (if desired)
+                                ],
+                          begin: Alignment.topLeft, // Start from top-left corner
+                          end: Alignment.bottomRight, // End at bottom-right corner
+                          stops: const [0.0, 0.7, 1.0], // Adjust the spread of colors
+                        ),
+                      ),
+                      child: Align(
+                        alignment: Alignment.bottomCenter,
+                        child: Padding(
+                          padding: const EdgeInsets.only(bottom: 140),
+                          child: Column(
+                            mainAxisSize: MainAxisSize.min,
+                            children: [
+                              Container(
+                                height: 120,
+                                width: 120,
+                                decoration: BoxDecoration(
+                                  color: Colors.white.withValues(alpha: 0.5),
+                                  shape: BoxShape.circle,
+                                ),
+                                child: Icon(
+                                  Icons.handyman_rounded,
+                                  size: 70,
+                                  color: Colors.red[900],
+                                ),
+                              ),
+                              const SizedBox(height: 10),
+                              Text(
+                                "SERVICE PROVIDER",
+                                style: TextStyle(
+                                  fontSize: 24,
+                                  fontWeight: FontWeight.w900,
+                                  color: Colors.red[900],
+                                ),
+                              ),
+                            ],
+                          ),
+                        ),
+                      ),
+                    ),
+                  ),
+                ),
+              ),
+            ),
+
+            // Customer Section
+            Positioned.fill(
+              child: GestureDetector(
+                onTap: () {
+                  if (kDebugMode) {
+                    loggerNoStack.i("Customer section tapped");
+                  }
+                  controller.isServiceProvider.value = false;
+                },
+                child: Obx(
+                  () => ClipPath(
+                    clipper: TopStackClipper(splitRatio: splitRatio, slopeHeight: slopeHeight),
+                    child: Container(
+                      decoration: BoxDecoration(
+                        gradient: LinearGradient(
+                          colors: controller.isServiceProvider.value
+                              ? [
+                                  Colors.grey[800]!, // Primary color
+                                  Colors.grey[350]!, // White-ish
+                                  Colors.white, // Pure white (if desired)
+                                ]
+                              : [
+                                  Color(0xFFFFF8E1), // White-ish yellow (top-left corner)
+                                  Color(0xFFFFB300), // Primary color (bottom-right corner)
+                                ],
+                          begin: Alignment.topLeft,
+                          end: Alignment.bottomRight,
+                        ),
+                      ),
+                      child: Align(
+                        alignment: Alignment.topCenter,
+                        child: Padding(
+                          padding: const EdgeInsets.only(top: 150),
+                          child: Column(
+                            mainAxisSize: MainAxisSize.min,
+                            children: [
+                              const Text(
+                                "CUSTOMER",
+                                style: TextStyle(
+                                  fontSize: 26,
+                                  fontWeight: FontWeight.w900,
+                                  color: Colors.black87,
+                                ),
+                              ),
+                              const SizedBox(height: 10),
+                              Container(
+                                height: 120,
+                                width: 120,
+                                decoration: BoxDecoration(
+                                  color: Colors.white.withValues(alpha: 0.4),
+                                  shape: BoxShape.circle,
+                                ),
+                                child: Icon(
+                                  Icons.person_4_rounded,
+                                  size: 80,
+                                  color: Colors.brown[800],
+                                ),
+                              ),
+                            ],
+                          ),
+                        ),
+                      ),
+                    ),
+                  ),
+                ),
+              ),
+            ),
+
+            const Positioned(
+              top: 60,
+              left: 0,
+              right: 0,
+              child: Text(
+                "Are you a Customer or\na Service Provider?",
+                textAlign: TextAlign.center,
+                style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold, color: Colors.black87),
+              ),
+            ),
+            Positioned(
+              bottom: 30,
+              left: 30,
+              right: 30,
+              child: Obx(
+                () => FButton(
+                  suffix: const Icon(FIcons.chevronRight),
+                  mainAxisSize: MainAxisSize.min,
+                  onPress: () {},
+                  child: Text('Next'),
+                ),
+              ),
+            ),
+          ],
+        ),
+      ),
+    );
+  }
+}
+
+const double kGap = 30.0; // Khoảng trắng giữa 2 khối
+const double kCurveRadius = 40.0; // Độ bo tròn góc cắt
+
+class TopStackClipper extends CustomClipper<Path> {
+  final double splitRatio;
+  final double slopeHeight;
+
+  TopStackClipper({required this.splitRatio, required this.slopeHeight});
+
+  @override
+  Path getClip(Size size) {
+    Path path = Path();
+    double centerHeight = size.height * splitRatio;
+
+    path.moveTo(0, 0);
+    path.lineTo(size.width, 0);
+
+    double rightPointY = centerHeight + (slopeHeight / 2);
+    double leftPointY = centerHeight - (slopeHeight / 2);
+
+    path.lineTo(size.width, rightPointY - kCurveRadius);
+    path.quadraticBezierTo(
+      size.width,
+      rightPointY,
+      size.width - kCurveRadius,
+      rightPointY - (kCurveRadius * slopeHeight / size.width * 0.8),
+    );
+
+    path.lineTo(kCurveRadius, leftPointY + (kCurveRadius * slopeHeight / size.width * 0.8));
+    path.quadraticBezierTo(0, leftPointY, 0, leftPointY - kCurveRadius);
+
+    path.close();
+    return path;
+  }
+
+  @override
+  bool shouldReclip(covariant TopStackClipper oldClipper) => true;
+}
+
+class BottomStackClipper extends CustomClipper<Path> {
+  final double splitRatio;
+  final double slopeHeight;
+
+  BottomStackClipper({required this.splitRatio, required this.slopeHeight});
+
+  @override
+  Path getClip(Size size) {
+    Path path = Path();
+    double centerHeight = size.height * splitRatio;
+
+    double rightPointY = centerHeight + (slopeHeight / 2) + kGap;
+    double leftPointY = centerHeight - (slopeHeight / 2) + kGap;
+
+    path.moveTo(0, leftPointY + kCurveRadius);
+    path.quadraticBezierTo(
+      0,
+      leftPointY,
+      kCurveRadius,
+      leftPointY + (kCurveRadius * slopeHeight / size.width * 0.8),
+    );
+    path.lineTo(
+      size.width - kCurveRadius,
+      rightPointY - (kCurveRadius * slopeHeight / size.width * 0.8),
+    );
+
+    path.quadraticBezierTo(size.width, rightPointY, size.width, rightPointY + kCurveRadius);
+    path.lineTo(size.width, size.height);
+    path.lineTo(0, size.height);
+    path.close();
+    return path;
+  }
+
+  @override
+  bool shouldReclip(covariant BottomStackClipper oldClipper) => true;
+}
