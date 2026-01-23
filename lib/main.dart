@@ -1,4 +1,3 @@
-import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 
 import 'package:get/get_navigation/src/root/get_material_app.dart';
@@ -11,27 +10,26 @@ import 'package:flutter_dotenv/flutter_dotenv.dart';
 
 import 'package:sukientotapp/core/routes/pages.dart';
 
-Future<void> main() async {
+void main() {
   Chain.capture(
     () async {
-      // Ensure bindings are initialized
       WidgetsFlutterBinding.ensureInitialized();
 
-      //package loading
+      FlutterError.onError = (FlutterErrorDetails details) {
+        final terseTrace = Trace.from(details.stack!).terse;
+        debugPrint('--- WE HAVE FUKIN PROBLEM ---');
+        debugPrint(terseTrace.toString());
+      };
+
       await dotenv.load();
       await GetStorage.init();
 
       runApp(const GoodEvent());
     },
-    onError: (error, chain) {
-      if (kDebugMode) {
-        debugPrint('--- WE HAVE A FUKING PROBLEM ---');
-        print(error);
-        print(chain.terse);
-        debugPrint('--- END OF FUKING PROBLEM ---');
-      } else {
-        //TODO: Report error to analytics service
-      }
+    onError: (error, stackChain) {
+      debugPrint('--- ASYNCHRONOUS IS FKED ---');
+      debugPrint('Error: $error');
+      debugPrint(stackChain.terse.toString());
     },
   );
 }
@@ -43,7 +41,7 @@ class GoodEvent extends StatelessWidget {
     return GetMaterialApp(
       initialRoute: Pages.initialRoute,
       getPages: Pages.routes,
-      debugShowCheckedModeBanner: false,
+      debugShowCheckedModeBanner: true,
       theme: FThemeData(
         colors: FThemes.rose.light.colors,
         typography: FThemes.rose.light.typography.copyWith(
