@@ -43,13 +43,13 @@ class GoodEvent extends StatelessWidget {
       getPages: Pages.routes,
       debugShowCheckedModeBanner: true,
       theme: FThemeData(
-        colors: FThemes.rose.light.colors,
-        typography: FThemes.rose.light.typography.copyWith(
+        colors: FThemes.red.light.colors,
+        typography: FThemes.red.light.typography.copyWith(
           xs: const TextStyle(fontFamily: 'Lexend'),
         ),
       ).toApproximateMaterialTheme(),
       builder: (context, child) {
-        return FTheme(data: FThemes.rose.light, child: child!);
+        return FTheme(data: FThemes.red.light, child: child!);
       },
     );
   }
