@@ -1,8 +1,11 @@
-import 'package:get/get.dart';
+import 'package:sukientotapp/core/utils/import/global.dart';
 
 import 'package:sukientotapp/core/services/api_service.dart';
 import 'package:sukientotapp/core/services/localstorage_service.dart';
 
+import 'package:sukientotapp/core/routes/pages.dart';
+
+//TODO: update splash in future for now just a placeholder
 class SplashController extends GetxController {
   final ApiService _apiService = ApiService();
 
@@ -12,19 +15,22 @@ class SplashController extends GetxController {
     _checkToken();
   }
 
+  ///Check token validity
   Future<void> _checkToken() async {
-    await Future.delayed(const Duration(milliseconds: 500));
+    await Future.delayed(const Duration(seconds: 3));
 
-    final token = StorageService.readData(key: LocalStorageKeys.token);
+    Get.offAllNamed(Routes.chooseYoSideScreen); //for dev only
 
-    if (token == null) {
-      // Get.offAll(() => const LoginScreen());
-      return;
-    }
+    // final token = StorageService.readData(key: LocalStorageKeys.token);
+
+    // if (token == null) {
+    // Get.offAll(() => const LoginScreen());
+    // return;
+    // }
 
     try {
       // await _apiService.dio.get('/check-token');
-      // Get.offAll(() => const BranchListScreen());
+      // await Future.delayed(const Duration(seconds: 3));
     } catch (e) {
       StorageService.removeData(key: LocalStorageKeys.token);
       StorageService.removeData(key: LocalStorageKeys.user);
