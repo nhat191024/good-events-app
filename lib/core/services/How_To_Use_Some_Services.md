@@ -2,6 +2,11 @@
 
 ### All new service need to have a FKIN docs here. I don't care small or big. Write it here i (or we) ain't gonna read yo dumb code
 
+## Table of Contents
+
+1. [API Service](#1-api-service)
+2. [Local Storage Service](#2-local-storage-service)
+
 ## 1. API SERVICE
 
 - Simple thing no need to say much. Use it to call da backend/API.
