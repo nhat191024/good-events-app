@@ -4,7 +4,8 @@
 
 ## Table of Contents
 
-1. [API Service](#1-api-service)
+1. [Import folder](#1-import-folder)
+1. [Logger](#2-logger)
 
 ## 1. Import folder
 
