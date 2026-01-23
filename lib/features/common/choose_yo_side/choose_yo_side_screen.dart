@@ -168,13 +168,11 @@ class ChooseYoSideScreen extends GetView<ChooseYoSideController> {
               bottom: 30,
               left: 30,
               right: 30,
-              child: Obx(
-                () => FButton(
-                  suffix: const Icon(FIcons.chevronRight),
-                  mainAxisSize: MainAxisSize.min,
-                  onPress: () {},
-                  child: Text('Next'),
-                ),
+              child: FButton(
+                suffix: const Icon(FIcons.chevronRight),
+                mainAxisSize: MainAxisSize.min,
+                onPress: () {},
+                child: Text('Next'),
               ),
             ),
           ],
