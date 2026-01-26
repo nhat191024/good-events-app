@@ -9,6 +9,7 @@ import 'package:stack_trace/stack_trace.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 
 import 'package:sukientotapp/core/routes/pages.dart';
+import 'package:sukientotapp/core/app_translations.dart';
 
 void main() {
   Chain.capture(
@@ -42,6 +43,11 @@ class GoodEvent extends StatelessWidget {
       initialRoute: Pages.initialRoute,
       getPages: Pages.routes,
       debugShowCheckedModeBanner: true,
+
+      translations: AppTranslations(),
+      locale: const Locale('vi', 'VN'),
+      fallbackLocale: const Locale('en', 'US'),
+
       theme: FThemeData(
         colors: FThemes.red.light.colors,
         typography: FThemes.red.light.typography.copyWith(
