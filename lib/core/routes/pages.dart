@@ -21,5 +21,10 @@ class Pages {
       page: () => const ChooseYoSideScreen(),
       binding: ChooseYoSideBinding(),
     ),
+    GetPage(
+      name: Routes.loginScreen,
+      page: () => const LoginScreen(),
+      binding: LoginBinding(),
+    ),
   ];
 }
