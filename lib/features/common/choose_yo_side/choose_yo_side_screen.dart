@@ -158,12 +158,12 @@ class ChooseYoSideScreen extends GetView<ChooseYoSideController> {
               ),
             ),
 
-            const Positioned(
+            Positioned(
               top: 60,
               left: 0,
               right: 0,
               child: Text(
-                "Are you a Customer or\na Service Provider?",
+                'title_choose_your_side'.tr,
                 textAlign: TextAlign.center,
                 style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold, color: Colors.black87),
               ),
