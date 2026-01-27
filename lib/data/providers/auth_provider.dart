@@ -40,4 +40,33 @@ class AuthProvider {
       throw Exception('Đã xảy ra lỗi: $e');
     }
   }
+
+  /// Check Token Validity API call
+  /// GET /check-token
+  Future<bool> checkToken() async {
+    try {
+      logger.i('[AuthProvider] [checkToken] Calling API: GET /check-token');
+
+      final response = await _apiService.dio.get(AppUrl.checkToken);
+
+      logger.i('[AuthProvider] [checkToken] API Response: ${response.statusCode}');
+
+      if (response.statusCode == 200) {
+        return true;
+      } else {
+        return false;
+      }
+    } on DioException catch (e) {
+      logger.e('[AuthProvider] [checkToken] DioException: ${e.message}');
+
+      if (e.response?.statusCode == 401) {
+        return false;
+      }
+
+      throw Exception('Không thể xác thực token. Vui lòng thử lại.');
+    } catch (e) {
+      logger.e('[AuthProvider] [checkToken] Unknown error: $e');
+      throw Exception('Đã xảy ra lỗi khi kiểm tra token: $e');
+    }
+  }
 }
