@@ -33,4 +33,24 @@ class AuthRepositoryImpl implements AuthRepository {
       rethrow;
     }
   }
+
+  @override
+  Future<bool> checkToken() async {
+    try {
+      logger.i('[AuthRepositoryImpl] [checkToken] Checking token validity');
+
+      final isValid = await _authProvider.checkToken();
+
+      if (isValid) {
+        logger.i('[AuthRepositoryImpl] [checkToken] Token is valid');
+      } else {
+        logger.w('[AuthRepositoryImpl] [checkToken] Token is invalid or expired');
+      }
+
+      return isValid;
+    } catch (e) {
+      logger.e('[AuthRepositoryImpl] [checkToken] Check token failed: $e');
+      rethrow;
+    }
+  }
 }
