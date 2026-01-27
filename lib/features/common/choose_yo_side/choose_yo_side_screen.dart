@@ -64,16 +64,20 @@ class ChooseYoSideScreen extends GetView<ChooseYoSideController> {
                                 child: Icon(
                                   Icons.handyman_rounded,
                                   size: 70,
-                                  color: Colors.red[900],
+                                  color: controller.isServiceProvider.value
+                                      ? Colors.red[900]
+                                      : Colors.brown[800],
                                 ),
                               ),
                               const SizedBox(height: 10),
                               Text(
-                                "SERVICE PROVIDER",
+                                'service_provider'.tr.toUpperCase(),
                                 style: TextStyle(
                                   fontSize: 24,
                                   fontWeight: FontWeight.w900,
-                                  color: Colors.red[900],
+                                  color: controller.isServiceProvider.value
+                                      ? Colors.red[900]
+                                      : Colors.brown[800],
                                 ),
                               ),
                             ],
@@ -122,8 +126,8 @@ class ChooseYoSideScreen extends GetView<ChooseYoSideController> {
                           child: Column(
                             mainAxisSize: MainAxisSize.min,
                             children: [
-                              const Text(
-                                "CUSTOMER",
+                              Text(
+                                'customer'.tr.toUpperCase(),
                                 style: TextStyle(
                                   fontSize: 26,
                                   fontWeight: FontWeight.w900,
@@ -171,8 +175,8 @@ class ChooseYoSideScreen extends GetView<ChooseYoSideController> {
               child: FButton(
                 suffix: const Icon(FIcons.chevronRight),
                 mainAxisSize: MainAxisSize.min,
-                onPress: () {},
-                child: Text('Next'),
+                onPress: null,
+                child: Text('next'.tr),
               ),
             ),
           ],
