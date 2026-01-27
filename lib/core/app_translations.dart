@@ -4,6 +4,9 @@ class AppTranslations extends Translations {
   @override
   Map<String, Map<String, String>> get keys => {
     'vi_VN': {
+      //choose your side screen
+      'title_choose_your_side': 'Bạn là khách hàng hay \nnhà cung cấp dịch vụ?',
+
       //login screen
       'welcome_back': 'Chào mừng trở lại!',
 
@@ -18,8 +21,18 @@ class AppTranslations extends Translations {
       'login_button': 'Đăng nhập',
       'google_login': 'Đăng nhập với Google',
       'logging_loading': 'Đang đăng nhập...',
+
+      //common
+      'customer': 'Khách hàng',
+      'service_provider': 'Nhà cung cấp dịch vụ',
+
+      //buttons
+      'next': 'Tiếp theo',
     },
     'en_US': {
+      //choose your side screen
+      'title_choose_your_side': 'Are you a customer or \na service provider?',
+
       //login screen
       'welcome_back': 'Welcome Back!',
 
@@ -33,6 +46,13 @@ class AppTranslations extends Translations {
       'login_button': 'Login',
       'google_login': 'Login with Google',
       'logging_loading': 'Logging in...',
+
+      //common
+      'customer': 'Customer',
+      'service_provider': 'Service Provider',
+
+      //buttons
+      'next': 'Next',
     },
   };
 }
