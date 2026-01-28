@@ -26,5 +26,10 @@ class Pages {
       page: () => const LoginScreen(),
       binding: LoginBinding(),
     ),
+    GetPage(
+      name: Routes.partnerHome,
+      page: () => const PartnerBottomNavigationView(),
+      binding: PartnerBottomNavigationBinding(),
+    ),
   ];
 }
