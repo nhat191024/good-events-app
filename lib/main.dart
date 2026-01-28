@@ -9,7 +9,7 @@ import 'package:stack_trace/stack_trace.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 
 import 'package:sukientotapp/core/routes/pages.dart';
-import 'package:sukientotapp/core/app_translations.dart';
+import 'package:sukientotapp/core/utils/app_translations.dart';
 
 void main() {
   Chain.capture(
