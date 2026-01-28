@@ -1,4 +1,4 @@
-import 'package:sukientotapp/features/common/home/home_controller.dart';
+import 'package:sukientotapp/features/partner/home/home_controller.dart';
 import 'package:sukientotapp/core/utils/import/global.dart';
 
 class HomeScreen extends GetView<HomeController> {
