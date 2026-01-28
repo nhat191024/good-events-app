@@ -16,7 +16,9 @@
 
 ### 1. Binding File
 
-**Example:**
+**Important**: Binding file phải setup toàn bộ dependency chain theo thứ tự: Service → Provider → Repository → Controller.
+
+**Example (Simple - không cần API):**
 
 ```dart
 import 'package:get/get.dart';
@@ -29,6 +31,40 @@ class ChooseYoSideBinding extends Bindings {
   }
 }
 ```
+
+**Example (Full Stack - cần API call):**
+
+```dart
+import 'package:get/get.dart';
+import 'package:sukientotapp/core/services/api_service.dart';
+import 'package:sukientotapp/data/providers/auth_provider.dart';
+import 'package:sukientotapp/data/repositories/auth_repository_impl.dart';
+import 'package:sukientotapp/domain/repositories/auth_repository.dart';
+import 'package:sukientotapp/features/common/auth/login/login_controller.dart';
+
+class LoginBinding extends Bindings {
+  @override
+  void dependencies() {
+    // 1. Service Layer (fenix: true để tái sử dụng instance)
+    Get.lazyPut<ApiService>(() => ApiService(), fenix: true);
+
+    // 2. Provider Layer (Data source - call API)
+    Get.lazyPut<AuthProvider>(() => AuthProvider(Get.find<ApiService>()));
+
+    // 3. Repository Layer (Business logic implementation)
+    Get.lazyPut<AuthRepository>(() => AuthRepositoryImpl(Get.find<AuthProvider>()));
+
+    // 4. Controller (UI State management)
+    Get.lazyPut<LoginController>(() => LoginController(Get.find<AuthRepository>()));
+  }
+}
+```
+
+**Lưu ý:**
+
+- Thứ tự dependencies quan trọng: từ low-level (Service) → high-level (Controller)
+- Dùng `Get.find<T>()` để inject dependencies đã được lazyPut
+- ApiService nên dùng `fenix: true` để tái sử dụng instance xuyên suốt app
 
 ### 2. Screen File
 
