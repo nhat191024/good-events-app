@@ -8,7 +8,10 @@ class HomeScreen extends GetView<HomeController> {
   Widget build(BuildContext context) {
     return FScaffold(
       child: Center(
-        child: Text('partner_home_welcome'.tr, style: TextStyle(fontSize: 24, fontWeight: FontWeight.bold)),
+        child: Text(
+          'partner_home_welcome'.tr,
+          style: TextStyle(fontSize: 24, fontWeight: FontWeight.bold),
+        ),
       ),
     );
   }
