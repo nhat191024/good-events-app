@@ -29,8 +29,8 @@ lib/
 │   ├── providers/         # API Clients (Dio requests)
 │   └── repositories/      # Repository Implementation (implements Domain repos)
 ├── domain/                # (Optional) Domain Layer - Business Rules
-│   ├── entities/          # Pure Dart Objects (Runtime use)
 │   └── repositories/      # Abstract Repository Interfaces
+│   └── api_url.dart   # API Endpoints
 ├── features/              # Feature Modules (Screens/Logic)
 │   ├── client/            # Client-specific features (Booking, Home)
 │   ├── partner/           # Partner-specific features (Orders, Portfolio)
