@@ -7,6 +7,7 @@ export 'package:forui/forui.dart';
 // Exporting core utilities
 export 'package:sukientotapp/core/utils/logger.dart';
 export 'package:sukientotapp/core/routes/pages.dart';
+export 'package:sukientotapp/core/utils/app_images.dart';
 
 // Icon packs
 export 'package:font_awesome_flutter/font_awesome_flutter.dart';
