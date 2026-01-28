@@ -55,7 +55,7 @@ class LoginScreen extends GetView<LoginController> {
                 onPress: controller.isLoading.value ? null : controller.login,
                 child: controller.isLoading.value
                     ? Text('logging_loading'.tr)
-                    : Text('login_button'.tr),
+                    : Text('login'.tr),
               ),
             ),
             const SizedBox(height: 20),
