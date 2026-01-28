@@ -3,7 +3,7 @@ import 'package:get_storage/get_storage.dart';
 // ignore: implementation_imports
 import 'package:pretty_dio_logger/src/pretty_dio_logger.dart';
 
-import 'package:sukientotapp/core/env_config.dart';
+import 'package:sukientotapp/core/utils/env_config.dart';
 
 class ApiService {
   late Dio _dio;
