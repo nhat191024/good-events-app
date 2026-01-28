@@ -23,7 +23,9 @@ class AppTranslations extends Translations {
       'logging_loading': 'Đang đăng nhập...',
 
       //common
+      'home' : 'Trang chủ',
       'customer': 'Khách hàng',
+      'partner': 'Đối tác',
       'service_provider': 'Nhà cung cấp dịch vụ',
 
       //buttons
