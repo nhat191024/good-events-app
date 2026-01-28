@@ -50,7 +50,9 @@ class AppTranslations extends Translations {
       'logging_loading': 'Logging in...',
 
       //common
+      'home' : 'Home',
       'customer': 'Customer',
+      'partner': 'Partner',
       'service_provider': 'Service Provider',
 
       //buttons
