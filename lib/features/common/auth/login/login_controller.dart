@@ -36,11 +36,21 @@ class LoginController extends GetxController {
 
       logger.i('[Auth] [Login] Login successful: ${user.name}');
 
-      //TODO: Navigate to the next screen or save user info as needed
-      Get.snackbar('Success', 'Login successful! Welcome, ${user.name}.');
+      Get.snackbar('success'.tr, 'login_successful'.trParams({'0': user.name}));
+      await Future.delayed(const Duration(seconds: 1));
+
+      var role = StorageService.readMapData(key: LocalStorageKeys.user, mapKey: 'role');
+      switch (role) {
+        case 'client':
+          Get.snackbar('notification'.tr, 'in_dev'.tr);
+          break;
+        case 'partner':
+          Get.offAllNamed(Routes.partnerHome);
+          break;
+      }
     } catch (e) {
       logger.e('[Auth] [Login] Login failed: $e');
-      Get.snackbar('Error', e.toString());
+      Get.snackbar('error'.tr, e.toString());
     } finally {
       isLoading.value = false;
     }
