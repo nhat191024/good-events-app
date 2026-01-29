@@ -34,7 +34,7 @@ class GoodEvent extends StatelessWidget {
     final base = FThemes.zinc.light;
     return FThemeData(
       colors: base.colors.copyWith(
-        primary: AppColors.rose600,
+        primary: AppColors.red600,
         primaryForeground: AppColors.white,
         background: AppColors.lightBackground,
         foreground: AppColors.lightForeground,
@@ -54,7 +54,7 @@ class GoodEvent extends StatelessWidget {
     final base = FThemes.zinc.dark;
     return FThemeData(
       colors: base.colors.copyWith(
-        primary: AppColors.rose500,
+        primary: AppColors.red500,
         primaryForeground: AppColors.white,
         background: AppColors.darkBackground,
         foreground: AppColors.darkForeground,
@@ -106,7 +106,7 @@ class GoodEvent extends StatelessWidget {
       theme: ThemeData(
         fontFamily: 'Lexend',
         colorScheme: ColorScheme.light(
-          primary: AppColors.rose600,
+          primary: AppColors.red600,
           surface: AppColors.lightBackground,
           error: AppColors.error,
         ),
@@ -115,7 +115,7 @@ class GoodEvent extends StatelessWidget {
       darkTheme: ThemeData(
         fontFamily: 'Lexend',
         colorScheme: ColorScheme.dark(
-          primary: AppColors.rose500,
+          primary: AppColors.red500,
           surface: AppColors.darkBackground,
           error: AppColors.error,
         ),
