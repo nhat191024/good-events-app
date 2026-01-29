@@ -32,9 +32,16 @@ class SplashController extends GetxController {
 
       if (isTokenValid) {
         logger.i('[SplashController] [_checkToken] Token valid, redirecting to home');
-        // TODO: Navigate to appropriate home screen based on user role
-        // Get.offAllNamed(Routes.clientHome); or Get.offAllNamed(Routes.partnerHome);
-        Get.offAllNamed(Routes.chooseYoSideScreen);
+
+        var role = StorageService.readMapData(key: LocalStorageKeys.user, mapKey: 'role');
+        switch (role) {
+          case 'client':
+            Get.snackbar('notification'.tr, 'in_dev'.tr);
+            return;
+          case 'partner':
+            Get.offAllNamed(Routes.partnerHome);
+            return;
+        }
       } else {
         logger.w('[SplashController] [_checkToken] Token invalid, clearing storage');
         StorageService.removeData(key: LocalStorageKeys.token);
