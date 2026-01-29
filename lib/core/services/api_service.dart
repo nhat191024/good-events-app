@@ -1,13 +1,12 @@
 import 'package:dio/dio.dart';
-import 'package:get_storage/get_storage.dart';
 // ignore: implementation_imports
 import 'package:pretty_dio_logger/src/pretty_dio_logger.dart';
 
 import 'package:sukientotapp/core/utils/env_config.dart';
+import 'package:sukientotapp/core/services/localstorage_service.dart';
 
 class ApiService {
   late Dio _dio;
-  final GetStorage _storage = GetStorage();
 
   static final String baseUrl = EnvConfig.apiBaseUrl;
 
@@ -28,7 +27,7 @@ class ApiService {
     _dio.interceptors.add(
       InterceptorsWrapper(
         onRequest: (options, handler) {
-          final token = _storage.read('token');
+          final token = StorageService.readData(key: LocalStorageKeys.token);
           if (token != null) {
             options.headers['Authorization'] = 'Bearer $token';
           }
