@@ -1,42 +1,108 @@
-# How
+# Data Layer Guide
 
-- All Data in this project require a models (or else nobody will understand anything)
-- So i will provide you a example about this
+This document explains how the Data Layer is structured in the project, following the **Clean Architecture** and **Repository Pattern**.
 
-**Example**
+## Structure
 
-- User model
+The data flow is:
+`View` -> `Controller` -> `Repository` -> `Provider` -> `API/DB`
+
+## 1. Models
+
+Models are Data Transfer Objects (DTOs). They must include `fromJson` and `toJson`.
 
 ```dart
-class User {
+class UserModel {
   final int id;
-  final String username;
-  final String name;
+  final String email;
 
-  User({required this.id, required this.username, required this.name});
+  UserModel({required this.id, required this.email});
 
-    ///fromJoon help take data from api return
-  factory User.fromJson(Map<String, dynamic> json) {
-    return User(id: json['id'] ?? 0, username: json['username'] ?? '', name: json['name'] ?? '');
+  factory UserModel.fromJson(Map<String, dynamic> json) {
+    return UserModel(
+      id: json['id'] ?? 0,
+      email: json['email'] ?? '',
+    );
   }
 
-    ///Same with above but with opposite result
-  Map<String, dynamic> toJson() {
-    return {'id': id, 'username': username, 'name': name};
+  Map<String, dynamic> toJson() => {
+    'id': id,
+    'email': email,
+  };
+}
+```
+
+## 2. Providers
+
+Providers handle raw network requests using `Dio`. They do **not** parse models, they return `Map<String, dynamic>` or `List`.
+
+```dart
+class AuthProvider {
+  final ApiService _apiService;
+  AuthProvider(this._apiService);
+
+  Future<Map<String, dynamic>> login(String email, String password) async {
+    final response = await _apiService.dio.post('/login', data: {'email': email, 'password': password});
+    return response.data;
   }
 }
 ```
 
-- Use in a controller (gonna update this in future with GetX state for model)
+## 3. Repositories
+
+Repositories act as a bridge. They call Providers, handle exceptions, and return Domain Models.
+
+**Interface (Domain Layer - `domain/repositories/`):**
 
 ```dart
-import 'package:sukientotapp/data/models/user.dart'; //import model
+abstract class AuthRepository {
+  Future<UserModel> login(String email, String password);
+}
+```
 
-  Future<void> login() async {
-    //some logic for post login
-    final data = response.data;
-    if (data['user'] != null) {
-        final user = User.fromJson(data['user']);
+**Implementation (Data Layer - `data/repositories/`):**
+
+```dart
+class AuthRepositoryImpl implements AuthRepository {
+  final AuthProvider _provider; // Injected via GetX Binding
+  AuthRepositoryImpl(this._provider);
+
+  @override
+  Future<UserModel> login(String email, String password) async {
+    try {
+      final rawData = await _provider.login(email, password);
+      return UserModel.fromJson(rawData);
+    } catch (e) {
+      // Log error and rethrow or handle custom exception
+      rethrow;
     }
   }
+}
+```
+
+## 4. Usage in Controller
+
+Controllers use Repositories to get data. Do not call Providers directly in Controllers.
+
+```dart
+class LoginController extends GetxController {
+  final AuthRepository _authRepository;
+
+  // Repository is injected via constructor usually
+  LoginController(this._authRepository);
+
+  final isLoading = false.obs;
+
+  Future<void> handleLogin() async {
+    try {
+      isLoading.value = true;
+      final user = await _authRepository.login("test@gmail.com", "123456");
+      // Handle success
+    } catch (e) {
+      Get.snackbar("Error", e.toString());
+    } finally {
+      isLoading.value = false;
+    }
+  }
+}
 ```
