@@ -33,7 +33,7 @@ class AppTranslations extends Translations {
       'service_provider': 'Nhà cung cấp dịch vụ',
 
       'notification': 'Thông báo',
-      'login_successful': 'Đăng nhập thành công! Welcome, {0}.',
+      'login_successful': 'Đăng nhập thành công! Welcome, @name.',
 
       ///Statuses
       'success': 'Thành công',
@@ -77,7 +77,7 @@ class AppTranslations extends Translations {
       'service_provider': 'Service Provider',
 
       'notification': 'Notification',
-      'login_successful': 'Login successful! Welcome, {0}.',
+      'login_successful': 'Login successful! Welcome, @name.',
 
       ///Statuses
       'success': 'Success',
