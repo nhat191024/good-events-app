@@ -12,6 +12,7 @@ class AppColors {
   // --- AMBER / YELLOW PALETTE (Client UI) ---
   static const Color amber600 = Color(0xFFD97706); // Dark Yellow
   static const Color amber500 = Color(0xFFF59E0B); // Yellow
+  static const Color amber400 = Color(0xFFFBBF24); // Light Yellow
 
   // --- NEUTRALS (STONE/ZINC) ---
 
