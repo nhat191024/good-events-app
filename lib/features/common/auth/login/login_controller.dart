@@ -36,7 +36,7 @@ class LoginController extends GetxController {
 
       logger.i('[Auth] [Login] Login successful: ${user.name}');
 
-      Get.snackbar('success'.tr, 'login_successful'.trParams({'0': user.name}));
+      Get.snackbar('success'.tr, 'login_successful'.trParams({'name': user.name}));
       await Future.delayed(const Duration(seconds: 1));
 
       var role = StorageService.readMapData(key: LocalStorageKeys.user, mapKey: 'role');
