@@ -1,6 +1,4 @@
 import 'package:sukientotapp/core/utils/import/global.dart';
-
-import 'package:sukientotapp/core/services/localstorage_service.dart';
 import 'package:sukientotapp/domain/repositories/auth_repository.dart';
 
 //TODO: update splash in future for now just a placeholder
