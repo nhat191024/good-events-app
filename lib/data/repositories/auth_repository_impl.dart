@@ -1,12 +1,11 @@
-import 'package:get_storage/get_storage.dart';
 import 'package:sukientotapp/data/models/user_model.dart';
 import 'package:sukientotapp/data/providers/auth_provider.dart';
 import 'package:sukientotapp/domain/repositories/auth_repository.dart';
 import 'package:sukientotapp/core/utils/logger.dart';
+import 'package:sukientotapp/core/services/localstorage_service.dart';
 
 class AuthRepositoryImpl implements AuthRepository {
   final AuthProvider _authProvider;
-  final GetStorage _storage = GetStorage();
 
   AuthRepositoryImpl(this._authProvider);
 
@@ -19,12 +18,14 @@ class AuthRepositoryImpl implements AuthRepository {
 
       final token = response['token'] as String?;
       if (token != null) {
-        await _storage.write('token', token);
+        StorageService.writeStringData(key: LocalStorageKeys.token, value: token);
         logger.i('[AuthRepositoryImpl] [login] Token saved to storage');
       }
 
       final userData = response;
       final user = UserModel.fromJson(userData);
+
+      StorageService.writeMapData(key: LocalStorageKeys.user, value: user.toJson());
 
       logger.i('[AuthRepositoryImpl] [login] Login successful for user: ${user.email}');
       return user;
