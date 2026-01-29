@@ -31,11 +31,15 @@ class AppTranslations extends Translations {
       'customer': 'Khách hàng',
       'partner': 'Đối tác',
       'service_provider': 'Nhà cung cấp dịch vụ',
+      'notification': 'Thông báo',
 
       //buttons
       'next': 'Tiếp theo',
       'register': 'Đăng ký',
       'login': 'Đăng nhập',
+
+      //dev
+      'in_dev': 'Tính năng đang phát triển',
     },
     'en_US': {
       //choose your side screen
@@ -64,11 +68,15 @@ class AppTranslations extends Translations {
       'customer': 'Customer',
       'partner': 'Partner',
       'service_provider': 'Service Provider',
+      'notification': 'Notification',
 
       //buttons
       'next': 'Next',
       'register': 'Register',
       'login': 'Login',
+
+      //dev
+      'in_dev': 'Feature in development',
     },
   };
 }
