@@ -61,6 +61,13 @@ lib/
 │   ├── router/                   # Router của ứng dụng
 │   ├── service/                 # Các dịch vụ như API, Local storage,...
 │   ├── utils/                      # Các tiện ích dành cho việc phát triển
+├── data/                           # Data Layer (Xử lý dữ liệu & API)
+│   ├── models/                  # Mô hình dữ liệu (fromJson/toJson)
+│   ├── providers/               # API Call (Dio request)
+│   └── repositories/            # Triển khai Repository (Impl)
+├── domain/                         # Domain Layer (Nghiệp vụ cốt lõi)
+│   ├── repositories/            # Interface Repository (Abstract)
+│   └── api_url.dart             # Đường dẫn API Endpoints
 ├── features/                    # Các tính năng chính
 │   ├── client/                    # Modules dành cho khách hàng
 │   ├── partner/                # Modules dành cho đối tác
@@ -74,8 +81,19 @@ lib/
 1. [Router](/lib/core/routes/How_To_Use_Route.md)
 2. [Service](/lib/core/services/How_To_Use_Some_Services.md)
 3. [Utils](/lib/core/utils/How_And_What.md)
-3. [Data](/lib/data/How.md) (Gonna update in future)
+4. [Data & Repository (Clean Architecture)](/lib/data/How.md)
 
+### Cách dùng Repository (Tóm tắt)
+
+Dự án tuân thủ luồng dữ liệu:
+**`View` ➔ `Controller` ➔ `Repository` ➔ `Provider` ➔ `API`**
+
+1. **Provider (`data/providers/`)**: Gọi API (bằng Dio), trả về Raw Data (Map/List). Không xử lý logic.
+2. **Repository Implementation (`data/repositories/`)**: Gọi Provider, parse JSON sang Model, xử lý lỗi (Try/Catch).
+3. **Repository Interface (`domain/repositories/`)**: Định nghĩa hàm abstract để Controller gọi.
+4. **Controller (`features/.../controller.dart`)**: Gọi Repository để lấy Model và cập nhật UI.
+
+_Xem ví dụ chi tiết code tại [Data Guide](/lib/data/How.md)_
 
 ## Bắt đầu
 
