@@ -9,6 +9,7 @@ export 'package:sukientotapp/core/utils/logger.dart';
 export 'package:sukientotapp/core/routes/pages.dart';
 export 'package:sukientotapp/core/utils/app_images.dart';
 export 'package:sukientotapp/core/utils/app_colors.dart';
+export 'package:sukientotapp/core/services/localstorage_service.dart';
 
 // Icon packs
 export 'package:font_awesome_flutter/font_awesome_flutter.dart';
