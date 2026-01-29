@@ -19,6 +19,18 @@ class StorageService {
     box.write(key, value);
   }
 
+  static void writeMapData({required String key, required Map<String, dynamic> value}) {
+    box.write(key, value);
+  }
+
+  static dynamic readMapData({required String key, String mapKey = ''}) {
+    final map = box.read<Map<String, dynamic>>(key);
+    if (mapKey.isNotEmpty && map != null) {
+      return map[mapKey];
+    }
+    return map;
+  }
+
   static void removeData({required String key}) {
     box.remove(key);
   }
