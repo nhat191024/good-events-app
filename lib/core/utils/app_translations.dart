@@ -27,11 +27,18 @@ class AppTranslations extends Translations {
       'customer_register_now': 'Đăng ký để trải nghiệm dịch vụ ngay hôm nay!',
 
       //common
-      'home' : 'Trang chủ',
+      'home': 'Trang chủ',
       'customer': 'Khách hàng',
       'partner': 'Đối tác',
       'service_provider': 'Nhà cung cấp dịch vụ',
+
       'notification': 'Thông báo',
+      'login_successful': 'Đăng nhập thành công! Welcome, {0}.',
+
+      ///Statuses
+      'success': 'Thành công',
+      'failed': 'Thất bại',
+      'error': 'Lỗi',
 
       //buttons
       'next': 'Tiếp theo',
@@ -64,11 +71,18 @@ class AppTranslations extends Translations {
       'customer_register_now': 'Register to experience the service today!',
 
       //common
-      'home' : 'Home',
+      'home': 'Home',
       'customer': 'Customer',
       'partner': 'Partner',
       'service_provider': 'Service Provider',
+
       'notification': 'Notification',
+      'login_successful': 'Login successful! Welcome, {0}.',
+
+      ///Statuses
+      'success': 'Success',
+      'failed': 'Failed',
+      'error': 'Error',
 
       //buttons
       'next': 'Next',
