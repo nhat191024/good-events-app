@@ -113,7 +113,7 @@ class ChooseYoSideScreen extends GetView<ChooseYoSideController> {
                                 ]
                               : [
                                   Color(0xFFFFF8E1), // White-ish yellow (top-left corner)
-                                  Color(0xFFFFB300), // Primary color (bottom-right corner)
+                                  Color(0xFFF59E0B), // Primary color (bottom-right corner)
                                 ],
                           begin: Alignment.topLeft,
                           end: Alignment.bottomRight,
@@ -172,11 +172,30 @@ class ChooseYoSideScreen extends GetView<ChooseYoSideController> {
               bottom: 30,
               left: 30,
               right: 30,
-              child: FButton(
-                suffix: const Icon(FIcons.chevronRight),
-                mainAxisSize: MainAxisSize.min,
-                onPress: null,
-                child: Text('next'.tr),
+              child: FTappable(
+                onPress: () => Get.toNamed(
+                  Routes.guestHomeScreen,
+                  arguments: {'isServiceProvider': controller.isServiceProvider.value},
+                ),
+                builder: (context, states, child) {
+                  return Obx(
+                    () => Container(
+                      decoration: BoxDecoration(
+                        color: controller.isServiceProvider.value
+                            ? AppColors.primary
+                            : AppColors.amber400,
+                        borderRadius: BorderRadius.circular(26.0),
+                      ),
+                      padding: const EdgeInsets.all(16.0),
+                      child: child,
+                    ),
+                  );
+                },
+                child: Text(
+                  'next'.tr,
+                  style: TextStyle(color: Colors.white, fontWeight: FontWeight.bold),
+                  textAlign: TextAlign.center,
+                ),
               ),
             ),
           ],
