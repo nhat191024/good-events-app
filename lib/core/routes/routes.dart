@@ -5,6 +5,10 @@ abstract class Routes {
 
   static const splashScreen = '/splash';
   static const chooseYoSideScreen = '/choose-yo-side';
+  static const guestHomeScreen = '/guest/home';
   static const loginScreen = '/login';
+
+  //Required Auth
+  // Partner
   static const partnerHome = '/partner/home';
 }

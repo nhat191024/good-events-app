@@ -26,6 +26,15 @@ class Pages {
       page: () => const LoginScreen(),
       binding: LoginBinding(),
     ),
+
+    //Guest
+    GetPage(
+      name: Routes.guestHomeScreen,
+      page: () => const GuestHomeScreen(),
+      binding: GuestHomeBinding(),
+    ),
+
+    //Partner
     GetPage(
       name: Routes.partnerHome,
       page: () => const PartnerBottomNavigationView(),
