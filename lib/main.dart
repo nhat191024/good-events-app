@@ -5,6 +5,7 @@ import 'package:flutter_dotenv/flutter_dotenv.dart';
 // Import các file của bạn (giữ nguyên)
 import 'package:sukientotapp/core/utils/import/global.dart';
 import 'package:sukientotapp/core/utils/app_translations.dart';
+import 'package:sukientotapp/features/common/widgets/dev_overlay.dart';
 
 void main() {
   Chain.capture(
@@ -126,7 +127,7 @@ class GoodEvent extends StatelessWidget {
         final brightness = Theme.of(context).brightness;
         final theme = brightness == Brightness.dark ? darkTheme : lightTheme;
 
-        return FTheme(data: theme, child: child!);
+        return FTheme(data: theme, child: DevOverlay(child: child!));
       },
     );
   }
