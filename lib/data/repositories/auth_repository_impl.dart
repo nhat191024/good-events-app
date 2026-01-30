@@ -12,8 +12,6 @@ class AuthRepositoryImpl implements AuthRepository {
   @override
   Future<UserModel> login(String email, String password) async {
     try {
-      logger.i('[AuthRepositoryImpl] [login] Starting login process');
-
       final response = await _authProvider.login(email, password);
 
       final token = response['token'] as String?;

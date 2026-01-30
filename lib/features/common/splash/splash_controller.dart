@@ -17,8 +17,6 @@ class SplashController extends GetxController {
   Future<void> _checkToken() async {
     await Future.delayed(const Duration(seconds: 3));
 
-    logger.i('[SplashController] [_checkToken] Starting token check');
-
     final token = StorageService.readData(key: LocalStorageKeys.token);
 
     if (token == null) {
@@ -31,8 +29,6 @@ class SplashController extends GetxController {
       final isTokenValid = await _authRepository.checkToken();
 
       if (isTokenValid) {
-        logger.i('[SplashController] [_checkToken] Token valid, redirecting to home');
-
         var role = StorageService.readMapData(key: LocalStorageKeys.user, mapKey: 'role');
         switch (role) {
           case 'client':
@@ -49,7 +45,6 @@ class SplashController extends GetxController {
         Get.offAllNamed(Routes.chooseYoSideScreen);
       }
     } catch (e) {
-      logger.e('[SplashController] [_checkToken] Error checking token: $e');
       StorageService.removeData(key: LocalStorageKeys.token);
       StorageService.removeData(key: LocalStorageKeys.user);
       Get.offAllNamed(Routes.chooseYoSideScreen);

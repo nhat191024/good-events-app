@@ -12,14 +12,10 @@ class AuthProvider {
   /// POST /auth/login
   Future<Map<String, dynamic>> login(String email, String password) async {
     try {
-      logger.i('[AuthProvider] [login] Calling API: POST /auth/login');
-
       final response = await _apiService.dio.post(
         AppUrl.login,
         data: {'email': email, 'password': password},
       );
-
-      logger.i('[AuthProvider] [login] API Response: ${response.statusCode}');
 
       if (response.statusCode == 200) {
         return response.data as Map<String, dynamic>;
@@ -45,11 +41,7 @@ class AuthProvider {
   /// GET /check-token
   Future<bool> checkToken() async {
     try {
-      logger.i('[AuthProvider] [checkToken] Calling API: GET /check-token');
-
       final response = await _apiService.dio.get(AppUrl.checkToken);
-
-      logger.i('[AuthProvider] [checkToken] API Response: ${response.statusCode}');
 
       if (response.statusCode == 200) {
         return true;

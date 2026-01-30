@@ -30,12 +30,7 @@ class LoginController extends GetxController {
 
     try {
       isLoading.value = true;
-      logger.i('[Auth] [Login] Attempting login for ${username.value}');
-
       final user = await _authRepository.login(username.value, password.value);
-
-      logger.i('[Auth] [Login] Login successful: ${user.name}');
-
       Get.snackbar('success'.tr, 'login_successful'.trParams({'name': user.name}));
       await Future.delayed(const Duration(seconds: 1));
 
@@ -49,7 +44,6 @@ class LoginController extends GetxController {
           break;
       }
     } catch (e) {
-      logger.e('[Auth] [Login] Login failed: $e');
       Get.snackbar('error'.tr, e.toString());
     } finally {
       isLoading.value = false;
