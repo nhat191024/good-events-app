@@ -1,6 +1,7 @@
 import 'package:dio/dio.dart';
 // ignore: implementation_imports
 import 'package:pretty_dio_logger/src/pretty_dio_logger.dart';
+import 'package:dio_log/dio_log.dart';
 
 import 'package:sukientotapp/core/utils/env_config.dart';
 import 'package:sukientotapp/core/services/localstorage_service.dart';
@@ -49,6 +50,7 @@ class ApiService {
         },
       ),
     );
+    _dio.interceptors.add(DioLogInterceptor());
   }
 
   Dio get dio => _dio;
