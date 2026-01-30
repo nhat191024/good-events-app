@@ -1,6 +1,7 @@
-import 'package:sukientotapp/core/utils/import/global.dart';
-import 'package:dio_log/dio_log.dart';
 import 'package:dio/dio.dart';
+import 'package:dio_log/dio_log.dart';
+
+import 'package:sukientotapp/core/utils/import/global.dart';
 import 'package:sukientotapp/core/services/api_service.dart';
 import 'package:sukientotapp/domain/api_url.dart';
 
