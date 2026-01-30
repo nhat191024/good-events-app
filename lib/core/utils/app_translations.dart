@@ -39,6 +39,7 @@ class AppTranslations extends Translations {
       'success': 'Thành công',
       'failed': 'Thất bại',
       'error': 'Lỗi',
+      'info': 'Thông tin',
 
       //buttons
       'next': 'Tiếp theo',
@@ -83,6 +84,7 @@ class AppTranslations extends Translations {
       'success': 'Success',
       'failed': 'Failed',
       'error': 'Error',
+      'info': 'Information',
 
       //buttons
       'next': 'Next',
