@@ -61,4 +61,27 @@ class AuthProvider {
       throw Exception('Đã xảy ra lỗi khi kiểm tra token: $e');
     }
   }
+
+  Future<bool> logout() async {
+    try {
+      final response = await _apiService.dio.get(AppUrl.logout);
+
+      if (response.statusCode == 200) {
+        return true;
+      } else {
+        return false;
+      }
+    } on DioException catch (e) {
+      logger.e('[AuthProvider] [logout] DioException: ${e.message}');
+
+      if (e.response?.statusCode == 401) {
+        return false;
+      }
+
+      throw Exception('Không thể đăng xuất. Vui lòng thử lại.');
+    } catch (e) {
+      logger.e('[AuthProvider] [logout] Unknown error: $e');
+      throw Exception('Đã xảy ra lỗi khi đăng xuất: $e');
+    }
+  }
 }

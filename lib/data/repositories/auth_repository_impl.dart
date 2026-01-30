@@ -52,4 +52,20 @@ class AuthRepositoryImpl implements AuthRepository {
       rethrow;
     }
   }
+
+  @override
+  Future<bool> logout() async {
+    try {
+      logger.i('[AuthRepositoryImpl] [logout] Logging out user');
+
+      // Clear stored data no matter what response is
+      StorageService.clearAllData();
+
+      logger.i('[AuthRepositoryImpl] [logout] User logged out successfully');
+      return true;
+    } catch (e) {
+      logger.e('[AuthRepositoryImpl] [logout] Logout failed: $e');
+      rethrow;
+    }
+  }
 }
