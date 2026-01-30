@@ -1,5 +1,8 @@
 import 'package:sukientotapp/core/utils/import/global.dart';
 import 'package:dio_log/dio_log.dart';
+import 'package:dio/dio.dart';
+import 'package:sukientotapp/core/services/api_service.dart';
+import 'package:sukientotapp/domain/api_url.dart';
 
 class DevOverlay extends StatefulWidget {
   final Widget child;
@@ -107,6 +110,50 @@ class _DevOverlayState extends State<DevOverlay> {
                 StorageService.clearAllData();
                 Get.snackbar("Success", "Storage cleared");
                 Get.back();
+              },
+            ),
+            _buildMenuItem(
+              icon: Icons.logout,
+              title: "Logout",
+              onTap: () async {
+                Get.back();
+
+                try {
+                  if (!Get.isRegistered<ApiService>()) {
+                    Get.lazyPut<ApiService>(() => ApiService(), fenix: true);
+                  }
+
+                  if (StorageService.readData(key: LocalStorageKeys.token) == null) {
+                    Get.snackbar("Info", "No user logged in");
+                    return;
+                  }
+
+                  final api = Get.find<ApiService>();
+
+                  final response = await api.dio.get(AppUrl.logout);
+
+                  if (response.statusCode == 200) {
+                    StorageService.clearAllData();
+                    Get.snackbar("Success", "Logged out");
+                    Get.offAllNamed(Routes.loginScreen);
+                  } else {
+                    Get.snackbar("Error", "Logout failed");
+                  }
+                } on DioException catch (e) {
+                  logger.e('[DevOverlay] [logout] DioException: ${e.message}');
+
+                  if (e.response?.statusCode == 401) {
+                    StorageService.clearAllData();
+                    Get.snackbar("Success", "Logged out");
+                    Get.offAllNamed(Routes.loginScreen);
+                    return;
+                  }
+
+                  Get.snackbar("Error", "Không thể đăng xuất. Vui lòng thử lại.");
+                } catch (e) {
+                  logger.e('[DevOverlay] [logout] Unknown error: $e');
+                  Get.snackbar("Error", "Đã xảy ra lỗi khi đăng xuất: $e");
+                }
               },
             ),
             _buildMenuItem(
