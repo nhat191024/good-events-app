@@ -5,7 +5,7 @@ import 'package:flutter_dotenv/flutter_dotenv.dart';
 // Import các file của bạn (giữ nguyên)
 import 'package:sukientotapp/core/utils/import/global.dart';
 import 'package:sukientotapp/core/utils/app_translations.dart';
-import 'package:sukientotapp/features/common/widgets/dev_overlay.dart';
+import 'package:sukientotapp/features/common/dev_overlay/dev_overlay.dart';
 
 void main() {
   Chain.capture(
