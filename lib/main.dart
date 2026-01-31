@@ -127,7 +127,10 @@ class GoodEvent extends StatelessWidget {
         final brightness = Theme.of(context).brightness;
         final theme = brightness == Brightness.dark ? darkTheme : lightTheme;
 
-        return FTheme(data: theme, child: DevOverlay(child: child!));
+        return FTheme(
+          data: theme,
+          child: DevOverlay(child: child!),
+        );
       },
     );
   }
