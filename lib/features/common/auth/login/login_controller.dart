@@ -8,16 +8,17 @@ class LoginController extends GetxController {
 
   final loginFormKey = GlobalKey<FormState>();
 
-  var username = ''.obs;
-  var password = ''.obs;
-
+  // TextEditingControllers for input fields
+  final usernameController = TextEditingController();
+  final passwordController = TextEditingController();
+  
   final isLoading = false.obs;
 
   @override
   void onClose() {
     super.onClose();
-    username.close();
-    password.close();
+    usernameController.dispose();
+    passwordController.dispose();
   }
 
   Future<void> login() async {
@@ -30,7 +31,7 @@ class LoginController extends GetxController {
 
     try {
       isLoading.value = true;
-      final user = await _authRepository.login(username.value, password.value);
+      final user = await _authRepository.login(usernameController.text, passwordController.text);
       Get.snackbar('success'.tr, 'login_successful'.trParams({'name': user.name}));
       await Future.delayed(const Duration(seconds: 1));
 

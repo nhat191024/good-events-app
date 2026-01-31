@@ -26,11 +26,11 @@ class LoginScreen extends GetView<LoginController> {
                 const SizedBox(height: 8),
                 FTextFormField(
                   enabled: true,
+                  control: FTextFieldControl.managed(controller: controller.usernameController),
                   label: Text('username'.tr),
                   hint: 'username_hint'.tr,
                   autovalidateMode: AutovalidateMode.onUserInteraction,
                   validator: (value) => value != null ? null : 'username_invalid'.tr,
-                  onSaved: (value) => controller.username.value = value ?? '',
                 ),
               ],
             ),
@@ -40,11 +40,11 @@ class LoginScreen extends GetView<LoginController> {
               children: [
                 const SizedBox(height: 8),
                 FTextFormField.password(
+                  control: FTextFieldControl.managed(controller: controller.passwordController),
                   label: Text('password'.tr),
                   hint: 'password_hint'.tr,
                   autovalidateMode: AutovalidateMode.onUserInteraction,
                   validator: (value) => 8 <= (value?.length ?? 0) ? null : 'password_invalid'.tr,
-                  onSaved: (value) => controller.password.value = value ?? '',
                 ),
               ],
             ),
