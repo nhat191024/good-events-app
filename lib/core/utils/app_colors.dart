@@ -2,11 +2,8 @@ import 'package:flutter/material.dart';
 
 class AppColors {
   // --- SHADCN RED PALETTE ---
-  // Dùng cho Light Mode Primary (Red 600)
   static const Color red600 = Color(0xFFDC2626);
-  // Dùng cho Dark Mode Primary (Red 500)
   static const Color red500 = Color(0xFFEF4444);
-  // Dùng cho text trên nền đỏ (thường là trắng)
   static const Color white = Colors.white;
 
   // --- AMBER / YELLOW PALETTE (Client UI) ---
