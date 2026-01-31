@@ -11,7 +11,9 @@ class LanguageSwitchController extends GetxController {
       final code = (saved['languageCode'] ?? 'vi') as String;
       final country = (saved['countryCode'] ?? (code == 'vi' ? 'VN' : 'US')) as String;
       locale.value = Locale(code, country);
-      Get.updateLocale(locale.value);
+      WidgetsBinding.instance.addPostFrameCallback((_) {
+        Get.updateLocale(locale.value);
+      });
     }
   }
 
