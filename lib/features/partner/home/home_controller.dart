@@ -1,5 +1,11 @@
 import 'package:sukientotapp/core/utils/import/global.dart';
 
 class HomeController extends GetxController {
-  // Add any necessary state variables and methods for the HomeController here
+  RxString name = (StorageService.readMapData(key: LocalStorageKeys.user, mapKey: 'name') ?? '')
+      .toString()
+      .obs;
+  RxString avatar =
+      (StorageService.readMapData(key: LocalStorageKeys.user, mapKey: 'avatar_url') ?? '')
+          .toString()
+          .obs;
 }
