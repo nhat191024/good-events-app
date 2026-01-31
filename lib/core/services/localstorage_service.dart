@@ -45,4 +45,7 @@ class LocalStorageKeys {
   static const String isTokenExist = "isTokenExist";
 
   static const String user = "user";
+
+  // App settings
+  static const String locale = "locale";
 }
