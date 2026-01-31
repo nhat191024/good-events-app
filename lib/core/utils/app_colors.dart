@@ -17,7 +17,7 @@ class AppColors {
   // --- NEUTRALS (STONE/ZINC) ---
 
   // LIGHT MODE COLORS
-  static const Color lightBackground = Color(0xFFFFFFFF);
+  static const Color lightBackground = Color(0xFFF6F6F6);
   static const Color lightForeground = Color(0xFF0C0A09); // Stone 950
   static const Color lightMuted = Color(0xFFF5F5F4); // Stone 100
   static const Color lightMutedForeground = Color(0xFF78716C); // Stone 500
