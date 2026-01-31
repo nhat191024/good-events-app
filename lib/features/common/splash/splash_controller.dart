@@ -10,6 +10,15 @@ class SplashController extends GetxController {
   @override
   void onInit() {
     super.onInit();
+
+    // Apply saved locale if any
+    final saved = StorageService.readMapData(key: LocalStorageKeys.locale);
+    if (saved is Map<String, dynamic>) {
+      final code = (saved['languageCode'] ?? 'vi') as String;
+      final country = (saved['countryCode'] ?? (code == 'vi' ? 'VN' : 'US')) as String;
+      Get.updateLocale(Locale(code, country));
+    }
+
     _checkToken();
   }
 
