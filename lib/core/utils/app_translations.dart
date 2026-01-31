@@ -28,6 +28,11 @@ class AppTranslations extends Translations {
 
       //common
       'home': 'Trang chủ',
+      'bills': 'Đơn',
+      'take_order': 'Nhận show',
+      'messages': 'Tin nhắn',
+      'account': 'Tài khoản',
+
       'customer': 'Khách hàng',
       'partner': 'Đối tác',
       'service_provider': 'Nhà cung cấp dịch vụ',
@@ -73,6 +78,11 @@ class AppTranslations extends Translations {
 
       //common
       'home': 'Home',
+      'bills': 'Bills',
+      'take_order': 'Take show',
+      'messages': 'Messages',
+      'account': 'Account',
+      
       'customer': 'Customer',
       'partner': 'Partner',
       'service_provider': 'Service Provider',
