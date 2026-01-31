@@ -13,7 +13,7 @@ class PartnerBottomNavigationView extends GetView<PartnerBottomNavigationControl
         footer: FBottomNavigationBar(
           index: controller.currentIndex.value,
           onChange: (index) => controller.setIndex(index),
-          children: const [FBottomNavigationBarItem(icon: Icon(FIcons.house), label: Text('Home'))],
+          children: [FBottomNavigationBarItem(icon: Icon(FIcons.house), label: Text('home'.tr))],
         ),
         child: _buildContent(),
       ),
