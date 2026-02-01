@@ -2,8 +2,17 @@ import 'package:flutter/material.dart';
 
 class AppColors {
   // --- SHADCN RED PALETTE ---
-  static const Color red600 = Color(0xFFDC2626);
+  static const Color red900 = Color(0xFF7F1D1D);
+  static const Color red800 = Color(0xFF991B1B);
+  static const Color red700 = Color(0xFFB91C1C);
+  static const Color red600 = Color(0xFFDC2626); // Primary Red
   static const Color red500 = Color(0xFFEF4444);
+  static const Color red400 = Color(0xFFF87171);
+  static const Color red300 = Color(0xFFFCA5A5);
+  static const Color red200 = Color(0xFFFECACA);
+  static const Color red100 = Color(0xFFFFE4E6);
+  static const Color red50 = Color(0xFFFFF1F2);
+
   static const Color white = Colors.white;
 
   // --- AMBER / YELLOW PALETTE (Client UI) ---
