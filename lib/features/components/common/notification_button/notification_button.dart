@@ -1,8 +1,8 @@
 import 'package:sukientotapp/core/utils/import/global.dart';
 
 class NotificationButton extends StatelessWidget {
-  final bool isHaveNoti;
-  const NotificationButton({super.key, this.isHaveNoti = false});
+  final bool hasNotification;
+  const NotificationButton({super.key, this.hasNotification = false});
 
   @override
   Widget build(BuildContext context) {
@@ -17,7 +17,7 @@ class NotificationButton extends StatelessWidget {
           alignment: Alignment.center,
           children: [
             Icon(FIcons.bell, color: FTheme.of(context).colors.primary),
-            if (isHaveNoti)
+            if (hasNotification)
               Positioned(
                 top: 5,
                 right: 4,
