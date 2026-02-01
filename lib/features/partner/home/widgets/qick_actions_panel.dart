@@ -6,7 +6,6 @@ class QickActionsPanel extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      decoration: BoxDecoration(borderRadius: BorderRadius.circular(16), color: Colors.white),
       padding: const EdgeInsets.symmetric(vertical: 12, horizontal: 4),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
@@ -34,11 +33,27 @@ class QickActionsPanel extends StatelessWidget {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.center,
           children: [
-            Icon(icon, color: FTheme.of(context).colors.primary, size: 24),
+            Container(
+              padding: const EdgeInsets.all(8),
+              decoration: BoxDecoration(
+                color: Colors.white,
+                borderRadius: BorderRadius.circular(12),
+                boxShadow: [
+                  BoxShadow(
+                    color: Colors.grey.withValues(alpha: 0.3),
+                    spreadRadius: 2,
+                    blurRadius: 5,
+                    offset: const Offset(0, 3),
+                  ),
+                ],
+              ),
+              child: Icon(icon, color: FTheme.of(context).colors.primary, size: 24),
+            ),
             SizedBox(height: 4),
             Text(
               label.tr,
               maxLines: 2,
+              textAlign: TextAlign.center,
               style: TextStyle(
                 color: FTheme.of(context).colors.primary,
                 fontSize: 14,
