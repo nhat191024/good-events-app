@@ -3,6 +3,7 @@ export 'package:get/get.dart';
 export 'package:flutter/material.dart';
 export 'package:flutter/foundation.dart';
 export 'package:forui/forui.dart';
+export 'package:intl/intl.dart' hide TextDirection;
 
 // Exporting core utilities
 export 'package:sukientotapp/core/utils/logger.dart';
