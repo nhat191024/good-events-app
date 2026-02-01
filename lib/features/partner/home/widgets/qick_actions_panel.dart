@@ -15,108 +15,38 @@ class QickActionsPanel extends StatelessWidget {
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              FTappable(
-                onPress: () {},
-                child: SizedBox(
-                  width: 60,
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.center,
-                    children: [
-                      Icon(FIcons.calendars, color: FTheme.of(context).colors.primary, size: 24),
-                      SizedBox(height: 4),
-                      Text(
-                        'calendar'.tr,
-                        maxLines: 2,
-                        style: TextStyle(
-                          color: FTheme.of(context).colors.primary,
-                          fontSize: 14,
-                          fontWeight: FontWeight.bold,
-                        ),
-                      ),
-                    ],
-                  ),
-                ),
-              ),
-              FTappable(
-                onPress: () {},
-                child: SizedBox(
-                  width: 60,
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.center,
-                    children: [
-                      Icon(FIcons.calendarPlus, color: FTheme.of(context).colors.primary, size: 24),
-                      SizedBox(height: 4),
-                      Text(
-                        'take_order'.tr,
-                        maxLines: 2,
-                        textAlign: TextAlign.center,
-                        style: TextStyle(
-                          color: FTheme.of(context).colors.primary,
-                          fontSize: 14,
-                          fontWeight: FontWeight.bold,
-                        ),
-                      ),
-                    ],
-                  ),
-                ),
-              ),
-              FTappable(
-                onPress: () {},
-                child: SizedBox(
-                  width: 60,
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.center,
-                    children: [
-                      Icon(
-                        FIcons.calendarRange,
-                        color: FTheme.of(context).colors.primary,
-                        size: 24,
-                      ),
-                      SizedBox(height: 4),
-                      Text(
-                        'waiting'.tr,
-                        maxLines: 2,
-                        textAlign: TextAlign.center,
-                        style: TextStyle(
-                          color: FTheme.of(context).colors.primary,
-                          fontSize: 14,
-                          fontWeight: FontWeight.bold,
-                        ),
-                      ),
-                    ],
-                  ),
-                ),
-              ),
-              FTappable(
-                onPress: () {},
-                child: SizedBox(
-                  width: 60,
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.center,
-                    children: [
-                      Icon(
-                        FIcons.calendarCheck2,
-                        color: FTheme.of(context).colors.primary,
-                        size: 24,
-                      ),
-                      SizedBox(height: 4),
-                      Text(
-                        'confirmed'.tr,
-                        maxLines: 2,
-                        textAlign: TextAlign.center,
-                        style: TextStyle(
-                          color: FTheme.of(context).colors.primary,
-                          fontSize: 14,
-                          fontWeight: FontWeight.bold,
-                        ),
-                      ),
-                    ],
-                  ),
-                ),
-              ),
+              _buildButtonItem(context, FIcons.calendars, 'calendar'),
+              _buildButtonItem(context, FIcons.calendarPlus, 'take_order'),
+              _buildButtonItem(context, FIcons.calendarRange, 'waiting'),
+              _buildButtonItem(context, FIcons.calendarCheck2, 'confirmed'),
             ],
           ),
         ],
+      ),
+    );
+  }
+
+  FTappable _buildButtonItem(BuildContext context, IconData icon, String label) {
+    return FTappable(
+      onPress: () {},
+      child: SizedBox(
+        width: 60,
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.center,
+          children: [
+            Icon(icon, color: FTheme.of(context).colors.primary, size: 24),
+            SizedBox(height: 4),
+            Text(
+              label.tr,
+              maxLines: 2,
+              style: TextStyle(
+                color: FTheme.of(context).colors.primary,
+                fontSize: 14,
+                fontWeight: FontWeight.bold,
+              ),
+            ),
+          ],
+        ),
       ),
     );
   }
