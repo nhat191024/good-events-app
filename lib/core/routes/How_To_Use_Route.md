@@ -1,24 +1,24 @@
 # Manual: How to Route in This Flutter Project
 
-- If you want to add a new **screen**, you need to add routing for it. frfr or else idk do some dumb thing
-- Each screen requires the following files:
+- If you want to add a new **screen**, you need to add routing for it. I'm dead serious here
+- Each screen requires there following files:
   - **Screen file**: Contains the View and Widget build logic.
   - **Controller**: Logic and state management for that screen.
   - **Binding file**: To initialize the controller.
 
-- some file already have you just need to wirte yo dumb thing into its:
+- And there files are already here you just need to wirte yo dumb things about your srceen into its:
   - **Screen export**: contain all screen this project use
   - **Binding export**: contain all binding router need
   - **Routes**: contain all paths for screen
   - **Pags**: contain all Page
 
-# Some file you need to create
+# Here are example of files you need to create
 
 ### 1. Binding File
 
 **Important**: Binding file phải setup toàn bộ dependency chain theo thứ tự: Service → Provider → Repository → Controller.
 
-**Example (Simple - không cần API):**
+**Example (Simple - Only controller):**
 
 ```dart
 import 'package:get/get.dart';
@@ -32,7 +32,7 @@ class ChooseYoSideBinding extends Bindings {
 }
 ```
 
-**Example (Full Stack - cần API call):**
+**Example (Full Stack - Need Api Call):**
 
 ```dart
 import 'package:get/get.dart';
@@ -60,11 +60,11 @@ class LoginBinding extends Bindings {
 }
 ```
 
-**Lưu ý:**
+**Note:**
 
-- Thứ tự dependencies quan trọng: từ low-level (Service) → high-level (Controller)
-- Dùng `Get.find<T>()` để inject dependencies đã được lazyPut
-- ApiService nên dùng `fenix: true` để tái sử dụng instance xuyên suốt app
+- The order of dependencies is important: from low-level (Service) → high-level (Controller)
+- Use `Get.find<T>()` to inject dependencies that have been lazyPut
+- ApiService should use `fenix: true` to reuse the instance throughout the app
 
 ### 2. Screen File
 
