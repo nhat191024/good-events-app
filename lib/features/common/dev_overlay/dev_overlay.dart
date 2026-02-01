@@ -27,6 +27,7 @@ class DevOverlay extends StatefulWidget {
 
 class _DevOverlayState extends State<DevOverlay> {
   Offset _offset = const Offset(20, 100);
+  bool _isDevMenuOpen = false;
 
   @override
   Widget build(BuildContext context) {
@@ -84,37 +85,48 @@ class _DevOverlayState extends State<DevOverlay> {
     );
   }
 
-  void _showDevMenu() {
-    Get.bottomSheet(
-      Container(
-        padding: const EdgeInsets.all(16),
-        decoration: BoxDecoration(
-          color: FTheme.of(context).colors.background,
-          borderRadius: const BorderRadius.vertical(top: Radius.circular(16)),
-        ),
-        child: ConstrainedBox(
-          constraints: BoxConstraints(maxHeight: MediaQuery.of(context).size.height * 0.75),
-          child: SingleChildScrollView(
-            physics: const BouncingScrollPhysics(),
-            child: Column(
-              mainAxisSize: MainAxisSize.min,
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Text(
-                  "Dev Tools",
-                  style: FTheme.of(context).typography.xl2.copyWith(fontWeight: FontWeight.bold),
-                ),
-                const SizedBox(height: 16),
-                const ToggleThemeItem(),
-                const ClearStorageItem(),
-                const AuthActionsGroup(),
-                const OpenHttpLogItem(),
-              ],
+  Future<void> _showDevMenu() async {
+    if (_isDevMenuOpen) return;
+    _isDevMenuOpen = true;
+
+    try {
+      await Get.bottomSheet(
+        Container(
+          padding: const EdgeInsets.all(16),
+          decoration: BoxDecoration(
+            color: FTheme.of(context).colors.background,
+            borderRadius: const BorderRadius.vertical(top: Radius.circular(16)),
+          ),
+          child: ConstrainedBox(
+            constraints: BoxConstraints(maxHeight: MediaQuery.of(context).size.height * 0.75),
+            child: SingleChildScrollView(
+              physics: const BouncingScrollPhysics(),
+              child: Column(
+                mainAxisSize: MainAxisSize.min,
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Text(
+                    "Dev Tools",
+                    style: FTheme.of(context).typography.xl2.copyWith(fontWeight: FontWeight.bold),
+                  ),
+                  const SizedBox(height: 16),
+                  const ToggleThemeItem(),
+                  const ClearStorageItem(),
+                  const AuthActionsGroup(),
+                  const OpenHttpLogItem(),
+                ],
+              ),
             ),
           ),
         ),
-      ),
-    );
+      );
+    } finally {
+      if (mounted) {
+        setState(() => _isDevMenuOpen = false);
+      } else {
+        _isDevMenuOpen = false;
+      }
+    }
   }
 
   // ignore: unused_element
