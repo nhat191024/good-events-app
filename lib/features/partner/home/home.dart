@@ -1,8 +1,11 @@
+import 'package:fl_chart/fl_chart.dart';
+
 import 'package:sukientotapp/core/utils/import/global.dart';
 import 'package:sukientotapp/features/partner/home/home_controller.dart';
 
 import 'package:sukientotapp/features/components/common/language_switch/language_switch.dart';
 import 'package:sukientotapp/features/components/common/notification_button/notification_button.dart';
+import 'package:sukientotapp/features/components/common/partner_chart/income_chart.dart';
 
 import 'widgets/qick_actions_panel.dart';
 import 'widgets/income_panel.dart';
@@ -44,21 +47,34 @@ class HomeScreen extends GetView<HomeController> {
                 ),
               ],
             ),
-            Row(children: [LanguageSwitch(), const SizedBox(width: 10), const NotificationButton(isHaveNoti: true)]),
+            Row(
+              children: [
+                LanguageSwitch(),
+                const SizedBox(width: 10),
+                const NotificationButton(hasNotification: true),
+              ],
+            ),
           ],
         ),
       ),
-      child: Column(
-        children: [
-          const SizedBox(height: 16),
-          const IncomePanel(),
-          const SizedBox(height: 16),
-          const QickActionsPanel(),
-          const SizedBox(height: 16),
-          const BillCountPanel(),
-          const SizedBox(height: 16),
-          const NewReviewPanel(),
-        ],
+      child: SingleChildScrollView(
+        child: Column(
+          children: [
+            const SizedBox(height: 16),
+            const IncomePanel(),
+            const SizedBox(height: 16),
+            const QickActionsPanel(),
+            const SizedBox(height: 16),
+            const BillCountPanel(),
+            const SizedBox(height: 16),
+            const NewReviewPanel(),
+            const SizedBox(height: 16),
+            IncomeChart(
+              spots: [FlSpot(0, 300000), FlSpot(1, 450000), FlSpot(2, 300000), FlSpot(3, 600000)],
+              unit: '₫',
+            ),
+          ],
+        ),
       ),
     );
   }
