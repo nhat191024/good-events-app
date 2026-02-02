@@ -19,7 +19,6 @@ The project follows **Domain-Driven Design (DDD)** combined with **GetX Pattern*
 
 lib/
 ├── core/                  # Core logic, configs & utilities
-│   ├── bindings/          # Binding files for GetX DI
 │   ├── routes/            # AppPages & AppRoutes
 │   ├── services/          # Global async services (AuthService, StorageService)
 │   ├── utils/             # Helpers, Extensions, Constants
@@ -47,6 +46,7 @@ Path: `lib/features/<role>/<feature_name>/`
 - `controller.dart`: Business logic, state management (`Rx` variables).
 - `view.dart`: Main screen UI (extends `GetView<T>`).
 - `widgets/`: Local widgets used _only_ in this feature.
+- `binding.dart`: Dependency injection for the feature (controllers, services).
 
 ## 3. Tech Stack & Toolkit
 

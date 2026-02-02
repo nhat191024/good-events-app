@@ -5,6 +5,7 @@
   - **Screen file**: Contains the View and Widget build logic.
   - **Controller**: Logic and state management for that screen.
   - **Binding file**: To initialize the controller.
+- _Note:_ All 3 files above are in the same directory (ex: feature/client/home/(screen, controller, binding))
 
 - And there files are already here you just need to wirte yo dumb things about your srceen into its:
   - **Screen export**: contain all screen this project use

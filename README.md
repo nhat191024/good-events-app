@@ -57,7 +57,6 @@ Dự án được xây dựng bằng **Flutter**, sử dụng các thư viện v
 ```
 lib/
 ├── core/                           # Các thành phần cốt lõi (routes, services, utils,...)
-│   ├── binding/                # Binding file của Get Router
 │   ├── router/                   # Router của ứng dụng
 │   ├── service/                 # Các dịch vụ như API, Local storage,...
 │   ├── utils/                      # Các tiện ích dành cho việc phát triển
@@ -75,6 +74,15 @@ lib/
 │   └── components/       # Các Widget dùng chung
 └── main.dart                   # Điểm khởi chạy ứng dụng
 ```
+
+### Feature Module Structure (Strict)
+
+Path: `lib/features/<role>/<feature_name>/`
+
+- `controller.dart`: Business logic, state management (`Rx` variables).
+- `view.dart`: Main screen UI (extends `GetView<T>`).
+- `widgets/`: Local widgets used _only_ in this feature.
+- `binding.dart`: Dependency injection for the feature (controllers, services).
 
 ## Docs
 
