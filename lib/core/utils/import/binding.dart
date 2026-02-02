@@ -8,4 +8,4 @@ export 'package:sukientotapp/features/common/auth/login/login_binding.dart';
 export 'package:sukientotapp/features/common/home/guest_home_binding.dart';
 
 //Partner
-export 'package:sukientotapp/features/partner/bottom_navigation/partner_bottom_navigation_binding.dart';
+export 'package:sukientotapp/features/partner/bottom_navigation/bottom_navigation_binding.dart';
