@@ -168,7 +168,7 @@ class _AvatarWidget extends StatelessWidget {
 }
 
 class _MoreAvatarButton extends StatelessWidget {
-  const _MoreAvatarButton({super.key});
+  const _MoreAvatarButton();
 
   @override
   Widget build(BuildContext context) {
