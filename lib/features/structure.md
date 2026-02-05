@@ -1,5 +1,9 @@
 ### Project main structure
 
+> **⚡ Faster Way:** You can use Mason to auto-generate this structure!
+> Run: `mason make feature --name <feature_name> --role <role>`
+> _(See README.md for details)_
+
 ```
 lib/
 ├── features/ # Feature Modules (Screens/Logic)

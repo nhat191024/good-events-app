@@ -15,6 +15,12 @@
 
 # Here are example of files you need to create
 
+> **⚡ Automation Tip:**
+> You don't need to create these files manually!
+> Run `mason make feature` to generate **Screen**, **Controller**, and **Binding** automatically.
+> You only need to follow the **"After those boring thing above"** section below to register them.
+> _(See README.md for details)_
+
 ### 1. Binding File
 
 **Important**: Binding file phải setup toàn bộ dependency chain theo thứ tự: Service → Provider → Repository → Controller.
