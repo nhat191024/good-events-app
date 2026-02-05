@@ -84,6 +84,48 @@ Path: `lib/features/<role>/<feature_name>/`
 - `widgets/`: Local widgets used _only_ in this feature.
 - `binding.dart`: Dependency injection for the feature (controllers, services).
 
+## 🧱 Mason Template (Code Generator)
+
+Dự án sử dụng **Mason** để tự động tạo cấu trúc code chuẩn cho các Feature mới, giúp đảm bảo tuân thủ Clean Architecture và GetX Pattern định sẵn.
+
+### 1. Cài đặt Mason CLI
+
+Nếu máy bạn chưa có Mason, hãy cài đặt nó bằng Dart:
+
+```bash
+dart pub global activate mason_cli
+```
+
+### 2. Cấu hình Bricks
+
+Sau khi clone dự án, chạy lệnh sau để Mason tải các template đã khai báo:
+
+```bash
+mason get
+```
+
+### 3. Cách dùng: Tạo Feature mới
+
+Thay vì tạo thủ công từng file, hãy dùng lệnh sau:
+
+```bash
+mason make feature
+```
+
+Mason sẽ hỏi bạn các thông tin:
+
+- **name**: Tên tính năng (VD: `login`, `order_history`). Dùng `snake_case`.
+- **role**: Thư mục chứa feature (`client`, `partner`, hoặc `common`).
+- **use_repository**: `true` (có tạo Repository/Interface) hoặc `false` (chỉ tạo UI/Controller).
+
+Ví dụ lệnh nhanh:
+
+```bash
+mason make feature --name profile_settings --role client --use_repository true
+```
+
+_Tự động sinh ra cấu trúc file chuẩn tại `lib/features/client/profile_settings` và các file data/domain tương ứng._
+
 ## Docs
 
 1. [Router](/lib/core/routes/How_To_Use_Route.md)
