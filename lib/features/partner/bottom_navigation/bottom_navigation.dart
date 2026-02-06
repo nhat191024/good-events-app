@@ -2,6 +2,7 @@ import 'package:sukientotapp/core/utils/import/global.dart';
 import 'package:sukientotapp/features/partner/bottom_navigation/controller.dart';
 
 import 'package:sukientotapp/features/partner/home/screen.dart';
+import 'package:sukientotapp/features/partner/show/screen.dart';
 
 class PartnerBottomNavigationView extends GetView<PartnerBottomNavigationController> {
   const PartnerBottomNavigationView({super.key});
@@ -34,6 +35,8 @@ class PartnerBottomNavigationView extends GetView<PartnerBottomNavigationControl
     switch (controller.currentIndex.value) {
       case 0:
         return const HomeScreen();
+      case 1:
+        return const ShowScreen();
       default:
         return const HomeScreen();
     }
