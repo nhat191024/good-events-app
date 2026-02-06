@@ -2,8 +2,8 @@ import 'package:get/get.dart';
 import 'controller.dart';
 {{#use_repository}}
 import 'package:sukientotapp/core/services/api_service.dart';
-import 'package:sukientotapp/domain/repositories/{{name.snakeCase()}}_repository.dart';
-import 'package:sukientotapp/data/repositories/{{name.snakeCase()}}_repository_impl.dart';
+import 'package:sukientotapp/domain/repositories/{{role}}/{{name.snakeCase()}}_repository.dart';
+import 'package:sukientotapp/data/repositories/{{role}}/{{name.snakeCase()}}_repository_impl.dart';
 {{/use_repository}}
 class {{name.pascalCase()}}Binding extends Bindings {
   @override
