@@ -2,6 +2,7 @@ import 'package:sukientotapp/core/utils/import/global.dart';
 import 'package:sukientotapp/features/partner/bottom_navigation/bottom_navigation_controller.dart';
 
 import 'package:sukientotapp/features/partner/home/home.dart';
+import 'package:sukientotapp/features/partner/show/screen.dart';
 
 class PartnerBottomNavigationView extends GetView<PartnerBottomNavigationController> {
   const PartnerBottomNavigationView({super.key});
@@ -10,6 +11,7 @@ class PartnerBottomNavigationView extends GetView<PartnerBottomNavigationControl
   Widget build(BuildContext context) {
     return Obx(
       () => FScaffold(
+        childPad: false,
         footer: FBottomNavigationBar(
           index: controller.currentIndex.value,
           onChange: (index) => controller.setIndex(index),
@@ -17,7 +19,10 @@ class PartnerBottomNavigationView extends GetView<PartnerBottomNavigationControl
             FBottomNavigationBarItem(icon: Icon(FIcons.house), label: Text('home'.tr)),
             FBottomNavigationBarItem(icon: Icon(FIcons.calendar1), label: Text('bills'.tr)),
             FBottomNavigationBarItem(icon: Icon(FIcons.calendarPlus), label: Text('take_order'.tr)),
-            FBottomNavigationBarItem(icon: Icon(FIcons.messageSquareText), label: Text('messages'.tr)),
+            FBottomNavigationBarItem(
+              icon: Icon(FIcons.messageSquareText),
+              label: Text('messages'.tr),
+            ),
             FBottomNavigationBarItem(icon: Icon(FIcons.userRound), label: Text('account'.tr)),
           ],
         ),
@@ -30,6 +35,8 @@ class PartnerBottomNavigationView extends GetView<PartnerBottomNavigationControl
     switch (controller.currentIndex.value) {
       case 0:
         return const HomeScreen();
+      case 1:
+        return const ShowScreen();
       default:
         return const HomeScreen();
     }
