@@ -1,3 +1,6 @@
+import 'package:animations/animations.dart';
+import 'package:curved_navigation_bar/curved_navigation_bar.dart';
+
 import 'package:sukientotapp/core/utils/import/global.dart';
 import 'package:sukientotapp/features/partner/bottom_navigation/controller.dart';
 
@@ -10,23 +13,52 @@ class PartnerBottomNavigationView extends GetView<PartnerBottomNavigationControl
   @override
   Widget build(BuildContext context) {
     return Obx(
-      () => FScaffold(
-        childPad: false,
-        footer: FBottomNavigationBar(
+      () => Scaffold(
+        bottomNavigationBar: CurvedNavigationBar(
           index: controller.currentIndex.value,
-          onChange: (index) => controller.setIndex(index),
-          children: [
-            FBottomNavigationBarItem(icon: Icon(FIcons.house), label: Text('home'.tr)),
-            FBottomNavigationBarItem(icon: Icon(FIcons.calendar1), label: Text('bills'.tr)),
-            FBottomNavigationBarItem(icon: Icon(FIcons.calendarPlus), label: Text('take_order'.tr)),
-            FBottomNavigationBarItem(
-              icon: Icon(FIcons.messageSquareText),
-              label: Text('messages'.tr),
-            ),
-            FBottomNavigationBarItem(icon: Icon(FIcons.userRound), label: Text('account'.tr)),
+          onTap: (index) => controller.setIndex(index),
+          color: AppColors.primary,
+          buttonBackgroundColor: AppColors.primary,
+          backgroundColor: Colors.transparent,
+          animationDuration: Duration(milliseconds: 400),
+          height: context.height * 0.07,
+          items: [
+            Icon(FIcons.house, size: 24, color: Colors.white),
+            Icon(FIcons.calendar1, size: 24, color: Colors.white),
+            Icon(FIcons.calendarPlus, size: 24, color: Colors.white),
+            Icon(FIcons.messageSquareText, size: 24, color: Colors.white),
+            Icon(FIcons.userRound, size: 24, color: Colors.white),
           ],
         ),
-        child: _buildContent(),
+        //FadeThroughTransition option. Use this if SharedAxisTransition case laggy problem (because Obx)
+        // body: Obx(
+        //   () => PageTransitionSwitcher(
+        //     duration: const Duration(milliseconds: 600),
+        //     transitionBuilder: (child, primaryAnimation, secondaryAnimation) {
+        //       return FadeThroughTransition(
+        //         animation: primaryAnimation,
+        //         secondaryAnimation: secondaryAnimation,
+        //         child: child,
+        //       );
+        //     },
+        //     child: _buildContent(),
+        //   ),
+        // ),
+        body: Obx(
+          () => PageTransitionSwitcher(
+            duration: const Duration(milliseconds: 600),
+            reverse: controller.isReverse.value,
+            transitionBuilder: (child, primaryAnimation, secondaryAnimation) {
+              return SharedAxisTransition(
+                animation: primaryAnimation,
+                secondaryAnimation: secondaryAnimation,
+                transitionType: SharedAxisTransitionType.horizontal,
+                child: child,
+              );
+            },
+            child: _buildContent(),
+          ),
+        ),
       ),
     );
   }
