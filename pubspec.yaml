@@ -48,7 +48,8 @@ dependencies:
   fl_chart: ^1.1.1
   curved_navigation_bar: ^1.0.6
   dio_smart_retry: ^7.0.1
-  animated_search_bar: ^2.8.0
+  animation_search_bar: ^0.0.10
+  searchbar_animation: ^0.0.4
 
 dev_dependencies:
   flutter_test:
