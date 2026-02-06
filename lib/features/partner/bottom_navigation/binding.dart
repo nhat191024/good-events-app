@@ -2,6 +2,7 @@ import 'package:sukientotapp/core/utils/import/global.dart';
 import 'package:sukientotapp/features/partner/bottom_navigation/controller.dart';
 
 import 'package:sukientotapp/features/partner/home/binding.dart';
+import 'package:sukientotapp/features/partner/show/binding.dart';
 
 class PartnerBottomNavigationBinding extends Bindings {
   @override
@@ -9,5 +10,6 @@ class PartnerBottomNavigationBinding extends Bindings {
     Get.lazyPut<PartnerBottomNavigationController>(() => PartnerBottomNavigationController());
 
     HomeBinding().dependencies();
+    ShowBinding().dependencies();
   }
 }
