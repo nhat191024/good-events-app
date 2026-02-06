@@ -21,7 +21,7 @@ class HomeScreen extends GetView<HomeController> {
 
     return FScaffold(
       header: Container(
-        padding: EdgeInsets.only(top: statusBarHeight),
+        padding: EdgeInsets.only(top: statusBarHeight, left: 16, right: 16),
         child: Row(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
@@ -58,22 +58,25 @@ class HomeScreen extends GetView<HomeController> {
         ),
       ),
       child: SingleChildScrollView(
-        child: Column(
-          children: [
-            const SizedBox(height: 16),
-            const IncomePanel(),
-            const SizedBox(height: 16),
-            const QickActionsPanel(),
-            const SizedBox(height: 16),
-            const BillCountPanel(),
-            const SizedBox(height: 16),
-            const NewReviewPanel(),
-            const SizedBox(height: 16),
-            IncomeChart(
-              spots: [FlSpot(0, 300000), FlSpot(1, 450000), FlSpot(2, 300000), FlSpot(3, 600000)],
-              unit: '₫',
-            ),
-          ],
+        child: Padding(
+          padding: const EdgeInsets.symmetric(horizontal: 10),
+          child: Column(
+            children: [
+              const SizedBox(height: 16),
+              const IncomePanel(),
+              const SizedBox(height: 16),
+              const QickActionsPanel(),
+              const SizedBox(height: 16),
+              const BillCountPanel(),
+              const SizedBox(height: 16),
+              const NewReviewPanel(),
+              const SizedBox(height: 16),
+              IncomeChart(
+                spots: [FlSpot(0, 300000), FlSpot(1, 450000), FlSpot(2, 300000), FlSpot(3, 600000)],
+                unit: '₫',
+              ),
+            ],
+          ),
         ),
       ),
     );
