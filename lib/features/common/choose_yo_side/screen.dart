@@ -27,7 +27,10 @@ class ChooseYoSideScreen extends GetView<ChooseYoSideController> {
                 },
                 child: Obx(
                   () => ClipPath(
-                    clipper: BottomStackClipper(splitRatio: splitRatio, slopeHeight: slopeHeight),
+                    clipper: BottomStackClipper(
+                      splitRatio: splitRatio,
+                      slopeHeight: slopeHeight,
+                    ),
                     child: Container(
                       decoration: BoxDecoration(
                         gradient: LinearGradient(
@@ -42,9 +45,15 @@ class ChooseYoSideScreen extends GetView<ChooseYoSideController> {
                                   Colors.grey[350]!, // White-ish
                                   Colors.white, // Pure white (if desired)
                                 ],
-                          begin: Alignment.topLeft, // Start from top-left corner
-                          end: Alignment.bottomRight, // End at bottom-right corner
-                          stops: const [0.0, 0.7, 1.0], // Adjust the spread of colors
+                          begin:
+                              Alignment.topLeft, // Start from top-left corner
+                          end: Alignment
+                              .bottomRight, // End at bottom-right corner
+                          stops: const [
+                            0.0,
+                            0.7,
+                            1.0,
+                          ], // Adjust the spread of colors
                         ),
                       ),
                       child: Align(
@@ -55,18 +64,15 @@ class ChooseYoSideScreen extends GetView<ChooseYoSideController> {
                             mainAxisSize: MainAxisSize.min,
                             children: [
                               Container(
-                                height: 120,
-                                width: 120,
-                                decoration: BoxDecoration(
-                                  color: Colors.white.withValues(alpha: 0.5),
-                                  shape: BoxShape.circle,
-                                ),
-                                child: Icon(
-                                  Icons.handyman_rounded,
-                                  size: 70,
-                                  color: controller.isServiceProvider.value
-                                      ? Colors.red[900]
-                                      : Colors.brown[800],
+                                height: 240,
+                                width: 240,
+                                child: Padding(
+                                  padding: const EdgeInsets.only(right: 15),
+                                  child: Image.asset(
+                                    AppImages.partnerSplash,
+                                    height: 70,
+                                    width: 70,
+                                  ),
                                 ),
                               ),
                               const SizedBox(height: 10),
@@ -101,7 +107,10 @@ class ChooseYoSideScreen extends GetView<ChooseYoSideController> {
                 },
                 child: Obx(
                   () => ClipPath(
-                    clipper: TopStackClipper(splitRatio: splitRatio, slopeHeight: slopeHeight),
+                    clipper: TopStackClipper(
+                      splitRatio: splitRatio,
+                      slopeHeight: slopeHeight,
+                    ),
                     child: Container(
                       decoration: BoxDecoration(
                         gradient: LinearGradient(
@@ -112,8 +121,12 @@ class ChooseYoSideScreen extends GetView<ChooseYoSideController> {
                                   Colors.white, // Pure white (if desired)
                                 ]
                               : [
-                                  Color(0xFFFFF8E1), // White-ish yellow (top-left corner)
-                                  Color(0xFFF59E0B), // Primary color (bottom-right corner)
+                                  Color(
+                                    0xFFFFF8E1,
+                                  ), // White-ish yellow (top-left corner)
+                                  Color(
+                                    0xFFF59E0B,
+                                  ), // Primary color (bottom-right corner)
                                 ],
                           begin: Alignment.topLeft,
                           end: Alignment.bottomRight,
@@ -136,16 +149,12 @@ class ChooseYoSideScreen extends GetView<ChooseYoSideController> {
                               ),
                               const SizedBox(height: 10),
                               Container(
-                                height: 120,
-                                width: 120,
-                                decoration: BoxDecoration(
-                                  color: Colors.white.withValues(alpha: 0.4),
-                                  shape: BoxShape.circle,
-                                ),
-                                child: Icon(
-                                  Icons.person_4_rounded,
-                                  size: 80,
-                                  color: Colors.brown[800],
+                                height: 260,
+                                width: 260,
+                                child: Image.asset(
+                                  AppImages.clientSplash,
+                                  height: 70,
+                                  width: 70,
                                 ),
                               ),
                             ],
@@ -165,7 +174,11 @@ class ChooseYoSideScreen extends GetView<ChooseYoSideController> {
               child: Text(
                 'title_choose_your_side'.tr,
                 textAlign: TextAlign.center,
-                style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold, color: Colors.black87),
+                style: TextStyle(
+                  fontSize: 20,
+                  fontWeight: FontWeight.bold,
+                  color: Colors.black87,
+                ),
               ),
             ),
             Positioned(
@@ -175,7 +188,9 @@ class ChooseYoSideScreen extends GetView<ChooseYoSideController> {
               child: FTappable(
                 onPress: () => Get.toNamed(
                   Routes.guestHomeScreen,
-                  arguments: {'isServiceProvider': controller.isServiceProvider.value},
+                  arguments: {
+                    'isServiceProvider': controller.isServiceProvider.value,
+                  },
                 ),
                 builder: (context, states, child) {
                   return Obx(
@@ -193,7 +208,10 @@ class ChooseYoSideScreen extends GetView<ChooseYoSideController> {
                 },
                 child: Text(
                   'next'.tr,
-                  style: TextStyle(color: Colors.white, fontWeight: FontWeight.bold),
+                  style: TextStyle(
+                    color: Colors.white,
+                    fontWeight: FontWeight.bold,
+                  ),
                   textAlign: TextAlign.center,
                 ),
               ),
@@ -233,7 +251,10 @@ class TopStackClipper extends CustomClipper<Path> {
       rightPointY - (kCurveRadius * slopeHeight / size.width * 0.8),
     );
 
-    path.lineTo(kCurveRadius, leftPointY + (kCurveRadius * slopeHeight / size.width * 0.8));
+    path.lineTo(
+      kCurveRadius,
+      leftPointY + (kCurveRadius * slopeHeight / size.width * 0.8),
+    );
     path.quadraticBezierTo(0, leftPointY, 0, leftPointY - kCurveRadius);
 
     path.close();
@@ -270,7 +291,12 @@ class BottomStackClipper extends CustomClipper<Path> {
       rightPointY - (kCurveRadius * slopeHeight / size.width * 0.8),
     );
 
-    path.quadraticBezierTo(size.width, rightPointY, size.width, rightPointY + kCurveRadius);
+    path.quadraticBezierTo(
+      size.width,
+      rightPointY,
+      size.width,
+      rightPointY + kCurveRadius,
+    );
     path.lineTo(size.width, size.height);
     path.lineTo(0, size.height);
     path.close();
