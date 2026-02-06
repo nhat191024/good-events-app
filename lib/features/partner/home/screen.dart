@@ -62,15 +62,14 @@ class HomeScreen extends GetView<HomeController> {
           padding: const EdgeInsets.symmetric(horizontal: 10),
           child: Column(
             children: [
-              const SizedBox(height: 16),
+              const SizedBox(height: 12),
               const IncomePanel(),
-              const SizedBox(height: 16),
+              const SizedBox(height: 4),
               const QickActionsPanel(),
-              const SizedBox(height: 16),
               const BillCountPanel(),
-              const SizedBox(height: 16),
+              const SizedBox(height: 8),
               const NewReviewPanel(),
-              const SizedBox(height: 16),
+              const SizedBox(height: 4),
               IncomeChart(
                 spots: [FlSpot(0, 300000), FlSpot(1, 450000), FlSpot(2, 300000), FlSpot(3, 600000)],
                 unit: '₫',
