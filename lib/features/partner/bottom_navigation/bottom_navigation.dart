@@ -20,11 +20,11 @@ class PartnerBottomNavigationView extends GetView<PartnerBottomNavigationControl
           color: AppColors.primary,
           buttonBackgroundColor: AppColors.primary,
           backgroundColor: Colors.transparent,
-          animationDuration: Duration(milliseconds: 400),
+          animationDuration: Duration(milliseconds: 500),
           height: context.height * 0.07,
           items: [
             Icon(FIcons.house, size: 24, color: Colors.white),
-            Icon(FIcons.calendar1, size: 24, color: Colors.white),
+            Icon(FIcons.calendars, size: 24, color: Colors.white),
             Icon(FIcons.calendarPlus, size: 24, color: Colors.white),
             Icon(FIcons.messageSquareText, size: 24, color: Colors.white),
             Icon(FIcons.userRound, size: 24, color: Colors.white),
