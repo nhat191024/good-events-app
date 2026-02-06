@@ -1,6 +1,6 @@
 import 'package:sukientotapp/core/utils/import/global.dart';
 
-import 'ontroller.dart';
+import 'controller.dart';
 
 class ChooseYoSideScreen extends GetView<ChooseYoSideController> {
   const ChooseYoSideScreen({super.key});

@@ -1,5 +1,5 @@
 import 'package:get/get.dart';
-import 'package:sukientotapp/features/common/choose_yo_side/ontroller.dart';
+import 'package:sukientotapp/features/common/choose_yo_side/controller.dart';
 
 class ChooseYoSideBinding extends Bindings {
   @override
