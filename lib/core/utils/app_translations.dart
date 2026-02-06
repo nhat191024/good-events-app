@@ -32,11 +32,19 @@ class AppTranslations extends Translations {
       'new_rate': '@rates Đánh giá mới',
       'from_clients': 'từ khách hàng',
 
+      //partner show
+      'my_shows': 'Show của tôi',
+
+      'news': 'Mới',
+      'upcomings': 'Sắp tới',
+      'histories': 'Lịch sử',
+
       //common
       'home': 'Trang chủ',
       'bills': 'Đơn',
       'messages': 'Tin nhắn',
       'account': 'Tài khoản',
+      'search_with_dot': 'Tìm kiếm...',
 
       'wallet': 'Ví',
       'income': 'Thu nhập',
@@ -98,11 +106,19 @@ class AppTranslations extends Translations {
       'new_rate': '@rates New Reviews',
       'from_clients': 'from customers',
 
+      //partner show
+      'my_shows': 'My Shows',
+
+      'news': 'News',
+      'upcomings': 'Upcomings',
+      'histories': 'Histories',
+
       //common
       'home': 'Home',
       'bills': 'Bills',
       'messages': 'Messages',
       'account': 'Account',
+      'search_with_dot': 'Search...',
 
       'wallet': 'Ví',
       'income': 'Thu nhập',
