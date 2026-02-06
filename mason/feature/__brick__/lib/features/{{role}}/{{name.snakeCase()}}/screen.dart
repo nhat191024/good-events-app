@@ -1,6 +1,4 @@
-import 'package:flutter/material.dart';
-import 'package:get/get.dart';
-import 'package:forui/forui.dart';
+import 'package:sukientotapp/core/utils/import/global.dart';
 import 'controller.dart';
 
 class {{name.pascalCase()}}Screen extends  GetView<{{name.pascalCase()}}Controller> {
