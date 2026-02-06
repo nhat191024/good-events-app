@@ -1,6 +1,6 @@
 import 'package:sukientotapp/core/utils/import/global.dart';
 
-import 'package:sukientotapp/domain/repositories/show_repository.dart';
+import 'package:sukientotapp/domain/repositories/partner/show_repository.dart';
 
 class ShowController extends GetxController with GetSingleTickerProviderStateMixin {
   final ShowRepository _repository;
