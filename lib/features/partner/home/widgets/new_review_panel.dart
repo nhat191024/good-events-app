@@ -8,7 +8,7 @@ class NewReviewPanel extends StatelessWidget {
     return GestureDetector(
       onTap: () {},
       child: Container(
-        padding: const EdgeInsets.fromLTRB(20, 15, 20, 15),
+        padding: const EdgeInsets.fromLTRB(12, 15, 12, 15),
         decoration: BoxDecoration(color: Colors.white, borderRadius: BorderRadius.circular(24)),
         child: Row(
           children: [
@@ -17,7 +17,7 @@ class NewReviewPanel extends StatelessWidget {
               padding: const EdgeInsets.all(8),
               child: const Icon(Icons.star, color: Colors.white, size: 36),
             ),
-            const SizedBox(width: 8),
+            const SizedBox(width: 6),
             Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
@@ -29,7 +29,6 @@ class NewReviewPanel extends StatelessWidget {
                     fontWeight: FontWeight.w500,
                   ),
                 ),
-
                 const SizedBox(height: 4),
                 Text(
                   'from_clients'.tr,
