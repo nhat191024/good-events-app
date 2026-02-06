@@ -1,7 +1,7 @@
 import 'package:sukientotapp/core/utils/import/global.dart';
 import 'package:sukientotapp/features/partner/bottom_navigation/controller.dart';
 
-import 'package:sukientotapp/features/partner/home/home_binding.dart';
+import 'package:sukientotapp/features/partner/home/binding.dart';
 
 class PartnerBottomNavigationBinding extends Bindings {
   @override
