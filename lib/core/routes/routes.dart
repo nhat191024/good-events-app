@@ -11,4 +11,7 @@ abstract class Routes {
   //Required Auth
   // Partner
   static const partnerHome = '/partner/home';
+
+  // Client
+  static const clientHome = '/client/home';
 }

@@ -40,5 +40,12 @@ class Pages {
       page: () => const PartnerBottomNavigationView(),
       binding: PartnerBottomNavigationBinding(),
     ),
+
+    //Client
+    GetPage(
+      name: Routes.clientHome,
+      page: () => const ClientBottomNavigationView(),
+      binding: ClientBottomNavigationBinding(),
+    ),
   ];
 }

@@ -9,3 +9,7 @@ export 'package:sukientotapp/features/common/home/screen.dart';
 
 //Partner
 export 'package:sukientotapp/features/partner/bottom_navigation/bottom_navigation.dart';
+
+
+//Client
+export 'package:sukientotapp/features/client/bottom_navigation/bottom_navigation.dart';
