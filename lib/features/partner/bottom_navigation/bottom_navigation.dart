@@ -8,6 +8,7 @@ import 'package:sukientotapp/features/partner/home/screen.dart';
 import 'package:sukientotapp/features/partner/show/screen.dart';
 import 'package:sukientotapp/features/partner/new_show/screen.dart';
 import 'package:sukientotapp/features/partner/message/screen.dart';
+import 'package:sukientotapp/features/partner/account/screen.dart';
 
 class PartnerBottomNavigationView extends GetView<PartnerBottomNavigationController> {
   const PartnerBottomNavigationView({super.key});
@@ -75,6 +76,8 @@ class PartnerBottomNavigationView extends GetView<PartnerBottomNavigationControl
         return const NewShowScreen();
       case 3:
         return const MessageScreen();
+      case 4:
+        return const AccountScreen();
       default:
         return const HomeScreen();
     }
