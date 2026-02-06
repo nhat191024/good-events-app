@@ -1,4 +1,4 @@
-import 'package:sukientotapp/features/common/home/home_controller.dart';
+import 'package:sukientotapp/features/common/home/controller.dart';
 import 'package:sukientotapp/features/common/home/widget/user_switch.dart';
 import 'package:sukientotapp/core/utils/import/global.dart';
 

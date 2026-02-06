@@ -5,7 +5,7 @@ import 'package:get/get.dart';
 import 'package:forui/forui.dart';
 import 'package:animated_text_kit/animated_text_kit.dart';
 
-import 'splash_controller.dart';
+import 'controller.dart';
 
 class SplashScreen extends GetView<SplashController> {
   const SplashScreen({super.key});

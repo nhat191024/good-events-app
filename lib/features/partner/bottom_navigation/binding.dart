@@ -1,5 +1,5 @@
 import 'package:sukientotapp/core/utils/import/global.dart';
-import 'package:sukientotapp/features/partner/bottom_navigation/bottom_navigation_controller.dart';
+import 'package:sukientotapp/features/partner/bottom_navigation/controller.dart';
 
 import 'package:sukientotapp/features/partner/home/home_binding.dart';
 

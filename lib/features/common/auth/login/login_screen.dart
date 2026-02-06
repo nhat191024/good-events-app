@@ -1,4 +1,4 @@
-import 'package:sukientotapp/features/common/auth/login/login_controller.dart';
+import 'package:sukientotapp/features/common/auth/login/controller.dart';
 import 'package:sukientotapp/core/utils/import/global.dart';
 
 class LoginScreen extends GetView<LoginController> {

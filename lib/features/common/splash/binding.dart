@@ -1,5 +1,5 @@
 import 'package:get/get.dart';
-import 'package:sukientotapp/features/common/splash/splash_controller.dart';
+import 'package:sukientotapp/features/common/splash/controller.dart';
 import 'package:sukientotapp/data/repositories/auth_repository_impl.dart';
 import 'package:sukientotapp/data/providers/auth_provider.dart';
 import 'package:sukientotapp/domain/repositories/auth_repository.dart';

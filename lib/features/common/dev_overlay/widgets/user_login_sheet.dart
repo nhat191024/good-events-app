@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'dev_list_tile.dart';
 
-import 'package:sukientotapp/features/common/auth/login/login_controller.dart';
+import 'package:sukientotapp/features/common/auth/login/controller.dart';
 
 class UserLoginSheet extends StatelessWidget {
   const UserLoginSheet({super.key});
