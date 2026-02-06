@@ -26,6 +26,7 @@ class ApiService {
       ),
     );
 
+    //Authorization interceptor
     _dio.interceptors.add(
       InterceptorsWrapper(
         onRequest: (options, handler) {
@@ -41,6 +42,7 @@ class ApiService {
       ),
     );
 
+    //Smart retry interceptor
     _dio.interceptors.add(
       RetryInterceptor(
         dio: _dio,
@@ -53,6 +55,7 @@ class ApiService {
       ),
     );
 
+    //Logging interceptor
     _dio.interceptors.add(
       PrettyDioLogger(
         requestHeader: true,
