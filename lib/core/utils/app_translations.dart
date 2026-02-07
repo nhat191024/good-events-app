@@ -7,6 +7,15 @@ class AppTranslations extends Translations {
       //choose your side screen
       'title_choose_your_side': 'Bạn là khách hàng hay \nnhà cung cấp dịch vụ?',
 
+      // introduction screen
+      'client_step_1_intro': 'Sự kiện khó? Có Sự Kiện Tốt!',
+      'client_step_2_intro': 'Bất cứ việc gì, bất cứ nơi đâu',
+      'client_step_3_intro': 'Sự kiện lớn nhỏ? Dò đối tác ngay!',
+
+      'partner_step_1_intro': 'Việc có liền tay, kết giao nhanh chóng',
+      'partner_step_2_intro': 'Công việc linh động, cộng với mọi nơi',
+      'partner_step_3_intro': 'Hỗ trợ liền kề, nâng cao tay nghề',
+
       //login screen
       'welcome_back': 'Chào mừng trở lại!',
 
@@ -74,6 +83,10 @@ class AppTranslations extends Translations {
       'next': 'Tiếp theo',
       'register': 'Đăng ký',
       'login': 'Đăng nhập',
+      'start_now': 'Bắt đầu ngay',
+      'start': 'Bắt đầu',
+      'previous': 'Trước',
+      'skip': 'Bỏ qua',
 
       //dev
       'in_dev': 'Tính năng đang phát triển',
@@ -81,6 +94,15 @@ class AppTranslations extends Translations {
     'en_US': {
       //choose your side screen
       'title_choose_your_side': 'Are you a customer or \na service provider?',
+
+      // introduction screen
+      'client_step_1_intro': 'Tough Event? We’ve Got You Covered!',
+      'client_step_2_intro': 'Any Task, Any Place, Anytime',
+      'client_step_3_intro': 'Big or Small? Find Partners Instantly!',
+
+      'partner_step_1_intro': 'Get jobs instantly, connect fast',
+      'partner_step_2_intro': 'Flexible. Work From Anywhere',
+      'partner_step_3_intro': 'Hands-on Support, Level Up Your Skills',
 
       //login screen
       'welcome_back': 'Welcome Back!',
@@ -148,6 +170,10 @@ class AppTranslations extends Translations {
       'next': 'Next',
       'register': 'Register',
       'login': 'Login',
+      'start_now': 'Start Now',
+      'start': 'Start',
+      'previous': 'Previous',
+      'skip': 'Skip',
 
       //dev
       'in_dev': 'Feature in development',
