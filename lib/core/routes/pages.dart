@@ -2,6 +2,8 @@ import 'package:get/get.dart';
 
 import 'package:sukientotapp/core/utils/import/screens.dart';
 import 'package:sukientotapp/core/utils/import/binding.dart';
+import 'package:sukientotapp/features/common/introduction/binding.dart';
+import 'package:sukientotapp/features/common/introduction/screen.dart';
 
 part 'routes.dart';
 
@@ -20,6 +22,11 @@ class Pages {
       name: Routes.chooseYoSideScreen,
       page: () => const ChooseYoSideScreen(),
       binding: ChooseYoSideBinding(),
+    ),
+    GetPage(
+      name: Routes.introduction,
+      page: () => const IntroductionScreen(),
+      binding: IntroductionBinding(),
     ),
     GetPage(
       name: Routes.loginScreen,
