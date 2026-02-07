@@ -51,6 +51,7 @@ dependencies:
   animation_search_bar: ^0.0.10
   searchbar_animation: ^0.0.4
   video_player: ^2.8.1
+  url_launcher: ^6.3.2
 
 dev_dependencies:
   flutter_test:
