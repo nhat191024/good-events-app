@@ -85,6 +85,7 @@ class AppTranslations extends Translations {
       'start_time': 'Giờ bắt đầu',
       'end_time': 'Giờ kết thúc',
       'note': 'Ghi chú',
+      'price': 'Giá',
 
       'notification': 'Thông báo',
       'login_successful': 'Đăng nhập thành công! Welcome, @name.',
@@ -94,6 +95,9 @@ class AppTranslations extends Translations {
       'accept_new_show_desc': 'Xem show mới theo thời gian thực.',
 
       'apply_for_show': 'Nhận show',
+      'price_quote': 'Báo giá show',
+      'price_quote_for_show': 'Báo giá cho show #@code',
+      'input_price_quote': 'Nhập báo giá của bạn cho show này',
 
       'needs': 'Cần tìm',
 
@@ -196,6 +200,7 @@ class AppTranslations extends Translations {
       'start_time': 'Start Time',
       'end_time': 'End Time',
       'note': 'Note',
+      'price': 'Price',
 
       'notification': 'Notification',
       'login_successful': 'Login successful! Welcome, @name.',
@@ -205,6 +210,9 @@ class AppTranslations extends Translations {
       'accept_new_show_desc': 'View new show in real time.',
 
       'apply_for_show': 'Apply for Show',
+      'price_quote': 'Show price Quote',
+      'price_quote_for_show': 'Price Quote for Show #@code',
+      'input_price_quote': 'Input your price quote for this show',
 
       'needs': 'Needs',
 
