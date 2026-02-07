@@ -5,6 +5,7 @@ import 'package:sukientotapp/core/utils/import/global.dart';
 import 'package:sukientotapp/features/client/bottom_navigation/controller.dart';
 
 import 'package:sukientotapp/features/client/home/screen.dart';
+import 'package:sukientotapp/features/common/introduction/screen.dart';
 
 class ClientBottomNavigationView extends GetView<ClientBottomNavigationController> {
   const ClientBottomNavigationView({super.key});
@@ -19,7 +20,7 @@ class ClientBottomNavigationView extends GetView<ClientBottomNavigationControlle
           color: AppColors.primary,
           buttonBackgroundColor: AppColors.primary,
           backgroundColor: Colors.transparent,
-          animationDuration: Duration(milliseconds: 500),
+          animationDuration: Duration(milliseconds: 340),
           height: context.height * 0.07,
           items: [
             Icon(FIcons.house, size: 24, color: Colors.white),
@@ -27,6 +28,7 @@ class ClientBottomNavigationView extends GetView<ClientBottomNavigationControlle
             Icon(FIcons.messageSquareText, size: 24, color: Colors.white),
             Icon(FIcons.userRound, size: 24, color: Colors.white),
           ],
+          animationCurve: Curves.fastOutSlowIn,
         ),
         //FadeThroughTransition option. Use this if SharedAxisTransition case laggy problem (because Obx)
         // body: Obx(
@@ -65,6 +67,8 @@ class ClientBottomNavigationView extends GetView<ClientBottomNavigationControlle
     switch (controller.currentIndex.value) {
       case 0:
         return const HomeScreen();
+      // case 1:
+      //   return const IntroductionScreen();
       default:
         return const HomeScreen();
     }
