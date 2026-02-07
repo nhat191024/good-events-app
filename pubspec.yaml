@@ -50,6 +50,7 @@ dependencies:
   dio_smart_retry: ^7.0.1
   animation_search_bar: ^0.0.10
   searchbar_animation: ^0.0.4
+  video_player: ^2.8.1
 
 dev_dependencies:
   flutter_test:
@@ -62,6 +63,8 @@ flutter:
   assets:
     - .env
     - assets/images/
+    - assets/videos/
+    - assets/images/introduction/
     - assets/fonts/
 
   fonts:
