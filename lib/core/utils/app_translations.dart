@@ -55,6 +55,8 @@ class AppTranslations extends Translations {
       'partner': 'Đối tác',
       'service_provider': 'Nhà cung cấp dịch vụ',
 
+      'last_update': 'Cập nhật lần cuối: @time',
+
       ///Show
       'take_order': 'Nhận show',
       'waiting': 'Đang chờ',
@@ -63,6 +65,10 @@ class AppTranslations extends Translations {
 
       'notification': 'Thông báo',
       'login_successful': 'Đăng nhập thành công! Welcome, @name.',
+
+      ///New Show
+      'accept_new_show': ' Nhận show mới',
+      'accept_new_show_desc': 'Xem chi tiết và nhận show mới ngay bây giờ.',
 
       ///Statuses
       'success': 'Thành công',
@@ -129,6 +135,8 @@ class AppTranslations extends Translations {
       'partner': 'Partner',
       'service_provider': 'Service Provider',
 
+      'last_update': 'Last update: @time',
+
       ///Show
       'take_order': 'Take show',
       'waiting': 'Waiting',
@@ -137,6 +145,10 @@ class AppTranslations extends Translations {
 
       'notification': 'Notification',
       'login_successful': 'Login successful! Welcome, @name.',
+
+      ///New Show
+      'accept_new_show': ' Accept New Show',
+      'accept_new_show_desc': 'View details and accept new show now.',
 
       ///Statuses
       'success': 'Success',
