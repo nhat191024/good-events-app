@@ -3,7 +3,6 @@ import 'package:get/get.dart';
 
 //Styling package
 import 'package:forui/forui.dart';
-import 'package:animated_text_kit/animated_text_kit.dart';
 import 'package:video_player/video_player.dart';
 
 import 'controller.dart';
