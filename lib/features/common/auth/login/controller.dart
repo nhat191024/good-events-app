@@ -11,7 +11,7 @@ class LoginController extends GetxController {
   // TextEditingControllers for input fields
   final usernameController = TextEditingController();
   final passwordController = TextEditingController();
-  
+
   final isLoading = false.obs;
 
   @override
@@ -38,7 +38,7 @@ class LoginController extends GetxController {
       var role = StorageService.readMapData(key: LocalStorageKeys.user, mapKey: 'role');
       switch (role) {
         case 'client':
-          Get.snackbar('notification'.tr, 'in_dev'.tr);
+          Get.offAllNamed(Routes.clientHome);
           break;
         case 'partner':
           Get.offAllNamed(Routes.partnerHome);
