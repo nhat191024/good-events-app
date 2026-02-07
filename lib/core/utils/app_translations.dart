@@ -64,7 +64,13 @@ class AppTranslations extends Translations {
       'partner': 'Đối tác',
       'service_provider': 'Nhà cung cấp dịch vụ',
 
+      'refresh': 'Làm mới',
+
       'last_update': 'Cập nhật lần cuối: @time',
+      'time_ago': '@time trước',
+      'date': 'Ngày',
+
+      'address': 'Địa chỉ',
 
       ///Show
       'take_order': 'Nhận show',
@@ -72,12 +78,22 @@ class AppTranslations extends Translations {
       'confirmed': 'Đã xác nhận',
       'new_show': 'Show mới',
 
+      'code': 'Mã',
+      'event': 'Sự kiện',
+      'start_time': 'Giờ bắt đầu',
+      'end_time': 'Giờ kết thúc',
+      'note': 'Ghi chú',
+
       'notification': 'Thông báo',
       'login_successful': 'Đăng nhập thành công! Welcome, @name.',
 
       ///New Show
       'accept_new_show': ' Nhận show mới',
-      'accept_new_show_desc': 'Xem chi tiết và nhận show mới ngay bây giờ.',
+      'accept_new_show_desc': 'Xem show mới theo thời gian thực.',
+
+      'apply_for_show': 'Nhận show',
+
+      'needs': 'Cần tìm',
 
       ///Statuses
       'success': 'Thành công',
@@ -157,7 +173,13 @@ class AppTranslations extends Translations {
       'partner': 'Partner',
       'service_provider': 'Service Provider',
 
+      'refresh': 'Refresh',
+
       'last_update': 'Last update: @time',
+      'time_ago': '@time ago',
+      'date': 'Date',
+
+      'address': 'Address',
 
       ///Show
       'take_order': 'Take show',
@@ -165,12 +187,22 @@ class AppTranslations extends Translations {
       'confirmed': 'Confirmed',
       'new_show': 'New Show',
 
+      'code': 'Code',
+      'event': 'Event',
+      'start_time': 'Start Time',
+      'end_time': 'End Time',
+      'note': 'Note',
+
       'notification': 'Notification',
       'login_successful': 'Login successful! Welcome, @name.',
 
       ///New Show
       'accept_new_show': ' Accept New Show',
-      'accept_new_show_desc': 'View details and accept new show now.',
+      'accept_new_show_desc': 'View new show in real time.',
+
+      'apply_for_show': 'Apply for Show',
+
+      'needs': 'Needs',
 
       ///Statuses
       'success': 'Success',
