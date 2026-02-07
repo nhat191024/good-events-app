@@ -62,13 +62,13 @@ class SplashController extends GetxController {
 
   ///Check token validity
   Future<void> _checkToken() async {
-    await Future.delayed(const Duration(seconds: 3));
+    // this equals 2.71 seconds
+    await _videoCompleter.future;
 
     final token = StorageService.readData(key: LocalStorageKeys.token);
 
     if (token == null) {
       logger.w('[SplashController] [_checkToken] No token found, redirecting to choose side');
-      await _videoCompleter.future;
       Get.offAllNamed(Routes.chooseYoSideScreen);
       return;
     }
@@ -80,11 +80,9 @@ class SplashController extends GetxController {
         var role = StorageService.readMapData(key: LocalStorageKeys.user, mapKey: 'role');
         switch (role) {
           case 'client':
-            await _videoCompleter.future;
             Get.offAllNamed(Routes.clientHome);
             return;
           case 'partner':
-            await _videoCompleter.future;
             Get.offAllNamed(Routes.partnerHome);
             return;
         }
@@ -92,13 +90,12 @@ class SplashController extends GetxController {
         logger.w('[SplashController] [_checkToken] Token invalid, clearing storage');
         StorageService.removeData(key: LocalStorageKeys.token);
         StorageService.removeData(key: LocalStorageKeys.user);
-        await _videoCompleter.future;
+
         Get.offAllNamed(Routes.chooseYoSideScreen);
       }
     } catch (e) {
       StorageService.removeData(key: LocalStorageKeys.token);
       StorageService.removeData(key: LocalStorageKeys.user);
-      await _videoCompleter.future;
       Get.offAllNamed(Routes.chooseYoSideScreen);
     }
   }
