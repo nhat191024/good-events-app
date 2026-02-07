@@ -35,6 +35,11 @@ class AppTranslations extends Translations {
       'search_hint_2': 'Bạn cần gì cho sự kiện của mình?',
       'search_hint_3': 'Đang có nhu cầu tổ chức sự kiện?',
 
+      //search hints
+      'search_hint_1': 'Bạn đang tìm dịch vụ gì?',
+      'search_hint_2': 'Bạn cần gì cho sự kiện của mình?',
+      'search_hint_3': 'Đang có nhu cầu tổ chức sự kiện?',
+
       //guest
       'dont_have_account': 'Không có tài khoản sự kiện tốt?',
       'partner_register_now': 'Đăng ký để bắt đầu làm việc ngay hôm nay!',
