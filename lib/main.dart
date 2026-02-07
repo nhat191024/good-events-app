@@ -1,6 +1,7 @@
 import 'package:get_storage/get_storage.dart';
 import 'package:stack_trace/stack_trace.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
+import 'package:flutter/services.dart';
 
 // Import các file của bạn (giữ nguyên)
 import 'package:sukientotapp/core/utils/import/global.dart';
@@ -18,6 +19,13 @@ void main() {
       };
       await dotenv.load();
       await GetStorage.init();
+
+      // hide annoying gray bg of the status bar
+      SystemChrome.setSystemUIOverlayStyle(
+        SystemUiOverlayStyle(
+          statusBarColor: Colors.transparent,
+        ),
+      );
       runApp(const GoodEvent());
     },
     onError: (error, stackChain) {
