@@ -2,7 +2,7 @@ import 'package:sukientotapp/core/utils/import/global.dart';
 import 'package:sukientotapp/domain/repositories/client/home_repository.dart';
 import 'package:sukientotapp/features/components/common/blog_card.dart';
 import 'package:sukientotapp/features/client/home/widgets/popup_search_sheet.dart';
-import 'package:url_launcher/url_launcher.dart';
+// import 'package:url_launcher/url_launcher.dart';
 
 class HomeController extends GetxController {
   final HomeRepository _repository;
@@ -122,12 +122,14 @@ class HomeController extends GetxController {
         tag: '#lotteria',
         date: DateTime.now(),
         onTap: () {
+          Get.snackbar('notification'.tr, 'in_dev'.tr);
+
           // open browser
-          launchUrl(
-            Uri.parse(
-              'https://sukientot.com/dia-diem-to-chuc-su-kien/danh-muc/fast-food/lotteria-hong-bang-chi-nhanh-lotteria-nao-gan-day-nhat',
-            ),
-          );
+          // launchUrl(
+          //   Uri.parse(
+          //     'https://sukientot.com/dia-diem-to-chuc-su-kien/danh-muc/fast-food/lotteria-hong-bang-chi-nhanh-lotteria-nao-gan-day-nhat',
+          //   ),
+          // );
         },
       ),
       BlogCard(
@@ -140,12 +142,14 @@ class HomeController extends GetxController {
         tag: '#sinh-nhật',
         date: DateTime.now(),
         onTap: () {
+          Get.snackbar('notification'.tr, 'in_dev'.tr);
+
           // open browser
-          launchUrl(
-            Uri.parse(
-              'https://sukientot.com/huong-dan-to-chuc-su-kien/danh-muc/to-chuc-su-kien/thue-chu-he-ao-thuat-gia-chuyen-nghiep',
-            ),
-          );
+          // launchUrl(
+          //   Uri.parse(
+          //     'https://sukientot.com/huong-dan-to-chuc-su-kien/danh-muc/to-chuc-su-kien/thue-chu-he-ao-thuat-gia-chuyen-nghiep',
+          //   ),
+          // );
         },
       ),
       BlogCard(
@@ -158,22 +162,25 @@ class HomeController extends GetxController {
         tag: '#sự-kiện',
         date: DateTime.now(),
         onTap: () {
+          Get.snackbar('notification'.tr, 'in_dev'.tr);
+
           // open browser
-          launchUrl(
-            Uri.parse(
-              'https://sukientot.com/kien-thuc-nghe/danh-muc/kien-thuc/to-chuc-tiec-sinh-nhat-thoi-noi-khai-truong-nen-chon-dia-diem-nao',
-            ),
-          );
+          // launchUrl(
+          //   Uri.parse(
+          //     'https://sukientot.com/kien-thuc-nghe/danh-muc/kien-thuc/to-chuc-tiec-sinh-nhat-thoi-noi-khai-truong-nen-chon-dia-diem-nao',
+          //   ),
+          // );
         },
       ),
     ]);
   }
 
   void openBrowser(String url) async {
-    if (await canLaunchUrl(Uri.parse(url))) {
-      await launchUrl(Uri.parse(url));
-    } else {
-      throw 'Could not launch $url';
-    }
+    /// will implement later (url_launcher lib)
+    // if (await canLaunchUrl(Uri.parse(url))) {
+    //   await launchUrl(Uri.parse(url));
+    // } else {
+    //   throw 'Could not launch $url';
+    // }
   }
 }
