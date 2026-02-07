@@ -187,7 +187,7 @@ class ChooseYoSideScreen extends GetView<ChooseYoSideController> {
               right: 30,
               child: FTappable(
                 onPress: () => Get.toNamed(
-                  Routes.guestHomeScreen,
+                  Routes.introduction,
                   arguments: {
                     'isServiceProvider': controller.isServiceProvider.value,
                   },
