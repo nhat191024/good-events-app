@@ -3,6 +3,7 @@
 export 'package:sukientotapp/features/common/splash/binding.dart';
 export 'package:sukientotapp/features/common/choose_yo_side/binding.dart';
 export 'package:sukientotapp/features/common/auth/login/binding.dart';
+export 'package:sukientotapp/features/common/introduction/binding.dart';
 
 //Guest
 export 'package:sukientotapp/features/common/home/binding.dart';
