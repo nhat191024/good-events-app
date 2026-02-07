@@ -52,14 +52,11 @@ class SplashController extends GetxController {
 
     await videoPlayerController.initialize();
     isVideoInitialized.value = true;
-    logger.i('preparing to play video');
     videoPlayerController.play();
 
     videoPlayerController.addListener(() {
-      logger.i('videoPlayerController is playing');
       if (videoPlayerController.value.position >= videoPlayerController.value.duration) {
         if (!_videoCompleter.isCompleted) {
-          logger.w('video completed');
           _videoCompleter.complete();
         }
       }
