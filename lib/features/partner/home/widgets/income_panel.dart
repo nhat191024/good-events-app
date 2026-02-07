@@ -7,7 +7,7 @@ class IncomePanel extends StatelessWidget {
   Widget build(BuildContext context) {
     return Container(
       decoration: BoxDecoration(
-        color: FTheme.of(context).colors.primary,
+        color: context.fTheme.colors.primary,
         borderRadius: BorderRadius.circular(16),
       ),
       padding: const EdgeInsets.only(top: 16),
@@ -23,8 +23,11 @@ class IncomePanel extends StatelessWidget {
                   children: [
                     Container(
                       padding: const EdgeInsets.all(10),
-                      decoration: BoxDecoration(color: Colors.white, shape: BoxShape.circle),
-                      child: Icon(FIcons.wallet, color: AppColors.primary, size: 24),
+                      decoration: BoxDecoration(
+                        color: context.fTheme.colors.primaryForeground,
+                        shape: BoxShape.circle,
+                      ),
+                      child: Icon(FIcons.wallet, color: context.fTheme.colors.primary, size: 24),
                     ),
                     const SizedBox(width: 6),
                     Column(
@@ -32,19 +35,16 @@ class IncomePanel extends StatelessWidget {
                       children: [
                         Text(
                           'wallet'.tr,
-                          style: TextStyle(
-                            fontSize: 14,
-                            color: Colors.white,
+                          style: context.typography.sm.copyWith(
+                            color: context.fTheme.colors.primaryForeground,
                             fontWeight: FontWeight.bold,
                           ),
                         ),
-                        const SizedBox(height: 4),
                         Text(
                           '200k VND',
-                          style: TextStyle(
-                            fontSize: 18,
+                          style: context.typography.lg.copyWith(
                             fontWeight: FontWeight.bold,
-                            color: Colors.white,
+                            color: context.fTheme.colors.primaryForeground,
                           ),
                         ),
                       ],
@@ -58,19 +58,16 @@ class IncomePanel extends StatelessWidget {
                       children: [
                         Text(
                           'income'.tr,
-                          style: TextStyle(
-                            fontSize: 14,
-                            color: Colors.white,
+                          style: context.typography.sm.copyWith(
+                            color: context.fTheme.colors.primaryForeground,
                             fontWeight: FontWeight.bold,
                           ),
                         ),
-                        const SizedBox(height: 4),
                         Text(
                           '200k VND',
-                          style: TextStyle(
-                            fontSize: 18,
+                          style: context.typography.lg.copyWith(
                             fontWeight: FontWeight.bold,
-                            color: Colors.white,
+                            color: context.fTheme.colors.primaryForeground,
                           ),
                         ),
                       ],
@@ -78,8 +75,15 @@ class IncomePanel extends StatelessWidget {
                     const SizedBox(width: 6),
                     Container(
                       padding: const EdgeInsets.all(10),
-                      decoration: BoxDecoration(color: Colors.white, shape: BoxShape.circle),
-                      child: Icon(FIcons.chartColumnIncreasing, color: AppColors.primary, size: 24),
+                      decoration: BoxDecoration(
+                        color: context.fTheme.colors.primaryForeground,
+                        shape: BoxShape.circle,
+                      ),
+                      child: Icon(
+                        FIcons.chartColumnIncreasing,
+                        color: context.fTheme.colors.primary,
+                        size: 24,
+                      ),
                     ),
                   ],
                 ),
@@ -94,7 +98,7 @@ class IncomePanel extends StatelessWidget {
               margin: const EdgeInsets.only(top: 12),
               padding: const EdgeInsets.symmetric(vertical: 4, horizontal: 16),
               decoration: BoxDecoration(
-                color: Colors.white.withValues(alpha: 0.2),
+                color: context.fTheme.colors.foreground.withValues(alpha: 0.2),
                 borderRadius: BorderRadius.only(
                   bottomLeft: Radius.circular(16),
                   bottomRight: Radius.circular(16),
@@ -105,9 +109,12 @@ class IncomePanel extends StatelessWidget {
                 children: [
                   Text(
                     'view_details'.tr,
-                    style: TextStyle(color: Colors.white, fontWeight: FontWeight.bold),
+                    style: context.typography.sm.copyWith(
+                      color: context.fTheme.colors.primaryForeground,
+                      fontWeight: FontWeight.bold,
+                    ),
                   ),
-                  Icon(FIcons.arrowRight, color: Colors.white, size: 16),
+                  Icon(FIcons.arrowRight, color: context.fTheme.colors.primaryForeground, size: 16),
                 ],
               ),
             ),

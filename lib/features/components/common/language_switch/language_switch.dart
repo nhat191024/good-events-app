@@ -24,7 +24,10 @@ class LanguageSwitch extends StatelessWidget {
           ),
           child: Text(
             label,
-            style: const TextStyle(color: Colors.white, fontWeight: FontWeight.bold, fontSize: 12),
+            style: context.typography.sm.copyWith(
+              color: FTheme.of(context).colors.foreground,
+              fontWeight: FontWeight.bold,
+            ),
           ),
         ),
       );

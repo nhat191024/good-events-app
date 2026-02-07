@@ -9,14 +9,14 @@ class NotificationButton extends StatelessWidget {
     return GestureDetector(
       onTap: () {},
       child: Container(
-        decoration: const BoxDecoration(color: Colors.white, shape: BoxShape.circle),
+        decoration: BoxDecoration(color: context.fTheme.colors.muted, shape: BoxShape.circle),
         padding: const EdgeInsets.all(12),
         width: 50,
         height: 60,
         child: Stack(
           alignment: Alignment.center,
           children: [
-            Icon(FIcons.bell, color: FTheme.of(context).colors.primary),
+            Icon(FIcons.bell, color: context.primary),
             if (hasNotification)
               Positioned(
                 top: 5,

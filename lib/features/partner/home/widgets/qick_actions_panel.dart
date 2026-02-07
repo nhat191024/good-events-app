@@ -36,7 +36,7 @@ class QickActionsPanel extends StatelessWidget {
             Container(
               padding: const EdgeInsets.all(8),
               decoration: BoxDecoration(
-                color: Colors.white,
+                color: context.fTheme.colors.muted,
                 borderRadius: BorderRadius.circular(12),
                 boxShadow: [
                   BoxShadow(
@@ -47,16 +47,15 @@ class QickActionsPanel extends StatelessWidget {
                   ),
                 ],
               ),
-              child: Icon(icon, color: FTheme.of(context).colors.primary, size: 24),
+              child: Icon(icon, color: context.fTheme.colors.primary, size: 24),
             ),
             SizedBox(height: 4),
             Text(
               label.tr,
               maxLines: 2,
               textAlign: TextAlign.center,
-              style: TextStyle(
-                color: FTheme.of(context).colors.primary,
-                fontSize: 14,
+              style: context.typography.sm.copyWith(
+                color: context.fTheme.colors.primary,
                 fontWeight: FontWeight.bold,
               ),
             ),

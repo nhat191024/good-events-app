@@ -10,13 +10,21 @@ class BillCountPanel extends StatelessWidget {
     return Row(
       mainAxisAlignment: MainAxisAlignment.spaceBetween,
       children: [
-        _buildItem(itemWidth, AppColors.primary, FIcons.calendarSearch, 'take_order', "10"),
-        _buildItem(itemWidth, AppColors.amber500, FIcons.calendarCheck2, 'waiting', "5"),
+        _buildItem(
+          context,
+          itemWidth,
+          AppColors.primary,
+          FIcons.calendarSearch,
+          'take_order',
+          "10",
+        ),
+        _buildItem(context, itemWidth, AppColors.amber500, FIcons.calendarCheck2, 'waiting', "5"),
       ],
     );
   }
 
   Container _buildItem(
+    BuildContext context,
     double itemWidth,
     Color iconBgColor,
     IconData iconData,
@@ -25,7 +33,10 @@ class BillCountPanel extends StatelessWidget {
   ) {
     return Container(
       width: itemWidth,
-      decoration: BoxDecoration(color: Colors.white, borderRadius: BorderRadius.circular(32)),
+      decoration: BoxDecoration(
+        color: context.fTheme.colors.muted,
+        borderRadius: BorderRadius.circular(32),
+      ),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
@@ -42,10 +53,8 @@ class BillCountPanel extends StatelessWidget {
               children: [
                 Text(
                   title.tr,
-                  style: const TextStyle(
-                    color: Colors.black,
-                    fontSize: 16,
-                    fontWeight: FontWeight.normal,
+                  style: context.typography.sm.copyWith(
+                    color: context.fTheme.colors.foreground,
                   ),
                 ),
                 Text(

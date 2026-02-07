@@ -42,7 +42,14 @@ class HomeScreen extends GetView<HomeController> {
                       controller.name.value,
                       style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
                     ),
-                    FBadge(child: Text('verified'.tr)),
+                    FBadge(
+                      child: Text(
+                        'verified'.tr,
+                        style: context.typography.xs.copyWith(
+                          color: context.fTheme.colors.foreground,
+                        ),
+                      ),
+                    ),
                   ],
                 ),
               ],
