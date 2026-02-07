@@ -17,6 +17,7 @@ class PartnerBottomNavigationView extends GetView<PartnerBottomNavigationControl
   Widget build(BuildContext context) {
     return Obx(
       () => Scaffold(
+        extendBody: true,
         bottomNavigationBar: CurvedNavigationBar(
           index: controller.currentIndex.value,
           onTap: (index) => controller.setIndex(index),
