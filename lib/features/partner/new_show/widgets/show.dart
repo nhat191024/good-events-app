@@ -2,6 +2,7 @@ import 'package:flutter/gestures.dart';
 import 'package:sukientotapp/core/utils/import/global.dart  ';
 
 import 'package:sukientotapp/features/components/button/plus.dart';
+import '../widgets/accept.dart';
 
 class Show extends StatelessWidget {
   const Show({
@@ -88,7 +89,9 @@ class Show extends StatelessWidget {
           _buildLineItem(context, FIcons.calendarDays, 'date'.tr, '16/2/2026'),
           Row(
             children: [
-              Expanded(child: _buildLineItem(context, FIcons.clockArrowUp, 'start_time'.tr, '14:00')),
+              Expanded(
+                child: _buildLineItem(context, FIcons.clockArrowUp, 'start_time'.tr, '14:00'),
+              ),
               Expanded(
                 child: _buildLineItem(context, FIcons.clockArrowDown, 'end_time'.tr, '17:00'),
               ),
@@ -99,7 +102,7 @@ class Show extends StatelessWidget {
 
           const SizedBox(height: 10),
           CustomButtonPlus(
-            onTap: () {}, //TODO: Accept new show action
+            onTap: () => Get.bottomSheet(Accept(code: code)),
             btnText: 'apply_for_show'.tr,
             textSize: 14,
             fontWeight: FontWeight.w600,
