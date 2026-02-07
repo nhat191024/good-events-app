@@ -55,7 +55,7 @@ class GoodEvent extends StatelessWidget {
     final base = FThemes.zinc.dark;
     return FThemeData(
       colors: base.colors.copyWith(
-        primary: AppColors.red500,
+        primary: Colors.black,
         primaryForeground: AppColors.white,
         background: AppColors.darkBackground,
         foreground: AppColors.darkForeground,
@@ -102,7 +102,7 @@ class GoodEvent extends StatelessWidget {
       locale: const Locale('vi', 'VN'),
       fallbackLocale: const Locale('en', 'US'),
 
-      themeMode: ThemeMode.system,
+      themeMode: ThemeMode.light,
 
       theme: ThemeData(
         fontFamily: 'Lexend',
