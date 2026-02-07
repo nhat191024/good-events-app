@@ -7,7 +7,7 @@ import 'package:sukientotapp/features/client/home/widgets/new_order.dart';
 import 'package:sukientotapp/features/client/home/widgets/popup_search_sheet.dart';
 import 'package:sukientotapp/features/client/home/widgets/quick_action_panel.dart';
 import 'package:sukientotapp/features/client/home/widgets/fake_search_bar.dart';
-import 'package:url_launcher/url_launcher.dart';
+// import 'package:url_launcher/url_launcher.dart';
 import 'controller.dart';
 
 class HomeScreen extends GetView<HomeController> {
@@ -72,12 +72,13 @@ class HomeScreen extends GetView<HomeController> {
                 ),
                 GestureDetector(
                   onTap: () {
-                    launchUrl(
-                      Uri.parse(
-                        'https://sukientot.com/dia-diem-to-chuc-su-kien',
-                      ),
-                      mode: LaunchMode.externalApplication,
-                    );
+                    Get.snackbar('notification'.tr, 'in_dev'.tr);
+                    // launchUrl(
+                    //   Uri.parse(
+                    //     'https://sukientot.com/dia-diem-to-chuc-su-kien',
+                    //   ),
+                    //   mode: LaunchMode.externalApplication,
+                    // );
                   },
                   child: Text(
                     'see_more'.tr,
