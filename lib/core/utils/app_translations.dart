@@ -72,6 +72,8 @@ class AppTranslations extends Translations {
 
       'address': 'Địa chỉ',
 
+      'verified': 'Đã xác minh',
+
       ///Show
       'take_order': 'Nhận show',
       'waiting': 'Đang chờ',
@@ -180,6 +182,8 @@ class AppTranslations extends Translations {
       'date': 'Date',
 
       'address': 'Address',
+
+      'verified': 'Verified',
 
       ///Show
       'take_order': 'Take show',
