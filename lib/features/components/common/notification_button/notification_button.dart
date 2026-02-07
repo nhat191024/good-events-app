@@ -1,20 +1,8 @@
 import 'package:flutter_animate/flutter_animate.dart';
-import 'package:flutter_animate/flutter_animate.dart';
 import 'package:sukientotapp/core/utils/import/global.dart';
 
 class NotificationButton extends StatefulWidget {
-class NotificationButton extends StatefulWidget {
   final bool hasNotification;
-  final VoidCallback? onTap;
-  const NotificationButton({super.key, this.hasNotification = false, this.onTap});
-
-  @override
-  State<NotificationButton> createState() => _NotificationButtonState();
-}
-
-class _NotificationButtonState extends State<NotificationButton>
-    with SingleTickerProviderStateMixin {
-  AnimationController? _controller;
   final VoidCallback? onTap;
   const NotificationButton({super.key, this.hasNotification = false, this.onTap});
 
