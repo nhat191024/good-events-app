@@ -20,7 +20,7 @@ class ClientBottomNavigationView extends GetView<ClientBottomNavigationControlle
           color: AppColors.primary,
           buttonBackgroundColor: AppColors.primary,
           backgroundColor: Colors.transparent,
-          animationDuration: Duration(milliseconds: 340),
+          animationDuration: Duration(milliseconds: 500),
           height: context.height * 0.07,
           items: [
             Icon(FIcons.house, size: 24, color: Colors.white),
