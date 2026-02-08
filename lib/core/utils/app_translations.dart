@@ -35,11 +35,6 @@ class AppTranslations extends Translations {
       'search_hint_2': 'Bạn cần gì cho sự kiện của mình?',
       'search_hint_3': 'Đang có nhu cầu tổ chức sự kiện?',
 
-      //search hints
-      'search_hint_1': 'Bạn đang tìm dịch vụ gì?',
-      'search_hint_2': 'Bạn cần gì cho sự kiện của mình?',
-      'search_hint_3': 'Đang có nhu cầu tổ chức sự kiện?',
-
       //guest
       'dont_have_account': 'Không có tài khoản sự kiện tốt?',
       'partner_register_now': 'Đăng ký để bắt đầu làm việc ngay hôm nay!',
@@ -58,6 +53,27 @@ class AppTranslations extends Translations {
       'news_and_blogs': 'Tin tức bài viết',
       'see_more': 'Xem thêm',
       'partner_search': 'Tìm kiếm nhân sự đối tác',
+
+      // client partner detail
+      'contact': 'Liên hệ',
+      'support': 'Hỗ trợ tư vấn',
+      'rent': 'Thuê ngay',
+      'book_now': 'Đặt lịch ngay',
+      'main_info': 'Thông tin chính',
+      'type': 'Loại',
+      'field': 'Lĩnh vực',
+      'partner_type': 'Loại đối tác',
+      'rate': 'Đánh giá',
+      'rate_count': '@rate đánh giá',
+      'detailed_info': 'Thông tin chi tiết',
+      'and': 'và',
+      'about_the': 'về',
+      'service': 'dịch vụ',
+      'reference_price': 'Giá tham khảo',
+      'contact_to_get_detail_and_best_deal': 'Liên hệ để nhận báo giá chi tiết và ưu đãi tốt nhất.',
+      'partner_trustworthy': 'Đối tác uy tín, đã được xác minh.',
+      'partner_professional': 'Phục vụ chuyên nghiệp, tận tâm.',
+      'partner_competitive': 'Giá cả cạnh tranh, minh bạch.',
 
       //partner show
       'my_shows': 'Show của tôi',
@@ -110,6 +126,8 @@ class AppTranslations extends Translations {
       'new_applicant': '@count nhân sự mới',
       'new_partner': '@count đối tác mới',
       'waiting_for_response': 'đang chờ phản hồi',
+      'loading': 'Đang tải',
+      'loading_with_dot': 'Đang tải...',
 
       'code': 'Mã',
       'event': 'Sự kiện',
@@ -201,6 +219,27 @@ class AppTranslations extends Translations {
       'see_more': 'See More',
       'partner_search': 'Partner Search',
 
+      // client partner detail
+      'contact': 'Contact',
+      'support': 'Support',
+      'rent': 'Rent',
+      'book_now': 'Book now',
+      'main_info': 'Main info',
+      'type': 'Type',
+      'field': 'Field',
+      'partner_type': 'Partner type',
+      'rate': 'Rate',
+      'rate_count': '@rate ratings',
+      'detailed_info': 'Detailed info',
+      'and': 'and',
+      'about_the': 'about the',
+      'service': 'service',
+      'reference_price': 'Reference price',
+      'contact_to_get_detail_and_best_deal': 'Contact to get detail and best deal',
+      'partner_trustworthy': 'A trusted partner, fully verified.',
+      'partner_professional': 'Professional and dedicated service.',
+      'partner_competitive': 'Competitive and transparent pricing.',
+
       //partner show
       'my_shows': 'My Shows',
 
@@ -264,6 +303,8 @@ class AppTranslations extends Translations {
       'new_applicant': '@count New applicants',
       'new_partner': '@count New partners',
       'waiting_for_response': 'Waiting for response',
+      'loading': 'Loading',
+      'loading_with_dot': 'Loading...',
 
       ///New Show
       'accept_new_show': ' Accept New Show',
