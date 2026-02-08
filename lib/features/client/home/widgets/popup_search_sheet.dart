@@ -18,58 +18,61 @@ class PopupPartnerSearchSheet extends StatelessWidget {
   Widget build(BuildContext context) {
     logger.i('this is partner categories: ${partnerCategories.toString()}');
     return Container(
-      padding: EdgeInsets.only(top: 45),
-      height: Get.height,
-      color: Colors.white,
-      child: Column(
-        children: [
-          Row(
+          padding: EdgeInsets.only(top: 45),
+          height: Get.height,
+          color: Colors.white,
+          child: Column(
             children: [
-              FTappable(
-                onPress: () {
-                  Get.back();
-                },
-                child: Padding(
-                  padding: const EdgeInsets.fromLTRB(10, 12, 10, 10),
-                  child: Icon(FIcons.chevronDown),
+              Row(
+                children: [
+                  FTappable(
+                    onPress: () {
+                      Get.back();
+                    },
+                    child: Padding(
+                      padding: const EdgeInsets.fromLTRB(10, 12, 10, 10),
+                      child: Icon(FIcons.chevronDown),
+                    ),
+                  ),
+                  Text(
+                    'partner_search'.tr,
+                    style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
+                  ),
+                ],
+              ),
+              Padding(
+                padding: const EdgeInsets.symmetric(horizontal: 16),
+                child: SearchBar(
+                  hintText: 'search_with_dot'.tr,
+                  onChanged: (value) {},
+                  leading: const Padding(
+                    padding: EdgeInsets.only(left: 16),
+                    child: Icon(Icons.search),
+                  ),
                 ),
               ),
-              Text(
-                'partner_search'.tr,
-                style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
+              const SizedBox(height: 10),
+              Expanded(
+                child: ListView.separated(
+                  itemCount: partnerCategories.length,
+                  itemBuilder: (context, index) {
+                    return _buildPartnerCategory(partnerCategories[index]);
+                  },
+                  separatorBuilder: (context, index) {
+                    return const Divider(
+                      height: 5.0,
+                      thickness: 5.0,
+                      color: Color.fromARGB(32, 140, 126, 126),
+                    );
+                  },
+                ),
               ),
             ],
           ),
-          Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 16),
-            child: SearchBar(
-              hintText: 'search_with_dot'.tr,
-              onChanged: (value) {},
-              leading: const Padding(
-                padding: EdgeInsets.only(left: 16),
-                child: Icon(Icons.search),
-              ),
-            ),
-          ),
-          const SizedBox(height: 10),
-          Expanded(
-            child: ListView.separated(
-              itemCount: partnerCategories.length,
-              itemBuilder: (context, index) {
-                return _buildPartnerCategory(partnerCategories[index]);
-              },
-              separatorBuilder: (context, index) {
-                return const Divider(
-                  height: 5.0,
-                  thickness: 5.0,
-                  color: Color.fromARGB(32, 140, 126, 126),
-                );
-              },
-            ),
-          ),
-        ],
-      ),
-    ).animate().fadeIn(duration: 300.ms).slideY(begin: 0.1, end: 0);
+        )
+        .animate()
+        .fadeIn(duration: 100.ms)
+        .slideY(duration: 800.ms, begin: 0.1, end: 0, curve: Curves.elasticOut);
   }
 
   /// build partner category
@@ -83,10 +86,7 @@ class PopupPartnerSearchSheet extends StatelessWidget {
           child: Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
-              Text(
-                category.name,
-                style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
-              ),
+              Text(category.name, style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold)),
               // FBadge(child: Text('${category.partnerList.length}')),
             ],
           ),
@@ -119,10 +119,7 @@ class PopupPartnerSearchSheet extends StatelessWidget {
 }
 
 class PartnerItem extends StatelessWidget {
-  const PartnerItem({
-    super.key,
-    required this.partner,
-  });
+  const PartnerItem({super.key, required this.partner});
 
   final PartnerCard partner;
 
@@ -153,11 +150,7 @@ class PartnerItem extends StatelessWidget {
 }
 
 class PartnerCard {
-  const PartnerCard({
-    required this.id,
-    required this.name,
-    required this.image,
-  });
+  const PartnerCard({required this.id, required this.name, required this.image});
 
   final String id;
   final String name;
