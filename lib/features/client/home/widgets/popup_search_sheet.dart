@@ -72,7 +72,7 @@ class PopupPartnerSearchSheet extends StatelessWidget {
         )
         .animate()
         .fadeIn(duration: 100.ms)
-        .slideY(duration: 800.ms, begin: 0.1, end: 0, curve: Curves.elasticOut);
+        .slideY(duration: 560.ms, begin: 0.1, end: 0, curve: Curves.elasticOut);
   }
 
   /// build partner category
@@ -125,25 +125,35 @@ class PartnerItem extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-      child: Column(
-        mainAxisAlignment: MainAxisAlignment.center,
-        crossAxisAlignment: CrossAxisAlignment.center,
-        children: [
-          ClipRRect(
-            borderRadius: BorderRadius.circular(10),
-            child: Image.network(partner.image, height: 70, width: 70, fit: BoxFit.cover),
-          ),
-          const SizedBox(height: 8),
-          Padding(
-            padding: EdgeInsetsGeometry.symmetric(horizontal: 16),
-            child: Text(
-              textAlign: TextAlign.center,
-              partner.name,
-              style: TextStyle(fontSize: 14, fontWeight: FontWeight.normal),
+    return GestureDetector(
+      onTap: () {
+        logger.i('partner: ${partner.id}');
+        // navigate to partner details page with their slug as the param here
+        Get.toNamed(
+          Routes.partnerDetail,
+          arguments: {'id': partner.id, 'name': partner.name, 'image': partner.image},
+        );
+      },
+      child: Container(
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          crossAxisAlignment: CrossAxisAlignment.center,
+          children: [
+            ClipRRect(
+              borderRadius: BorderRadius.circular(10),
+              child: Image.network(partner.image, height: 70, width: 70, fit: BoxFit.cover),
             ),
-          ),
-        ],
+            const SizedBox(height: 8),
+            Padding(
+              padding: EdgeInsetsGeometry.symmetric(horizontal: 16),
+              child: Text(
+                textAlign: TextAlign.center,
+                partner.name,
+                style: TextStyle(fontSize: 14, fontWeight: FontWeight.normal),
+              ),
+            ),
+          ],
+        ),
       ),
     );
   }
