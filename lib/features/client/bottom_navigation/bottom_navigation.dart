@@ -26,8 +26,8 @@ class ClientBottomNavigationView extends GetView<ClientBottomNavigationControlle
           items: [
             Icon(FIcons.house, size: 24, color: Colors.white),
             Icon(FIcons.calendars, size: 24, color: Colors.white),
+            Icon(FIcons.circlePlus, size: 24, color: Colors.white),
             Icon(FIcons.messageSquareText, size: 24, color: Colors.white),
-            Icon(FIcons.bellRing, size: 24, color: Colors.white),
             Icon(FIcons.userRound, size: 24, color: Colors.white),
           ],
           animationCurve: Curves.fastOutSlowIn,
