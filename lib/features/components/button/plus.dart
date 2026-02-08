@@ -19,6 +19,7 @@ class CustomButtonPlus extends StatelessWidget {
   final FontWeight fontWeight;
   final double borderRadius;
   final IconData? icon;
+  final double iconSize;
   final ImageProvider<Object>? image;
   final String? svgImage;
   final Color? iconColor;
@@ -44,6 +45,7 @@ class CustomButtonPlus extends StatelessWidget {
     this.fontWeight = FontWeight.normal,
     this.borderRadius = 50,
     this.icon,
+    this.iconSize = 20,
     this.image,
     this.svgImage,
     this.iconColor,
@@ -81,7 +83,7 @@ class CustomButtonPlus extends StatelessWidget {
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
                   if (icon != null) ...[
-                    Icon(icon, color: iconColor ?? AppColors.white, size: 24),
+                    Icon(icon, color: iconColor ?? AppColors.white, size: iconSize),
                     const SizedBox(width: 8),
                   ],
                   if (image != null) ...[
