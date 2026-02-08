@@ -34,8 +34,11 @@ class HomeScreen extends GetView<HomeController> {
             FakeSearchBar(
               onTap: () {
                 searchController.clear();
-                Get.bottomSheet(
-                  PopupPartnerSearchSheet(partnerCategories: controller.partnerList),
+                showModalBottomSheet(
+                  context: context,
+                  builder: (context) {
+                    return PopupPartnerSearchSheet(partnerCategories: controller.partnerList);
+                  },
                   isScrollControlled: true,
                 );
               },
