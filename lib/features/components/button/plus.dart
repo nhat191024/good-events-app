@@ -2,7 +2,7 @@ import 'package:sukientotapp/core/utils/import/global.dart';
 
 class CustomButtonPlus extends StatelessWidget {
   final VoidCallback onTap;
-  final String btnText;
+  final String? btnText;
   final double? width;
   final double? height;
   final double leftPadding;
@@ -28,7 +28,7 @@ class CustomButtonPlus extends StatelessWidget {
   const CustomButtonPlus({
     super.key,
     required this.onTap,
-    required this.btnText,
+    this.btnText,
     this.width,
     this.height,
     this.leftPadding = 0,
@@ -84,16 +84,22 @@ class CustomButtonPlus extends StatelessWidget {
                 children: [
                   if (icon != null) ...[
                     Icon(icon, color: iconColor ?? AppColors.white, size: iconSize),
-                    const SizedBox(width: 8),
+                    if (btnText != null) const SizedBox(width: 8),
                   ],
                   if (image != null) ...[
                     Image(image: image!, height: 24, width: 24, color: imageColor),
-                    const SizedBox(width: 8),
+                    if (btnText != null) const SizedBox(width: 8),
                   ],
-                  Text(
-                    btnText,
-                    style: TextStyle(color: textColor, fontSize: textSize, fontWeight: fontWeight),
-                  ),
+                  if (btnText != null) ...[
+                    Text(
+                      btnText!,
+                      style: TextStyle(
+                        color: textColor,
+                        fontSize: textSize,
+                        fontWeight: fontWeight,
+                      ),
+                    ),
+                  ],
                 ],
               ),
       ),
