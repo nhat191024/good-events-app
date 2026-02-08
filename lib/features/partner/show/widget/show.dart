@@ -1,5 +1,4 @@
 import 'package:flutter/gestures.dart';
-import 'package:get/get_connect/http/src/utils/utils.dart';
 import 'package:sukientotapp/core/utils/import/global.dart  ';
 
 import 'package:sukientotapp/features/components/widget/badge.dart';
