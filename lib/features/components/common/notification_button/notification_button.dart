@@ -1,13 +1,17 @@
+import 'package:flutter_animate/flutter_animate.dart';
 import 'package:sukientotapp/core/utils/import/global.dart';
 
 class NotificationButton extends StatelessWidget {
   final bool hasNotification;
-  const NotificationButton({super.key, this.hasNotification = false});
+  final VoidCallback? onTap;
+  const NotificationButton({super.key, this.hasNotification = false, this.onTap});
 
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
-      onTap: () {},
+      onTap: () {
+        onTap?.call();
+      },
       child: Container(
         decoration: BoxDecoration(color: context.fTheme.colors.muted, shape: BoxShape.circle),
         padding: const EdgeInsets.all(12),
@@ -16,7 +20,11 @@ class NotificationButton extends StatelessWidget {
         child: Stack(
           alignment: Alignment.center,
           children: [
-            Icon(FIcons.bell, color: context.primary),
+            hasNotification
+                ? Icon(FIcons.bell, color: context.primary)
+                      .animate(onPlay: (controller) => controller.repeat(reverse: true))
+                      .shake(rotation: 0.3, hz: 2)
+                : Icon(FIcons.bell, color: context.primary),
             if (hasNotification)
               Positioned(
                 top: 5,

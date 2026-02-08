@@ -5,6 +5,7 @@ import 'package:sukientotapp/core/utils/import/global.dart';
 import 'package:sukientotapp/features/client/bottom_navigation/controller.dart';
 
 import 'package:sukientotapp/features/client/home/screen.dart';
+import 'package:sukientotapp/features/common/introduction/screen.dart';
 
 class ClientBottomNavigationView extends GetView<ClientBottomNavigationController> {
   const ClientBottomNavigationView({super.key});
@@ -13,6 +14,7 @@ class ClientBottomNavigationView extends GetView<ClientBottomNavigationControlle
   Widget build(BuildContext context) {
     return Obx(
       () => Scaffold(
+        extendBody: true,
         bottomNavigationBar: CurvedNavigationBar(
           index: controller.currentIndex.value,
           onTap: (index) => controller.setIndex(index),
@@ -25,8 +27,10 @@ class ClientBottomNavigationView extends GetView<ClientBottomNavigationControlle
             Icon(FIcons.house, size: 24, color: Colors.white),
             Icon(FIcons.calendars, size: 24, color: Colors.white),
             Icon(FIcons.messageSquareText, size: 24, color: Colors.white),
+            Icon(FIcons.bellRing, size: 24, color: Colors.white),
             Icon(FIcons.userRound, size: 24, color: Colors.white),
           ],
+          animationCurve: Curves.fastOutSlowIn,
         ),
         //FadeThroughTransition option. Use this if SharedAxisTransition case laggy problem (because Obx)
         // body: Obx(
@@ -65,6 +69,8 @@ class ClientBottomNavigationView extends GetView<ClientBottomNavigationControlle
     switch (controller.currentIndex.value) {
       case 0:
         return const HomeScreen();
+      // case 1:
+      //   return const IntroductionScreen();
       default:
         return const HomeScreen();
     }

@@ -30,6 +30,16 @@ class AppTranslations extends Translations {
       'google_login': 'Đăng nhập với Google',
       'logging_loading': 'Đang đăng nhập...',
 
+      //search hints
+      'search_hint_1': 'Bạn đang tìm dịch vụ gì?',
+      'search_hint_2': 'Bạn cần gì cho sự kiện của mình?',
+      'search_hint_3': 'Đang có nhu cầu tổ chức sự kiện?',
+
+      //search hints
+      'search_hint_1': 'Bạn đang tìm dịch vụ gì?',
+      'search_hint_2': 'Bạn cần gì cho sự kiện của mình?',
+      'search_hint_3': 'Đang có nhu cầu tổ chức sự kiện?',
+
       //guest
       'dont_have_account': 'Không có tài khoản sự kiện tốt?',
       'partner_register_now': 'Đăng ký để bắt đầu làm việc ngay hôm nay!',
@@ -40,6 +50,14 @@ class AppTranslations extends Translations {
       'view_details': 'Xem chi tiết',
       'new_rate': '@rates Đánh giá mới',
       'from_clients': 'từ khách hàng',
+
+      // client home
+      'rent_product': 'Thiết bị sự kiện',
+      'file_product': 'File thiết kế',
+      'blog': 'Bài viết',
+      'news_and_blogs': 'Tin tức bài viết',
+      'see_more': 'Xem thêm',
+      'partner_search': 'Tìm kiếm nhân sự đối tác',
 
       //partner show
       'my_shows': 'Show của tôi',
@@ -61,7 +79,7 @@ class AppTranslations extends Translations {
       'calendar': 'Lịch',
 
       'customer': 'Khách hàng',
-      'partner': 'Đối tác',
+      'partner': 'Đối tác sự kiện',
       'service_provider': 'Nhà cung cấp dịch vụ',
 
       'refresh': 'Làm mới',
@@ -86,6 +104,12 @@ class AppTranslations extends Translations {
       'in_job': 'Đang thực hiện',
       'cancelled': 'Đã hủy',
       'new_show': 'Show mới',
+      'pending': 'Đang chờ',
+      'pending_order': 'Đơn đang chờ',
+      'confirmed_order': 'Đơn đã xác nhận',
+      'new_applicant': '@count nhân sự mới',
+      'new_partner': '@count đối tác mới',
+      'waiting_for_response': 'đang chờ phản hồi',
 
       'code': 'Mã',
       'event': 'Sự kiện',
@@ -153,6 +177,11 @@ class AppTranslations extends Translations {
       'google_login': 'Login with Google',
       'logging_loading': 'Logging in...',
 
+      //search hints
+      'search_hint_1': 'What service are you looking for?',
+      'search_hint_2': 'What do you need for your event?',
+      'search_hint_3': 'Are you planning an event?',
+
       //guest
       'dont_have_account': "Don't have a Sự kiện tốt account?",
       'partner_register_now': 'Register to start working today!',
@@ -163,6 +192,14 @@ class AppTranslations extends Translations {
       'view_details': 'View Details',
       'new_rate': '@rates New Reviews',
       'from_clients': 'from customers',
+
+      // client home
+      'rent_product': 'Event Rentals',
+      'file_product': 'Digital Design Files',
+      'blog': 'Blog',
+      'news_and_blogs': 'News & Blogs',
+      'see_more': 'See More',
+      'partner_search': 'Partner Search',
 
       //partner show
       'my_shows': 'My Shows',
@@ -220,6 +257,13 @@ class AppTranslations extends Translations {
 
       'notification': 'Notification',
       'login_successful': 'Login successful! Welcome, @name.',
+
+      'pending': 'Pending',
+      'pending_order': 'Pending order',
+      'confirmed_order': 'Confirmed order',
+      'new_applicant': '@count New applicants',
+      'new_partner': '@count New partners',
+      'waiting_for_response': 'Waiting for response',
 
       ///New Show
       'accept_new_show': ' Accept New Show',

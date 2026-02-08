@@ -5,14 +5,17 @@ import 'package:sukientotapp/core/utils/app_videos.dart';
 import 'package:sukientotapp/domain/repositories/auth_repository.dart';
 import 'package:video_player/video_player.dart';
 
-//TODO: update splash in future for now just a placeholder
 class SplashController extends GetxController {
   final AuthRepository _authRepository;
 
   SplashController(this._authRepository);
 
-  late VideoPlayerController videoPlayerController;
+  VideoPlayerController videoPlayerController = VideoPlayerController.asset(
+    AppVideos.splashVideoLight,
+  );
   RxBool isVideoInitialized = false.obs;
+
+  // waits for video to complete
   final Completer<void> _videoCompleter = Completer<void>();
 
   final bool isDarkMode = Get.isDarkMode;
@@ -41,19 +44,19 @@ class SplashController extends GetxController {
   }
 
   void _initVideo() async {
-    videoPlayerController = VideoPlayerController.asset(
-      isDarkMode ? AppVideos.splashVideoDark : AppVideos.splashVideoLight,
-    );
+    // speeds up app opening in debug mode
+    // if (kDebugMode) {
+    //   _videoCompleter.complete();
+    //   return;
+    // }
+
     await videoPlayerController.initialize();
     isVideoInitialized.value = true;
-    logger.i('preparing to play video');
     videoPlayerController.play();
 
     videoPlayerController.addListener(() {
-      logger.i('videoPlayerController is playing');
       if (videoPlayerController.value.position >= videoPlayerController.value.duration) {
         if (!_videoCompleter.isCompleted) {
-          logger.w('video completed');
           _videoCompleter.complete();
         }
       }
