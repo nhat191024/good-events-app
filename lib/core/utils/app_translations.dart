@@ -76,8 +76,15 @@ class AppTranslations extends Translations {
 
       ///Show
       'take_order': 'Nhận show',
+      'arrived': 'Đã đến nơi',
+      'completed_show': 'Hoàn thành show',
       'waiting': 'Đang chờ',
+      'wait_for_process': 'Chờ xử lý',
       'confirmed': 'Đã xác nhận',
+      'completed': 'Hoàn thành',
+      'expired': 'Hết hạn',
+      'in_job': 'Đang thực hiện',
+      'cancelled': 'Đã hủy',
       'new_show': 'Show mới',
 
       'code': 'Mã',
@@ -192,8 +199,15 @@ class AppTranslations extends Translations {
 
       ///Show
       'take_order': 'Take show',
+      'arrived': 'Arrived',
+      'completed_show': 'Completed show',
       'waiting': 'Waiting',
+      'wait_for_process': 'Waiting for process',
       'confirmed': 'Confirmed',
+      'completed': 'Completed',
+      'expired': 'Expired',
+      'in_job': 'In Job',
+      'cancelled': 'Cancelled',
       'new_show': 'New Show',
 
       'code': 'Code',
