@@ -22,7 +22,7 @@ class PartnerBottomNavigationView extends GetView<PartnerBottomNavigationControl
           index: controller.currentIndex.value,
           onTap: (index) => controller.setIndex(index),
           color: AppColors.primary,
-          buttonBackgroundColor: AppColors.primary,
+          buttonBackgroundColor: AppColors.red800,
           backgroundColor: Colors.transparent,
           animationDuration: Duration(milliseconds: 500),
           height: context.height * 0.07,
