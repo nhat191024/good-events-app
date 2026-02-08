@@ -60,7 +60,7 @@ class Show extends StatelessWidget {
                 crossAxisAlignment: CrossAxisAlignment.end,
                 children: [
                   Text(
-                    '10 VND',
+                    price,
                     style: context.typography.base.copyWith(
                       fontWeight: FontWeight.bold,
                       color: context.fTheme.colors.foreground,
@@ -84,21 +84,21 @@ class Show extends StatelessWidget {
             clientName,
             onTap: () => logger.i('Client user tapped'), //TODO: View client details
           ),
-          _buildLineItem(context, FIcons.tag, 'needs'.tr, 'Chú hề'),
-          _buildLineItem(context, FIcons.ticket, 'event'.tr, 'Sinh nhật'),
-          _buildLineItem(context, FIcons.calendarDays, 'date'.tr, '16/2/2026'),
+          _buildLineItem(context, FIcons.tag, 'needs'.tr, category),
+          _buildLineItem(context, FIcons.ticket, 'event'.tr, event),
+          _buildLineItem(context, FIcons.calendarDays, 'date'.tr, date),
           Row(
             children: [
               Expanded(
-                child: _buildLineItem(context, FIcons.clockArrowUp, 'start_time'.tr, '14:00'),
+                child: _buildLineItem(context, FIcons.clockArrowUp, 'start_time'.tr, startTime),
               ),
               Expanded(
-                child: _buildLineItem(context, FIcons.clockArrowDown, 'end_time'.tr, '17:00'),
+                child: _buildLineItem(context, FIcons.clockArrowDown, 'end_time'.tr, endTime),
               ),
             ],
           ),
-          _buildLineItem(context, FIcons.mapPin, 'address'.tr, 'Hà Nội'),
-          _buildLineItem(context, FIcons.notepadText, 'note'.tr, 'Hãy đến đúng giờ nhé!'),
+          _buildLineItem(context, FIcons.mapPin, 'address'.tr, address),
+          _buildLineItem(context, FIcons.notepadText, 'note'.tr, note),
 
           const SizedBox(height: 10),
           CustomButtonPlus(
