@@ -1,5 +1,7 @@
 import 'package:flutter_animate/flutter_animate.dart';
+
 import 'package:sukientotapp/core/utils/import/global.dart';
+
 import 'package:sukientotapp/features/client/home/widgets/bill_count.dart';
 import 'package:sukientotapp/features/client/home/widgets/blogs_panel.dart';
 import 'package:sukientotapp/features/client/home/widgets/header.dart';
@@ -7,7 +9,9 @@ import 'package:sukientotapp/features/client/home/widgets/new_order.dart';
 import 'package:sukientotapp/features/client/home/widgets/popup_search_sheet.dart';
 import 'package:sukientotapp/features/client/home/widgets/quick_action_panel.dart';
 import 'package:sukientotapp/features/client/home/widgets/fake_search_bar.dart';
+
 // import 'package:url_launcher/url_launcher.dart';
+
 import 'controller.dart';
 
 class HomeScreen extends GetView<HomeController> {
@@ -31,9 +35,7 @@ class HomeScreen extends GetView<HomeController> {
               onTap: () {
                 searchController.clear();
                 Get.bottomSheet(
-                  PopupPartnerSearchSheet(
-                    partnerCategories: controller.partnerList,
-                  ),
+                  PopupPartnerSearchSheet(partnerCategories: controller.partnerList),
                   isScrollControlled: true,
                 );
               },
@@ -95,7 +97,7 @@ class HomeScreen extends GetView<HomeController> {
             const SizedBox(height: 8),
             ClientBlogPanel(blogs: controller.blogs),
 
-            const SizedBox(height: 8),
+            const SizedBox(height: 80),
           ],
         ),
       ),
