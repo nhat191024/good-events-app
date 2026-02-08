@@ -14,6 +14,7 @@ class ClientBottomNavigationView extends GetView<ClientBottomNavigationControlle
   Widget build(BuildContext context) {
     return Obx(
       () => Scaffold(
+        extendBody: true,
         bottomNavigationBar: CurvedNavigationBar(
           index: controller.currentIndex.value,
           onTap: (index) => controller.setIndex(index),
@@ -26,6 +27,7 @@ class ClientBottomNavigationView extends GetView<ClientBottomNavigationControlle
             Icon(FIcons.house, size: 24, color: Colors.white),
             Icon(FIcons.calendars, size: 24, color: Colors.white),
             Icon(FIcons.messageSquareText, size: 24, color: Colors.white),
+            Icon(FIcons.bellRing, size: 24, color: Colors.white),
             Icon(FIcons.userRound, size: 24, color: Colors.white),
           ],
           animationCurve: Curves.fastOutSlowIn,
