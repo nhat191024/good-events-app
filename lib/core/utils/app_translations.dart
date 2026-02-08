@@ -86,6 +86,7 @@ class AppTranslations extends Translations {
       'end_time': 'Giờ kết thúc',
       'note': 'Ghi chú',
       'price': 'Giá',
+      'your_price': 'Giá của bạn',
 
       'notification': 'Thông báo',
       'login_successful': 'Đăng nhập thành công! Welcome, @name.',
@@ -201,6 +202,7 @@ class AppTranslations extends Translations {
       'end_time': 'End Time',
       'note': 'Note',
       'price': 'Price',
+      'your_price': 'Your Price',
 
       'notification': 'Notification',
       'login_successful': 'Login successful! Welcome, @name.',
