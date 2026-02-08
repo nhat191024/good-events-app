@@ -63,7 +63,7 @@ class ChooseYoSideScreen extends GetView<ChooseYoSideController> {
                           child: Column(
                             mainAxisSize: MainAxisSize.min,
                             children: [
-                              Container(
+                              SizedBox(
                                 height: 240,
                                 width: 240,
                                 child: Padding(
@@ -148,7 +148,7 @@ class ChooseYoSideScreen extends GetView<ChooseYoSideController> {
                                 ),
                               ),
                               const SizedBox(height: 10),
-                              Container(
+                              SizedBox(
                                 height: 260,
                                 width: 260,
                                 child: Image.asset(
