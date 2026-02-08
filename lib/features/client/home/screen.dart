@@ -36,9 +36,8 @@ class HomeScreen extends GetView<HomeController> {
                 searchController.clear();
                 showModalBottomSheet(
                   context: context,
-                  builder: (context) {
-                    return PopupPartnerSearchSheet(partnerCategories: controller.partnerList);
-                  },
+                  builder: (context) =>
+                      PopupPartnerSearchSheet(partnerCategories: controller.partnerList),
                   isScrollControlled: true,
                 );
               },
