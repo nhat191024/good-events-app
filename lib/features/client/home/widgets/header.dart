@@ -5,10 +5,7 @@ import 'package:sukientotapp/features/components/common/language_switch/language
 import 'package:sukientotapp/features/components/common/notification_button/notification_button.dart';
 
 class ClientHomeHeader extends StatelessWidget {
-  const ClientHomeHeader({
-    super.key,
-    required this.controller,
-  });
+  const ClientHomeHeader({super.key, required this.controller});
 
   final HomeController controller;
 
@@ -47,6 +44,6 @@ class ClientHomeHeader extends StatelessWidget {
           ],
         ),
       ],
-    ).animate(delay: 600.ms).slideY(begin: -1, end: 0, duration: 500.ms);
+    ).animate(delay: 600.ms).slideY(begin: -1, end: 0, duration: 500.ms, curve: Curves.elasticOut);
   }
 }
