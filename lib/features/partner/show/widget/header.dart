@@ -3,6 +3,8 @@ import 'package:searchbar_animation/searchbar_animation.dart';
 import 'package:sukientotapp/core/utils/import/global.dart';
 import '../controller.dart';
 
+import 'package:sukientotapp/features/components/button/circle.dart';
+
 class Header extends StatelessWidget {
   const Header({super.key, required this.controller});
 
@@ -24,6 +26,11 @@ class Header extends StatelessWidget {
                 Text(
                   'my_shows'.tr,
                   style: context.typography.xl.copyWith(fontWeight: FontWeight.bold),
+                ),
+                Positioned(
+                  right: 52,
+                  top: 14,
+                  child: CircleButton(icon: FIcons.listFilter, onPressed: () {}, size: 32),
                 ),
                 Positioned(
                   right: 0,
