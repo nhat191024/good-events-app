@@ -8,7 +8,7 @@ class IntroTopGradient extends StatelessWidget {
     AppColors.amber400,
     Color.fromARGB(236, 255, 243, 180),
     Color.fromARGB(97, 255, 248, 214),
-    const Color.fromARGB(0, 255, 230, 104),
+    Color.fromARGB(0, 255, 230, 104),
   ];
 
   @override

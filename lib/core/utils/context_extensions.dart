@@ -19,4 +19,5 @@ extension ContextX on BuildContext {
   double get screenHeight => mediaQuerySize.height;
 
   double get statusBarHeight => MediaQuery.of(this).viewPadding.top;
+  double get navigationBarHeight => MediaQuery.of(this).viewPadding.bottom;
 }

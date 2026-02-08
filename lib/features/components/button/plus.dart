@@ -2,7 +2,7 @@ import 'package:sukientotapp/core/utils/import/global.dart';
 
 class CustomButtonPlus extends StatelessWidget {
   final VoidCallback onTap;
-  final String btnText;
+  final String? btnText;
   final double? width;
   final double? height;
   final double leftPadding;
@@ -19,6 +19,7 @@ class CustomButtonPlus extends StatelessWidget {
   final FontWeight fontWeight;
   final double borderRadius;
   final IconData? icon;
+  final double iconSize;
   final ImageProvider<Object>? image;
   final String? svgImage;
   final Color? iconColor;
@@ -27,7 +28,7 @@ class CustomButtonPlus extends StatelessWidget {
   const CustomButtonPlus({
     super.key,
     required this.onTap,
-    required this.btnText,
+    this.btnText,
     this.width,
     this.height,
     this.leftPadding = 0,
@@ -44,6 +45,7 @@ class CustomButtonPlus extends StatelessWidget {
     this.fontWeight = FontWeight.normal,
     this.borderRadius = 50,
     this.icon,
+    this.iconSize = 20,
     this.image,
     this.svgImage,
     this.iconColor,
@@ -81,17 +83,23 @@ class CustomButtonPlus extends StatelessWidget {
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
                   if (icon != null) ...[
-                    Icon(icon, color: iconColor ?? AppColors.white, size: 24),
-                    const SizedBox(width: 8),
+                    Icon(icon, color: iconColor ?? AppColors.white, size: iconSize),
+                    if (btnText != null) const SizedBox(width: 8),
                   ],
                   if (image != null) ...[
                     Image(image: image!, height: 24, width: 24, color: imageColor),
-                    const SizedBox(width: 8),
+                    if (btnText != null) const SizedBox(width: 8),
                   ],
-                  Text(
-                    btnText,
-                    style: TextStyle(color: textColor, fontSize: textSize, fontWeight: fontWeight),
-                  ),
+                  if (btnText != null) ...[
+                    Text(
+                      btnText!,
+                      style: TextStyle(
+                        color: textColor,
+                        fontSize: textSize,
+                        fontWeight: fontWeight,
+                      ),
+                    ),
+                  ],
                 ],
               ),
       ),
