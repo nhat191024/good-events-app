@@ -128,6 +128,13 @@ class AppTranslations extends Translations {
 
       'needs': 'Cần tìm',
 
+      //messages
+      'no_messages': 'Chưa có tin nhắn nào',
+      'no_further_messages': 'Không còn tin nhắn nào nữa',
+
+      'conversation': 'Cuộc trò chuyện',
+      'type_a_message': 'Nhập tin nhắn...',
+
       ///Statuses
       'success': 'Thành công',
       'failed': 'Thất bại',
@@ -270,6 +277,13 @@ class AppTranslations extends Translations {
       'input_price_quote': 'Input your price quote for this show',
 
       'needs': 'Needs',
+
+      //messages
+      'no_messages': 'No messages yet',
+      'no_further_messages': 'No further messages',
+
+      'conversation': 'Conversation',
+      'type_a_message': 'Type a message...',
 
       ///Statuses
       'success': 'Success',
