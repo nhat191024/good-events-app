@@ -12,14 +12,6 @@ class SplashScreen extends GetView<SplashController> {
 
   @override
   Widget build(BuildContext context) {
-    const colorizeColors = [
-      Colors.purple,
-      Colors.blue,
-      Colors.yellow,
-      Colors.red,
-    ];
-
-    const colorizeTextStyle = TextStyle(fontSize: 40.0, fontFamily: 'Lexend');
 
     return FScaffold(
       childPad: false,
