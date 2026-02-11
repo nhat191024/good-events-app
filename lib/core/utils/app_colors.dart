@@ -36,6 +36,11 @@ class AppColors {
   static const Color darkMutedForeground = Color(0xFFA8A29E); // Stone 400
   static const Color darkBorder = Color(0xFF292524); // Stone 800
 
+  // FUNCTIONAL COLORS
+  static const Color infoMain = Color(0xFF1371DC);
+  static const Color infoLight = Color(0xFFEEF9FF);
+    static const Color dividers = Color(0xFFEFEFEF);
+
   // --- SEMANTIC ALIASES (Dùng cái này cho các widget ngoài Forui) ---
   // Ví dụ: Container(color: AppColors.primary)
   static Color get primary => red600;
