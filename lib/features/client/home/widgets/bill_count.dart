@@ -1,5 +1,6 @@
 import 'package:flutter_animate/flutter_animate.dart';
 import 'package:sukientotapp/core/utils/import/global.dart';
+import 'package:sukientotapp/features/client/bottom_navigation/controller.dart';
 
 class ClientBillCountPanel extends StatefulWidget {
   const ClientBillCountPanel({super.key});
@@ -31,7 +32,7 @@ class _ClientBillCountPanelState extends State<ClientBillCountPanel> {
           count: "5",
         ),
       ],
-    ).animate(delay: 800.ms).fadeIn(duration: 200.ms);
+    ).animate(delay: 300.ms).fadeIn(duration: 200.ms);
   }
 }
 
@@ -62,6 +63,8 @@ class _BillItemState extends State<_BillItem> with SingleTickerProviderStateMixi
     return GestureDetector(
       onTap: () {
         _controller?.forward().then((_) => _controller?.reverse());
+
+        Get.find<ClientBottomNavigationController>().setIndex(1);
       },
       child:
           Container(
