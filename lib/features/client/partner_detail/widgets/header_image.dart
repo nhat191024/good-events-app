@@ -8,7 +8,6 @@ class PartnerHeaderImage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    logger.d('image url $imageUrl');
     return ClipRRect(
       borderRadius: BorderRadius.circular(16),
       child: Container(
