@@ -6,9 +6,11 @@ class PopupPartnerSearchSheet extends StatelessWidget {
     // required this.controller,
     super.key,
     required this.partnerCategories,
+    required this.isLoadingPartners,
   });
 
   final RxList<PartnerCategory> partnerCategories;
+  final RxBool isLoadingPartners;
   // final TextEditingController controller;
 
   @override
@@ -49,19 +51,43 @@ class PopupPartnerSearchSheet extends StatelessWidget {
               ),
               const SizedBox(height: 10),
               Expanded(
-                child: ListView.separated(
-                  itemCount: partnerCategories.length,
-                  itemBuilder: (context, index) {
-                    return _buildPartnerCategory(partnerCategories[index]);
-                  },
-                  separatorBuilder: (context, index) {
-                    return const Divider(
-                      height: 5.0,
-                      thickness: 5.0,
-                      color: Color.fromARGB(32, 140, 126, 126),
+                child: Obx(() {
+                  if (isLoadingPartners.value && partnerCategories.isEmpty) {
+                    return Center(
+                      child: Column(
+                        mainAxisSize: MainAxisSize.min,
+                        children: [
+                          const CircularProgressIndicator(),
+                          const SizedBox(height: 10),
+                          Text('loading_with_dot'.tr),
+                        ],
+                      ),
                     );
-                  },
-                ),
+                  }
+
+                  if (partnerCategories.isEmpty) {
+                    return Center(
+                      child: Text(
+                        'in_dev'.tr,
+                        style: TextStyle(color: context.fTheme.colors.mutedForeground),
+                      ),
+                    );
+                  }
+
+                  return ListView.separated(
+                    itemCount: partnerCategories.length,
+                    itemBuilder: (context, index) {
+                      return _buildPartnerCategory(partnerCategories[index]);
+                    },
+                    separatorBuilder: (context, index) {
+                      return const Divider(
+                        height: 5.0,
+                        thickness: 5.0,
+                        color: Color.fromARGB(32, 140, 126, 126),
+                      );
+                    },
+                  );
+                }),
               ),
             ],
           ),
