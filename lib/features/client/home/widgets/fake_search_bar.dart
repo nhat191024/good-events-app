@@ -98,6 +98,6 @@ class _FakeSearchBarState extends State<FakeSearchBar> {
           ),
         ),
       ],
-    ).animate(delay: 650.ms).fadeIn(duration: 500.ms);
+    ).animate(delay: 100.ms).fadeIn(duration: 500.ms);
   }
 }
