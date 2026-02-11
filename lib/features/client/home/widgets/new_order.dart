@@ -1,5 +1,6 @@
 import 'package:flutter_animate/flutter_animate.dart';
 import 'package:sukientotapp/core/utils/import/global.dart';
+import 'package:sukientotapp/features/client/bottom_navigation/controller.dart';
 
 class NewOrderPanel extends StatefulWidget {
   const NewOrderPanel({super.key});
@@ -16,6 +17,7 @@ class _NewOrderPanelState extends State<NewOrderPanel> with SingleTickerProvider
     return GestureDetector(
       onTap: () {
         _controller?.forward().then((_) => _controller?.reverse());
+        Get.find<ClientBottomNavigationController>().setIndex(1);
       },
       child:
           Container(
@@ -78,7 +80,7 @@ class _NewOrderPanelState extends State<NewOrderPanel> with SingleTickerProvider
                 onInit: (controller) => _controller = controller,
               )
               .scaleXY(end: 0.95, duration: 100.ms, curve: Curves.easeInOut),
-    ).animate(delay: 850.ms).fadeIn(duration: 200.ms);
+    ).animate(delay: 350.ms).fadeIn(duration: 200.ms);
   }
 
   // NOTE: For showcase purpose we use fake data here.
