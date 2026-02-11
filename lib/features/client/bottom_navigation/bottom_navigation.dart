@@ -5,6 +5,9 @@ import 'package:sukientotapp/core/utils/import/global.dart';
 import 'package:sukientotapp/features/client/bottom_navigation/controller.dart';
 
 import 'package:sukientotapp/features/client/home/screen.dart';
+import 'package:sukientotapp/features/client/booking/screen.dart';
+import 'package:sukientotapp/features/client/order/screen.dart';
+import 'package:sukientotapp/features/client/partner_detail/screen.dart';
 
 class ClientBottomNavigationView extends GetView<ClientBottomNavigationController> {
   const ClientBottomNavigationView({super.key});
@@ -25,7 +28,7 @@ class ClientBottomNavigationView extends GetView<ClientBottomNavigationControlle
           items: [
             Icon(FIcons.house, size: 24, color: Colors.white),
             Icon(FIcons.calendars, size: 24, color: Colors.white),
-            Icon(FIcons.circlePlus, size: 24, color: Colors.white),
+            // Icon(FIcons.circlePlus, size: 24, color: Colors.white),
             Icon(FIcons.messageSquareText, size: 24, color: Colors.white),
             Icon(FIcons.userRound, size: 24, color: Colors.white),
           ],
@@ -68,8 +71,12 @@ class ClientBottomNavigationView extends GetView<ClientBottomNavigationControlle
     switch (controller.currentIndex.value) {
       case 0:
         return const HomeScreen();
-      // case 1:
-      //   return const IntroductionScreen();
+      case 1:
+        return const ClientOrderScreen();
+      case 2:
+        return const Placeholder();
+      case 3:
+        return const Placeholder();
       default:
         return const HomeScreen();
     }
