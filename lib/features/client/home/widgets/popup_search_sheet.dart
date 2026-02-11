@@ -13,7 +13,6 @@ class PopupPartnerSearchSheet extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    logger.i('this is partner categories: ${partnerCategories.toString()}');
     return Container(
           padding: EdgeInsets.only(top: 45),
           height: Get.height,

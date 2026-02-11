@@ -66,7 +66,6 @@ Chú Hề Hoạt Náo giúp bữa tiệc của bé trở thành một ngày th�
     isLoading.value = true;
     // fake API call
     await Future.delayed(const Duration(seconds: 1));
-    logger.i('Fetched details for partner: ${partnerId.value}');
     isLoading.value = false;
   }
 }

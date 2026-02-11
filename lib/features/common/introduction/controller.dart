@@ -50,7 +50,6 @@ class IntroductionController extends GetxController {
     }
     currentStep.value = step;
     _syncIntroText(currentStep.value);
-    logger.d('going to step ${currentStep.value + 1}');
   }
 
   void exitIntro() {
