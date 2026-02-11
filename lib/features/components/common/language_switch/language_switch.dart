@@ -25,7 +25,7 @@ class LanguageSwitch extends StatelessWidget {
           child: Text(
             label,
             style: context.typography.sm.copyWith(
-              color: FTheme.of(context).colors.foreground,
+              color: FTheme.of(context).colors.primaryForeground,
               fontWeight: FontWeight.bold,
             ),
           ),
