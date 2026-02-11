@@ -30,8 +30,7 @@ class PartnerActionButtons extends StatelessWidget {
             Expanded(
               child: CustomButtonPlus(
                 onTap: () {
-                  // TODO: Implement booking logic
-                  Get.snackbar('book_now'.tr, 'in_dev'.tr);
+                  Get.toNamed(Routes.clientBooking);
                 },
                 btnText: 'book_now'.tr,
                 color: AppColors.red600, // Primary red
