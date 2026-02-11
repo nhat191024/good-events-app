@@ -1,8 +1,5 @@
-import 'package:flutter/material.dart';
 import 'package:flutter_animate/flutter_animate.dart';
-import 'package:get/get.dart';
 import 'package:sukientotapp/core/utils/import/global.dart';
-import 'package:sukientotapp/features/client/home/widgets/fake_search_bar.dart';
 
 class PopupPartnerSearchSheet extends StatelessWidget {
   const PopupPartnerSearchSheet({
@@ -125,36 +122,24 @@ class PartnerItem extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return GestureDetector(
-      onTap: () {
-        logger.i('partner: ${partner.id}');
-        // navigate to partner details page with their slug as the param here
-        Get.toNamed(
-          Routes.partnerDetail,
-          arguments: {'id': partner.id, 'name': partner.name, 'image': partner.image},
-        );
-      },
-      child: Container(
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          crossAxisAlignment: CrossAxisAlignment.center,
-          children: [
-            ClipRRect(
-              borderRadius: BorderRadius.circular(10),
-              child: Image.network(partner.image, height: 70, width: 70, fit: BoxFit.cover),
-            ),
-            const SizedBox(height: 8),
-            Padding(
-              padding: EdgeInsetsGeometry.symmetric(horizontal: 16),
-              child: Text(
-                textAlign: TextAlign.center,
-                partner.name,
-                style: TextStyle(fontSize: 14, fontWeight: FontWeight.normal),
-              ),
-            ),
-          ],
+    return Column(
+      mainAxisAlignment: MainAxisAlignment.center,
+      crossAxisAlignment: CrossAxisAlignment.center,
+      children: [
+        ClipRRect(
+          borderRadius: BorderRadius.circular(10),
+          child: Image.network(partner.image, height: 70, width: 70, fit: BoxFit.cover),
         ),
-      ),
+        const SizedBox(height: 8),
+        Padding(
+          padding: EdgeInsetsGeometry.symmetric(horizontal: 16),
+          child: Text(
+            textAlign: TextAlign.center,
+            partner.name,
+            style: TextStyle(fontSize: 14, fontWeight: FontWeight.normal),
+          ),
+        ),
+      ],
     );
   }
 }
