@@ -75,6 +75,96 @@ class AppTranslations extends Translations {
       'partner_professional': 'Phục vụ chuyên nghiệp, tận tâm.',
       'partner_competitive': 'Giá cả cạnh tranh, minh bạch.',
 
+      // client booking
+      'booking_title': 'Đặt show',
+      'booking_subtitle': 'Vui lòng điền thông tin để đặt show của bạn.',
+      'booking_start_time': 'Thời gian bắt đầu',
+      'booking_end_time': 'Thời gian kết thúc',
+      'booking_time_placeholder': 'hh:mm',
+      'booking_event_date': 'Ngày tổ chức sự kiện',
+      'booking_date_placeholder': 'dd/mm/yyyy',
+      'booking_event_type': 'Nội dung sự kiện',
+      'booking_event_type_placeholder': 'Chọn nội dung sự kiện',
+      'booking_event_custom': 'Nội dung sự kiện (Tùy chọn)',
+      'booking_event_custom_placeholder': 'VD: Tổ chức thăm lăng bác',
+      'booking_note_optional': 'Ghi chú bổ sung (Tùy chọn)',
+      'booking_note_placeholder': 'VD: Cần người mặc đồng phục có tông màu vàng',
+      'booking_location': 'Địa điểm tổ chức',
+      'booking_location_ward': 'Phường/Xã',
+      'booking_select_province': 'Chọn tỉnh/thành',
+      'booking_select_ward': 'Chọn phường/xã',
+      'booking_address_detail': 'Địa chỉ chi tiết',
+      'booking_address_placeholder': 'Số nhà, đường...',
+      'booking_back': 'Làm lại từ đầu',
+      'booking_submit': 'Đặt show ngay',
+      'booking_success': 'Đặt lịch thành công!',
+      'please_wait': 'Vui lòng chờ...',
+      'event_type_custom': 'Nhập giá trị tùy chỉnh',
+      'event_type_wedding': 'Tiệc cưới',
+      'event_type_conference': 'Hội nghị',
+      'event_type_birthday': 'Sinh nhật',
+      'booking_stage_time_title': 'Chọn thời gian',
+      'booking_stage_time_subtitle': 'Chọn giờ bắt đầu, kết thúc và ngày tổ chức.',
+      'booking_stage_event_title': 'Nội dung sự kiện',
+      'booking_stage_event_subtitle': 'Cho biết nội dung hoặc ghi chú cần thiết.',
+      'booking_stage_location_title': 'Địa điểm tổ chức',
+      'booking_stage_location_subtitle': 'Chọn khu vực và nhập địa chỉ chi tiết.',
+      'start_over': 'Bắt đầu lại',
+
+      // client order
+      'my_orders': 'Đơn hàng của tôi',
+      'event_orders': 'Đơn sự kiện',
+      'asset_orders': 'File đã mua',
+
+      // Event Orders - Tabs
+      'current_orders': 'Đơn hiện tại',
+      'history': 'Lịch sử',
+
+      // Event Orders - Status
+      'status_pending': 'Đang chờ',
+      'status_confirmed': 'Đã chốt',
+      'status_in_job': 'Đã đến nơi',
+      'status_completed': 'Hoàn thành',
+      'status_cancelled': 'Đã hủy',
+
+      // Event Orders - Filters
+      'search_orders': 'Tìm kiếm đơn hàng...',
+      'sort_by': 'Sắp xếp theo',
+      'sort_newest': 'Đơn sắp tới',
+      'sort_oldest': 'Đơn muộn nhất',
+      'sort_most_applicants': 'Nhiều ứng viên nhất',
+      'sort_highest_budget': 'Ngân sách cao nhất',
+      'sort_lowest_budget': 'Ngân sách thấp nhất',
+      'orders_count': '@count đơn',
+      'orders_label': 'Đơn sự kiện',
+      'current_yours': 'HIỆN TẠI CỦA BẠN',
+
+      // Event Orders - Content
+      'viewing': 'Đang xem',
+      'final_price': 'Giá chốt',
+      'event_at': 'Tổ chức ngày @day, @date từ lúc @start đến @end',
+      'note_label': 'Ghi chú',
+      'at_location': 'Ở @address',
+
+      // Asset Orders - Tabs
+      'all_orders': 'Tất cả',
+      'pending_status': 'Chờ xử lý',
+      'paid_status': 'Đã thanh toán',
+      'cancelled_status': 'Đã hủy',
+
+      // Asset Orders - Content
+      'purchased_designs': 'File - Tài liệu đã mua',
+      'category_label': 'Danh mục',
+      'load_more_orders': 'Xem thêm đơn hàng',
+
+      // Empty States
+      'no_current_orders': 'Bạn chưa có đơn hiện tại',
+      'no_history_orders': 'Bạn chưa có lịch sử đơn hàng',
+      'no_asset_orders': 'Bạn chưa mua thiết kế nào',
+      'no_pending_asset_orders': 'Không có đơn chờ xử lý',
+      'no_paid_asset_orders': 'Không có đơn đã thanh toán',
+      'no_cancelled_asset_orders': 'Không có đơn đã hủy',
+
       //partner show
       'my_shows': 'Show của tôi',
 
@@ -165,6 +255,8 @@ class AppTranslations extends Translations {
       'start': 'Bắt đầu',
       'previous': 'Trước',
       'skip': 'Bỏ qua',
+      'cancel': 'Hủy',
+      'done': 'Xong',
 
       //dev
       'in_dev': 'Tính năng đang phát triển',
@@ -239,6 +331,96 @@ class AppTranslations extends Translations {
       'partner_trustworthy': 'A trusted partner, fully verified.',
       'partner_professional': 'Professional and dedicated service.',
       'partner_competitive': 'Competitive and transparent pricing.',
+
+      // client booking
+      'booking_title': 'Book a Show',
+      'booking_subtitle': 'Fill in the details to book your event.',
+      'booking_start_time': 'Start time',
+      'booking_end_time': 'End time',
+      'booking_time_placeholder': 'hh:mm',
+      'booking_event_date': 'Event date',
+      'booking_date_placeholder': 'dd/mm/yyyy',
+      'booking_event_type': 'Event type',
+      'booking_event_type_placeholder': 'Select event type',
+      'booking_event_custom': 'Event details (Optional)',
+      'booking_event_custom_placeholder': "e.g., Visit the President's Mausoleum",
+      'booking_note_optional': 'Additional notes (Optional)',
+      'booking_note_placeholder': 'e.g., Need staff with yellow uniforms',
+      'booking_location': 'Location',
+      'booking_location_ward': 'Ward',
+      'booking_select_province': 'Select province/city',
+      'booking_select_ward': 'Select ward',
+      'booking_address_detail': 'Detailed address',
+      'booking_address_placeholder': 'Street, building...',
+      'booking_back': 'Start over',
+      'booking_submit': 'Book now',
+      'booking_success': 'Booking successful!',
+      'please_wait': 'Please wait...',
+      'event_type_custom': 'Custom input',
+      'event_type_wedding': 'Wedding',
+      'event_type_conference': 'Conference',
+      'event_type_birthday': 'Birthday',
+      'booking_stage_time_title': 'Select time',
+      'booking_stage_time_subtitle': 'Pick start/end time and event date.',
+      'booking_stage_event_title': 'Event details',
+      'booking_stage_event_subtitle': 'Describe the event and add notes if needed.',
+      'booking_stage_location_title': 'Select location',
+      'booking_stage_location_subtitle': 'Choose area and enter detailed address.',
+      'start_over': 'Start over',
+
+      // client order
+      'my_orders': 'My Orders',
+      'event_orders': 'Event Orders',
+      'asset_orders': 'Asset Orders',
+
+      // Event Orders - Tabs
+      'current_orders': 'Current Orders',
+      'history': 'History',
+
+      // Event Orders - Status
+      'status_pending': 'Pending',
+      'status_confirmed': 'Confirmed',
+      'status_in_job': 'At Location',
+      'status_completed': 'Completed',
+      'status_cancelled': 'Cancelled',
+
+      // Event Orders - Filters
+      'search_orders': 'Search orders...',
+      'sort_by': 'Sort by',
+      'sort_newest': 'Upcoming Orders',
+      'sort_oldest': 'Latest Orders',
+      'sort_most_applicants': 'Most Applicants',
+      'sort_highest_budget': 'Highest Budget',
+      'sort_lowest_budget': 'Lowest Budget',
+      'orders_count': '@count orders',
+      'orders_label': 'Orders',
+      'current_yours': 'CURRENT OF YOURS',
+
+      // Event Orders - Content
+      'viewing': 'Viewing',
+      'final_price': 'Final Price',
+      'event_at': 'Event on @day, @date from @start to @end',
+      'note_label': 'Note',
+      'at_location': 'At @address',
+
+      // Asset Orders - Tabs
+      'all_orders': 'All',
+      'pending_status': 'Pending',
+      'paid_status': 'Paid',
+      'cancelled_status': 'Cancelled',
+
+      // Asset Orders - Content
+      'purchased_designs': 'Purchased Designs',
+      'category_label': 'Category',
+      'load_more_orders': 'Load More Orders',
+
+      // Empty States
+      'no_current_orders': 'No current orders',
+      'no_history_orders': 'No order history',
+      'no_asset_orders': 'No purchased designs yet',
+      'no_pending_asset_orders': 'No pending orders',
+      'no_paid_asset_orders': 'No paid orders',
+      'no_cancelled_asset_orders': 'No cancelled orders',
 
       //partner show
       'my_shows': 'My Shows',
@@ -331,6 +513,8 @@ class AppTranslations extends Translations {
       'start': 'Start',
       'previous': 'Previous',
       'skip': 'Skip',
+      'cancel': 'Cancel',
+      'done': 'Done',
 
       //dev
       'in_dev': 'Feature in development',
