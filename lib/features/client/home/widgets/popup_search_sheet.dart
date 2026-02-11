@@ -121,24 +121,37 @@ class PartnerItem extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Column(
-      mainAxisAlignment: MainAxisAlignment.center,
-      crossAxisAlignment: CrossAxisAlignment.center,
-      children: [
-        ClipRRect(
-          borderRadius: BorderRadius.circular(10),
-          child: Image.network(partner.image, height: 70, width: 70, fit: BoxFit.cover),
-        ),
-        const SizedBox(height: 8),
-        Padding(
-          padding: EdgeInsetsGeometry.symmetric(horizontal: 16),
-          child: Text(
-            textAlign: TextAlign.center,
-            partner.name,
-            style: TextStyle(fontSize: 14, fontWeight: FontWeight.normal),
+    return GestureDetector(
+      onTap: () {
+        Get.toNamed(
+          Routes.partnerDetail,
+          arguments: {
+            'image': partner.image,
+            'name': partner.name,
+            'id': partner.id,
+            'category': partner.name,
+          },
+        );
+      },
+      child: Column(
+        mainAxisAlignment: MainAxisAlignment.center,
+        crossAxisAlignment: CrossAxisAlignment.center,
+        children: [
+          ClipRRect(
+            borderRadius: BorderRadius.circular(10),
+            child: Image.network(partner.image, height: 70, width: 70, fit: BoxFit.cover),
           ),
-        ),
-      ],
+          const SizedBox(height: 8),
+          Padding(
+            padding: EdgeInsetsGeometry.symmetric(horizontal: 16),
+            child: Text(
+              textAlign: TextAlign.center,
+              partner.name,
+              style: TextStyle(fontSize: 14, fontWeight: FontWeight.normal),
+            ),
+          ),
+        ],
+      ),
     );
   }
 }
