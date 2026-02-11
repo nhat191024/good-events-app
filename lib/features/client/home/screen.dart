@@ -34,10 +34,13 @@ class HomeScreen extends GetView<HomeController> {
             FakeSearchBar(
               onTap: () {
                 searchController.clear();
+                controller.ensurePartnersLoaded();
                 showModalBottomSheet(
                   context: context,
-                  builder: (context) =>
-                      PopupPartnerSearchSheet(partnerCategories: controller.partnerList),
+                  builder: (context) => PopupPartnerSearchSheet(
+                    partnerCategories: controller.partnerList,
+                    isLoadingPartners: controller.isLoadingPartners,
+                  ),
                   isScrollControlled: true,
                 );
               },
@@ -55,7 +58,7 @@ class HomeScreen extends GetView<HomeController> {
             Text(
               'quick_actions'.tr,
               style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
-            ).animate(delay: 650.ms).fadeIn(duration: 200.ms),
+            ).animate(delay: 150.ms).fadeIn(duration: 200.ms),
 
             const ClientQuickActionPanel(),
 
@@ -94,7 +97,7 @@ class HomeScreen extends GetView<HomeController> {
                   ),
                 ),
               ],
-            ).animate(delay: 900.ms).fadeIn(duration: 200.ms),
+            ).animate(delay: 400.ms).fadeIn(duration: 200.ms),
 
             const SizedBox(height: 8),
             ClientBlogPanel(blogs: controller.blogs),
