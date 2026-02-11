@@ -13,3 +13,4 @@ export 'package:sukientotapp/features/partner/bottom_navigation/bottom_navigatio
 
 //Client
 export 'package:sukientotapp/features/client/bottom_navigation/bottom_navigation.dart';
+export 'package:sukientotapp/features/client/partner_detail/screen.dart';

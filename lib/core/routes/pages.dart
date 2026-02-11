@@ -1,10 +1,6 @@
-import 'package:get/get.dart';
 import 'package:sukientotapp/core/utils/import/global.dart';
-
 import 'package:sukientotapp/core/utils/import/screens.dart';
 import 'package:sukientotapp/core/utils/import/binding.dart';
-import 'package:sukientotapp/features/client/partner_detail/screen.dart';
-import 'package:sukientotapp/features/client/partner_detail/binding.dart';
 
 part 'routes.dart';
 
