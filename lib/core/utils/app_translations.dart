@@ -87,6 +87,8 @@ class AppTranslations extends Translations {
 
       'verified': 'Đã xác minh',
 
+      'currency': 'VND',
+
       ///Show
       'take_order': 'Nhận show',
       'arrived': 'Đã đến nơi',
@@ -134,6 +136,33 @@ class AppTranslations extends Translations {
 
       'conversation': 'Cuộc trò chuyện',
       'type_a_message': 'Nhập tin nhắn...',
+
+      //account
+      'general_setting': 'Cài đặt chung',
+      'more_setting': 'Cài đặt khác',
+
+      'my_profile': 'Hồ sơ của tôi',
+      'change_password': 'Đổi mật khẩu',
+      'notification_setting': 'Cài đặt thông báo',
+      'message_setting': 'Cài đặt tin nhắn',
+      'support': 'Hỗ trợ',
+      'logout': 'Đăng xuất',
+
+      'my_balance_wallet': 'Số dư ví',
+      'add_balance': 'Nạp tiền',
+
+      'cardholder_name': 'Tên chủ thẻ',
+      'cardholder_hint': 'Nguyễn Văn A',
+      'card_number': 'Số thẻ',
+      'card_number_hint': '1234 5678 9012 3456',
+      'expire_date': 'Ngày hết hạn',
+      'cvv': 'CVV',
+      'cvv_hint': '123',
+
+      'no_transaction_history': 'Chưa có lịch sử giao dịch',
+      'no_balance': 'Chưa có số dư',
+      'no_balance_description_1': 'Số dư của bạn hiện là',
+      "no_balance_description_2": "vui lòng nạp tiền vào ví.",
 
       ///Statuses
       'success': 'Thành công',
@@ -236,6 +265,8 @@ class AppTranslations extends Translations {
 
       'verified': 'Verified',
 
+      'currency': 'USD',
+
       ///Show
       'take_order': 'Take show',
       'arrived': 'Arrived',
@@ -284,6 +315,32 @@ class AppTranslations extends Translations {
 
       'conversation': 'Conversation',
       'type_a_message': 'Type a message...',
+
+      //account
+      'general_setting': 'General Setting',
+      'more_setting': 'More Setting',
+
+      'my_profile': 'My Profile',
+      'change_password': 'Change Password',
+      'notification_setting': 'Notification Setting',
+      'message_setting': 'Message Setting',
+      'support': 'Support',
+      'logout': 'Logout',
+
+      'my_balance_wallet': 'My Wallet Balance',
+      'add_balance': 'Add Balance',
+      'cardholder_name': 'Cardholder Name',
+      'cardholder_hint': 'Nguyen Van A',
+      'card_number': 'Card Number',
+      'card_number_hint': '1234 5678 9012 3456',
+      'expire_date': 'Expire Date',
+      'cvv': 'CVV',
+      'cvv_hint': '123',
+
+      'no_transaction_history': 'No Transaction History',
+      'no_balance': 'No Balance',
+      'no_balance_description_1': 'Your current balance is',
+      "no_balance_description_2": "please add balance to your wallet.",
 
       ///Statuses
       'success': 'Success',
