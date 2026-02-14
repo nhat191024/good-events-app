@@ -1,5 +1,4 @@
-import 'package:get/get.dart';
-
+import 'package:sukientotapp/core/utils/import/global.dart';
 import 'package:sukientotapp/core/utils/import/screens.dart';
 import 'package:sukientotapp/core/utils/import/binding.dart';
 
@@ -51,6 +50,16 @@ class Pages {
       name: Routes.clientHome,
       page: () => const ClientBottomNavigationView(),
       binding: ClientBottomNavigationBinding(),
+    ),
+
+    //Partner Detail
+    GetPage(
+      name: Routes.partnerDetail,
+      page: () => const PartnerDetailScreen(),
+      binding: PartnerDetailBinding(),
+      transition: Transition.cupertino,
+      transitionDuration: const Duration(milliseconds: 300),
+      curve: Curves.easeOut,
     ),
   ];
 }

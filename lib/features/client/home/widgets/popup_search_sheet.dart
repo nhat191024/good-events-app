@@ -13,7 +13,6 @@ class PopupPartnerSearchSheet extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    logger.i('this is partner categories: ${partnerCategories.toString()}');
     return Container(
           padding: EdgeInsets.only(top: 45),
           height: Get.height,
@@ -69,7 +68,7 @@ class PopupPartnerSearchSheet extends StatelessWidget {
         )
         .animate()
         .fadeIn(duration: 100.ms)
-        .slideY(duration: 800.ms, begin: 0.1, end: 0, curve: Curves.elasticOut);
+        .slideY(duration: 560.ms, begin: 0.1, end: 0, curve: Curves.elasticOut);
   }
 
   /// build partner category
@@ -122,24 +121,37 @@ class PartnerItem extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Column(
-      mainAxisAlignment: MainAxisAlignment.center,
-      crossAxisAlignment: CrossAxisAlignment.center,
-      children: [
-        ClipRRect(
-          borderRadius: BorderRadius.circular(10),
-          child: Image.network(partner.image, height: 70, width: 70, fit: BoxFit.cover),
-        ),
-        const SizedBox(height: 8),
-        Padding(
-          padding: EdgeInsetsGeometry.symmetric(horizontal: 16),
-          child: Text(
-            textAlign: TextAlign.center,
-            partner.name,
-            style: TextStyle(fontSize: 14, fontWeight: FontWeight.normal),
+    return GestureDetector(
+      onTap: () {
+        Get.toNamed(
+          Routes.partnerDetail,
+          arguments: {
+            'image': partner.image,
+            'name': partner.name,
+            'id': partner.id,
+            'category': partner.name,
+          },
+        );
+      },
+      child: Column(
+        mainAxisAlignment: MainAxisAlignment.center,
+        crossAxisAlignment: CrossAxisAlignment.center,
+        children: [
+          ClipRRect(
+            borderRadius: BorderRadius.circular(10),
+            child: Image.network(partner.image, height: 70, width: 70, fit: BoxFit.cover),
           ),
-        ),
-      ],
+          const SizedBox(height: 8),
+          Padding(
+            padding: EdgeInsetsGeometry.symmetric(horizontal: 16),
+            child: Text(
+              textAlign: TextAlign.center,
+              partner.name,
+              style: TextStyle(fontSize: 14, fontWeight: FontWeight.normal),
+            ),
+          ),
+        ],
+      ),
     );
   }
 }
