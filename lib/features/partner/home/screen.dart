@@ -1,4 +1,5 @@
 import 'package:fl_chart/fl_chart.dart';
+import 'package:flutter_animate/flutter_animate.dart';
 
 import 'package:sukientotapp/core/utils/import/global.dart';
 import 'package:sukientotapp/features/partner/home/controller.dart';
@@ -40,7 +41,10 @@ class HomeScreen extends GetView<HomeController> {
                   children: [
                     Text(
                       controller.name.value,
-                      style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
+                      style: TextStyle(
+                        fontSize: 20,
+                        fontWeight: FontWeight.bold,
+                      ),
                     ),
                     FBadge(
                       child: Text(
@@ -53,14 +57,14 @@ class HomeScreen extends GetView<HomeController> {
                   ],
                 ),
               ],
-            ),
+            ).animate().fadeIn(duration: 400.ms).slideX(begin: -0.1, end: 0),
             Row(
               children: [
                 LanguageSwitch(),
                 const SizedBox(width: 10),
                 const NotificationButton(hasNotification: true),
               ],
-            ),
+            ).animate().fadeIn(duration: 400.ms).slideX(begin: 0.1, end: 0),
           ],
         ),
       ),
@@ -70,17 +74,37 @@ class HomeScreen extends GetView<HomeController> {
           child: Column(
             children: [
               const SizedBox(height: 12),
-              const IncomePanel(),
+              const IncomePanel()
+                  .animate()
+                  .fadeIn(duration: 400.ms)
+                  .slideY(begin: 0.1, end: 0),
               const SizedBox(height: 4),
-              const QickActionsPanel(),
-              const BillCountPanel(),
+              const QickActionsPanel()
+                  .animate(delay: 100.ms)
+                  .fadeIn(duration: 400.ms)
+                  .slideY(begin: 0.1, end: 0),
+              const BillCountPanel()
+                  .animate(delay: 200.ms)
+                  .fadeIn(duration: 400.ms)
+                  .slideY(begin: 0.1, end: 0),
               const SizedBox(height: 8),
-              const NewReviewPanel(),
+              const NewReviewPanel()
+                  .animate(delay: 300.ms)
+                  .fadeIn(duration: 400.ms)
+                  .slideY(begin: 0.1, end: 0),
               const SizedBox(height: 4),
               IncomeChart(
-                spots: [FlSpot(0, 300000), FlSpot(1, 450000), FlSpot(2, 300000), FlSpot(3, 600000)],
-                unit: '₫',
-              ),
+                    spots: [
+                      FlSpot(0, 300000),
+                      FlSpot(1, 450000),
+                      FlSpot(2, 300000),
+                      FlSpot(3, 600000),
+                    ],
+                    unit: '₫',
+                  )
+                  .animate(delay: 400.ms)
+                  .fadeIn(duration: 400.ms)
+                  .slideY(begin: 0.1, end: 0),
             ],
           ),
         ),
