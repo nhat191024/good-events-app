@@ -12,28 +12,19 @@ class IntroContent extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Stack(
-      children: [
-        SafeArea(
-          bottom: false,
-          child: Expanded(
-            child: Column(
-              mainAxisAlignment: MainAxisAlignment.center,
-              crossAxisAlignment: CrossAxisAlignment.end,
-              children: [
-                Padding(
-                  padding: const EdgeInsets.only(right: 10, top: 5),
-                  child: LanguageSwitch(),
-                ),
-                IntroText(controller: controller),
-
-                /// or intro "side images"
-                IntroPeople(controller: controller),
-              ],
-            ),
-          ),
+    return Positioned.fill(
+      child: SafeArea(
+        bottom: false,
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          crossAxisAlignment: CrossAxisAlignment.end,
+          children: [
+            Padding(padding: const EdgeInsets.only(right: 10, top: 5), child: LanguageSwitch()),
+            IntroText(controller: controller),
+            IntroPeople(controller: controller),
+          ],
         ),
-      ],
+      ),
     );
   }
 }
