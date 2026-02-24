@@ -62,26 +62,33 @@ class NewShowScreen extends GetView<NewShowController> {
           ],
         ),
       ),
-      child: SingleChildScrollView(
-        padding: const EdgeInsets.only(top: 12, bottom: 20),
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            for (int i = 0; i < 3; i++)
-              Show(
-                code: '$i',
-                timestamp: '10 Giờ',
-                price: '10 VND',
-                clientName: 'Client $i',
-                category: 'Category $i',
-                event: 'Event $i',
-                date: '0${i + 1}-02-2026',
-                startTime: '10:00',
-                endTime: '12:00',
-                address: 'Address $i',
-                note: 'Note $i',
-              ),
-          ],
+      child: Obx(
+        () => ListView.builder(
+          controller: controller.scrollController,
+          padding: const EdgeInsets.only(top: 12, bottom: 100),
+          itemCount: controller.items.length + (controller.isLoadMore.value ? 1 : 0),
+          itemBuilder: (context, index) {
+            if (index == controller.items.length) {
+              return const Padding(
+                padding: EdgeInsets.all(16.0),
+                child: Center(child: CircularProgressIndicator()),
+              );
+            }
+            final i = controller.items[index];
+            return Show(
+              code: '$i',
+              timestamp: '10 Giờ',
+              price: '10 VND',
+              clientName: 'Client $i',
+              category: 'Category $i',
+              event: 'Event $i',
+              date: '0${(i % 9) + 1}-02-2026',
+              startTime: '10:00',
+              endTime: '12:00',
+              address: 'Address $i',
+              note: 'Note $i',
+            );
+          },
         ),
       ),
     );
