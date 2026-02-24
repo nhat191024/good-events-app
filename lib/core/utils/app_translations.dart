@@ -165,10 +165,14 @@ class AppTranslations extends Translations {
       'more_setting': 'Cài đặt khác',
 
       'my_profile': 'Hồ sơ của tôi',
+      'show_calendar': 'Lịch show',
+      'my_services': 'Dịch vụ của tôi',
+      'revenue_statistics': 'Thống kê doanh thu',
       'change_password': 'Đổi mật khẩu',
       'notification_setting': 'Cài đặt thông báo',
       'message_setting': 'Cài đặt tin nhắn',
-      'support': 'Hỗ trợ',
+      'report_problem': 'Báo cáo vấn đề',
+      'privacy_policy': 'Chính sách bảo mật',
       'logout': 'Đăng xuất',
 
       'my_balance_wallet': 'Số dư ví',
@@ -367,10 +371,14 @@ class AppTranslations extends Translations {
       'more_setting': 'More Setting',
 
       'my_profile': 'My Profile',
+      'show_calendar': 'Show Calendar',
+      'my_services': 'My Services',
+      'revenue_statistics': 'Revenue Statistics',
       'change_password': 'Change Password',
       'notification_setting': 'Notification Setting',
       'message_setting': 'Message Setting',
-      'support': 'Support',
+      'report_problem': 'Report a Problem',
+      'privacy_policy': 'Privacy Policy',
       'logout': 'Logout',
 
       'my_balance_wallet': 'My Wallet Balance',
