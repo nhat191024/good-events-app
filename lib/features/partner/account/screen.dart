@@ -106,6 +106,20 @@ class AccountScreen extends GetView<AccountController> {
                                 _buildListItem(context, 'my_profile'.tr, FIcons.user, () {
                                   // Get.toNamed(Routes.profileScreen);
                                 }),
+                                _buildListItem(context, 'show_calendar'.tr, FIcons.calendar1, () {
+                                  // Get.toNamed(Routes.profileScreen);
+                                }),
+                                _buildListItem(context, 'my_services'.tr, FIcons.briefcase, () {
+                                  // Get.toNamed(Routes.profileScreen);
+                                }),
+                                _buildListItem(
+                                  context,
+                                  'revenue_statistics'.tr,
+                                  FIcons.chartArea,
+                                  () {
+                                    // Get.toNamed(Routes.profileScreen);
+                                  },
+                                ),
                                 _buildListItem(
                                   context,
                                   'change_password'.tr,
@@ -145,10 +159,15 @@ class AccountScreen extends GetView<AccountController> {
                                 ),
                                 _buildListItem(
                                   context,
+                                  'report_problem'.tr,
+                                  FIcons.flag,
+                                  () {},
+                                ),
+                                _buildListItem(
+                                  context,
                                   'privacy_policy'.tr,
                                   FIcons.shieldCheck,
                                   () {},
-                                  isDisabled: true,
                                 ),
                                 const Divider(color: AppColors.dividers, thickness: 1),
                                 _buildListItem(
