@@ -65,35 +65,43 @@ class HomeScreen extends GetView<HomeController> {
           ],
         ),
       ),
-      child: SingleChildScrollView(
-        child: Padding(
-          padding: const EdgeInsets.symmetric(horizontal: 10),
-          child: Column(
-            children: [
-              const SizedBox(height: 12),
-              const IncomePanel().animate().fadeIn(duration: 400.ms).slideY(begin: 0.1, end: 0),
-              const SizedBox(height: 4),
-              QickActionsPanel()
-                  .animate(delay: 100.ms)
-                  .fadeIn(duration: 400.ms)
-                  .slideY(begin: 0.1, end: 0),
-              const BillCountPanel()
-                  .animate(delay: 200.ms)
-                  .fadeIn(duration: 400.ms)
-                  .slideY(begin: 0.1, end: 0),
-              const SizedBox(height: 8),
-              const NewReviewPanel()
-                  .animate(delay: 300.ms)
-                  .fadeIn(duration: 400.ms)
-                  .slideY(begin: 0.1, end: 0),
-              const SizedBox(height: 4),
-              IncomeChart(
-                spots: [FlSpot(0, 300000), FlSpot(1, 450000), FlSpot(2, 300000), FlSpot(3, 600000)],
-                unit: '₫',
-              ).animate(delay: 400.ms).fadeIn(duration: 400.ms).slideY(begin: 0.1, end: 0),
-            ],
+      child: CustomScrollView(
+        slivers: [
+          SliverFillRemaining(
+            hasScrollBody: false,
+            child: Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 12),
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  const IncomePanel().animate().fadeIn(duration: 400.ms).slideY(begin: 0.1, end: 0),
+                  QickActionsPanel()
+                      .animate(delay: 100.ms)
+                      .fadeIn(duration: 400.ms)
+                      .slideY(begin: 0.1, end: 0),
+                  const BillCountPanel()
+                      .animate(delay: 200.ms)
+                      .fadeIn(duration: 400.ms)
+                      .slideY(begin: 0.1, end: 0),
+                  const NewReviewPanel()
+                      .animate(delay: 300.ms)
+                      .fadeIn(duration: 400.ms)
+                      .slideY(begin: 0.1, end: 0),
+                  IncomeChart(
+                    spots: [
+                      FlSpot(0, 300000),
+                      FlSpot(1, 450000),
+                      FlSpot(2, 300000),
+                      FlSpot(3, 600000),
+                    ],
+                    unit: '₫',
+                  ).animate(delay: 400.ms).fadeIn(duration: 400.ms).slideY(begin: 0.1, end: 0),
+                  const SizedBox(height: 60),
+                ],
+              ),
+            ),
           ),
-        ),
+        ],
       ),
     );
   }
