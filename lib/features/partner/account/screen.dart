@@ -87,99 +87,101 @@ class AccountScreen extends GetView<AccountController> {
                             ),
                           ),
                           child: Padding(
-                            padding: const EdgeInsets.fromLTRB(0, 25, 0, 20),
-                            child: Column(
-                              mainAxisAlignment: MainAxisAlignment.start,
-                              crossAxisAlignment: CrossAxisAlignment.start,
-                              children: [
-                                Padding(
-                                  padding: const EdgeInsets.fromLTRB(20, 0, 20, 0),
-                                  child: Text(
-                                    'general_setting'.tr,
-                                    style: TextStyle(
-                                      color: context.fTheme.colors.mutedForeground,
-                                      fontWeight: FontWeight.bold,
-                                      fontSize: 16,
+                            padding: const EdgeInsets.fromLTRB(0, 25, 0, 60),
+                            child: SingleChildScrollView(
+                              child: Column(
+                                mainAxisAlignment: MainAxisAlignment.start,
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: [
+                                  Padding(
+                                    padding: const EdgeInsets.fromLTRB(20, 0, 20, 0),
+                                    child: Text(
+                                      'general_setting'.tr,
+                                      style: TextStyle(
+                                        color: context.fTheme.colors.mutedForeground,
+                                        fontWeight: FontWeight.bold,
+                                        fontSize: 16,
+                                      ),
                                     ),
                                   ),
-                                ),
-                                _buildListItem(context, 'my_profile'.tr, FIcons.user, () {
-                                  // Get.toNamed(Routes.profileScreen);
-                                }),
-                                _buildListItem(context, 'show_calendar'.tr, FIcons.calendar1, () {
-                                  // Get.toNamed(Routes.profileScreen);
-                                }),
-                                _buildListItem(context, 'my_services'.tr, FIcons.briefcase, () {
-                                  // Get.toNamed(Routes.profileScreen);
-                                }),
-                                _buildListItem(
-                                  context,
-                                  'revenue_statistics'.tr,
-                                  FIcons.chartArea,
-                                  () {
+                                  _buildListItem(context, 'my_profile'.tr, FIcons.user, () {
                                     // Get.toNamed(Routes.profileScreen);
-                                  },
-                                ),
-                                _buildListItem(
-                                  context,
-                                  'change_password'.tr,
-                                  FIcons.lockKeyholeOpen,
-                                  () {},
-                                ),
-                                const Divider(color: AppColors.dividers, thickness: 1),
-                                Padding(
-                                  padding: const EdgeInsets.fromLTRB(20, 20, 20, 0),
-                                  child: Text(
-                                    'more_setting'.tr,
-                                    style: TextStyle(
-                                      color: context.fTheme.colors.mutedForeground,
-                                      fontWeight: FontWeight.bold,
-                                      fontSize: 16,
+                                  }),
+                                  _buildListItem(context, 'show_calendar'.tr, FIcons.calendar1, () {
+                                    // Get.toNamed(Routes.profileScreen);
+                                  }),
+                                  _buildListItem(context, 'my_services'.tr, FIcons.briefcase, () {
+                                    // Get.toNamed(Routes.profileScreen);
+                                  }),
+                                  _buildListItem(
+                                    context,
+                                    'revenue_statistics'.tr,
+                                    FIcons.chartArea,
+                                    () {
+                                      // Get.toNamed(Routes.profileScreen);
+                                    },
+                                  ),
+                                  _buildListItem(
+                                    context,
+                                    'change_password'.tr,
+                                    FIcons.lockKeyholeOpen,
+                                    () {},
+                                  ),
+                                  const Divider(color: AppColors.dividers, thickness: 1),
+                                  Padding(
+                                    padding: const EdgeInsets.fromLTRB(20, 0, 20, 0),
+                                    child: Text(
+                                      'more_setting'.tr,
+                                      style: TextStyle(
+                                        color: context.fTheme.colors.mutedForeground,
+                                        fontWeight: FontWeight.bold,
+                                        fontSize: 16,
+                                      ),
                                     ),
                                   ),
-                                ),
-                                _buildListItem(context, 'notification_setting'.tr, FIcons.bell, () {
-                                  // Get.toNamed(Routes.notificationsSettingScreen);
-                                }),
-                                _buildListItem(
-                                  context,
-                                  'message_setting'.tr,
-                                  FIcons.messagesSquare,
-                                  () {
-                                    // Get.toNamed(Routes.messageSettingScreen);
-                                  },
-                                ),
-                                _buildListItem(
-                                  context,
-                                  'support'.tr,
-                                  FIcons.circleQuestionMark,
-                                  () {
-                                    // Get.toNamed(Routes.supportScreen);
-                                  },
-                                ),
-                                _buildListItem(
-                                  context,
-                                  'report_problem'.tr,
-                                  FIcons.flag,
-                                  () {},
-                                ),
-                                _buildListItem(
-                                  context,
-                                  'privacy_policy'.tr,
-                                  FIcons.shieldCheck,
-                                  () {},
-                                ),
-                                const Divider(color: AppColors.dividers, thickness: 1),
-                                _buildListItem(
-                                  context,
-                                  'logout'.tr,
-                                  FIcons.logOut,
-                                  iconColor: context.fTheme.colors.error,
-                                  () {
-                                    // Get.toNamed(Routes.logoutScreen);
-                                  },
-                                ),
-                              ],
+                                  _buildListItem(
+                                    context,
+                                    'notification_setting'.tr,
+                                    FIcons.bell,
+                                    () {
+                                      // Get.toNamed(Routes.notificationsSettingScreen);
+                                    },
+                                  ),
+                                  _buildListItem(
+                                    context,
+                                    'message_setting'.tr,
+                                    FIcons.messagesSquare,
+                                    () {
+                                      // Get.toNamed(Routes.messageSettingScreen);
+                                    },
+                                  ),
+                                  _buildListItem(
+                                    context,
+                                    'support'.tr,
+                                    FIcons.circleQuestionMark,
+                                    () {
+                                      // Get.toNamed(Routes.supportScreen);
+                                    },
+                                  ),
+                                  _buildListItem(context, 'report_problem'.tr, FIcons.flag, () {}),
+                                  _buildListItem(
+                                    context,
+                                    'privacy_policy'.tr,
+                                    FIcons.shieldCheck,
+                                    () {},
+                                  ),
+                                  const Divider(color: AppColors.dividers, thickness: 1),
+                                  _buildListItem(
+                                    context,
+                                    'logout'.tr,
+                                    FIcons.logOut,
+                                    iconColor: context.fTheme.colors.error,
+                                    () {
+                                      // Get.toNamed(Routes.logoutScreen);
+                                    },
+                                  ),
+                                ],
+                              ),
                             ),
                           ),
                         ),
