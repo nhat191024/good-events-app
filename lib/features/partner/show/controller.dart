@@ -44,6 +44,10 @@ class ShowController extends GetxController with GetSingleTickerProviderStateMix
     historyScrollController.addListener(_onHistoryScroll);
   }
 
+  void switchTab(int index) {
+    tabController.animateTo(index);
+  }
+
   void _onScroll() {
     if (scrollController.position.pixels >= scrollController.position.maxScrollExtent - 200 &&
         !isLoadMore.value) {
