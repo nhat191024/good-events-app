@@ -75,13 +75,6 @@ class Show extends StatelessWidget {
       decoration: BoxDecoration(
         color: context.fTheme.colors.muted,
         borderRadius: BorderRadius.circular(16),
-        boxShadow: [
-          BoxShadow(
-            color: context.fTheme.colors.foreground.withValues(alpha: 0.1),
-            blurRadius: 10,
-            offset: const Offset(0, 4),
-          ),
-        ],
       ),
       width: double.infinity,
       child: Column(
@@ -213,7 +206,7 @@ class Show extends StatelessWidget {
                 margin: const EdgeInsets.only(top: 12),
                 padding: const EdgeInsets.symmetric(vertical: 4, horizontal: 16),
                 decoration: BoxDecoration(
-                  color: context.fTheme.colors.border.withValues(alpha: 0.4),
+                  color: context.fTheme.colors.border.withValues(alpha: 0.5),
                   borderRadius: BorderRadius.only(
                     bottomLeft: Radius.circular(16),
                     bottomRight: Radius.circular(16),
