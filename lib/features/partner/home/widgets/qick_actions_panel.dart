@@ -1,7 +1,11 @@
 import 'package:sukientotapp/core/utils/import/global.dart';
+import 'package:sukientotapp/features/partner/bottom_navigation/controller.dart';
 
 class QickActionsPanel extends StatelessWidget {
-  const QickActionsPanel({super.key});
+  QickActionsPanel({super.key});
+
+  final PartnerBottomNavigationController _navController =
+      Get.find<PartnerBottomNavigationController>();
 
   @override
   Widget build(BuildContext context) {
@@ -14,10 +18,16 @@ class QickActionsPanel extends StatelessWidget {
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              _buildButtonItem(context, FIcons.calendars, 'calendar'),
-              _buildButtonItem(context, FIcons.calendarPlus, 'take_order'),
-              _buildButtonItem(context, FIcons.calendarRange, 'waiting'),
-              _buildButtonItem(context, FIcons.calendarCheck2, 'confirmed'),
+              _buildButtonItem(context, FIcons.calendars, 'calendar', null),
+              _buildButtonItem(context, FIcons.calendarPlus, 'take_order', () {
+                _navController.setIndex(2);
+              }),
+              _buildButtonItem(context, FIcons.calendarRange, 'waiting', () {
+                _navController.setIndex(1, setTab: 0);
+              }),
+              _buildButtonItem(context, FIcons.calendarCheck2, 'confirmed', () {
+                _navController.setIndex(1, setTab: 1);
+              }),
             ],
           ),
         ],
@@ -25,9 +35,14 @@ class QickActionsPanel extends StatelessWidget {
     );
   }
 
-  FTappable _buildButtonItem(BuildContext context, IconData icon, String label) {
+  FTappable _buildButtonItem(
+    BuildContext context,
+    IconData icon,
+    String label,
+    VoidCallback? onTap,
+  ) {
     return FTappable(
-      onPress: () {},
+      onPress: onTap,
       child: SizedBox(
         width: 60,
         child: Column(
