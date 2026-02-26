@@ -3,7 +3,7 @@ import 'package:flutter_animate/flutter_animate.dart';
 import 'package:sukientotapp/features/components/common/blog_card.dart';
 
 class ClientBlogPanel extends StatelessWidget {
-  const ClientBlogPanel({Key? key, required this.blogs}) : super(key: key);
+  const ClientBlogPanel({super.key, required this.blogs});
 
   final List<BlogCard> blogs;
 

@@ -1,11 +1,10 @@
 // this will import the QuickActionPanel with a warpper ClientQuickActionPanel
 
-import 'package:flutter/widgets.dart';
 import 'package:flutter_animate/flutter_animate.dart';
 import 'package:sukientotapp/core/utils/import/global.dart';
 
 class ClientQuickActionPanel extends StatelessWidget {
-  const ClientQuickActionPanel({Key? key}) : super(key: key);
+  const ClientQuickActionPanel({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -44,10 +43,7 @@ class ClientQuickActionPanel extends StatelessWidget {
 }
 
 class _QuickActionPanel extends StatelessWidget {
-  const _QuickActionPanel({
-    Key? key,
-    required this.items,
-  }) : super(key: key);
+  const _QuickActionPanel({super.key, required this.items});
 
   final List<_QuickActionItem> items;
 
@@ -113,11 +109,7 @@ class _QuickActionPanel extends StatelessWidget {
               label.tr,
               maxLines: 2,
               textAlign: TextAlign.center,
-              style: TextStyle(
-                color: Colors.black54,
-                fontSize: 14,
-                fontWeight: FontWeight.bold,
-              ),
+              style: TextStyle(color: Colors.black54, fontSize: 14, fontWeight: FontWeight.bold),
             ),
           ],
         ),
