@@ -1,4 +1,3 @@
-import 'package:intl/intl.dart';
 import 'package:sukientotapp/core/utils/import/global.dart';
 import '../../controller.dart';
 

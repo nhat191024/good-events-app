@@ -2,7 +2,6 @@ import 'package:sukientotapp/core/utils/import/global.dart';
 import 'package:sukientotapp/features/components/button/plus.dart';
 import '../../controller.dart';
 import 'wallet_empty_state.dart';
-import 'transaction_history.dart';
 import 'add_balance_sheet.dart';
 
 class WalletBottomSheet extends StatelessWidget {
