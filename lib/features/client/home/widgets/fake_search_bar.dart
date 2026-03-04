@@ -1,7 +1,6 @@
 import 'dart:async';
 
 import 'package:flutter_animate/flutter_animate.dart';
-// Import GetX for RxString and Obx
 import 'package:sukientotapp/core/utils/import/global.dart';
 
 class FakeSearchBar extends StatefulWidget {

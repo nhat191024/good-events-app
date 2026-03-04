@@ -2,11 +2,26 @@
 
 All notable changes to this project will be documented in this file.
 
-## [v1.4.5+6]
+## [v1.6.1+9]
 
 - Add registration screen and features
 - Add user verify screen and features
 - Enforces email or phone number verification
+
+## [v1.5.2+8]
+
+- Update function for quick action button in partner home
+- Add more items into list in partner account screen
+- Update layout in partner account screen
+
+## [v1.4.2+7]
+
+- Update android splash icon bg color
+- Update app luancher icon
+
+## [v1.4.1+6]
+
+- Update app label
 
 ## [v1.4.0+5]
 
