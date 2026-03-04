@@ -37,6 +37,54 @@ class AuthProvider {
     }
   }
 
+  /// Client Registration API call
+  /// POST /register
+  Future<Map<String, dynamic>> registerClient(Map<String, dynamic> data) async {
+    try {
+      final response = await _apiService.dio.post(AppUrl.registerClient, data: data);
+      if (response.statusCode == 200 || response.statusCode == 201) {
+        return response.data as Map<String, dynamic>;
+      } else {
+        throw Exception('Registration failed with status: ${response.statusCode}');
+      }
+    } on DioException catch (e) {
+      logger.e('[AuthProvider] [registerClient] DioException: ${e.message}');
+      if (e.response != null) {
+        final errorMessage = e.response?.data['message'] ?? 'Registration failed';
+        throw Exception(errorMessage);
+      } else {
+        throw Exception('Không thể kết nối đến server. Vui lòng kiểm tra mạng.');
+      }
+    } catch (e) {
+      logger.e('[AuthProvider] [registerClient] Unknown error: $e');
+      throw Exception('Đã xảy ra lỗi: $e');
+    }
+  }
+
+  /// Partner Registration API call
+  /// POST /register/partner
+  Future<Map<String, dynamic>> registerPartner(Map<String, dynamic> data) async {
+    try {
+      final response = await _apiService.dio.post(AppUrl.registerPartner, data: data);
+      if (response.statusCode == 200 || response.statusCode == 201) {
+        return response.data as Map<String, dynamic>;
+      } else {
+        throw Exception('Registration failed with status: ${response.statusCode}');
+      }
+    } on DioException catch (e) {
+      logger.e('[AuthProvider] [registerPartner] DioException: ${e.message}');
+      if (e.response != null) {
+        final errorMessage = e.response?.data['message'] ?? 'Registration failed';
+        throw Exception(errorMessage);
+      } else {
+        throw Exception('Không thể kết nối đến server. Vui lòng kiểm tra mạng.');
+      }
+    } catch (e) {
+      logger.e('[AuthProvider] [registerPartner] Unknown error: $e');
+      throw Exception('Đã xảy ra lỗi: $e');
+    }
+  }
+
   /// Check Token Validity API call
   /// GET /check-token
   Future<bool> checkToken() async {
