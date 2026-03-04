@@ -7,6 +7,8 @@ abstract class Routes {
   static const chooseYoSideScreen = '/choose-yo-side';
   static const guestHomeScreen = '/guest/home';
   static const loginScreen = '/login';
+  static const registerScreen = '/register';
+  static const userVerifyScreen = '/verify';
   static const introduction = '/introduction';
 
   //Required Auth
