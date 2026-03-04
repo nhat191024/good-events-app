@@ -34,6 +34,50 @@ class AuthRepositoryImpl implements AuthRepository {
   }
 
   @override
+  Future<UserModel> registerClient(Map<String, dynamic> data) async {
+    try {
+      final response = await _authProvider.registerClient(data);
+
+      final token = response['token'] as String?;
+      if (token != null) {
+        StorageService.writeStringData(key: LocalStorageKeys.token, value: token);
+        logger.i('[AuthRepositoryImpl] [registerClient] Token saved to storage');
+      }
+
+      final user = UserModel.fromJson(response);
+      StorageService.writeMapData(key: LocalStorageKeys.user, value: user.toJson());
+
+      logger.i('[AuthRepositoryImpl] [registerClient] Registration successful for: ${user.email}');
+      return user;
+    } catch (e) {
+      logger.e('[AuthRepositoryImpl] [registerClient] Failed: $e');
+      rethrow;
+    }
+  }
+
+  @override
+  Future<UserModel> registerPartner(Map<String, dynamic> data) async {
+    try {
+      final response = await _authProvider.registerPartner(data);
+
+      final token = response['token'] as String?;
+      if (token != null) {
+        StorageService.writeStringData(key: LocalStorageKeys.token, value: token);
+        logger.i('[AuthRepositoryImpl] [registerPartner] Token saved to storage');
+      }
+
+      final user = UserModel.fromJson(response);
+      StorageService.writeMapData(key: LocalStorageKeys.user, value: user.toJson());
+
+      logger.i('[AuthRepositoryImpl] [registerPartner] Registration successful for: ${user.email}');
+      return user;
+    } catch (e) {
+      logger.e('[AuthRepositoryImpl] [registerPartner] Failed: $e');
+      rethrow;
+    }
+  }
+
+  @override
   Future<bool> checkToken() async {
     try {
       logger.i('[AuthRepositoryImpl] [checkToken] Checking token validity');
