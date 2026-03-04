@@ -1,4 +1,5 @@
 import 'package:sukientotapp/core/utils/import/global.dart';
+import 'package:sukientotapp/features/common/home/controller.dart';
 
 enum VerifyMethod { email, zalo }
 
@@ -15,6 +16,9 @@ class UserVerifyController extends GetxController {
   late final String maskedPhone;
 
   final isLoading = false.obs;
+
+  // check client or partner
+  bool get isClientUser => Get.find<GuestHomeController>().userType.value;
 
   @override
   void onInit() {
@@ -50,6 +54,11 @@ class UserVerifyController extends GetxController {
     }
     // TODO: implement real OTP verification API call
     Get.snackbar('success'.tr, 'verify_success'.tr);
+
+    /// this is just for testing
+    Get.offNamed(
+      isClientUser ? Routes.clientHome : Routes.partnerHome,
+    );
   }
 
   Future<void> resendOtp() async {
