@@ -38,7 +38,9 @@ class UserVerifyController extends GetxController {
     selectedMethod.value = method;
   }
 
-  void goToOtpStep() {
+  Future<void> goToOtpStep() async {
+    // trigger the initial OTP send BEFORE switching to step 2
+    await _sendOtp();
     step.value = 2;
   }
 
@@ -52,18 +54,51 @@ class UserVerifyController extends GetxController {
       Get.snackbar('error'.tr, 'otp_invalid'.tr);
       return;
     }
-    // TODO: implement real OTP verification API call
-    Get.snackbar('success'.tr, 'verify_success'.tr);
 
-    /// this is just for testing
-    Get.offAllNamed(
-      isClientUser ? Routes.clientHome : Routes.partnerHome,
-    );
+    isLoading.value = true;
+    try {
+      // TODO: call the verify OTP API
+      //   await _authRepository.verifyOtp(
+      //     method: selectedMethod.value == VerifyMethod.email ? 'email' : 'phone',
+      //     otp: otpController.text.trim(),
+      //   );
+
+      Get.snackbar('success'.tr, 'verify_success'.tr);
+      Get.offAllNamed(isClientUser ? Routes.clientHome : Routes.partnerHome);
+    } catch (e) {
+      Get.snackbar('error'.tr, e.toString());
+    } finally {
+      isLoading.value = false;
+    }
   }
 
   Future<void> resendOtp() async {
-    // TODO: implement resend OTP API call
+    await _sendOtp();
     Get.snackbar('success'.tr, 'otp_resent'.tr);
+  }
+
+  /// decides which API to call based on [selectedMethod].
+  /// call this when entering step 2 (goToOtpStep) or resending (resendOtp).
+  Future<void> _sendOtp() async {
+    isLoading.value = true;
+    try {
+      if (selectedMethod.value == VerifyMethod.email) {
+        // TODO: call send-OTP-via-email API
+        //   await _authRepository.sendOtpEmail();
+        Get.snackbar('success'.tr, 'otp_sent'.tr);
+        logger.d('[UserVerifyController] Sending OTP via EMAIL...');
+      } else {
+        // TODO: call send-OTP-via-Zalo/SMS API
+        //   await _authRepository.sendOtpPhone();
+        Get.snackbar('success'.tr, 'otp_sent'.tr);
+        logger.d('[UserVerifyController] Sending OTP via Zalo/SMS...');
+      }
+    } catch (e) {
+      Get.snackbar('error'.tr, e.toString());
+      rethrow; // prevent moving to step 2 if the send failed
+    } finally {
+      isLoading.value = false;
+    }
   }
 
   void logout() {
