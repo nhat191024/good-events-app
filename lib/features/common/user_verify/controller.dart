@@ -56,7 +56,7 @@ class UserVerifyController extends GetxController {
     Get.snackbar('success'.tr, 'verify_success'.tr);
 
     /// this is just for testing
-    Get.offNamed(
+    Get.offAllNamed(
       isClientUser ? Routes.clientHome : Routes.partnerHome,
     );
   }
