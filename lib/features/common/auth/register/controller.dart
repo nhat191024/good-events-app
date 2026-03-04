@@ -160,7 +160,8 @@ class RegisterController extends GetxController {
         await _authRepository.registerPartner(payload);
       }
 
-      Get.snackbar('success'.tr, 'register_successful'.tr);
+      // Get.snackbar('success'.tr, 'register_successful'.tr);
+      // fake delay
       await Future.delayed(const Duration(milliseconds: 800));
 
       final email = emailController.text.trim();
