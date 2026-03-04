@@ -6,7 +6,6 @@ All notable changes to this project will be documented in this file.
 
 - Add registration screen and features
 - Add user verify screen and features
-- Enforces email or phone number verification
 
 ## [v1.5.2+8]
 
