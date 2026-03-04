@@ -74,6 +74,9 @@ class RegisterScreen extends GetView<RegisterController> {
               ],
 
               FTextFormField.password(
+                onTapOutside: (event) {
+                  FocusManager.instance.primaryFocus?.unfocus();
+                },
                 control: FTextFieldControl.managed(controller: controller.passwordController),
                 label: Text('password'.tr),
                 hint: 'password_hint'.tr,
@@ -84,6 +87,10 @@ class RegisterScreen extends GetView<RegisterController> {
               const SizedBox(height: 16),
 
               FTextFormField.password(
+                onTapOutside: (event) {
+                  FocusManager.instance.primaryFocus?.unfocus();
+                },
+                autofocus: false,
                 control: FTextFieldControl.managed(
                   controller: controller.confirmPasswordController,
                 ),
