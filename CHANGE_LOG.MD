@@ -2,6 +2,12 @@
 
 All notable changes to this project will be documented in this file.
 
+## [v1.4.5+6]
+
+- Add registration screen and features
+- Add user verify screen and features
+- Enforces email or phone number verification
+
 ## [v1.4.0+5]
 
 - Update partner show management UI
