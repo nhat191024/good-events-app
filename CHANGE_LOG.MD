@@ -2,6 +2,11 @@
 
 All notable changes to this project will be documented in this file.
 
+## [v1.6.1+9]
+
+- Add registration screen and features
+- Add user verify screen and features
+
 ## [v1.5.2+8]
 
 - Update function for quick action button in partner home

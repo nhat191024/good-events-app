@@ -128,9 +128,7 @@ class GuestHomeScreen extends GetView<GuestHomeController> {
               children: [
                 CustomButtonPlus(
                   btnText: 'register'.tr,
-                  onTap: () {
-                    Get.snackbar('notification'.tr, 'in_dev'.tr);
-                  },
+                  onTap: () => Get.toNamed(Routes.registerScreen),
                   width: Get.width * 0.4,
                   color: Colors.white,
                   textColor: controller.userType.value ? AppColors.amber500 : AppColors.primary,

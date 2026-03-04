@@ -1,6 +1,8 @@
 import 'package:sukientotapp/core/utils/import/global.dart';
 import 'package:sukientotapp/core/utils/import/screens.dart';
 import 'package:sukientotapp/core/utils/import/binding.dart';
+import 'package:sukientotapp/features/common/auth/register/binding.dart';
+import 'package:sukientotapp/features/common/auth/register/screen.dart';
 
 part 'routes.dart';
 
@@ -15,20 +17,37 @@ class Pages {
       page: () => const SplashScreen(),
       binding: SplashBinding(),
     ),
+
     GetPage(
       name: Routes.chooseYoSideScreen,
       page: () => const ChooseYoSideScreen(),
       binding: ChooseYoSideBinding(),
     ),
+
     GetPage(
       name: Routes.introduction,
       page: () => const IntroductionScreen(),
       binding: IntroductionBinding(),
     ),
+
     GetPage(
       name: Routes.loginScreen,
       page: () => const LoginScreen(),
       binding: LoginBinding(),
+    ),
+
+    GetPage(
+      name: Routes.registerScreen,
+      page: () => const RegisterScreen(),
+      binding: RegisterBinding(),
+    ),
+
+    GetPage(
+      name: Routes.userVerifyScreen,
+      page: () => const UserVerifyScreen(),
+      binding: UserVerifyBinding(),
+      transition: Transition.rightToLeft,
+      transitionDuration: const Duration(milliseconds: 300),
     ),
 
     //Guest
