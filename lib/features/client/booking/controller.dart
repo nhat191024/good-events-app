@@ -134,12 +134,4 @@ class ClientBookingController extends GetxController {
 
     isSubmitting.value = false;
   }
-
-  @override
-  void onClose() {
-    customEventController.dispose();
-    noteController.dispose();
-    addressDetailController.dispose();
-    super.onClose();
-  }
 }
