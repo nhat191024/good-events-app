@@ -3,7 +3,6 @@ import 'package:sukientotapp/domain/repositories/auth_repository.dart';
 import 'package:sukientotapp/domain/repositories/location_repository.dart';
 import 'package:sukientotapp/features/common/home/controller.dart';
 import 'package:sukientotapp/data/models/location_model.dart';
-import 'package:sukientotapp/core/utils/logger.dart';
 
 class RegisterController extends GetxController {
   final AuthRepository _authRepository;
@@ -79,10 +78,7 @@ class RegisterController extends GetxController {
       provinces.assignAll(data);
     } catch (e) {
       logger.e('[RegisterController] Error fetching provinces: $e');
-      Get.snackbar(
-        'error'.tr,
-        'failed_to_load_provinces'.tr,
-      );
+      Get.snackbar('error'.tr, 'failed_to_load_provinces'.tr);
     } finally {
       isFetchingProvinces.value = false;
     }
@@ -171,10 +167,7 @@ class RegisterController extends GetxController {
 
       Get.offNamed(
         Routes.userVerifyScreen,
-        arguments: {
-          'masked_email': maskedEmail,
-          'masked_phone': maskedPhone,
-        },
+        arguments: {'masked_email': maskedEmail, 'masked_phone': maskedPhone},
       );
     } catch (e) {
       logger.e('[RegisterController] Registration failed: $e');
