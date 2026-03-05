@@ -5,9 +5,7 @@ import 'package:sukientotapp/core/utils/import/global.dart';
 import 'package:sukientotapp/features/client/bottom_navigation/controller.dart';
 
 import 'package:sukientotapp/features/client/home/screen.dart';
-import 'package:sukientotapp/features/client/booking/screen.dart';
 import 'package:sukientotapp/features/client/order/screen.dart';
-import 'package:sukientotapp/features/client/partner_detail/screen.dart';
 
 class ClientBottomNavigationView extends GetView<ClientBottomNavigationController> {
   const ClientBottomNavigationView({super.key});
