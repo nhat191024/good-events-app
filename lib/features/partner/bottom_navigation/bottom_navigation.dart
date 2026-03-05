@@ -7,7 +7,7 @@ import 'package:sukientotapp/features/partner/bottom_navigation/controller.dart'
 import 'package:sukientotapp/features/partner/home/screen.dart';
 import 'package:sukientotapp/features/partner/show/screen.dart';
 import 'package:sukientotapp/features/partner/new_show/screen.dart';
-import 'package:sukientotapp/features/partner/message/screen.dart';
+import 'package:sukientotapp/features/common/message/screen.dart';
 import 'package:sukientotapp/features/partner/account/screen.dart';
 
 class PartnerBottomNavigationView extends GetView<PartnerBottomNavigationController> {

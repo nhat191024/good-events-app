@@ -1,7 +1,7 @@
 import 'package:sukientotapp/core/utils/import/global.dart';
 
 import 'controller.dart';
-import './widget/header.dart';
+import 'widget/header.dart';
 import 'detail_screen.dart';
 
 class MessageScreen extends GetView<MessageController> {
