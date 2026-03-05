@@ -6,6 +6,8 @@ import 'package:sukientotapp/features/client/bottom_navigation/controller.dart';
 
 import 'package:sukientotapp/features/client/home/screen.dart';
 import 'package:sukientotapp/features/client/order/screen.dart';
+import 'package:sukientotapp/features/common/message/screen.dart';
+
 
 class ClientBottomNavigationView extends GetView<ClientBottomNavigationController> {
   const ClientBottomNavigationView({super.key});
@@ -72,7 +74,7 @@ class ClientBottomNavigationView extends GetView<ClientBottomNavigationControlle
       case 1:
         return const ClientOrderScreen();
       case 2:
-        return const Placeholder();
+        return const MessageScreen();
       case 3:
         return const Placeholder();
       default:
