@@ -78,5 +78,11 @@ class Pages {
       transitionDuration: const Duration(milliseconds: 300),
       curve: Curves.easeOut,
     ),
+
+    GetPage(
+      name: Routes.clientBooking,
+      page: () => const ClientBooking(),
+      binding: ClientBookingBinding(),
+    ),
   ];
 }

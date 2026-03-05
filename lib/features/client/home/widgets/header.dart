@@ -44,6 +44,6 @@ class ClientHomeHeader extends StatelessWidget {
           ],
         ),
       ],
-    ).animate(delay: 600.ms).slideY(begin: -1, end: 0, duration: 500.ms, curve: Curves.elasticOut);
+    ).animate(delay: 50.ms).slideY(begin: -1, end: 0, duration: 500.ms, curve: Curves.elasticOut);
   }
 }
