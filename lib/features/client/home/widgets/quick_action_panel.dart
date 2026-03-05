@@ -43,7 +43,7 @@ class ClientQuickActionPanel extends StatelessWidget {
 }
 
 class _QuickActionPanel extends StatelessWidget {
-  const _QuickActionPanel({super.key, required this.items});
+  const _QuickActionPanel({required this.items});
 
   final List<_QuickActionItem> items;
 

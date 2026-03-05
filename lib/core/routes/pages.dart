@@ -1,8 +1,6 @@
 import 'package:sukientotapp/core/utils/import/global.dart';
 import 'package:sukientotapp/core/utils/import/screens.dart';
 import 'package:sukientotapp/core/utils/import/binding.dart';
-import 'package:sukientotapp/features/common/auth/register/binding.dart';
-import 'package:sukientotapp/features/common/auth/register/screen.dart';
 
 part 'routes.dart';
 
