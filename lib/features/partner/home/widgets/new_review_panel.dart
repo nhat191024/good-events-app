@@ -1,7 +1,14 @@
 import 'package:sukientotapp/core/utils/import/global.dart';
 
 class NewReviewPanel extends StatelessWidget {
-  const NewReviewPanel({super.key});
+  final int recentReviewsCount;
+  final Map<String, String> recentReviewsAvatars;
+
+  const NewReviewPanel({
+    super.key,
+    required this.recentReviewsCount,
+    required this.recentReviewsAvatars,
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -28,7 +35,7 @@ class NewReviewPanel extends StatelessWidget {
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 Text(
-                  'new_rate'.trParams({'rates': '25+'}),
+                  'new_rate'.trParams({'rates': recentReviewsCount > 99 ? '99+' : recentReviewsCount.toString()}),
                   style: const TextStyle(
                     color: Colors.black,
                     fontSize: 15,
@@ -48,43 +55,32 @@ class NewReviewPanel extends StatelessWidget {
             ),
             // if (controller.reviewers.isNotEmpty) ...[
             const Spacer(),
-            // width is calculated to fit 5 items (4 overlaps + base avatar)
-            SizedBox(
-              width: 38 + (22 * 4),
-              height: 38,
-              child: Stack(
-                clipBehavior: Clip.none,
-                children: _buildAvatarList(),
-              ),
-            ),
-            // ] else ...[
-            //TODO: handle empty state when have data
-            //   const Spacer(),
-            //   const _AvatarWidget(isLast: true),
-            // ],
+            if (recentReviewsAvatars.isNotEmpty)
+              SizedBox(
+                width: 38 + (22.0 * (recentReviewsAvatars.length < 4 ? recentReviewsAvatars.length : 4)),
+                height: 38,
+                child: Stack(
+                  clipBehavior: Clip.none,
+                  children: _buildAvatarList(),
+                ),
+              )
+            else
+              const _AvatarWidget(isLast: true),
           ],
         ),
       ),
     );
   }
 
-  // NOTE: For showcase purpose we use fake data here.
-  // Controller references are commented out / removed.
   List<Widget> _buildAvatarList() {
-    final fakeReviewers = [
-      'https://i.pravatar.cc/150?img=12',
-      'https://i.pravatar.cc/150?img=5',
-      '', // empty -> show placeholder icon
-      'https://i.pravatar.cc/150?img=8',
-      'https://i.pravatar.cc/150?img=20',
-    ];
+    final avatarUrls = recentReviewsAvatars.values.toList();
 
     List<Widget> avatars = [];
-    final reviewerCount = fakeReviewers.length;
+    final reviewerCount = avatarUrls.length;
     final maxDisplayCount = 4;
 
     for (var i = 0; i < maxDisplayCount; i++) {
-      if (i == maxDisplayCount - 1) {
+      if (i == maxDisplayCount - 1 && reviewerCount >= maxDisplayCount) {
         final remaining = reviewerCount - (maxDisplayCount - 1);
         avatars.add(
           Positioned(
@@ -93,7 +89,7 @@ class NewReviewPanel extends StatelessWidget {
           ),
         );
       } else if (i < reviewerCount) {
-        final reviewerAvatar = fakeReviewers[i];
+        final reviewerAvatar = avatarUrls[i];
         avatars.add(
           Positioned(
             left: i * 22.0,
@@ -105,12 +101,14 @@ class NewReviewPanel extends StatelessWidget {
       }
     }
 
-    avatars.add(
-      Positioned(
-        left: maxDisplayCount * 22.0,
-        child: const _MoreAvatarButton(),
-      ),
-    );
+    if (reviewerCount > 0) {
+      avatars.add(
+        Positioned(
+          left: (avatars.length < maxDisplayCount ? avatars.length : maxDisplayCount) * 22.0,
+          child: const _MoreAvatarButton(),
+        ),
+      );
+    }
 
     return avatars;
   }
