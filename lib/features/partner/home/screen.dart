@@ -54,7 +54,7 @@ class HomeScreen extends GetView<HomeController> {
                           child: Text(
                             'verified'.tr,
                             style: context.typography.xs.copyWith(
-                              color: context.fTheme.colors.foreground,
+                              color: context.fTheme.colors.primaryForeground,
                             ),
                           ),
                         ),
