@@ -165,6 +165,7 @@ class IncomeChart extends StatelessWidget {
         LineChartBarData(
           spots: spots,
           isCurved: true,
+          preventCurveOverShooting: true,
           gradient: LinearGradient(colors: _gradientColors),
           barWidth: 4,
           isStrokeCapRound: true,
