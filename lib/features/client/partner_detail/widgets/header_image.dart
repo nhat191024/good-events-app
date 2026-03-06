@@ -15,11 +15,14 @@ class PartnerHeaderImage extends StatelessWidget {
         height: 400,
         decoration: BoxDecoration(color: Colors.grey[100]),
         child: imageUrl.isEmpty
-            ? const Center(child: Icon(Icons.image, size: 50, color: Colors.grey))
+            ? const Center(
+                child: Icon(Icons.image, size: 50, color: Colors.grey),
+              )
             : CachedNetworkImage(
                 imageUrl: imageUrl,
                 fit: BoxFit.contain,
-                placeholder: (context, url) => const Center(child: CircularProgressIndicator()),
+                placeholder: (context, url) =>
+                    const Center(child: CircularProgressIndicator()),
                 errorWidget: (context, url, error) =>
                     const Center(child: Icon(Icons.error, color: Colors.red)),
               ),

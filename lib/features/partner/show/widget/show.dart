@@ -110,8 +110,11 @@ class Show extends StatelessWidget {
                     CustomBadge(
                       text: statusStyles[currentStatus]?['label'],
                       backgroundColor:
-                          statusStyles[currentStatus]?['bg'] ?? const Color(0xFFF3F4F6),
-                      textColor: statusStyles[currentStatus]?['text'] ?? const Color(0xFF374151),
+                          statusStyles[currentStatus]?['bg'] ??
+                          const Color(0xFFF3F4F6),
+                      textColor:
+                          statusStyles[currentStatus]?['text'] ??
+                          const Color(0xFF374151),
                     ),
                   ],
                 ),
@@ -127,12 +130,21 @@ class Show extends StatelessWidget {
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     Expanded(
-                      child: _buildLineItem(context, FIcons.calendarDays, 'date'.tr, '16/2/2026'),
+                      child: _buildLineItem(
+                        context,
+                        FIcons.calendarDays,
+                        'date'.tr,
+                        '16/2/2026',
+                      ),
                     ),
                     Expanded(
                       child: Row(
                         children: [
-                          Icon(FIcons.clock, size: 12, color: context.fTheme.colors.foreground),
+                          Icon(
+                            FIcons.clock,
+                            size: 12,
+                            color: context.fTheme.colors.foreground,
+                          ),
                           const SizedBox(width: 4),
                           RichText(
                             text: TextSpan(
@@ -204,7 +216,10 @@ class Show extends StatelessWidget {
                 width: double.infinity,
 
                 margin: const EdgeInsets.only(top: 12),
-                padding: const EdgeInsets.symmetric(vertical: 4, horizontal: 16),
+                padding: const EdgeInsets.symmetric(
+                  vertical: 4,
+                  horizontal: 16,
+                ),
                 decoration: BoxDecoration(
                   color: context.fTheme.colors.border.withValues(alpha: 0.5),
                   borderRadius: BorderRadius.only(
@@ -214,7 +229,8 @@ class Show extends StatelessWidget {
                 ),
                 child: Column(
                   children: [
-                    if (currentStatus == 'confirmed' || currentStatus == 'in_job')
+                    if (currentStatus == 'confirmed' ||
+                        currentStatus == 'in_job')
                       Row(
                         children: [
                           Expanded(
@@ -255,7 +271,11 @@ class Show extends StatelessWidget {
                             fontWeight: FontWeight.w400,
                           ),
                         ),
-                        Icon(FIcons.arrowRight, color: context.fTheme.colors.primary, size: 16),
+                        Icon(
+                          FIcons.arrowRight,
+                          color: context.fTheme.colors.primary,
+                          size: 16,
+                        ),
                       ],
                     ),
                   ],
@@ -299,7 +319,9 @@ class Show extends StatelessWidget {
                         ? context.fTheme.colors.primary
                         : context.fTheme.colors.foreground,
                   ),
-                  recognizer: onTap != null ? (TapGestureRecognizer()..onTap = onTap) : null,
+                  recognizer: onTap != null
+                      ? (TapGestureRecognizer()..onTap = onTap)
+                      : null,
                 ),
               ],
             ),

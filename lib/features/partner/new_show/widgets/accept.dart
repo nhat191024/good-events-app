@@ -17,7 +17,9 @@ class Accept extends StatelessWidget {
         borderRadius: const BorderRadius.vertical(top: Radius.circular(16)),
       ),
       child: ConstrainedBox(
-        constraints: BoxConstraints(maxHeight: MediaQuery.of(context).size.height * 0.75),
+        constraints: BoxConstraints(
+          maxHeight: MediaQuery.of(context).size.height * 0.75,
+        ),
         child: SingleChildScrollView(
           physics: const BouncingScrollPhysics(),
           child: Column(
@@ -26,27 +28,31 @@ class Accept extends StatelessWidget {
             children: [
               Text(
                 'price_quote'.tr,
-                style: FTheme.of(context).typography.xl.copyWith(fontWeight: FontWeight.bold),
+                style: FTheme.of(
+                  context,
+                ).typography.xl.copyWith(fontWeight: FontWeight.bold),
               ),
               Text(
                 'price_quote_for_show'.trParams({'code': code}),
-                style: FTheme.of(context).typography.base.copyWith(fontWeight: FontWeight.w500),
+                style: FTheme.of(
+                  context,
+                ).typography.base.copyWith(fontWeight: FontWeight.w500),
               ),
               Column(
                 children: [
                   const SizedBox(height: 16),
                   TextField(
                     decoration: InputDecoration(
-                      border: OutlineInputBorder(borderRadius: BorderRadius.circular(10)),
+                      border: OutlineInputBorder(
+                        borderRadius: BorderRadius.circular(10),
+                      ),
                       hintText: 'input_price_quote'.tr,
                     ),
                     keyboardType: TextInputType.number,
                   ),
                   const SizedBox(height: 16),
                   CustomButtonPlus(
-                    onTap: () {
-
-                    },
+                    onTap: () {},
                     btnText: 'apply_for_show'.tr,
                     textSize: 14,
                     fontWeight: FontWeight.w600,

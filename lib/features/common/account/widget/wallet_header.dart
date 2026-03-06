@@ -9,7 +9,9 @@ class WalletHeader extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Stack(children: [_buildHeaderContainer(context), _buildHeaderContent(context)]);
+    return Stack(
+      children: [_buildHeaderContainer(context), _buildHeaderContent(context)],
+    );
   }
 
   Widget _buildHeaderContainer(BuildContext context) {
@@ -50,9 +52,16 @@ class WalletHeader extends StatelessWidget {
   Widget _buildWalletIcon(BuildContext context) {
     return Container(
       margin: const EdgeInsets.only(right: 10),
-      decoration: const BoxDecoration(color: Colors.white, shape: BoxShape.circle),
+      decoration: const BoxDecoration(
+        color: Colors.white,
+        shape: BoxShape.circle,
+      ),
       padding: const EdgeInsets.all(12),
-      child: Icon(FIcons.wallet, color: context.fTheme.colors.primary, size: 28),
+      child: Icon(
+        FIcons.wallet,
+        color: context.fTheme.colors.primary,
+        size: 28,
+      ),
     );
   }
 
@@ -72,7 +81,11 @@ class WalletHeader extends StatelessWidget {
         const SizedBox(height: 4),
         Text(
           controller.formatPrice(controller.balance.value),
-          style: const TextStyle(color: AppColors.white, fontSize: 18, fontWeight: FontWeight.bold),
+          style: const TextStyle(
+            color: AppColors.white,
+            fontSize: 18,
+            fontWeight: FontWeight.bold,
+          ),
         ),
       ],
     );

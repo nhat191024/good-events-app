@@ -38,12 +38,16 @@ class WalletEmptyState extends StatelessWidget {
             const SizedBox(height: 10),
             Text(
               "${"no_balance_description_1".tr} ${controller.formatPrice(controller.balance.value)}\n${"no_balance_description_2".tr}",
-              style: TextStyle(color: context.fTheme.colors.secondary, fontSize: 14),
+              style: TextStyle(
+                color: context.fTheme.colors.secondary,
+                fontSize: 14,
+              ),
               textAlign: TextAlign.center,
             ),
             const SizedBox(height: 20),
             CustomButtonPlus(
-              onTap: () => AddBalanceSheet.show(context, controller, 'add_balance'.tr),
+              onTap: () =>
+                  AddBalanceSheet.show(context, controller, 'add_balance'.tr),
               icon: FIcons.plus,
               btnText: "add_balance".tr,
               fontWeight: FontWeight.w600,

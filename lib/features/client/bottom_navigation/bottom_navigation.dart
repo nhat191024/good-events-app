@@ -9,8 +9,8 @@ import 'package:sukientotapp/features/client/order/screen.dart';
 import 'package:sukientotapp/features/common/message/screen.dart';
 import 'package:sukientotapp/features/common/account/screen.dart';
 
-
-class ClientBottomNavigationView extends GetView<ClientBottomNavigationController> {
+class ClientBottomNavigationView
+    extends GetView<ClientBottomNavigationController> {
   const ClientBottomNavigationView({super.key});
 
   @override

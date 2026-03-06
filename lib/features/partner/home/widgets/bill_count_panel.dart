@@ -18,7 +18,14 @@ class BillCountPanel extends StatelessWidget {
           'take_order',
           "10",
         ),
-        _buildItem(context, itemWidth, AppColors.amber500, FIcons.calendarCheck2, 'waiting', "5"),
+        _buildItem(
+          context,
+          itemWidth,
+          AppColors.amber500,
+          FIcons.calendarCheck2,
+          'waiting',
+          "5",
+        ),
       ],
     );
   }
@@ -43,7 +50,10 @@ class BillCountPanel extends StatelessWidget {
           Container(
             margin: const EdgeInsets.fromLTRB(5, 5, 16, 0),
             padding: const EdgeInsets.all(15),
-            decoration: BoxDecoration(color: iconBgColor, shape: BoxShape.circle),
+            decoration: BoxDecoration(
+              color: iconBgColor,
+              shape: BoxShape.circle,
+            ),
             child: Icon(iconData, color: Colors.white, size: 24),
           ),
           Padding(

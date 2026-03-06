@@ -58,10 +58,11 @@ class AuthActionsGroup extends StatelessWidget {
         leading: Icon(Icons.verified_user_outlined, color: AppColors.primary),
         title: Text(
           'Auth Actions',
-          style: (Theme.of(context).textTheme.titleMedium ?? const TextStyle()).copyWith(
-            fontFamily: 'Lexend',
-            color: Theme.of(context).textTheme.titleMedium?.color,
-          ),
+          style: (Theme.of(context).textTheme.titleMedium ?? const TextStyle())
+              .copyWith(
+                fontFamily: 'Lexend',
+                color: Theme.of(context).textTheme.titleMedium?.color,
+              ),
         ),
         children: [
           DevListTile(

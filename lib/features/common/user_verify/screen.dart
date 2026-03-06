@@ -57,7 +57,9 @@ class _MethodSelectionStep extends StatelessWidget {
                 selected: controller.selectedMethod.value == VerifyMethod.zalo,
                 icon: Icons.message_rounded,
                 title: 'verify_via_zalo'.tr,
-                subtitle: 'verify_zalo_subtitle'.trParams({'phone': controller.maskedPhone}),
+                subtitle: 'verify_zalo_subtitle'.trParams({
+                  'phone': controller.maskedPhone,
+                }),
                 onTap: () => controller.selectMethod(VerifyMethod.zalo),
               ),
             ],
@@ -104,7 +106,9 @@ class _OtpStep extends StatelessWidget {
           final isEmail = controller.selectedMethod.value == VerifyMethod.email;
           return VerifyHeader(
             title: isEmail ? 'verify_email_title'.tr : 'verify_phone_title'.tr,
-            subtitle: isEmail ? 'verify_email_otp_subtitle'.tr : 'verify_phone_otp_subtitle'.tr,
+            subtitle: isEmail
+                ? 'verify_email_otp_subtitle'.tr
+                : 'verify_phone_otp_subtitle'.tr,
           );
         }),
         const SizedBox(height: 32),
@@ -146,7 +150,10 @@ class _OtpStep extends StatelessWidget {
               ),
               focusedBorder: OutlineInputBorder(
                 borderRadius: BorderRadius.circular(12),
-                borderSide: BorderSide(color: context.fTheme.colors.primary, width: 2),
+                borderSide: BorderSide(
+                  color: context.fTheme.colors.primary,
+                  width: 2,
+                ),
               ),
               contentPadding: const EdgeInsets.symmetric(vertical: 18),
             ),
@@ -157,7 +164,9 @@ class _OtpStep extends StatelessWidget {
         Obx(
           () => FButton(
             onPress: controller.isLoading.value ? null : controller.verify,
-            child: controller.isLoading.value ? Text('verifying'.tr) : Text('verify_btn'.tr),
+            child: controller.isLoading.value
+                ? Text('verifying'.tr)
+                : Text('verify_btn'.tr),
           ),
         ),
         const SizedBox(height: 20),
@@ -170,7 +179,10 @@ class _OtpStep extends StatelessWidget {
               icon: const Icon(Icons.send_rounded, size: 14),
               label: Text(
                 'resend_otp'.tr,
-                style: TextStyle(color: context.fTheme.colors.primary, fontSize: 13),
+                style: TextStyle(
+                  color: context.fTheme.colors.primary,
+                  fontSize: 13,
+                ),
               ),
             ),
             TextButton(

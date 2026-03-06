@@ -20,7 +20,9 @@ class NewWidget extends GetView<ShowController> {
             () => ListView.builder(
               controller: controller.scrollController,
               padding: const EdgeInsets.only(top: 60, bottom: 100),
-              itemCount: controller.items.length + (controller.isLoadMore.value ? 1 : 0),
+              itemCount:
+                  controller.items.length +
+                  (controller.isLoadMore.value ? 1 : 0),
               itemBuilder: (context, index) {
                 if (index == controller.items.length) {
                   return const Padding(

@@ -12,7 +12,9 @@ class LocationRepositoryImpl implements LocationRepository {
   Future<List<LocationModel>> getProvinces() async {
     try {
       final rawData = await _provider.getProvinces();
-      return rawData.map((json) => LocationModel.fromJson(json as Map<String, dynamic>)).toList();
+      return rawData
+          .map((json) => LocationModel.fromJson(json as Map<String, dynamic>))
+          .toList();
     } catch (e) {
       logger.e('[LocationRepositoryImpl] [getProvinces] Error: $e');
       rethrow;
@@ -23,7 +25,9 @@ class LocationRepositoryImpl implements LocationRepository {
   Future<List<LocationModel>> getWards(int provinceId) async {
     try {
       final rawData = await _provider.getWards(provinceId);
-      return rawData.map((json) => LocationModel.fromJson(json as Map<String, dynamic>)).toList();
+      return rawData
+          .map((json) => LocationModel.fromJson(json as Map<String, dynamic>))
+          .toList();
     } catch (e) {
       logger.e(
         '[LocationRepositoryImpl] [getWards] Error fetching wards for province $provinceId: $e',

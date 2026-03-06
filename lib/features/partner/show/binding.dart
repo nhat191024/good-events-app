@@ -12,8 +12,12 @@ class ShowBinding extends Bindings {
 
     //Remmber to register a provider if needed (99% u will need it)
 
-    Get.lazyPut<ShowRepository>(() => ShowRepositoryImpl(/*Provider Get.find here*/));
+    Get.lazyPut<ShowRepository>(
+      () => ShowRepositoryImpl(/*Provider Get.find here*/),
+    );
 
-    Get.lazyPut<ShowController>(() => ShowController(Get.find<ShowRepository>()));
+    Get.lazyPut<ShowController>(
+      () => ShowController(Get.find<ShowRepository>()),
+    );
   }
 }

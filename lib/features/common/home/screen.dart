@@ -44,7 +44,9 @@ class GuestHomeScreen extends GetView<GuestHomeController> {
                     mainAxisSize: MainAxisSize.min,
                     children: [
                       Text(
-                        controller.userType.value ? 'customer'.tr : 'partner'.tr,
+                        controller.userType.value
+                            ? 'customer'.tr
+                            : 'partner'.tr,
                         style: TextStyle(
                           fontSize: 14,
                           fontWeight: FontWeight.bold,
@@ -131,15 +133,23 @@ class GuestHomeScreen extends GetView<GuestHomeController> {
                   onTap: () => Get.toNamed(Routes.registerScreen),
                   width: Get.width * 0.4,
                   color: Colors.white,
-                  textColor: controller.userType.value ? AppColors.amber500 : AppColors.primary,
-                  borderColor: controller.userType.value ? AppColors.amber500 : AppColors.primary,
+                  textColor: controller.userType.value
+                      ? AppColors.amber500
+                      : AppColors.primary,
+                  borderColor: controller.userType.value
+                      ? AppColors.amber500
+                      : AppColors.primary,
                 ),
                 CustomButtonPlus(
                   btnText: 'login'.tr,
                   onTap: () => Get.toNamed(Routes.loginScreen),
                   width: Get.width * 0.4,
-                  color: controller.userType.value ? AppColors.amber500 : AppColors.primary,
-                  borderColor: controller.userType.value ? AppColors.amber500 : AppColors.primary,
+                  color: controller.userType.value
+                      ? AppColors.amber500
+                      : AppColors.primary,
+                  borderColor: controller.userType.value
+                      ? AppColors.amber500
+                      : AppColors.primary,
                 ),
               ],
             ),

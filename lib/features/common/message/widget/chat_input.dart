@@ -3,7 +3,7 @@ import '../controller.dart';
 
 class ChatInput extends StatelessWidget {
   final MessageController controller;
-  
+
   const ChatInput({super.key, required this.controller});
 
   @override
@@ -19,7 +19,7 @@ class ChatInput extends StatelessWidget {
                 scrollDirection: Axis.horizontal,
                 itemCount: controller.selectedFiles.length,
                 itemBuilder: (context, index) {
-                  // final file = controller.selectedFiles[index]; 
+                  // final file = controller.selectedFiles[index];
                   return Container(
                     width: 80,
                     margin: const EdgeInsets.only(right: 8),
@@ -41,19 +41,31 @@ class ChatInput extends StatelessWidget {
             minLines: 1,
             decoration: InputDecoration(
               hintText: "type_a_message".tr,
-              hintStyle: const TextStyle(color: AppColors.lightMutedForeground, fontSize: 16),
+              hintStyle: const TextStyle(
+                color: AppColors.lightMutedForeground,
+                fontSize: 16,
+              ),
               contentPadding: const EdgeInsets.fromLTRB(10, 10, 10, 10),
               border: OutlineInputBorder(
                 borderRadius: BorderRadius.circular(50.0),
-                borderSide: const BorderSide(color: AppColors.lightBorder, width: 1.0),
+                borderSide: const BorderSide(
+                  color: AppColors.lightBorder,
+                  width: 1.0,
+                ),
               ),
               enabledBorder: OutlineInputBorder(
                 borderRadius: BorderRadius.circular(50.0),
-                borderSide: const BorderSide(color: AppColors.lightBorder, width: 1.0),
+                borderSide: const BorderSide(
+                  color: AppColors.lightBorder,
+                  width: 1.0,
+                ),
               ),
               focusedBorder: OutlineInputBorder(
                 borderRadius: BorderRadius.circular(50.0),
-                borderSide: const BorderSide(color: AppColors.lightBorder, width: 1.0),
+                borderSide: const BorderSide(
+                  color: AppColors.lightBorder,
+                  width: 1.0,
+                ),
               ),
               filled: true,
               fillColor: AppColors.white,
@@ -67,7 +79,10 @@ class ChatInput extends StatelessWidget {
                 width: 45,
                 height: 45,
                 margin: const EdgeInsets.all(4),
-                decoration: BoxDecoration(color: AppColors.primary, shape: BoxShape.circle),
+                decoration: BoxDecoration(
+                  color: AppColors.primary,
+                  shape: BoxShape.circle,
+                ),
                 child: IconButton(
                   icon: const Icon(Icons.send, color: Colors.white),
                   onPressed: () {

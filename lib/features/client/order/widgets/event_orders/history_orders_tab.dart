@@ -24,10 +24,7 @@ class HistoryOrdersTab extends StatelessWidget {
         padding: const EdgeInsets.all(16),
         itemCount: orders.length,
         itemBuilder: (context, index) {
-          return EventOrderCard(
-            order: orders[index],
-            isSelected: false,
-          );
+          return EventOrderCard(order: orders[index], isSelected: false);
         },
       );
     });
@@ -45,9 +42,7 @@ class HistoryOrdersTab extends StatelessWidget {
             color: Colors.grey[100],
             borderRadius: BorderRadius.circular(12),
           ),
-          child: const Center(
-            child: CircularProgressIndicator(),
-          ),
+          child: const Center(child: CircularProgressIndicator()),
         );
       },
     );
@@ -58,17 +53,11 @@ class HistoryOrdersTab extends StatelessWidget {
       child: Column(
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
-          Icon(
-            Icons.history,
-            size: 64,
-            color: Colors.grey[300],
-          ),
+          Icon(Icons.history, size: 64, color: Colors.grey[300]),
           const SizedBox(height: 16),
           Text(
             'no_history_orders'.tr,
-            style: context.typography.base.copyWith(
-              color: Colors.grey[500],
-            ),
+            style: context.typography.base.copyWith(color: Colors.grey[500]),
           ),
         ],
       ),

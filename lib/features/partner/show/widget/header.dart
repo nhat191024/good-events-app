@@ -11,7 +11,11 @@ class Header extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      padding: EdgeInsets.only(top: context.statusBarHeight, left: 16, right: 16),
+      padding: EdgeInsets.only(
+        top: context.statusBarHeight,
+        left: 16,
+        right: 16,
+      ),
       decoration: BoxDecoration(color: Colors.white),
       child: Column(
         children: [
@@ -23,7 +27,9 @@ class Header extends StatelessWidget {
               children: [
                 Text(
                   'my_shows'.tr,
-                  style: context.typography.xl.copyWith(fontWeight: FontWeight.bold),
+                  style: context.typography.xl.copyWith(
+                    fontWeight: FontWeight.bold,
+                  ),
                 ),
                 Positioned(
                   right: 0,
@@ -35,9 +41,18 @@ class Header extends StatelessWidget {
                     isOriginalAnimation: true,
 
                     buttonBorderColour: Colors.transparent,
-                    buttonWidget: const Icon(FIcons.search, color: Colors.black),
-                    trailingWidget: const Icon(FIcons.search, color: Colors.black),
-                    secondaryButtonWidget: const Icon(FIcons.x, color: Colors.black),
+                    buttonWidget: const Icon(
+                      FIcons.search,
+                      color: Colors.black,
+                    ),
+                    trailingWidget: const Icon(
+                      FIcons.search,
+                      color: Colors.black,
+                    ),
+                    secondaryButtonWidget: const Icon(
+                      FIcons.x,
+                      color: Colors.black,
+                    ),
 
                     isSearchBoxOnRightSide: true,
 
@@ -57,8 +72,12 @@ class Header extends StatelessWidget {
             controller: controller.tabController,
             labelColor: context.primary,
             unselectedLabelColor: Colors.black,
-            labelStyle: context.typography.base.copyWith(fontWeight: FontWeight.bold),
-            unselectedLabelStyle: context.typography.base.copyWith(fontWeight: FontWeight.normal),
+            labelStyle: context.typography.base.copyWith(
+              fontWeight: FontWeight.bold,
+            ),
+            unselectedLabelStyle: context.typography.base.copyWith(
+              fontWeight: FontWeight.normal,
+            ),
             indicatorSize: TabBarIndicatorSize.tab,
             dividerColor: Colors.transparent,
             tabs: [

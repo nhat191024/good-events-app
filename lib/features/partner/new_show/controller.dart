@@ -6,7 +6,6 @@ class NewShowController extends GetxController {
   //TODO: Fetch data from repository for new show
   final NewShowRepository _repository;
   NewShowController(this._repository);
-  
 
   final isLoading = false.obs;
 
@@ -24,7 +23,8 @@ class NewShowController extends GetxController {
   }
 
   void _onScroll() {
-    if (scrollController.position.pixels >= scrollController.position.maxScrollExtent - 200 &&
+    if (scrollController.position.pixels >=
+            scrollController.position.maxScrollExtent - 200 &&
         !isLoadMore.value) {
       loadMore();
     }

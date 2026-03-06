@@ -10,7 +10,9 @@ class SplashBinding extends Bindings {
   void dependencies() {
     Get.lazyPut<ApiService>(() => ApiService(), fenix: true);
     Get.lazyPut<AuthProvider>(() => AuthProvider(Get.find<ApiService>()));
-    Get.lazyPut<AuthRepository>(() => AuthRepositoryImpl(Get.find<AuthProvider>()));
+    Get.lazyPut<AuthRepository>(
+      () => AuthRepositoryImpl(Get.find<AuthProvider>()),
+    );
     Get.put<SplashController>(SplashController(Get.find<AuthRepository>()));
   }
 }

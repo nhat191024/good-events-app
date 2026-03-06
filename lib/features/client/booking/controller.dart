@@ -37,7 +37,8 @@ class ClientBookingController extends GetxController {
     loadMockData();
   }
 
-  bool get shouldShowCustomEvent => selectedEventType.value == customEventTypeKey;
+  bool get shouldShowCustomEvent =>
+      selectedEventType.value == customEventTypeKey;
   bool get isFirstStage => currentStage.value == 0;
   bool get isLastStage => currentStage.value == totalStages - 1;
 
@@ -116,10 +117,7 @@ class ClientBookingController extends GetxController {
     if (isSubmitting.value) return;
     isSubmitting.value = true;
 
-    Get.dialog(
-      const BookingLoadingDialog(),
-      barrierDismissible: false,
-    );
+    Get.dialog(const BookingLoadingDialog(), barrierDismissible: false);
 
     await Future.delayed(const Duration(seconds: 2));
 

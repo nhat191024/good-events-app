@@ -9,7 +9,8 @@ class NewOrderPanel extends StatefulWidget {
   State<NewOrderPanel> createState() => _NewOrderPanelState();
 }
 
-class _NewOrderPanelState extends State<NewOrderPanel> with SingleTickerProviderStateMixin {
+class _NewOrderPanelState extends State<NewOrderPanel>
+    with SingleTickerProviderStateMixin {
   AnimationController? _controller;
 
   @override
@@ -34,7 +35,11 @@ class _NewOrderPanelState extends State<NewOrderPanel> with SingleTickerProvider
                         shape: BoxShape.circle,
                       ),
                       padding: const EdgeInsets.all(8),
-                      child: const Icon(Icons.star, color: Colors.white, size: 36),
+                      child: const Icon(
+                        Icons.star,
+                        color: Colors.white,
+                        size: 36,
+                      ),
                     ),
                     const SizedBox(width: 6),
                     Column(
@@ -65,7 +70,10 @@ class _NewOrderPanelState extends State<NewOrderPanel> with SingleTickerProvider
                     SizedBox(
                       width: 38 + (22 * 4),
                       height: 38,
-                      child: Stack(clipBehavior: Clip.none, children: _buildAvatarList()),
+                      child: Stack(
+                        clipBehavior: Clip.none,
+                        children: _buildAvatarList(),
+                      ),
                     ),
                     // ] else ...[
                     //TODO: handle empty state when have data
@@ -119,7 +127,12 @@ class _NewOrderPanelState extends State<NewOrderPanel> with SingleTickerProvider
       }
     }
 
-    avatars.add(Positioned(left: maxDisplayCount * 22.0, child: const _MoreAvatarButton()));
+    avatars.add(
+      Positioned(
+        left: maxDisplayCount * 22.0,
+        child: const _MoreAvatarButton(),
+      ),
+    );
 
     return avatars;
   }
@@ -130,7 +143,11 @@ class _AvatarWidget extends StatelessWidget {
   final bool isLast;
   final int remaining;
 
-  const _AvatarWidget({this.imagePath = '', this.isLast = false, this.remaining = 0});
+  const _AvatarWidget({
+    this.imagePath = '',
+    this.isLast = false,
+    this.remaining = 0,
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -155,13 +172,21 @@ class _AvatarWidget extends StatelessWidget {
       return Center(
         child: Text(
           displayText,
-          style: const TextStyle(color: Colors.white, fontSize: 12, fontWeight: FontWeight.w600),
+          style: const TextStyle(
+            color: Colors.white,
+            fontSize: 12,
+            fontWeight: FontWeight.w600,
+          ),
         ),
       );
     }
 
     if (imagePath.isEmpty) {
-      return const Icon(Icons.person, size: 20, color: AppColors.lightMutedForeground);
+      return const Icon(
+        Icons.person,
+        size: 20,
+        color: AppColors.lightMutedForeground,
+      );
     }
 
     return ClipOval(
@@ -182,7 +207,11 @@ class _AvatarWidget extends StatelessWidget {
           );
         },
         errorBuilder: (context, error, stackTrace) {
-          return const Icon(Icons.person, size: 20, color: AppColors.lightMutedForeground);
+          return const Icon(
+            Icons.person,
+            size: 20,
+            color: AppColors.lightMutedForeground,
+          );
         },
       ),
     );
@@ -202,7 +231,9 @@ class _MoreAvatarButton extends StatelessWidget {
         shape: BoxShape.circle,
         border: Border.all(color: Colors.white, width: 3),
       ),
-      child: const Center(child: Icon(Icons.arrow_forward, color: Colors.white, size: 16)),
+      child: const Center(
+        child: Icon(Icons.arrow_forward, color: Colors.white, size: 16),
+      ),
     );
   }
 }

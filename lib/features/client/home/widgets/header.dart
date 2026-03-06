@@ -12,38 +12,43 @@ class ClientHomeHeader extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Row(
-      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-      children: [
-        Row(
-          mainAxisAlignment: MainAxisAlignment.center,
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
-            FAvatar(
-              image: NetworkImage(controller.avatar.value),
-              size: 46.0,
-              semanticsLabel: 'User avatar',
-              fallback: const Text('ST'),
-            ),
-            const SizedBox(width: 10),
-            Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
+            Row(
+              mainAxisAlignment: MainAxisAlignment.center,
               children: [
-                Text(
-                  controller.name.value,
-                  style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
+                FAvatar(
+                  image: NetworkImage(controller.avatar.value),
+                  size: 46.0,
+                  semanticsLabel: 'User avatar',
+                  fallback: const Text('ST'),
                 ),
-                FBadge(child: Text('verified'.tr)),
+                const SizedBox(width: 10),
+                Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Text(
+                      controller.name.value,
+                      style: TextStyle(
+                        fontSize: 20,
+                        fontWeight: FontWeight.bold,
+                      ),
+                    ),
+                    FBadge(child: Text('verified'.tr)),
+                  ],
+                ),
+              ],
+            ),
+            Row(
+              children: [
+                LanguageSwitch(),
+                const SizedBox(width: 10),
+                const NotificationButton(hasNotification: true),
               ],
             ),
           ],
-        ),
-        Row(
-          children: [
-            LanguageSwitch(),
-            const SizedBox(width: 10),
-            const NotificationButton(hasNotification: true),
-          ],
-        ),
-      ],
-    ).animate(delay: 50.ms).slideY(begin: -1, end: 0, duration: 500.ms, curve: Curves.elasticOut);
+        )
+        .animate(delay: 50.ms)
+        .slideY(begin: -1, end: 0, duration: 500.ms, curve: Curves.elasticOut);
   }
 }

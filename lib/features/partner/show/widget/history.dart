@@ -24,7 +24,8 @@ class HistoryWidget extends GetView<ShowController> {
                 bottom: 100, // Add padding to avoid navbar overlap
               ),
               itemCount:
-                  controller.historyItems.length + (controller.isHistoryLoadMore.value ? 1 : 0),
+                  controller.historyItems.length +
+                  (controller.isHistoryLoadMore.value ? 1 : 0),
               itemBuilder: (context, index) {
                 if (index == controller.historyItems.length) {
                   return const Padding(

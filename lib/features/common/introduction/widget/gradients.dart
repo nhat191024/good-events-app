@@ -20,12 +20,7 @@ class IntroTopGradient extends StatelessWidget {
           gradient: LinearGradient(
             colors: topGradientBg,
             begin: Alignment.topCenter,
-            stops: [
-              0.0,
-              0.8,
-              0.95,
-              1.0,
-            ],
+            stops: [0.0, 0.8, 0.95, 1.0],
             end: Alignment.bottomCenter,
           ),
         ),
@@ -56,11 +51,7 @@ class IntroBottomGradient extends StatelessWidget {
           gradient: LinearGradient(
             colors: bottomGradientBg,
             begin: Alignment.bottomCenter,
-            stops: [
-              0.0,
-              0.35,
-              1.0,
-            ],
+            stops: [0.0, 0.35, 1.0],
             end: Alignment.topCenter,
           ),
         ),

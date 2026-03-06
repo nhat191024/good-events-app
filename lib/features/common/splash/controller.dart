@@ -28,7 +28,8 @@ class SplashController extends GetxController {
     final saved = StorageService.readMapData(key: LocalStorageKeys.locale);
     if (saved is Map<String, dynamic>) {
       final code = (saved['languageCode'] ?? 'vi') as String;
-      final country = (saved['countryCode'] ?? (code == 'vi' ? 'VN' : 'US')) as String;
+      final country =
+          (saved['countryCode'] ?? (code == 'vi' ? 'VN' : 'US')) as String;
       Get.updateLocale(Locale(code, country));
     }
 
@@ -55,7 +56,8 @@ class SplashController extends GetxController {
     videoPlayerController.play();
 
     videoPlayerController.addListener(() {
-      if (videoPlayerController.value.position >= videoPlayerController.value.duration) {
+      if (videoPlayerController.value.position >=
+          videoPlayerController.value.duration) {
         if (!_videoCompleter.isCompleted) {
           _videoCompleter.complete();
         }
@@ -71,7 +73,9 @@ class SplashController extends GetxController {
     final token = StorageService.readData(key: LocalStorageKeys.token);
 
     if (token == null) {
-      logger.w('[SplashController] [_checkToken] No token found, redirecting to choose side');
+      logger.w(
+        '[SplashController] [_checkToken] No token found, redirecting to choose side',
+      );
       Get.offAllNamed(Routes.chooseYoSideScreen);
       return;
     }
@@ -80,7 +84,10 @@ class SplashController extends GetxController {
       final isTokenValid = await _authRepository.checkToken();
 
       if (isTokenValid) {
-        var role = StorageService.readMapData(key: LocalStorageKeys.user, mapKey: 'role');
+        var role = StorageService.readMapData(
+          key: LocalStorageKeys.user,
+          mapKey: 'role',
+        );
         switch (role) {
           case 'client':
             Get.offAllNamed(Routes.clientHome);
@@ -90,7 +97,9 @@ class SplashController extends GetxController {
             return;
         }
       } else {
-        logger.w('[SplashController] [_checkToken] Token invalid, clearing storage');
+        logger.w(
+          '[SplashController] [_checkToken] Token invalid, clearing storage',
+        );
         StorageService.removeData(key: LocalStorageKeys.token);
         StorageService.removeData(key: LocalStorageKeys.user);
 

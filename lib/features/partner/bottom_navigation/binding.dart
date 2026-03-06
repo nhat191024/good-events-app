@@ -10,7 +10,9 @@ import 'package:sukientotapp/features/common/account/binding.dart';
 class PartnerBottomNavigationBinding extends Bindings {
   @override
   void dependencies() {
-    Get.lazyPut<PartnerBottomNavigationController>(() => PartnerBottomNavigationController());
+    Get.lazyPut<PartnerBottomNavigationController>(
+      () => PartnerBottomNavigationController(),
+    );
 
     HomeBinding().dependencies();
     ShowBinding().dependencies();

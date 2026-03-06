@@ -24,7 +24,8 @@ class UpcomingWidget extends GetView<ShowController> {
                 bottom: 100, // Add padding to avoid navbar overlap
               ),
               itemCount:
-                  controller.upcomingItems.length + (controller.isUpcomingLoadMore.value ? 1 : 0),
+                  controller.upcomingItems.length +
+                  (controller.isUpcomingLoadMore.value ? 1 : 0),
               itemBuilder: (context, index) {
                 if (index == controller.upcomingItems.length) {
                   return const Padding(

@@ -4,7 +4,8 @@ import 'language_switch_controller.dart';
 class LanguageSwitch extends StatelessWidget {
   LanguageSwitch({super.key});
 
-  final LanguageSwitchController controller = Get.isRegistered<LanguageSwitchController>()
+  final LanguageSwitchController controller =
+      Get.isRegistered<LanguageSwitchController>()
       ? Get.find<LanguageSwitchController>()
       : Get.put(LanguageSwitchController());
 

@@ -24,7 +24,10 @@ class BookingSelectField extends StatelessWidget {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        Text(label, style: context.typography.sm.copyWith(fontWeight: FontWeight.w600)),
+        Text(
+          label,
+          style: context.typography.sm.copyWith(fontWeight: FontWeight.w600),
+        ),
         const SizedBox(height: 6),
         FTappable(
           onPress: onTap,
@@ -38,7 +41,11 @@ class BookingSelectField extends StatelessWidget {
             child: Row(
               children: [
                 if (leading != null) ...[
-                  Icon(leading, size: 18, color: context.fTheme.colors.mutedForeground),
+                  Icon(
+                    leading,
+                    size: 18,
+                    color: context.fTheme.colors.mutedForeground,
+                  ),
                   const SizedBox(width: 8),
                 ],
                 Expanded(
@@ -84,7 +91,10 @@ class BookingTextField extends StatelessWidget {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        Text(label, style: context.typography.sm.copyWith(fontWeight: FontWeight.w600)),
+        Text(
+          label,
+          style: context.typography.sm.copyWith(fontWeight: FontWeight.w600),
+        ),
         const SizedBox(height: 6),
         FTextFormField(
           control: FTextFieldControl.managed(controller: controller),

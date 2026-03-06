@@ -10,7 +10,10 @@ class WalletBottomSheet extends StatelessWidget {
   final AccountController controller;
 
   static void show(BuildContext context, AccountController controller) {
-    Get.bottomSheet(WalletBottomSheet(controller: controller), isScrollControlled: true);
+    Get.bottomSheet(
+      WalletBottomSheet(controller: controller),
+      isScrollControlled: true,
+    );
   }
 
   @override
@@ -124,7 +127,10 @@ class WalletBottomSheet extends StatelessWidget {
           child: Container(
             width: 30,
             height: 30,
-            decoration: const BoxDecoration(color: AppColors.white, shape: BoxShape.circle),
+            decoration: const BoxDecoration(
+              color: AppColors.white,
+              shape: BoxShape.circle,
+            ),
             child: const Icon(Icons.close, color: Colors.black),
           ),
         ),

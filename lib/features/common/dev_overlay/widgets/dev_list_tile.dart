@@ -17,16 +17,15 @@ class DevListTile extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final textColor = Theme.of(context).textTheme.bodyMedium?.color ?? Colors.black;
+    final textColor =
+        Theme.of(context).textTheme.bodyMedium?.color ?? Colors.black;
 
     final child = ListTile(
       leading: Icon(icon, color: AppColors.primary),
       title: Text(
         title,
-        style: (Theme.of(context).textTheme.bodyMedium ?? const TextStyle()).copyWith(
-          fontFamily: 'Lexend',
-          color: textColor,
-        ),
+        style: (Theme.of(context).textTheme.bodyMedium ?? const TextStyle())
+            .copyWith(fontFamily: 'Lexend', color: textColor),
       ),
       onTap: onTap,
     );

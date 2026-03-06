@@ -54,7 +54,10 @@ class PartnerInfoCard extends StatelessWidget {
             () => Row(
               children: [
                 Text(
-                  'last_update'.tr.replaceAll('@time', controller.updateTime.value),
+                  'last_update'.tr.replaceAll(
+                    '@time',
+                    controller.updateTime.value,
+                  ),
                   style: TextStyle(
                     fontSize: 14,
                     fontWeight: FontWeight.w500,
@@ -119,7 +122,11 @@ class PartnerInfoCard extends StatelessWidget {
             ),
             child: Column(
               children:
-                  ['partner_trustworthy'.tr, 'partner_professional'.tr, 'partner_competitive'.tr]
+                  [
+                        'partner_trustworthy'.tr,
+                        'partner_professional'.tr,
+                        'partner_competitive'.tr,
+                      ]
                       .map(
                         (item) => Padding(
                           padding: const EdgeInsets.only(bottom: 8.0),

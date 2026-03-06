@@ -21,10 +21,7 @@ class MessageDetailScreen extends GetView<MessageController> {
                 itemCount: controller.messagesDetail.length,
                 itemBuilder: (context, index) {
                   final message = controller.messagesDetail[index];
-                  return ChatBubble(
-                    message: message,
-                    isFirst: index == 0,
-                  );
+                  return ChatBubble(message: message, isFirst: index == 0);
                 },
               );
             }),

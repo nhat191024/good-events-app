@@ -16,7 +16,9 @@ class UserLoginSheet extends StatelessWidget {
         borderRadius: const BorderRadius.vertical(top: Radius.circular(16)),
       ),
       child: ConstrainedBox(
-        constraints: BoxConstraints(maxHeight: MediaQuery.of(context).size.height * 0.75),
+        constraints: BoxConstraints(
+          maxHeight: MediaQuery.of(context).size.height * 0.75,
+        ),
         child: SingleChildScrollView(
           physics: const BouncingScrollPhysics(),
           child: Column(
@@ -30,7 +32,8 @@ class UserLoginSheet extends StatelessWidget {
                   if (Get.isRegistered<LoginController>()) {
                     final loginController = Get.find<LoginController>();
 
-                    loginController.usernameController.text = 'partner@example.com';
+                    loginController.usernameController.text =
+                        'partner@example.com';
                     loginController.passwordController.text = 'password';
 
                     Get.snackbar(
@@ -50,7 +53,8 @@ class UserLoginSheet extends StatelessWidget {
                   if (Get.isRegistered<LoginController>()) {
                     final loginController = Get.find<LoginController>();
 
-                    loginController.usernameController.text = 'client@example.com';
+                    loginController.usernameController.text =
+                        'client@example.com';
                     loginController.passwordController.text = 'password';
 
                     Get.snackbar(

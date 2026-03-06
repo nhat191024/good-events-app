@@ -59,13 +59,15 @@ class AssetOrder {
   });
 }
 
-class ClientOrderController extends GetxController with GetTickerProviderStateMixin {
+class ClientOrderController extends GetxController
+    with GetTickerProviderStateMixin {
   // Parent tab controller (Event Orders | Asset Orders)
   late TabController parentTabController;
 
   // Child tab controllers
   late TabController eventOrdersTabController; // Current | History
-  late TabController assetOrdersTabController; // All | Pending | Paid | Cancelled
+  late TabController
+  assetOrdersTabController; // All | Pending | Paid | Cancelled
 
   final RxInt currentParentTab = 0.obs;
 
@@ -90,7 +92,10 @@ class ClientOrderController extends GetxController with GetTickerProviderStateMi
     parentTabController = TabController(length: 2, vsync: this);
 
     // Initialize child tabs
-    eventOrdersTabController = TabController(length: 2, vsync: this); // Current, History
+    eventOrdersTabController = TabController(
+      length: 2,
+      vsync: this,
+    ); // Current, History
     assetOrdersTabController = TabController(
       length: 3,
       vsync: this,
@@ -249,7 +254,9 @@ class ClientOrderController extends GetxController with GetTickerProviderStateMi
   // Filtered lists
   List<EventOrder> get currentEventOrders {
     return eventOrders.where((order) {
-      return order.status == 'pending' || order.status == 'confirmed' || order.status == 'in_job';
+      return order.status == 'pending' ||
+          order.status == 'confirmed' ||
+          order.status == 'in_job';
     }).toList();
   }
 

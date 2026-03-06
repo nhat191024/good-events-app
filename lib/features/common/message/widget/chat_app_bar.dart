@@ -28,10 +28,13 @@ class ChatAppBar extends StatelessWidget implements PreferredSizeWidget {
                   height: 45,
                   decoration: const BoxDecoration(
                     shape: BoxShape.circle,
-                    color: AppColors.lightBackground, 
+                    color: AppColors.lightBackground,
                   ),
                   child: const Center(
-                    child: Icon(Icons.arrow_back, color: AppColors.lightForeground),
+                    child: Icon(
+                      Icons.arrow_back,
+                      color: AppColors.lightForeground,
+                    ),
                   ),
                 ),
               ),

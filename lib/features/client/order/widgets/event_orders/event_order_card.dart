@@ -49,8 +49,24 @@ class EventOrderCard extends StatelessWidget {
   String _getVietnameseDayOfWeek(DateTime date) {
     final isVietnamese = Get.locale?.languageCode == 'vi';
     final days = isVietnamese
-        ? ['Chủ nhật', 'Thứ hai', 'Thứ ba', 'Thứ tư', 'Thứ năm', 'Thứ sáu', 'Thứ bảy']
-        : ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'];
+        ? [
+            'Chủ nhật',
+            'Thứ hai',
+            'Thứ ba',
+            'Thứ tư',
+            'Thứ năm',
+            'Thứ sáu',
+            'Thứ bảy',
+          ]
+        : [
+            'Sunday',
+            'Monday',
+            'Tuesday',
+            'Wednesday',
+            'Thursday',
+            'Friday',
+            'Saturday',
+          ];
     return days[date.weekday % 7];
   }
 
@@ -105,13 +121,14 @@ class EventOrderCard extends StatelessWidget {
                         child: Image.network(
                           order.partnerAvatar,
                           fit: BoxFit.cover,
-                          errorBuilder: (context, error, stackTrace) => Container(
-                            color: context.primary.withValues(alpha: 0.1),
-                            child: Icon(
-                              Icons.person,
-                              color: context.primary,
-                            ),
-                          ),
+                          errorBuilder: (context, error, stackTrace) =>
+                              Container(
+                                color: context.primary.withValues(alpha: 0.1),
+                                child: Icon(
+                                  Icons.person,
+                                  color: context.primary,
+                                ),
+                              ),
                         ),
                       ),
                     ),
@@ -218,11 +235,7 @@ class EventOrderCard extends StatelessWidget {
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: [
                           Text(
-                            '${'final_price'.tr}: ${NumberFormat.currency(
-                              locale: 'vi_VN',
-                              symbol: '',
-                              decimalDigits: 0,
-                            ).format(order.finalPrice)} đ',
+                            '${'final_price'.tr}: ${NumberFormat.currency(locale: 'vi_VN', symbol: '', decimalDigits: 0).format(order.finalPrice)} đ',
                             style: context.typography.xs.copyWith(
                               fontWeight: FontWeight.bold,
                               color: context.primary,
@@ -264,10 +277,7 @@ class EventOrderCard extends StatelessWidget {
               top: 12,
               right: 12,
               child: Container(
-                padding: const EdgeInsets.symmetric(
-                  horizontal: 8,
-                  vertical: 4,
-                ),
+                padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
                 decoration: BoxDecoration(
                   color: context.primary,
                   borderRadius: BorderRadius.circular(6),

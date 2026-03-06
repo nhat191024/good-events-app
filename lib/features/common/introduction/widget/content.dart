@@ -19,7 +19,10 @@ class IntroContent extends StatelessWidget {
           mainAxisAlignment: MainAxisAlignment.center,
           crossAxisAlignment: CrossAxisAlignment.end,
           children: [
-            Padding(padding: const EdgeInsets.only(right: 10, top: 5), child: LanguageSwitch()),
+            Padding(
+              padding: const EdgeInsets.only(right: 10, top: 5),
+              child: LanguageSwitch(),
+            ),
             IntroText(controller: controller),
             IntroPeople(controller: controller),
           ],

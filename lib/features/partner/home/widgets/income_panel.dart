@@ -27,7 +27,11 @@ class IncomePanel extends StatelessWidget {
                         color: context.fTheme.colors.primaryForeground,
                         shape: BoxShape.circle,
                       ),
-                      child: Icon(FIcons.wallet, color: context.fTheme.colors.primary, size: 24),
+                      child: Icon(
+                        FIcons.wallet,
+                        color: context.fTheme.colors.primary,
+                        size: 24,
+                      ),
                     ),
                     const SizedBox(width: 6),
                     Column(
@@ -114,7 +118,11 @@ class IncomePanel extends StatelessWidget {
                       fontWeight: FontWeight.bold,
                     ),
                   ),
-                  Icon(FIcons.arrowRight, color: context.fTheme.colors.primaryForeground, size: 16),
+                  Icon(
+                    FIcons.arrowRight,
+                    color: context.fTheme.colors.primaryForeground,
+                    size: 16,
+                  ),
                 ],
               ),
             ),

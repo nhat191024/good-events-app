@@ -69,7 +69,9 @@ class PopupPartnerSearchSheet extends StatelessWidget {
                     return Center(
                       child: Text(
                         'in_dev'.tr,
-                        style: TextStyle(color: context.fTheme.colors.mutedForeground),
+                        style: TextStyle(
+                          color: context.fTheme.colors.mutedForeground,
+                        ),
                       ),
                     );
                   }
@@ -108,7 +110,10 @@ class PopupPartnerSearchSheet extends StatelessWidget {
           child: Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
-              Text(category.name, style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold)),
+              Text(
+                category.name,
+                style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
+              ),
               // FBadge(child: Text('${category.partnerList.length}')),
             ],
           ),
@@ -165,7 +170,12 @@ class PartnerItem extends StatelessWidget {
         children: [
           ClipRRect(
             borderRadius: BorderRadius.circular(10),
-            child: Image.network(partner.image, height: 70, width: 70, fit: BoxFit.cover),
+            child: Image.network(
+              partner.image,
+              height: 70,
+              width: 70,
+              fit: BoxFit.cover,
+            ),
           ),
           const SizedBox(height: 8),
           Padding(
@@ -183,7 +193,11 @@ class PartnerItem extends StatelessWidget {
 }
 
 class PartnerCard {
-  const PartnerCard({required this.id, required this.name, required this.image});
+  const PartnerCard({
+    required this.id,
+    required this.name,
+    required this.image,
+  });
 
   final String id;
   final String name;
