@@ -6,4 +6,5 @@ class AppUrl {
   static const String locations = '/locations';
   static String wards(int provinceId) => '/locations/$provinceId/wards';
   static const String logout = '/logout';
+  static const String partnerDashboard = '/partner/dashboard';
 }
