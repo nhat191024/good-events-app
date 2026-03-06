@@ -28,37 +28,44 @@ class AccountScreen extends GetView<AccountController> {
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: [
-                      FAvatar(
-                        image: NetworkImage(controller.avatar.value),
-                        size: 46.0,
-                        semanticsLabel: 'User avatar',
-                        fallback: const Text('ST'),
-                      ),
-                      const SizedBox(width: 10),
-                      Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          Text(
-                            controller.name.value,
-                            style: TextStyle(
-                              fontSize: 20,
-                              fontWeight: FontWeight.bold,
-                            ),
-                          ),
-                          FBadge(
-                            child: Text(
-                              'verified'.tr,
-                              style: context.typography.xs.copyWith(
-                                color: context.fTheme.colors.primaryForeground,
+                  Expanded(
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.start,
+                      children: [
+                        FAvatar(
+                          image: NetworkImage(controller.avatar.value),
+                          size: 46.0,
+                          semanticsLabel: 'User avatar',
+                          fallback: const Text('ST'),
+                        ),
+                        const SizedBox(width: 10),
+                        Expanded(
+                          child: Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              Text(
+                                controller.name.value,
+                                maxLines: 1,
+                                overflow: TextOverflow.ellipsis,
+                                style: const TextStyle(
+                                  fontSize: 20,
+                                  fontWeight: FontWeight.bold,
+                                ),
                               ),
-                            ),
+                              FBadge(
+                                child: Text(
+                                  'verified'.tr,
+                                  style: context.typography.xs.copyWith(
+                                    color:
+                                        context.fTheme.colors.primaryForeground,
+                                  ),
+                                ),
+                              ),
+                            ],
                           ),
-                        ],
-                      ),
-                    ],
+                        ),
+                      ],
+                    ),
                   ),
                   Row(
                     children: [
