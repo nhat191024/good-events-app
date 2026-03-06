@@ -1,7 +1,10 @@
 import 'package:sukientotapp/core/utils/import/global.dart';
 
 class IncomePanel extends StatelessWidget {
-  const IncomePanel({super.key});
+  final int balance;
+  final int revenue;
+
+  const IncomePanel({super.key, required this.balance, required this.revenue});
 
   @override
   Widget build(BuildContext context) {
@@ -45,7 +48,7 @@ class IncomePanel extends StatelessWidget {
                           ),
                         ),
                         Text(
-                          '200k VND',
+                          FormatUtils.formatCurrency(balance),
                           style: context.typography.lg.copyWith(
                             fontWeight: FontWeight.bold,
                             color: context.fTheme.colors.primaryForeground,
@@ -68,7 +71,7 @@ class IncomePanel extends StatelessWidget {
                           ),
                         ),
                         Text(
-                          '200k VND',
+                          FormatUtils.formatCurrency(revenue),
                           style: context.typography.lg.copyWith(
                             fontWeight: FontWeight.bold,
                             color: context.fTheme.colors.primaryForeground,
