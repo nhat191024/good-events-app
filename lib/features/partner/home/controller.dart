@@ -1,7 +1,6 @@
 import 'package:sukientotapp/core/utils/import/global.dart';
 import 'package:sukientotapp/domain/repositories/partner/dashboard_repository.dart';
 import 'package:sukientotapp/data/models/partner/dashboard_model.dart';
-import 'package:sukientotapp/core/utils/logger.dart';
 
 class HomeController extends GetxController {
   final DashboardRepository _dashboardRepository;
