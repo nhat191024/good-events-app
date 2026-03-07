@@ -8,7 +8,9 @@ import 'package:sukientotapp/features/common/account/binding.dart';
 class ClientBottomNavigationBinding extends Bindings {
   @override
   void dependencies() {
-    Get.lazyPut<ClientBottomNavigationController>(() => ClientBottomNavigationController());
+    Get.lazyPut<ClientBottomNavigationController>(
+      () => ClientBottomNavigationController(),
+    );
 
     HomeBinding().dependencies();
     MessageBinding().dependencies();

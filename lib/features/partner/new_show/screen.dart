@@ -13,7 +13,11 @@ class NewShowScreen extends GetView<NewShowController> {
   Widget build(BuildContext context) {
     return FScaffold(
       header: Padding(
-        padding: EdgeInsets.only(top: context.statusBarHeight, left: 16, right: 16),
+        padding: EdgeInsets.only(
+          top: context.statusBarHeight,
+          left: 16,
+          right: 16,
+        ),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           mainAxisAlignment: MainAxisAlignment.center,
@@ -66,7 +70,8 @@ class NewShowScreen extends GetView<NewShowController> {
         () => ListView.builder(
           controller: controller.scrollController,
           padding: const EdgeInsets.only(top: 12, bottom: 100),
-          itemCount: controller.items.length + (controller.isLoadMore.value ? 1 : 0),
+          itemCount:
+              controller.items.length + (controller.isLoadMore.value ? 1 : 0),
           itemBuilder: (context, index) {
             if (index == controller.items.length) {
               return const Padding(

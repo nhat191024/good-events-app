@@ -45,7 +45,9 @@ class BookingOptionSheet extends StatelessWidget {
                   Expanded(
                     child: Text(
                       title,
-                      style: context.typography.lg.copyWith(fontWeight: FontWeight.w600),
+                      style: context.typography.lg.copyWith(
+                        fontWeight: FontWeight.w600,
+                      ),
                     ),
                   ),
                   FTappable(
@@ -73,7 +75,10 @@ class BookingOptionSheet extends StatelessWidget {
                     contentPadding: const EdgeInsets.symmetric(horizontal: 8),
                     title: Text(label),
                     trailing: isSelected
-                        ? Icon(Icons.check, color: context.fTheme.colors.primary)
+                        ? Icon(
+                            Icons.check,
+                            color: context.fTheme.colors.primary,
+                          )
                         : null,
                     onTap: () {
                       onSelect(option);

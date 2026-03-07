@@ -24,13 +24,17 @@ class UserRoleSwitch extends StatefulWidget {
     this.inactiveImageWidget,
     this.width = 70,
     this.height = 36,
-  }) : assert(value != null || rxValue != null, 'Either value or rxValue must be provided');
+  }) : assert(
+         value != null || rxValue != null,
+         'Either value or rxValue must be provided',
+       );
 
   @override
   State<UserRoleSwitch> createState() => _UserRoleSwitchState();
 }
 
-class _UserRoleSwitchState extends State<UserRoleSwitch> with SingleTickerProviderStateMixin {
+class _UserRoleSwitchState extends State<UserRoleSwitch>
+    with SingleTickerProviderStateMixin {
   late AnimationController _animationController;
   late Animation<double> _toggleAnimation;
 
@@ -43,7 +47,10 @@ class _UserRoleSwitchState extends State<UserRoleSwitch> with SingleTickerProvid
       vsync: this,
       duration: const Duration(milliseconds: 250),
     );
-    _toggleAnimation = CurvedAnimation(parent: _animationController, curve: Curves.easeInOut);
+    _toggleAnimation = CurvedAnimation(
+      parent: _animationController,
+      curve: Curves.easeInOut,
+    );
 
     if (currentValue) {
       _animationController.value = 1.0;
@@ -126,7 +133,9 @@ class _UserRoleSwitchState extends State<UserRoleSwitch> with SingleTickerProvid
                   if (currentValue && widget.activeImageWidget != null ||
                       !currentValue && widget.inactiveImageWidget != null)
                     Align(
-                      alignment: currentValue ? Alignment.centerLeft : Alignment.centerRight,
+                      alignment: currentValue
+                          ? Alignment.centerLeft
+                          : Alignment.centerRight,
                       child: Padding(
                         padding: EdgeInsets.only(
                           left: currentValue ? 6 : 0,

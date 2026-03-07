@@ -16,7 +16,9 @@ class PartnerDetailScreen extends GetView<PartnerDetailController> {
       header: FHeader.nested(
         title: Obx(
           () => Text(
-            controller.partnerName.value.isEmpty ? 'Partner Details' : controller.partnerName.value,
+            controller.partnerName.value.isEmpty
+                ? 'Partner Details'
+                : controller.partnerName.value,
           ),
         ),
         prefixes: [FHeaderAction.back(onPress: Get.back)],
@@ -68,7 +70,12 @@ class PartnerDetailScreen extends GetView<PartnerDetailController> {
                 ],
               ),
             ),
-            const Positioned(left: 0, right: 0, bottom: 0, child: PartnerActionButtons()),
+            const Positioned(
+              left: 0,
+              right: 0,
+              bottom: 0,
+              child: PartnerActionButtons(),
+            ),
           ],
         );
       }),

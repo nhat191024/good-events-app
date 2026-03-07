@@ -1,7 +1,14 @@
 import 'package:sukientotapp/core/utils/import/global.dart';
 
 class BillCountPanel extends StatelessWidget {
-  const BillCountPanel({super.key});
+  final String newShows;
+  final String waitingConfirmation;
+
+  const BillCountPanel({
+    super.key,
+    required this.newShows,
+    required this.waitingConfirmation,
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -16,9 +23,16 @@ class BillCountPanel extends StatelessWidget {
           AppColors.primary,
           FIcons.calendarSearch,
           'take_order',
-          "10",
+          newShows,
         ),
-        _buildItem(context, itemWidth, AppColors.amber500, FIcons.calendarCheck2, 'waiting', "5"),
+        _buildItem(
+          context,
+          itemWidth,
+          AppColors.amber500,
+          FIcons.calendarCheck2,
+          'waiting',
+          waitingConfirmation,
+        ),
       ],
     );
   }
@@ -43,7 +57,10 @@ class BillCountPanel extends StatelessWidget {
           Container(
             margin: const EdgeInsets.fromLTRB(5, 5, 16, 0),
             padding: const EdgeInsets.all(15),
-            decoration: BoxDecoration(color: iconBgColor, shape: BoxShape.circle),
+            decoration: BoxDecoration(
+              color: iconBgColor,
+              shape: BoxShape.circle,
+            ),
             child: Icon(iconData, color: Colors.white, size: 24),
           ),
           Padding(

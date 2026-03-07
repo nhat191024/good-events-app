@@ -55,8 +55,10 @@ class BlogCard extends StatelessWidget {
                 color: Colors.grey[300],
                 child: const Center(child: CupertinoActivityIndicator()),
               ),
-              errorWidget: (context, url, error) =>
-                  Container(color: Colors.grey[300], child: const Icon(Icons.error)),
+              errorWidget: (context, url, error) => Container(
+                color: Colors.grey[300],
+                child: const Icon(Icons.error),
+              ),
             ),
 
             Positioned.fill(
@@ -82,7 +84,10 @@ class BlogCard extends StatelessWidget {
               top: 12,
               right: 12,
               child: Container(
-                padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 4),
+                padding: const EdgeInsets.symmetric(
+                  horizontal: 10,
+                  vertical: 4,
+                ),
                 decoration: BoxDecoration(
                   color: Colors.black.withValues(alpha: 0.6),
                   borderRadius: BorderRadius.circular(12),
@@ -116,7 +121,13 @@ class BlogCard extends StatelessWidget {
                       fontSize: 18,
                       fontWeight: FontWeight.w700,
                       height: 1.2,
-                      shadows: [Shadow(offset: Offset(0, 1), blurRadius: 2, color: Colors.black45)],
+                      shadows: [
+                        Shadow(
+                          offset: Offset(0, 1),
+                          blurRadius: 2,
+                          color: Colors.black45,
+                        ),
+                      ],
                     ),
                   ),
                   const SizedBox(height: 8),
@@ -126,7 +137,11 @@ class BlogCard extends StatelessWidget {
                     children: [
                       const Padding(
                         padding: EdgeInsets.only(top: 2),
-                        child: Icon(CupertinoIcons.location_solid, color: Colors.white, size: 14),
+                        child: Icon(
+                          CupertinoIcons.location_solid,
+                          color: Colors.white,
+                          size: 14,
+                        ),
                       ),
                       const SizedBox(width: 6),
                       Expanded(
@@ -148,7 +163,11 @@ class BlogCard extends StatelessWidget {
 
                   Row(
                     children: [
-                      const Icon(CupertinoIcons.person_2_fill, color: Colors.white, size: 14),
+                      const Icon(
+                        CupertinoIcons.person_2_fill,
+                        color: Colors.white,
+                        size: 14,
+                      ),
                       const SizedBox(width: 6),
                       Text(
                         '$capacity khách',
@@ -167,7 +186,10 @@ class BlogCard extends StatelessWidget {
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
                       Container(
-                        padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 6),
+                        padding: const EdgeInsets.symmetric(
+                          horizontal: 12,
+                          vertical: 6,
+                        ),
                         decoration: BoxDecoration(
                           color: AppColors.red500,
                           borderRadius: BorderRadius.circular(20),
@@ -183,7 +205,11 @@ class BlogCard extends StatelessWidget {
                       ),
                       Row(
                         children: [
-                          const Icon(CupertinoIcons.clock, color: Colors.white70, size: 14),
+                          const Icon(
+                            CupertinoIcons.clock,
+                            color: Colors.white70,
+                            size: 14,
+                          ),
                           const SizedBox(width: 4),
                           Text(
                             DateFormat("dd 'Th'MM yyyy").format(date),

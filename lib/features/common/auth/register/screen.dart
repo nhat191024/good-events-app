@@ -16,11 +16,20 @@ class RegisterScreen extends GetView<RegisterController> {
             mainAxisAlignment: MainAxisAlignment.center,
             crossAxisAlignment: CrossAxisAlignment.center,
             children: [
-              Center(child: Image.asset('assets/images/logo.png', width: 100, height: 100)),
+              Center(
+                child: Image.asset(
+                  'assets/images/logo.png',
+                  width: 100,
+                  height: 100,
+                ),
+              ),
               const SizedBox(height: 16),
               Text(
                 'create_account'.tr,
-                style: const TextStyle(fontSize: 24, fontWeight: FontWeight.bold),
+                style: const TextStyle(
+                  fontSize: 24,
+                  fontWeight: FontWeight.bold,
+                ),
                 textAlign: TextAlign.center,
               ),
               const SizedBox(height: 30),
@@ -28,16 +37,21 @@ class RegisterScreen extends GetView<RegisterController> {
               // Name, Email, Phone
               const SizedBox(height: 8),
               FTextFormField(
-                control: FTextFieldControl.managed(controller: controller.nameController),
+                control: FTextFieldControl.managed(
+                  controller: controller.nameController,
+                ),
                 label: Text('full_name'.tr),
                 hint: 'name_hint'.tr,
                 autovalidateMode: AutovalidateMode.onUserInteraction,
-                validator: (value) => (value?.isNotEmpty ?? false) ? null : 'name_invalid'.tr,
+                validator: (value) =>
+                    (value?.isNotEmpty ?? false) ? null : 'name_invalid'.tr,
               ),
               const SizedBox(height: 16),
 
               FTextFormField(
-                control: FTextFieldControl.managed(controller: controller.emailController),
+                control: FTextFieldControl.managed(
+                  controller: controller.emailController,
+                ),
                 label: Text('email_address'.tr),
                 hint: 'email_hint'.tr,
                 keyboardType: TextInputType.emailAddress,
@@ -49,7 +63,9 @@ class RegisterScreen extends GetView<RegisterController> {
               const SizedBox(height: 16),
 
               FTextFormField(
-                control: FTextFieldControl.managed(controller: controller.phoneController),
+                control: FTextFieldControl.managed(
+                  controller: controller.phoneController,
+                ),
                 label: Text('phone_number'.tr),
                 hint: 'phone_hint'.tr,
                 keyboardType: TextInputType.phone,
@@ -62,7 +78,9 @@ class RegisterScreen extends GetView<RegisterController> {
 
               if (!controller.isClientUser) ...[
                 FTextFormField(
-                  control: FTextFieldControl.managed(controller: controller.cccdController),
+                  control: FTextFieldControl.managed(
+                    controller: controller.cccdController,
+                  ),
                   label: Text('identity_card_number'.tr),
                   hint: 'cccd_hint'.tr,
                   autovalidateMode: AutovalidateMode.onUserInteraction,
@@ -77,11 +95,14 @@ class RegisterScreen extends GetView<RegisterController> {
                 onTapOutside: (event) {
                   FocusManager.instance.primaryFocus?.unfocus();
                 },
-                control: FTextFieldControl.managed(controller: controller.passwordController),
+                control: FTextFieldControl.managed(
+                  controller: controller.passwordController,
+                ),
                 label: Text('password'.tr),
                 hint: 'password_hint'.tr,
                 autovalidateMode: AutovalidateMode.onUserInteraction,
-                validator: (value) => 8 <= (value?.length ?? 0) ? null : 'password_invalid'.tr,
+                validator: (value) =>
+                    8 <= (value?.length ?? 0) ? null : 'password_invalid'.tr,
               ),
 
               const SizedBox(height: 16),
@@ -113,7 +134,9 @@ class RegisterScreen extends GetView<RegisterController> {
 
               Obx(
                 () => FButton(
-                  onPress: controller.isLoading.value ? null : controller.register,
+                  onPress: controller.isLoading.value
+                      ? null
+                      : controller.register,
                   child: controller.isLoading.value
                       ? Text('creating_account_loading'.tr)
                       : Text('create_account_btn'.tr),

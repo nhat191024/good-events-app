@@ -1,7 +1,12 @@
 import 'package:sukientotapp/core/utils/import/global.dart';
 
 class CustomBadge extends StatelessWidget {
-  const CustomBadge({super.key, required this.text, this.backgroundColor, this.textColor});
+  const CustomBadge({
+    super.key,
+    required this.text,
+    this.backgroundColor,
+    this.textColor,
+  });
 
   final String text;
   final Color? backgroundColor;

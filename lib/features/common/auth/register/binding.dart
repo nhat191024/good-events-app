@@ -14,11 +14,17 @@ class RegisterBinding extends Bindings {
     // Auth Dependencies
     Get.lazyPut<ApiService>(() => ApiService(), fenix: true);
     Get.lazyPut<AuthProvider>(() => AuthProvider(Get.find<ApiService>()));
-    Get.lazyPut<AuthRepository>(() => AuthRepositoryImpl(Get.find<AuthProvider>()));
+    Get.lazyPut<AuthRepository>(
+      () => AuthRepositoryImpl(Get.find<AuthProvider>()),
+    );
 
     // Location Dependencies
-    Get.lazyPut<LocationProvider>(() => LocationProvider(Get.find<ApiService>()));
-    Get.lazyPut<LocationRepository>(() => LocationRepositoryImpl(Get.find<LocationProvider>()));
+    Get.lazyPut<LocationProvider>(
+      () => LocationProvider(Get.find<ApiService>()),
+    );
+    Get.lazyPut<LocationRepository>(
+      () => LocationRepositoryImpl(Get.find<LocationProvider>()),
+    );
 
     Get.lazyPut<RegisterController>(
       () => RegisterController(

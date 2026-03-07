@@ -16,16 +16,24 @@ class AuthRepositoryImpl implements AuthRepository {
 
       final token = response['token'] as String?;
       if (token != null) {
-        StorageService.writeStringData(key: LocalStorageKeys.token, value: token);
+        StorageService.writeStringData(
+          key: LocalStorageKeys.token,
+          value: token,
+        );
         logger.i('[AuthRepositoryImpl] [login] Token saved to storage');
       }
 
       final userData = response;
       final user = UserModel.fromJson(userData);
 
-      StorageService.writeMapData(key: LocalStorageKeys.user, value: user.toJson());
+      StorageService.writeMapData(
+        key: LocalStorageKeys.user,
+        value: user.toJson(),
+      );
 
-      logger.i('[AuthRepositoryImpl] [login] Login successful for user: ${user.email}');
+      logger.i(
+        '[AuthRepositoryImpl] [login] Login successful for user: ${user.email}',
+      );
       return user;
     } catch (e) {
       logger.e('[AuthRepositoryImpl] [login] Login failed: $e');
@@ -40,14 +48,24 @@ class AuthRepositoryImpl implements AuthRepository {
 
       final token = response['token'] as String?;
       if (token != null) {
-        StorageService.writeStringData(key: LocalStorageKeys.token, value: token);
-        logger.i('[AuthRepositoryImpl] [registerClient] Token saved to storage');
+        StorageService.writeStringData(
+          key: LocalStorageKeys.token,
+          value: token,
+        );
+        logger.i(
+          '[AuthRepositoryImpl] [registerClient] Token saved to storage',
+        );
       }
 
       final user = UserModel.fromJson(response);
-      StorageService.writeMapData(key: LocalStorageKeys.user, value: user.toJson());
+      StorageService.writeMapData(
+        key: LocalStorageKeys.user,
+        value: user.toJson(),
+      );
 
-      logger.i('[AuthRepositoryImpl] [registerClient] Registration successful for: ${user.email}');
+      logger.i(
+        '[AuthRepositoryImpl] [registerClient] Registration successful for: ${user.email}',
+      );
       return user;
     } catch (e) {
       logger.e('[AuthRepositoryImpl] [registerClient] Failed: $e');
@@ -62,14 +80,24 @@ class AuthRepositoryImpl implements AuthRepository {
 
       final token = response['token'] as String?;
       if (token != null) {
-        StorageService.writeStringData(key: LocalStorageKeys.token, value: token);
-        logger.i('[AuthRepositoryImpl] [registerPartner] Token saved to storage');
+        StorageService.writeStringData(
+          key: LocalStorageKeys.token,
+          value: token,
+        );
+        logger.i(
+          '[AuthRepositoryImpl] [registerPartner] Token saved to storage',
+        );
       }
 
       final user = UserModel.fromJson(response);
-      StorageService.writeMapData(key: LocalStorageKeys.user, value: user.toJson());
+      StorageService.writeMapData(
+        key: LocalStorageKeys.user,
+        value: user.toJson(),
+      );
 
-      logger.i('[AuthRepositoryImpl] [registerPartner] Registration successful for: ${user.email}');
+      logger.i(
+        '[AuthRepositoryImpl] [registerPartner] Registration successful for: ${user.email}',
+      );
       return user;
     } catch (e) {
       logger.e('[AuthRepositoryImpl] [registerPartner] Failed: $e');
@@ -87,7 +115,9 @@ class AuthRepositoryImpl implements AuthRepository {
       if (isValid) {
         logger.i('[AuthRepositoryImpl] [checkToken] Token is valid');
       } else {
-        logger.w('[AuthRepositoryImpl] [checkToken] Token is invalid or expired');
+        logger.w(
+          '[AuthRepositoryImpl] [checkToken] Token is invalid or expired',
+        );
       }
 
       return isValid;

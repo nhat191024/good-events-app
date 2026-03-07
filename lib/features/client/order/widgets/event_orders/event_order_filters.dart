@@ -2,10 +2,7 @@ import 'package:sukientotapp/core/utils/import/global.dart';
 import '../../controller.dart';
 
 class EventOrderFilters extends StatelessWidget {
-  const EventOrderFilters({
-    super.key,
-    required this.controller,
-  });
+  const EventOrderFilters({super.key, required this.controller});
 
   final ClientOrderController controller;
 
@@ -86,7 +83,9 @@ class EventOrderFilters extends StatelessWidget {
                             ? const SizedBox(
                                 height: 16,
                                 width: 16,
-                                child: CircularProgressIndicator(strokeWidth: 2),
+                                child: CircularProgressIndicator(
+                                  strokeWidth: 2,
+                                ),
                               )
                             : Icon(
                                 Icons.refresh,
@@ -113,22 +112,19 @@ class EventOrderFilters extends StatelessWidget {
                 GestureDetector(
                   onTap: () => _showSortBottomSheet(context, controller),
                   child: Container(
-                    padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 6),
+                    padding: const EdgeInsets.symmetric(
+                      horizontal: 12,
+                      vertical: 6,
+                    ),
                     decoration: BoxDecoration(
                       color: Colors.white,
                       borderRadius: BorderRadius.circular(16),
-                      border: Border.all(
-                        color: Colors.grey[300]!,
-                      ),
+                      border: Border.all(color: Colors.grey[300]!),
                     ),
                     child: Row(
                       mainAxisSize: MainAxisSize.min,
                       children: [
-                        Icon(
-                          Icons.sort,
-                          size: 16,
-                          color: Colors.grey[700],
-                        ),
+                        Icon(Icons.sort, size: 16, color: Colors.grey[700]),
                         const SizedBox(width: 4),
                         Text(
                           'sort_${controller.selectedSort.value}'.tr,
@@ -146,21 +142,27 @@ class EventOrderFilters extends StatelessWidget {
                   label: 'status_pending'.tr,
                   value: 'pending',
                   color: const Color(0xFFF59E0B),
-                  isSelected: controller.selectedStatusFilters.contains('pending'),
+                  isSelected: controller.selectedStatusFilters.contains(
+                    'pending',
+                  ),
                   onTap: () => _toggleFilter(controller, 'pending'),
                 ),
                 _StatusChip(
                   label: 'status_confirmed'.tr,
                   value: 'confirmed',
                   color: const Color(0xFF3B82F6),
-                  isSelected: controller.selectedStatusFilters.contains('confirmed'),
+                  isSelected: controller.selectedStatusFilters.contains(
+                    'confirmed',
+                  ),
                   onTap: () => _toggleFilter(controller, 'confirmed'),
                 ),
                 _StatusChip(
                   label: 'status_in_job'.tr,
                   value: 'in_job',
                   color: const Color(0xFF10B981),
-                  isSelected: controller.selectedStatusFilters.contains('in_job'),
+                  isSelected: controller.selectedStatusFilters.contains(
+                    'in_job',
+                  ),
                   onTap: () => _toggleFilter(controller, 'in_job'),
                 ),
               ],
@@ -171,7 +173,10 @@ class EventOrderFilters extends StatelessWidget {
     );
   }
 
-  void _showSortBottomSheet(BuildContext context, ClientOrderController controller) {
+  void _showSortBottomSheet(
+    BuildContext context,
+    ClientOrderController controller,
+  ) {
     showModalBottomSheet(
       context: context,
       shape: const RoundedRectangleBorder(
@@ -184,7 +189,8 @@ class EventOrderFilters extends StatelessWidget {
             mainAxisSize: MainAxisSize.min,
             children: [
               Text(
-                'sort_by'.tr, // Make sure this key exists or use a hardcoded string/general key
+                'sort_by'
+                    .tr, // Make sure this key exists or use a hardcoded string/general key
                 style: context.typography.lg.copyWith(
                   fontWeight: FontWeight.bold,
                 ),
@@ -192,8 +198,18 @@ class EventOrderFilters extends StatelessWidget {
               const SizedBox(height: 10),
               _buildSortOption(context, controller, 'newest', 'sort_newest'),
               _buildSortOption(context, controller, 'oldest', 'sort_oldest'),
-              _buildSortOption(context, controller, 'highest_budget', 'sort_highest_budget'),
-              _buildSortOption(context, controller, 'lowest_budget', 'sort_lowest_budget'),
+              _buildSortOption(
+                context,
+                controller,
+                'highest_budget',
+                'sort_highest_budget',
+              ),
+              _buildSortOption(
+                context,
+                controller,
+                'lowest_budget',
+                'sort_lowest_budget',
+              ),
             ],
           ),
         );
@@ -211,8 +227,12 @@ class EventOrderFilters extends StatelessWidget {
       title: Text(
         labelKey.tr,
         style: context.typography.base.copyWith(
-          fontWeight: controller.selectedSort.value == value ? FontWeight.bold : FontWeight.normal,
-          color: controller.selectedSort.value == value ? context.primary : Colors.black87,
+          fontWeight: controller.selectedSort.value == value
+              ? FontWeight.bold
+              : FontWeight.normal,
+          color: controller.selectedSort.value == value
+              ? context.primary
+              : Colors.black87,
         ),
       ),
       trailing: controller.selectedSort.value == value

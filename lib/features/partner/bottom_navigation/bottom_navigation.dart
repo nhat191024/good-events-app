@@ -10,7 +10,8 @@ import 'package:sukientotapp/features/partner/new_show/screen.dart';
 import 'package:sukientotapp/features/common/message/screen.dart';
 import 'package:sukientotapp/features/common/account/screen.dart';
 
-class PartnerBottomNavigationView extends GetView<PartnerBottomNavigationController> {
+class PartnerBottomNavigationView
+    extends GetView<PartnerBottomNavigationController> {
   const PartnerBottomNavigationView({super.key});
 
   @override

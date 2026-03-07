@@ -35,7 +35,9 @@ class VerifyMethodCard extends StatelessWidget {
             color: selected ? primary : border,
             width: selected ? 2 : 1.5,
           ),
-          color: selected ? primary.withOpacity(0.05) : context.fTheme.colors.background,
+          color: selected
+              ? primary.withOpacity(0.05)
+              : context.fTheme.colors.background,
         ),
         child: Row(
           children: [
@@ -46,12 +48,16 @@ class VerifyMethodCard extends StatelessWidget {
               height: 44,
               decoration: BoxDecoration(
                 shape: BoxShape.circle,
-                color: selected ? primary : context.fTheme.colors.secondary.withOpacity(0.15),
+                color: selected
+                    ? primary
+                    : context.fTheme.colors.secondary.withOpacity(0.15),
               ),
               child: Icon(
                 icon,
                 size: 20,
-                color: selected ? Colors.white : context.fTheme.colors.mutedForeground,
+                color: selected
+                    ? Colors.white
+                    : context.fTheme.colors.mutedForeground,
               ),
             ),
             const SizedBox(width: 14),
@@ -61,11 +67,20 @@ class VerifyMethodCard extends StatelessWidget {
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  Text(title, style: const TextStyle(fontWeight: FontWeight.w500, fontSize: 14)),
+                  Text(
+                    title,
+                    style: const TextStyle(
+                      fontWeight: FontWeight.w500,
+                      fontSize: 14,
+                    ),
+                  ),
                   const SizedBox(height: 2),
                   Text(
                     subtitle,
-                    style: TextStyle(fontSize: 12, color: context.fTheme.colors.mutedForeground),
+                    style: TextStyle(
+                      fontSize: 12,
+                      color: context.fTheme.colors.mutedForeground,
+                    ),
                     overflow: TextOverflow.ellipsis,
                   ),
                 ],

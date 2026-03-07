@@ -48,7 +48,11 @@ class TransactionHistorySection extends StatelessWidget {
         ),
         child: Row(
           children: [
-            Icon(FIcons.calendar, color: context.fTheme.colors.foreground, size: 14),
+            Icon(
+              FIcons.calendar,
+              color: context.fTheme.colors.foreground,
+              size: 14,
+            ),
             const SizedBox(width: 5),
             Obx(
               () => Text(
@@ -90,12 +94,18 @@ class TransactionHistorySection extends StatelessWidget {
           Container(
             padding: const EdgeInsets.all(10),
             decoration: BoxDecoration(
-              color: transaction.type == 2 ? AppColors.red50 : AppColors.infoLight,
+              color: transaction.type == 2
+                  ? AppColors.red50
+                  : AppColors.infoLight,
               shape: BoxShape.circle,
             ),
             child: Icon(
-              transaction.type == 2 ? FIcons.banknoteArrowUp : FIcons.banknoteArrowDown,
-              color: transaction.type == 2 ? AppColors.primary : AppColors.infoMain,
+              transaction.type == 2
+                  ? FIcons.banknoteArrowUp
+                  : FIcons.banknoteArrowDown,
+              color: transaction.type == 2
+                  ? AppColors.primary
+                  : AppColors.infoMain,
               size: 16,
             ),
           ),
@@ -116,7 +126,9 @@ class TransactionHistorySection extends StatelessWidget {
                     ? '-${controller.formatPrice(transaction.amount)}'
                     : '+${controller.formatPrice(transaction.amount)}',
                 style: TextStyle(
-                  color: transaction.type == 2 ? AppColors.primary : AppColors.infoMain,
+                  color: transaction.type == 2
+                      ? AppColors.primary
+                      : AppColors.infoMain,
                   fontSize: 14,
                   fontWeight: FontWeight.w600,
                 ),

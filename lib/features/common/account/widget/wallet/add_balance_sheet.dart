@@ -6,12 +6,20 @@ import 'package:sukientotapp/features/components/text/customTextField.dart';
 import 'add_bank_account_sheet.dart';
 
 class AddBalanceSheet extends StatelessWidget {
-  const AddBalanceSheet({super.key, required this.controller, required this.label});
+  const AddBalanceSheet({
+    super.key,
+    required this.controller,
+    required this.label,
+  });
 
   final AccountController controller;
   final String label;
 
-  static Future show(BuildContext context, AccountController controller, String label) {
+  static Future show(
+    BuildContext context,
+    AccountController controller,
+    String label,
+  ) {
     return showModalBottomSheet(
       context: context,
       barrierColor: Colors.black.withValues(alpha: 0.1),
@@ -52,7 +60,10 @@ class AddBalanceSheet extends StatelessWidget {
                   padding: const EdgeInsets.fromLTRB(20, 15, 20, 10),
                   child: Text(
                     label,
-                    style: const TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
+                    style: const TextStyle(
+                      fontSize: 20,
+                      fontWeight: FontWeight.bold,
+                    ),
                   ),
                 ),
                 const Divider(color: AppColors.dividers, thickness: 1),

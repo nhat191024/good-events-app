@@ -24,12 +24,7 @@ class IntroText extends StatelessWidget {
                   fontSize: 32,
                   fontWeight: FontWeight.w600,
                   color: Colors.black,
-                  shadows: [
-                    Shadow(
-                      color: AppColors.darkBorder,
-                      blurRadius: 0,
-                    ),
-                  ],
+                  shadows: [Shadow(color: AppColors.darkBorder, blurRadius: 0)],
                 ),
                 textAlign: TextAlign.center,
               ),

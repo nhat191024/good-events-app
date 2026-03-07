@@ -18,11 +18,7 @@ class ShowScreen extends GetView<ShowController> {
       header: Header(controller: controller),
       child: TabBarView(
         controller: controller.tabController,
-        children: [
-          NewWidget(),
-          UpcomingWidget(),
-          HistoryWidget(),
-        ],
+        children: [NewWidget(), UpcomingWidget(), HistoryWidget()],
       ),
     );
   }

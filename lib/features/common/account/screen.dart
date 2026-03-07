@@ -20,38 +20,52 @@ class AccountScreen extends GetView<AccountController> {
             childPad: false,
             resizeToAvoidBottomInset: false,
             header: Container(
-              padding: EdgeInsets.only(top: context.statusBarHeight, left: 16, right: 16),
+              padding: EdgeInsets.only(
+                top: context.statusBarHeight,
+                left: 16,
+                right: 16,
+              ),
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: [
-                      FAvatar(
-                        image: NetworkImage(controller.avatar.value),
-                        size: 46.0,
-                        semanticsLabel: 'User avatar',
-                        fallback: const Text('ST'),
-                      ),
-                      const SizedBox(width: 10),
-                      Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          Text(
-                            controller.name.value,
-                            style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
-                          ),
-                          FBadge(
-                            child: Text(
-                              'verified'.tr,
-                              style: context.typography.xs.copyWith(
-                                color: context.fTheme.colors.primaryForeground,
+                  Expanded(
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.start,
+                      children: [
+                        FAvatar(
+                          image: NetworkImage(controller.avatar.value),
+                          size: 46.0,
+                          semanticsLabel: 'User avatar',
+                          fallback: const Text('ST'),
+                        ),
+                        const SizedBox(width: 10),
+                        Expanded(
+                          child: Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              Text(
+                                controller.name.value,
+                                maxLines: 1,
+                                overflow: TextOverflow.ellipsis,
+                                style: const TextStyle(
+                                  fontSize: 20,
+                                  fontWeight: FontWeight.bold,
+                                ),
                               ),
-                            ),
+                              FBadge(
+                                child: Text(
+                                  'verified'.tr,
+                                  style: context.typography.xs.copyWith(
+                                    color:
+                                        context.fTheme.colors.primaryForeground,
+                                  ),
+                                ),
+                              ),
+                            ],
                           ),
-                        ],
-                      ),
-                    ],
+                        ),
+                      ],
+                    ),
                   ),
                   Row(
                     children: [
@@ -94,25 +108,48 @@ class AccountScreen extends GetView<AccountController> {
                                 crossAxisAlignment: CrossAxisAlignment.start,
                                 children: [
                                   Padding(
-                                    padding: const EdgeInsets.fromLTRB(20, 0, 20, 0),
+                                    padding: const EdgeInsets.fromLTRB(
+                                      20,
+                                      0,
+                                      20,
+                                      0,
+                                    ),
                                     child: Text(
                                       'general_setting'.tr,
                                       style: TextStyle(
-                                        color: context.fTheme.colors.mutedForeground,
+                                        color: context
+                                            .fTheme
+                                            .colors
+                                            .mutedForeground,
                                         fontWeight: FontWeight.bold,
                                         fontSize: 16,
                                       ),
                                     ),
                                   ),
-                                  _buildListItem(context, 'my_profile'.tr, FIcons.user, () {
-                                    // Get.toNamed(Routes.profileScreen);
-                                  }),
-                                  _buildListItem(context, 'show_calendar'.tr, FIcons.calendar1, () {
-                                    // Get.toNamed(Routes.profileScreen);
-                                  }),
-                                  _buildListItem(context, 'my_services'.tr, FIcons.briefcase, () {
-                                    // Get.toNamed(Routes.profileScreen);
-                                  }),
+                                  _buildListItem(
+                                    context,
+                                    'my_profile'.tr,
+                                    FIcons.user,
+                                    () {
+                                      // Get.toNamed(Routes.profileScreen);
+                                    },
+                                  ),
+                                  _buildListItem(
+                                    context,
+                                    'show_calendar'.tr,
+                                    FIcons.calendar1,
+                                    () {
+                                      // Get.toNamed(Routes.profileScreen);
+                                    },
+                                  ),
+                                  _buildListItem(
+                                    context,
+                                    'my_services'.tr,
+                                    FIcons.briefcase,
+                                    () {
+                                      // Get.toNamed(Routes.profileScreen);
+                                    },
+                                  ),
                                   _buildListItem(
                                     context,
                                     'revenue_statistics'.tr,
@@ -127,13 +164,24 @@ class AccountScreen extends GetView<AccountController> {
                                     FIcons.lockKeyholeOpen,
                                     () {},
                                   ),
-                                  const Divider(color: AppColors.dividers, thickness: 1),
+                                  const Divider(
+                                    color: AppColors.dividers,
+                                    thickness: 1,
+                                  ),
                                   Padding(
-                                    padding: const EdgeInsets.fromLTRB(20, 0, 20, 0),
+                                    padding: const EdgeInsets.fromLTRB(
+                                      20,
+                                      0,
+                                      20,
+                                      0,
+                                    ),
                                     child: Text(
                                       'more_setting'.tr,
                                       style: TextStyle(
-                                        color: context.fTheme.colors.mutedForeground,
+                                        color: context
+                                            .fTheme
+                                            .colors
+                                            .mutedForeground,
                                         fontWeight: FontWeight.bold,
                                         fontSize: 16,
                                       ),
@@ -163,14 +211,22 @@ class AccountScreen extends GetView<AccountController> {
                                       // Get.toNamed(Routes.supportScreen);
                                     },
                                   ),
-                                  _buildListItem(context, 'report_problem'.tr, FIcons.flag, () {}),
+                                  _buildListItem(
+                                    context,
+                                    'report_problem'.tr,
+                                    FIcons.flag,
+                                    () {},
+                                  ),
                                   _buildListItem(
                                     context,
                                     'privacy_policy'.tr,
                                     FIcons.shieldCheck,
                                     () {},
                                   ),
-                                  const Divider(color: AppColors.dividers, thickness: 1),
+                                  const Divider(
+                                    color: AppColors.dividers,
+                                    thickness: 1,
+                                  ),
                                   _buildListItem(
                                     context,
                                     'logout'.tr,
@@ -194,7 +250,9 @@ class AccountScreen extends GetView<AccountController> {
                       color: Colors.black.withValues(alpha: 0.5),
                       child: Center(
                         child: CircularProgressIndicator(
-                          valueColor: AlwaysStoppedAnimation<Color>(context.fTheme.colors.primary),
+                          valueColor: AlwaysStoppedAnimation<Color>(
+                            context.fTheme.colors.primary,
+                          ),
                         ),
                       ),
                     ),
@@ -234,7 +292,9 @@ class AccountScreen extends GetView<AccountController> {
             Text(
               title,
               style: TextStyle(
-                color: isDisabled ? context.fTheme.colors.muted : context.fTheme.colors.foreground,
+                color: isDisabled
+                    ? context.fTheme.colors.muted
+                    : context.fTheme.colors.foreground,
                 fontSize: 16,
                 fontWeight: FontWeight.normal,
               ),

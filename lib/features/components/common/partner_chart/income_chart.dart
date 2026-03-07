@@ -6,7 +6,12 @@ class IncomeChart extends StatelessWidget {
   final String? unit;
   final double aspectRatio;
 
-  const IncomeChart({super.key, required this.spots, this.unit, this.aspectRatio = 2});
+  const IncomeChart({
+    super.key,
+    required this.spots,
+    this.unit,
+    this.aspectRatio = 2,
+  });
 
   NumberFormat get _numberFmt => NumberFormat.decimalPattern();
 
@@ -51,7 +56,11 @@ class IncomeChart extends StatelessWidget {
   }
 
   Widget _bottomTitleWidgets(double value, TitleMeta meta) {
-    final style = TextStyle(fontWeight: FontWeight.w600, fontSize: 10, color: Colors.black);
+    final style = TextStyle(
+      fontWeight: FontWeight.w600,
+      fontSize: 10,
+      color: Colors.black,
+    );
     final label = _defaultBottomLabel(value.toInt());
 
     return SideTitleWidget(
@@ -90,22 +99,35 @@ class IncomeChart extends StatelessWidget {
         touchTooltipData: LineTouchTooltipData(
           getTooltipColor: (spots) => Colors.black.withValues(alpha: 0.8),
           tooltipBorderRadius: BorderRadius.circular(8),
-          tooltipPadding: const EdgeInsets.symmetric(horizontal: 8, vertical: 6),
+          tooltipPadding: const EdgeInsets.symmetric(
+            horizontal: 8,
+            vertical: 6,
+          ),
           getTooltipItems: (spots) {
             return spots.map((spot) {
               final y = spot.y;
               return LineTooltipItem(
                 '${_numberFmt.format(y)}${unit ?? ''}',
-                TextStyle(color: Colors.white, fontWeight: FontWeight.w500, fontSize: 10),
+                TextStyle(
+                  color: Colors.white,
+                  fontWeight: FontWeight.w500,
+                  fontSize: 10,
+                ),
               );
             }).toList();
           },
         ),
       ),
-      gridData: FlGridData(show: true, drawVerticalLine: false, drawHorizontalLine: true),
+      gridData: FlGridData(
+        show: true,
+        drawVerticalLine: false,
+        drawHorizontalLine: true,
+      ),
       titlesData: FlTitlesData(
         show: true,
-        rightTitles: const AxisTitles(sideTitles: SideTitles(showTitles: false)),
+        rightTitles: const AxisTitles(
+          sideTitles: SideTitles(showTitles: false),
+        ),
         topTitles: const AxisTitles(sideTitles: SideTitles(showTitles: false)),
         bottomTitles: AxisTitles(
           sideTitles: SideTitles(
@@ -117,17 +139,33 @@ class IncomeChart extends StatelessWidget {
         ),
         leftTitles: AxisTitles(sideTitles: SideTitles(showTitles: false)),
       ),
-      borderData: FlBorderData(show: true, border: Border.all(color: const Color(0xff37434d))),
-      minX: spots.map((s) => s.x).fold<double>(double.infinity, (p, n) => n < p ? n : p),
-      maxX: spots.map((s) => s.x).fold<double>(-double.infinity, (p, n) => n > p ? n : p),
-      minY: spots.map((s) => s.y).fold<double>(double.infinity, (p, n) => n < p ? n : p) < 0
-          ? spots.map((s) => s.y).fold<double>(double.infinity, (p, n) => n < p ? n : p)
+      borderData: FlBorderData(
+        show: true,
+        border: Border.all(color: const Color(0xff37434d)),
+      ),
+      minX: spots
+          .map((s) => s.x)
+          .fold<double>(double.infinity, (p, n) => n < p ? n : p),
+      maxX: spots
+          .map((s) => s.x)
+          .fold<double>(-double.infinity, (p, n) => n > p ? n : p),
+      minY:
+          spots
+                  .map((s) => s.y)
+                  .fold<double>(double.infinity, (p, n) => n < p ? n : p) <
+              0
+          ? spots
+                .map((s) => s.y)
+                .fold<double>(double.infinity, (p, n) => n < p ? n : p)
           : 0,
-      maxY: spots.map((s) => s.y).fold<double>(-double.infinity, (p, n) => n > p ? n : p),
+      maxY: spots
+          .map((s) => s.y)
+          .fold<double>(-double.infinity, (p, n) => n > p ? n : p),
       lineBarsData: [
         LineChartBarData(
           spots: spots,
           isCurved: true,
+          preventCurveOverShooting: true,
           gradient: LinearGradient(colors: _gradientColors),
           barWidth: 4,
           isStrokeCapRound: true,
@@ -135,7 +173,9 @@ class IncomeChart extends StatelessWidget {
           belowBarData: BarAreaData(
             show: true,
             gradient: LinearGradient(
-              colors: _gradientColors.map((c) => c.withValues(alpha: 0.25)).toList(),
+              colors: _gradientColors
+                  .map((c) => c.withValues(alpha: 0.25))
+                  .toList(),
             ),
           ),
         ),

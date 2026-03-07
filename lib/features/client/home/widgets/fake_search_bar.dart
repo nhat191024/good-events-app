@@ -4,11 +4,7 @@ import 'package:flutter_animate/flutter_animate.dart';
 import 'package:sukientotapp/core/utils/import/global.dart';
 
 class FakeSearchBar extends StatefulWidget {
-  const FakeSearchBar({
-    super.key,
-    required this.onTap,
-    this.readOnly = true,
-  });
+  const FakeSearchBar({super.key, required this.onTap, this.readOnly = true});
 
   final Function() onTap;
   final bool readOnly;
@@ -61,17 +57,23 @@ class _FakeSearchBarState extends State<FakeSearchBar> {
       children: [
         SearchBar(
               readOnly: widget.readOnly,
-              padding: const WidgetStatePropertyAll(EdgeInsets.symmetric(horizontal: 16)),
+              padding: const WidgetStatePropertyAll(
+                EdgeInsets.symmetric(horizontal: 16),
+              ),
               leading: const Icon(Icons.search),
               elevation: const WidgetStatePropertyAll(0),
-              side: WidgetStatePropertyAll(BorderSide(color: AppColors.primary.withAlpha(20))),
+              side: WidgetStatePropertyAll(
+                BorderSide(color: AppColors.primary.withAlpha(20)),
+              ),
               onTap: () => widget.onTap(),
             )
             .animate(onPlay: (c) => c.repeat(reverse: true))
             .boxShadow(
               begin: const BoxShadow(color: Colors.transparent, blurRadius: 0),
               end: BoxShadow(
-                color: AppColors.primary.withAlpha(90), // Fixed deprecated withAlpha
+                color: AppColors.primary.withAlpha(
+                  90,
+                ), // Fixed deprecated withAlpha
                 blurRadius: 8,
                 spreadRadius: 1,
               ),

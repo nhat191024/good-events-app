@@ -54,7 +54,11 @@ class CustomTextField extends StatelessWidget {
           RichText(
             text: TextSpan(
               text: labelText,
-              style: TextStyle(fontSize: 14, fontWeight: FontWeight.bold, color: labelColor),
+              style: TextStyle(
+                fontSize: 14,
+                fontWeight: FontWeight.bold,
+                color: labelColor,
+              ),
               children: isRequire == true
                   ? [
                       const TextSpan(
@@ -81,14 +85,18 @@ class CustomTextField extends StatelessWidget {
                 border: OutlineInputBorder(
                   borderRadius: BorderRadius.circular(14),
                   borderSide: BorderSide(
-                    color: isError.value ? AppColors.red600 : AppColors.dividers,
+                    color: isError.value
+                        ? AppColors.red600
+                        : AppColors.dividers,
                     width: 1,
                   ),
                 ),
                 enabledBorder: OutlineInputBorder(
                   borderRadius: BorderRadius.circular(14),
                   borderSide: BorderSide(
-                    color: isError.value ? AppColors.red600 : AppColors.dividers,
+                    color: isError.value
+                        ? AppColors.red600
+                        : AppColors.dividers,
                     width: 1,
                   ),
                 ),
@@ -99,12 +107,16 @@ class CustomTextField extends StatelessWidget {
                     : null,
                 focusedBorder: OutlineInputBorder(
                   borderSide: BorderSide(
-                    color: isError.value ? AppColors.red600 : AppColors.lightForeground,
+                    color: isError.value
+                        ? AppColors.red600
+                        : AppColors.lightForeground,
                     width: 1,
                   ),
                   borderRadius: BorderRadius.circular(14),
                 ),
-                filled: backgroundColor == AppColors.lightBackground ? isError.value : true,
+                filled: backgroundColor == AppColors.lightBackground
+                    ? isError.value
+                    : true,
                 fillColor: isError.value ? AppColors.red100 : backgroundColor,
                 suffixIcon: suffixIcon != null
                     ? IconButton(onPressed: onPress, icon: suffixIcon!)
@@ -119,7 +131,10 @@ class CustomTextField extends StatelessWidget {
                 ),
                 alignLabelWithHint: true,
                 isDense: true,
-                suffixIconConstraints: const BoxConstraints(minWidth: 0, minHeight: 0),
+                suffixIconConstraints: const BoxConstraints(
+                  minWidth: 0,
+                  minHeight: 0,
+                ),
                 floatingLabelBehavior: FloatingLabelBehavior.always,
               ),
             ),

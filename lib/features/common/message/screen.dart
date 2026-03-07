@@ -21,7 +21,11 @@ class MessageScreen extends GetView<MessageController> {
                   child: Column(
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
-                      const Icon(Icons.mail, size: 60, color: AppColors.lightMutedForeground),
+                      const Icon(
+                        Icons.mail,
+                        size: 60,
+                        color: AppColors.lightMutedForeground,
+                      ),
                       const SizedBox(height: 20),
                       Text(
                         'no_messages'.tr,
@@ -62,7 +66,8 @@ class MessageScreen extends GetView<MessageController> {
                   final message = controller.filteredMessages[index];
                   return Column(
                     children: [
-                      if (index != 0) const Divider(color: AppColors.lightBorder, height: 1),
+                      if (index != 0)
+                        const Divider(color: AppColors.lightBorder, height: 1),
                       GestureDetector(
                         onTap: () {
                           controller.id = message.id;
@@ -73,7 +78,10 @@ class MessageScreen extends GetView<MessageController> {
                           color: Colors.transparent,
                           child: Row(
                             children: [
-                              CircleAvatar(radius: 30, backgroundImage: AssetImage(message.avatar)),
+                              CircleAvatar(
+                                radius: 30,
+                                backgroundImage: AssetImage(message.avatar),
+                              ),
                               const SizedBox(width: 10),
                               Expanded(
                                 child: Column(
@@ -95,7 +103,8 @@ class MessageScreen extends GetView<MessageController> {
                                         Text(
                                           message.time,
                                           style: const TextStyle(
-                                            color: AppColors.lightMutedForeground,
+                                            color:
+                                                AppColors.lightMutedForeground,
                                             fontSize: 12,
                                           ),
                                         ),
@@ -109,7 +118,8 @@ class MessageScreen extends GetView<MessageController> {
                                             message.newestMessage,
                                             style: TextStyle(
                                               color: message.isRead
-                                                  ? AppColors.lightMutedForeground
+                                                  ? AppColors
+                                                        .lightMutedForeground
                                                   : AppColors.primary,
                                               fontSize: 13,
                                               fontWeight: message.isRead

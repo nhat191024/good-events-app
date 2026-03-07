@@ -24,7 +24,10 @@ class BookingLocationStage extends GetView<ClientBookingController> {
               Text(
                 'booking_stage_location_title'.tr,
                 textAlign: TextAlign.center,
-                style: const TextStyle(fontSize: 32, fontWeight: FontWeight.w700),
+                style: const TextStyle(
+                  fontSize: 32,
+                  fontWeight: FontWeight.w700,
+                ),
               ),
               const SizedBox(height: 6),
               Text(

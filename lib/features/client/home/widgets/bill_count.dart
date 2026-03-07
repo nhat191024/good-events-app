@@ -55,7 +55,8 @@ class _BillItem extends StatefulWidget {
   State<_BillItem> createState() => _BillItemState();
 }
 
-class _BillItemState extends State<_BillItem> with SingleTickerProviderStateMixin {
+class _BillItemState extends State<_BillItem>
+    with SingleTickerProviderStateMixin {
   AnimationController? _controller;
 
   @override
@@ -86,11 +87,23 @@ class _BillItemState extends State<_BillItem> with SingleTickerProviderStateMixi
                     Container(
                       margin: const EdgeInsets.fromLTRB(15, 15, 16, 0),
                       padding: const EdgeInsets.all(15),
-                      decoration: BoxDecoration(color: widget.iconBgColor, shape: BoxShape.circle),
-                      child: Icon(widget.iconData, color: Colors.white, size: 24),
+                      decoration: BoxDecoration(
+                        color: widget.iconBgColor,
+                        shape: BoxShape.circle,
+                      ),
+                      child: Icon(
+                        widget.iconData,
+                        color: Colors.white,
+                        size: 24,
+                      ),
                     ),
                     Padding(
-                      padding: const EdgeInsets.only(left: 15, right: 15, top: 6, bottom: 15),
+                      padding: const EdgeInsets.only(
+                        left: 15,
+                        right: 15,
+                        top: 6,
+                        bottom: 15,
+                      ),
                       child: Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [

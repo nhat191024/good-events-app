@@ -33,7 +33,9 @@ class PartnerLocationSelector extends GetView<RegisterController> {
                   },
             style: OutlinedButton.styleFrom(
               side: BorderSide(color: context.fTheme.colors.border),
-              shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(8)),
+              shape: RoundedRectangleBorder(
+                borderRadius: BorderRadius.circular(8),
+              ),
               padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 10),
               minimumSize: const Size(double.infinity, 44),
               alignment: Alignment.centerLeft,
@@ -52,7 +54,8 @@ class PartnerLocationSelector extends GetView<RegisterController> {
                   )
                 else
                   Text(
-                    controller.selectedProvince.value?.name ?? 'select_province_hint'.tr,
+                    controller.selectedProvince.value?.name ??
+                        'select_province_hint'.tr,
                     style: TextStyle(
                       color: controller.selectedProvince.value != null
                           ? context.fTheme.colors.foreground
@@ -60,7 +63,11 @@ class PartnerLocationSelector extends GetView<RegisterController> {
                     ),
                     overflow: TextOverflow.ellipsis,
                   ),
-                Icon(FIcons.chevronDown, size: 16, color: context.fTheme.colors.mutedForeground),
+                Icon(
+                  FIcons.chevronDown,
+                  size: 16,
+                  color: context.fTheme.colors.mutedForeground,
+                ),
               ],
             ),
           ),
@@ -74,7 +81,9 @@ class PartnerLocationSelector extends GetView<RegisterController> {
         const SizedBox(height: 6),
         Obx(
           () => OutlinedButton(
-            onPressed: controller.selectedProvince.value == null || controller.isFetchingWards.value
+            onPressed:
+                controller.selectedProvince.value == null ||
+                    controller.isFetchingWards.value
                 ? null
                 : () {
                     _showLocationBottomSheet(
@@ -90,7 +99,9 @@ class PartnerLocationSelector extends GetView<RegisterController> {
                   },
             style: OutlinedButton.styleFrom(
               side: BorderSide(color: context.fTheme.colors.border),
-              shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(8)),
+              shape: RoundedRectangleBorder(
+                borderRadius: BorderRadius.circular(8),
+              ),
               padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 10),
               minimumSize: const Size(double.infinity, 44),
               alignment: Alignment.centerLeft,
@@ -109,7 +120,8 @@ class PartnerLocationSelector extends GetView<RegisterController> {
                   )
                 else
                   Text(
-                    controller.selectedWard.value?.name ?? 'select_ward_hint'.tr,
+                    controller.selectedWard.value?.name ??
+                        'select_ward_hint'.tr,
                     style: TextStyle(
                       color: controller.selectedWard.value != null
                           ? context.fTheme.colors.foreground
@@ -117,7 +129,11 @@ class PartnerLocationSelector extends GetView<RegisterController> {
                     ),
                     overflow: TextOverflow.ellipsis,
                   ),
-                Icon(FIcons.chevronDown, size: 16, color: context.fTheme.colors.mutedForeground),
+                Icon(
+                  FIcons.chevronDown,
+                  size: 16,
+                  color: context.fTheme.colors.mutedForeground,
+                ),
               ],
             ),
           ),
@@ -129,8 +145,10 @@ class PartnerLocationSelector extends GetView<RegisterController> {
   String _removeDiacritics(String str) {
     // this makes "Hà Nội" and 'ha noi' match up
     // not a perfect solution but it is good enough for now
-    const withDiacritics = 'áàảãạâấầẩẫậăắằẳẵặđéèẻẽẹêếềểễệíìỉĩịóòỏõọôốồổỗộơớờởỡợúùủũụưứừửữựýỳỷỹỵ';
-    const withoutDiacritics = 'aaaaaaaaaaaaaaaaadeeeeeeeeeeeiiiiiooooooooooooooooouuuuuuuuuuuyyyyy';
+    const withDiacritics =
+        'áàảãạâấầẩẫậăắằẳẵặđéèẻẽẹêếềểễệíìỉĩịóòỏõọôốồổỗộơớờởỡợúùủũụưứừửữựýỳỷỹỵ';
+    const withoutDiacritics =
+        'aaaaaaaaaaaaaaaaadeeeeeeeeeeeiiiiiooooooooooooooooouuuuuuuuuuuyyyyy';
     var lowerStr = str.toLowerCase();
     for (int i = 0; i < withDiacritics.length; i++) {
       lowerStr = lowerStr.replaceAll(withDiacritics[i], withoutDiacritics[i]);
@@ -155,7 +173,12 @@ class PartnerLocationSelector extends GetView<RegisterController> {
           padding: const EdgeInsets.only(top: 16),
           child: Column(
             children: [
-              Text(title, style: context.typography.lg.copyWith(fontWeight: FontWeight.bold)),
+              Text(
+                title,
+                style: context.typography.lg.copyWith(
+                  fontWeight: FontWeight.bold,
+                ),
+              ),
               const SizedBox(height: 16),
               Padding(
                 padding: const EdgeInsets.symmetric(horizontal: 16.0),
@@ -166,7 +189,10 @@ class PartnerLocationSelector extends GetView<RegisterController> {
                     border: OutlineInputBorder(
                       borderRadius: BorderRadius.circular(12),
                     ),
-                    contentPadding: const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
+                    contentPadding: const EdgeInsets.symmetric(
+                      horizontal: 16,
+                      vertical: 12,
+                    ),
                   ),
                   onChanged: (val) => query.value = val,
                 ),
@@ -193,7 +219,10 @@ class PartnerLocationSelector extends GetView<RegisterController> {
                         child: Padding(
                           // Slightly increased vertical padding so it's easier to tap,
                           // but kept it small so the list stays dense.
-                          padding: const EdgeInsets.symmetric(vertical: 16.0, horizontal: 16.0),
+                          padding: const EdgeInsets.symmetric(
+                            vertical: 16.0,
+                            horizontal: 16.0,
+                          ),
                           child: Row(
                             mainAxisAlignment: MainAxisAlignment.start,
                             children: [
@@ -201,12 +230,18 @@ class PartnerLocationSelector extends GetView<RegisterController> {
                                 child: Text(
                                   item.name,
                                   style: TextStyle(
-                                    fontWeight: isSelected ? FontWeight.bold : FontWeight.normal,
+                                    fontWeight: isSelected
+                                        ? FontWeight.bold
+                                        : FontWeight.normal,
                                   ),
                                 ),
                               ),
                               if (isSelected)
-                                Icon(FIcons.check, color: context.fTheme.colors.primary, size: 18),
+                                Icon(
+                                  FIcons.check,
+                                  color: context.fTheme.colors.primary,
+                                  size: 18,
+                                ),
                             ],
                           ),
                         ),

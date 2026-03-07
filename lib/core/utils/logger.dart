@@ -1,13 +1,13 @@
 //Global logger can be used throughout the app by importing this file or the global imports. (see global.dart)
 // Logger Example usage:
-  // logger.d('Log message with 2 methods');
-  // logger.e('Error! Something bad happened', error: 'Test Error');
+// logger.d('Log message with 2 methods');
+// logger.e('Error! Something bad happened', error: 'Test Error');
 
 // Logger without stack trace example usage:
-  // loggerNoStack.i('Info message');
-  // loggerNoStack.w('Just a warning!');
-  // loggerNoStack.t({'key': 5, 'value': 'something'});
-  
+// loggerNoStack.i('Info message');
+// loggerNoStack.w('Just a warning!');
+// loggerNoStack.t({'key': 5, 'value': 'something'});
+
 import 'package:logger/logger.dart';
 
 final logger = Logger(

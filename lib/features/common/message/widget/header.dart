@@ -11,7 +11,12 @@ class Header extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      padding: EdgeInsets.only(top: context.statusBarHeight, left: 16, right: 16, bottom: 0),
+      padding: EdgeInsets.only(
+        top: context.statusBarHeight,
+        left: 16,
+        right: 16,
+        bottom: 0,
+      ),
       decoration: BoxDecoration(color: Colors.white),
       child: Column(
         children: [
@@ -23,7 +28,9 @@ class Header extends StatelessWidget {
               children: [
                 Text(
                   'messages'.tr,
-                  style: context.typography.xl.copyWith(fontWeight: FontWeight.bold),
+                  style: context.typography.xl.copyWith(
+                    fontWeight: FontWeight.bold,
+                  ),
                 ),
                 Positioned(
                   right: 0,
@@ -35,9 +42,18 @@ class Header extends StatelessWidget {
                     isOriginalAnimation: true,
 
                     buttonBorderColour: Colors.transparent,
-                    buttonWidget: const Icon(FIcons.search, color: Colors.black),
-                    trailingWidget: const Icon(FIcons.search, color: Colors.black),
-                    secondaryButtonWidget: const Icon(FIcons.x, color: Colors.black),
+                    buttonWidget: const Icon(
+                      FIcons.search,
+                      color: Colors.black,
+                    ),
+                    trailingWidget: const Icon(
+                      FIcons.search,
+                      color: Colors.black,
+                    ),
+                    secondaryButtonWidget: const Icon(
+                      FIcons.x,
+                      color: Colors.black,
+                    ),
 
                     isSearchBoxOnRightSide: true,
 

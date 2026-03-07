@@ -1,7 +1,10 @@
 import 'package:sukientotapp/core/utils/import/global.dart';
 
 class IncomePanel extends StatelessWidget {
-  const IncomePanel({super.key});
+  final int balance;
+  final int revenue;
+
+  const IncomePanel({super.key, required this.balance, required this.revenue});
 
   @override
   Widget build(BuildContext context) {
@@ -27,7 +30,11 @@ class IncomePanel extends StatelessWidget {
                         color: context.fTheme.colors.primaryForeground,
                         shape: BoxShape.circle,
                       ),
-                      child: Icon(FIcons.wallet, color: context.fTheme.colors.primary, size: 24),
+                      child: Icon(
+                        FIcons.wallet,
+                        color: context.fTheme.colors.primary,
+                        size: 24,
+                      ),
                     ),
                     const SizedBox(width: 6),
                     Column(
@@ -41,7 +48,7 @@ class IncomePanel extends StatelessWidget {
                           ),
                         ),
                         Text(
-                          '200k VND',
+                          FormatUtils.formatCurrency(balance),
                           style: context.typography.lg.copyWith(
                             fontWeight: FontWeight.bold,
                             color: context.fTheme.colors.primaryForeground,
@@ -64,7 +71,7 @@ class IncomePanel extends StatelessWidget {
                           ),
                         ),
                         Text(
-                          '200k VND',
+                          FormatUtils.formatCurrency(revenue),
                           style: context.typography.lg.copyWith(
                             fontWeight: FontWeight.bold,
                             color: context.fTheme.colors.primaryForeground,
@@ -114,7 +121,11 @@ class IncomePanel extends StatelessWidget {
                       fontWeight: FontWeight.bold,
                     ),
                   ),
-                  Icon(FIcons.arrowRight, color: context.fTheme.colors.primaryForeground, size: 16),
+                  Icon(
+                    FIcons.arrowRight,
+                    color: context.fTheme.colors.primaryForeground,
+                    size: 16,
+                  ),
                 ],
               ),
             ),

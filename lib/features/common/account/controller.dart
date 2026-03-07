@@ -9,16 +9,24 @@ class AccountController extends GetxController {
   AccountController(this._repository);
 
   final isLoading = false.obs;
-  RefreshController refreshController = RefreshController(initialRefresh: false);
+  RefreshController refreshController = RefreshController(
+    initialRefresh: false,
+  );
 
   //============================================================================
   // PERSONAL INFORMATION
   //============================================================================
-  RxString name = (StorageService.readMapData(key: LocalStorageKeys.user, mapKey: 'name') ?? '')
-      .toString()
-      .obs;
+  RxString name =
+      (StorageService.readMapData(key: LocalStorageKeys.user, mapKey: 'name') ??
+              '')
+          .toString()
+          .obs;
   RxString avatar =
-      (StorageService.readMapData(key: LocalStorageKeys.user, mapKey: 'avatar_url') ?? '')
+      (StorageService.readMapData(
+                key: LocalStorageKeys.user,
+                mapKey: 'avatar_url',
+              ) ??
+              '')
           .toString()
           .obs;
   final RxBool saveBankInfo = false.obs;
@@ -45,7 +53,13 @@ class AccountController extends GetxController {
   final RxBool isCardCvvError = false.obs;
 
   final List<Map<String, dynamic>> bankAccounts = [
-    {'id': 1, 'bank': 'PayOs', 'number': 'Nạp qua mã QR', 'expiry': 'N/A', 'name': 'PayOs'},
+    {
+      'id': 1,
+      'bank': 'PayOs',
+      'number': 'Nạp qua mã QR',
+      'expiry': 'N/A',
+      'name': 'PayOs',
+    },
   ];
 
   // @override

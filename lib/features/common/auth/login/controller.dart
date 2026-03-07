@@ -31,11 +31,20 @@ class LoginController extends GetxController {
 
     try {
       isLoading.value = true;
-      final user = await _authRepository.login(usernameController.text, passwordController.text);
-      Get.snackbar('success'.tr, 'login_successful'.trParams({'name': user.name}));
+      final user = await _authRepository.login(
+        usernameController.text,
+        passwordController.text,
+      );
+      Get.snackbar(
+        'success'.tr,
+        'login_successful'.trParams({'name': user.name}),
+      );
       await Future.delayed(const Duration(seconds: 1));
 
-      var role = StorageService.readMapData(key: LocalStorageKeys.user, mapKey: 'role');
+      var role = StorageService.readMapData(
+        key: LocalStorageKeys.user,
+        mapKey: 'role',
+      );
       switch (role) {
         case 'client':
           Get.offAllNamed(Routes.clientHome);

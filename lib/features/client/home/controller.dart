@@ -36,85 +36,85 @@ class HomeController extends GetxController {
 
     ///! this is just for demo purpose
     partnerList.assignAll([
-        PartnerCategory(
-          id: '1',
-          name: 'Chú hề',
-          image:
-              'https://sukientot.com/storage/uploads/323/conversions/01KDTH87AH1ZEMDZX14THM5XZY-thumb.webp',
-          partnerList: [
-            PartnerCard(
-              id: '1',
-              name: 'Chú hề vặn bóng',
-              image:
-                  'https://sukientot.com/storage/uploads/324/conversions/01KDTHT4BF7JJGK0X5G09EA75E-thumb.webp',
-            ),
-            PartnerCard(
-              id: '2',
-              name: 'Chú hề hoạt náo',
-              image:
-                  'https://sukientot.com/storage/uploads/325/conversions/01KDTKTWSYPWSCV6JPCHZWSYEK-thumb.webp',
-            ),
-            PartnerCard(
-              id: '3',
-              name: 'Chú hề MC',
-              image:
-                  'https://sukientot.com/storage/uploads/326/conversions/01KDTM9NMCN0F87TTVJP27KM45-thumb.webp',
-            ),
-          ],
-        ),
-        PartnerCategory(
-          id: '2',
-          name: 'Ảo thuật gia',
-          image:
-              'https://sukientot.com/storage/uploads/32/conversions/01KAZKSYMMC5D5V8HKP6AXY5Q0-thumb.webp',
-          partnerList: [
-            PartnerCard(
-              id: '1',
-              name: 'Ảo thuật gia sân khấu',
-              image:
-                  'https://sukientot.com/storage/uploads/33/conversions/01KAZMNRVPZF8RSQP0HV6HAV4C-thumb.webp',
-            ),
-            PartnerCard(
-              id: '2',
-              name: 'Ảo thuật gia đường phố',
-              image:
-                  'https://sukientot.com/storage/uploads/34/conversions/01KAZN2B7ES4X9ASXKNF14QPYK-thumb.webp',
-            ),
-            PartnerCard(
-              id: '3',
-              name: 'Ảo thuật gia hài hước',
-              image:
-                  'https://sukientot.com/storage/uploads/41/conversions/01KAZPKNS1SNP1ZNRZV8B91A77-thumb.webp',
-            ),
-          ],
-        ),
-        PartnerCategory(
-          id: '3',
-          name: 'Xiếc',
-          image:
-              'https://sukientot.com/storage/uploads/61/conversions/01KBC8Z19H8GXWVW2DFC2W0BK8-thumb.webp',
-          partnerList: [
-            PartnerCard(
-              id: '1',
-              name: 'Xiếc nhào lộn',
-              image:
-                  'https://sukientot.com/storage/uploads/60/conversions/01KBC8TP1MGAM7F58Y7MRSPC02-thumb.webp',
-            ),
-            PartnerCard(
-              id: '2',
-              name: 'Xiếc tung hứng',
-              image:
-                  'https://sukientot.com/storage/uploads/59/conversions/01KBC8GPSXZJDXTP073SNNMX4E-thumb.webp',
-            ),
-            PartnerCard(
-              id: '3',
-              name: 'Xiếc thú',
-              image:
-                  'https://sukientot.com/storage/uploads/56/conversions/01KBC4VWD53J4PM8361K0BT4AQ-thumb.webp',
-            ),
-          ],
-        ),
-      ]);
+      PartnerCategory(
+        id: '1',
+        name: 'Chú hề',
+        image:
+            'https://sukientot.com/storage/uploads/323/conversions/01KDTH87AH1ZEMDZX14THM5XZY-thumb.webp',
+        partnerList: [
+          PartnerCard(
+            id: '1',
+            name: 'Chú hề vặn bóng',
+            image:
+                'https://sukientot.com/storage/uploads/324/conversions/01KDTHT4BF7JJGK0X5G09EA75E-thumb.webp',
+          ),
+          PartnerCard(
+            id: '2',
+            name: 'Chú hề hoạt náo',
+            image:
+                'https://sukientot.com/storage/uploads/325/conversions/01KDTKTWSYPWSCV6JPCHZWSYEK-thumb.webp',
+          ),
+          PartnerCard(
+            id: '3',
+            name: 'Chú hề MC',
+            image:
+                'https://sukientot.com/storage/uploads/326/conversions/01KDTM9NMCN0F87TTVJP27KM45-thumb.webp',
+          ),
+        ],
+      ),
+      PartnerCategory(
+        id: '2',
+        name: 'Ảo thuật gia',
+        image:
+            'https://sukientot.com/storage/uploads/32/conversions/01KAZKSYMMC5D5V8HKP6AXY5Q0-thumb.webp',
+        partnerList: [
+          PartnerCard(
+            id: '1',
+            name: 'Ảo thuật gia sân khấu',
+            image:
+                'https://sukientot.com/storage/uploads/33/conversions/01KAZMNRVPZF8RSQP0HV6HAV4C-thumb.webp',
+          ),
+          PartnerCard(
+            id: '2',
+            name: 'Ảo thuật gia đường phố',
+            image:
+                'https://sukientot.com/storage/uploads/34/conversions/01KAZN2B7ES4X9ASXKNF14QPYK-thumb.webp',
+          ),
+          PartnerCard(
+            id: '3',
+            name: 'Ảo thuật gia hài hước',
+            image:
+                'https://sukientot.com/storage/uploads/41/conversions/01KAZPKNS1SNP1ZNRZV8B91A77-thumb.webp',
+          ),
+        ],
+      ),
+      PartnerCategory(
+        id: '3',
+        name: 'Xiếc',
+        image:
+            'https://sukientot.com/storage/uploads/61/conversions/01KBC8Z19H8GXWVW2DFC2W0BK8-thumb.webp',
+        partnerList: [
+          PartnerCard(
+            id: '1',
+            name: 'Xiếc nhào lộn',
+            image:
+                'https://sukientot.com/storage/uploads/60/conversions/01KBC8TP1MGAM7F58Y7MRSPC02-thumb.webp',
+          ),
+          PartnerCard(
+            id: '2',
+            name: 'Xiếc tung hứng',
+            image:
+                'https://sukientot.com/storage/uploads/59/conversions/01KBC8GPSXZJDXTP073SNNMX4E-thumb.webp',
+          ),
+          PartnerCard(
+            id: '3',
+            name: 'Xiếc thú',
+            image:
+                'https://sukientot.com/storage/uploads/56/conversions/01KBC4VWD53J4PM8361K0BT4AQ-thumb.webp',
+          ),
+        ],
+      ),
+    ]);
     isLoadingPartners.value = false;
   }
 
@@ -171,7 +171,8 @@ class HomeController extends GetxController {
         BlogCard(
           imageUrl:
               'https://sukientot.com/storage/uploads/928/conversions/01KG1YGAXR4AKAPND4Q8Y86KV6-thumb.webp',
-          title: 'TỔ CHỨC TIỆC SINH NHẬT, THÔI NÔI, KHAI TRƯƠNG NÊN CHỌN ĐỊA ĐIỂM NÀO?',
+          title:
+              'TỔ CHỨC TIỆC SINH NHẬT, THÔI NÔI, KHAI TRƯƠNG NÊN CHỌN ĐỊA ĐIỂM NÀO?',
           address: 'Địa điểm tổ chức sự kiện',
           capacity: 1,
           category: 'Tổ chức sự kiện',

@@ -19,7 +19,10 @@ class StorageService {
     box.write(key, value);
   }
 
-  static void writeMapData({required String key, required Map<String, dynamic> value}) {
+  static void writeMapData({
+    required String key,
+    required Map<String, dynamic> value,
+  }) {
     box.write(key, value);
   }
 

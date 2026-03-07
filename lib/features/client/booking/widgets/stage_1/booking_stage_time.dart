@@ -24,7 +24,10 @@ class BookingTimeStage extends GetView<ClientBookingController> {
               Text(
                 'booking_stage_time_title'.tr,
                 textAlign: TextAlign.center,
-                style: const TextStyle(fontSize: 32, fontWeight: FontWeight.w700),
+                style: const TextStyle(
+                  fontSize: 32,
+                  fontWeight: FontWeight.w700,
+                ),
               ),
               const SizedBox(height: 6),
               Text(
@@ -117,17 +120,25 @@ class BookingTimeStage extends GetView<ClientBookingController> {
             child: Column(
               children: [
                 Padding(
-                  padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
+                  padding: const EdgeInsets.symmetric(
+                    horizontal: 16,
+                    vertical: 12,
+                  ),
                   child: Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
                       FTappable(
                         onPress: () => Get.back(),
-                        child: Text('cancel'.tr, style: context.typography.base),
+                        child: Text(
+                          'cancel'.tr,
+                          style: context.typography.base,
+                        ),
                       ),
                       Text(
                         title,
-                        style: context.typography.base.copyWith(fontWeight: FontWeight.w600),
+                        style: context.typography.base.copyWith(
+                          fontWeight: FontWeight.w600,
+                        ),
                       ),
                       FTappable(
                         onPress: () {

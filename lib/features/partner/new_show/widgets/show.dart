@@ -82,7 +82,8 @@ class Show extends StatelessWidget {
             FIcons.userRound,
             'customer'.tr,
             clientName,
-            onTap: () => logger.i('Client user tapped'), //TODO: View client details
+            onTap: () =>
+                logger.i('Client user tapped'), //TODO: View client details
           ),
           _buildLineItem(context, FIcons.tag, 'needs'.tr, category),
           _buildLineItem(context, FIcons.ticket, 'event'.tr, event),
@@ -90,10 +91,20 @@ class Show extends StatelessWidget {
           Row(
             children: [
               Expanded(
-                child: _buildLineItem(context, FIcons.clockArrowUp, 'start_time'.tr, startTime),
+                child: _buildLineItem(
+                  context,
+                  FIcons.clockArrowUp,
+                  'start_time'.tr,
+                  startTime,
+                ),
               ),
               Expanded(
-                child: _buildLineItem(context, FIcons.clockArrowDown, 'end_time'.tr, endTime),
+                child: _buildLineItem(
+                  context,
+                  FIcons.clockArrowDown,
+                  'end_time'.tr,
+                  endTime,
+                ),
               ),
             ],
           ),
@@ -148,7 +159,9 @@ class Show extends StatelessWidget {
                         ? context.fTheme.colors.primary
                         : context.fTheme.colors.foreground,
                   ),
-                  recognizer: onTap != null ? (TapGestureRecognizer()..onTap = onTap) : null,
+                  recognizer: onTap != null
+                      ? (TapGestureRecognizer()..onTap = onTap)
+                      : null,
                 ),
               ],
             ),

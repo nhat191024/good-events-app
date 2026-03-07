@@ -55,7 +55,12 @@ class CustomButtonPlus extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Padding(
-      padding: EdgeInsets.fromLTRB(leftPadding, topPadding, rightPadding, bottomPadding),
+      padding: EdgeInsets.fromLTRB(
+        leftPadding,
+        topPadding,
+        rightPadding,
+        bottomPadding,
+      ),
       child: ElevatedButton(
         onPressed: (isDisabled || isLoading) ? null : onTap,
         style: ElevatedButton.styleFrom(
@@ -83,11 +88,20 @@ class CustomButtonPlus extends StatelessWidget {
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
                   if (icon != null) ...[
-                    Icon(icon, color: iconColor ?? AppColors.white, size: iconSize),
+                    Icon(
+                      icon,
+                      color: iconColor ?? AppColors.white,
+                      size: iconSize,
+                    ),
                     if (btnText != null) const SizedBox(width: 8),
                   ],
                   if (image != null) ...[
-                    Image(image: image!, height: 24, width: 24, color: imageColor),
+                    Image(
+                      image: image!,
+                      height: 24,
+                      width: 24,
+                      color: imageColor,
+                    ),
                     if (btnText != null) const SizedBox(width: 8),
                   ],
                   if (btnText != null) ...[

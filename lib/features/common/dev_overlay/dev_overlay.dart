@@ -13,7 +13,12 @@ class DevMenuItem {
   final VoidCallback? onTap;
   final List<DevMenuItem>? children;
 
-  DevMenuItem({this.icon = Icons.circle, required this.title, this.onTap, this.children});
+  DevMenuItem({
+    this.icon = Icons.circle,
+    required this.title,
+    this.onTap,
+    this.children,
+  });
 }
 
 class DevOverlay extends StatefulWidget {
@@ -75,7 +80,10 @@ class _DevOverlayState extends State<DevOverlay> {
                   ],
                 ),
                 child: Center(
-                  child: Icon(Icons.bug_report, color: FTheme.of(context).colors.primaryForeground),
+                  child: Icon(
+                    Icons.bug_report,
+                    color: FTheme.of(context).colors.primaryForeground,
+                  ),
                 ),
               ),
             ),
@@ -98,7 +106,9 @@ class _DevOverlayState extends State<DevOverlay> {
             borderRadius: const BorderRadius.vertical(top: Radius.circular(16)),
           ),
           child: ConstrainedBox(
-            constraints: BoxConstraints(maxHeight: MediaQuery.of(context).size.height * 0.75),
+            constraints: BoxConstraints(
+              maxHeight: MediaQuery.of(context).size.height * 0.75,
+            ),
             child: SingleChildScrollView(
               physics: const BouncingScrollPhysics(),
               child: Column(
@@ -107,7 +117,9 @@ class _DevOverlayState extends State<DevOverlay> {
                 children: [
                   Text(
                     "Dev Tools",
-                    style: FTheme.of(context).typography.xl2.copyWith(fontWeight: FontWeight.bold),
+                    style: FTheme.of(
+                      context,
+                    ).typography.xl2.copyWith(fontWeight: FontWeight.bold),
                   ),
                   const SizedBox(height: 16),
                   const ToggleThemeItem(),
@@ -155,21 +167,24 @@ class _DevOverlayState extends State<DevOverlay> {
         leading: Icon(parent.icon, color: FTheme.of(context).colors.foreground),
         title: Text(
           parent.title,
-          style: FTheme.of(
-            context,
-          ).typography.base.copyWith(color: FTheme.of(context).colors.foreground),
+          style: FTheme.of(context).typography.base.copyWith(
+            color: FTheme.of(context).colors.foreground,
+          ),
         ),
         children:
             parent.children?.map((child) {
               return Padding(
                 padding: const EdgeInsets.only(left: 24.0),
                 child: ListTile(
-                  leading: Icon(child.icon, color: FTheme.of(context).colors.foreground),
+                  leading: Icon(
+                    child.icon,
+                    color: FTheme.of(context).colors.foreground,
+                  ),
                   title: Text(
                     child.title,
-                    style: FTheme.of(
-                      context,
-                    ).typography.base.copyWith(color: FTheme.of(context).colors.foreground),
+                    style: FTheme.of(context).typography.base.copyWith(
+                      color: FTheme.of(context).colors.foreground,
+                    ),
                   ),
                   onTap: () {
                     Get.back();

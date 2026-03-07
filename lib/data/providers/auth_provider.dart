@@ -29,7 +29,9 @@ class AuthProvider {
         final errorMessage = e.response?.data['message'] ?? 'Login failed';
         throw Exception(errorMessage);
       } else {
-        throw Exception('Không thể kết nối đến server. Vui lòng kiểm tra mạng.');
+        throw Exception(
+          'Không thể kết nối đến server. Vui lòng kiểm tra mạng.',
+        );
       }
     } catch (e) {
       logger.e('[AuthProvider] [login] Unknown error: $e');
@@ -41,19 +43,27 @@ class AuthProvider {
   /// POST /register
   Future<Map<String, dynamic>> registerClient(Map<String, dynamic> data) async {
     try {
-      final response = await _apiService.dio.post(AppUrl.registerClient, data: data);
+      final response = await _apiService.dio.post(
+        AppUrl.registerClient,
+        data: data,
+      );
       if (response.statusCode == 200 || response.statusCode == 201) {
         return response.data as Map<String, dynamic>;
       } else {
-        throw Exception('Registration failed with status: ${response.statusCode}');
+        throw Exception(
+          'Registration failed with status: ${response.statusCode}',
+        );
       }
     } on DioException catch (e) {
       logger.e('[AuthProvider] [registerClient] DioException: ${e.message}');
       if (e.response != null) {
-        final errorMessage = e.response?.data['message'] ?? 'Registration failed';
+        final errorMessage =
+            e.response?.data['message'] ?? 'Registration failed';
         throw Exception(errorMessage);
       } else {
-        throw Exception('Không thể kết nối đến server. Vui lòng kiểm tra mạng.');
+        throw Exception(
+          'Không thể kết nối đến server. Vui lòng kiểm tra mạng.',
+        );
       }
     } catch (e) {
       logger.e('[AuthProvider] [registerClient] Unknown error: $e');
@@ -63,21 +73,31 @@ class AuthProvider {
 
   /// Partner Registration API call
   /// POST /register/partner
-  Future<Map<String, dynamic>> registerPartner(Map<String, dynamic> data) async {
+  Future<Map<String, dynamic>> registerPartner(
+    Map<String, dynamic> data,
+  ) async {
     try {
-      final response = await _apiService.dio.post(AppUrl.registerPartner, data: data);
+      final response = await _apiService.dio.post(
+        AppUrl.registerPartner,
+        data: data,
+      );
       if (response.statusCode == 200 || response.statusCode == 201) {
         return response.data as Map<String, dynamic>;
       } else {
-        throw Exception('Registration failed with status: ${response.statusCode}');
+        throw Exception(
+          'Registration failed with status: ${response.statusCode}',
+        );
       }
     } on DioException catch (e) {
       logger.e('[AuthProvider] [registerPartner] DioException: ${e.message}');
       if (e.response != null) {
-        final errorMessage = e.response?.data['message'] ?? 'Registration failed';
+        final errorMessage =
+            e.response?.data['message'] ?? 'Registration failed';
         throw Exception(errorMessage);
       } else {
-        throw Exception('Không thể kết nối đến server. Vui lòng kiểm tra mạng.');
+        throw Exception(
+          'Không thể kết nối đến server. Vui lòng kiểm tra mạng.',
+        );
       }
     } catch (e) {
       logger.e('[AuthProvider] [registerPartner] Unknown error: $e');

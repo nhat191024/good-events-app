@@ -61,7 +61,8 @@ class AppTranslations extends Translations {
 
       // verify screen
       'verify_account_title': 'Xác thực tài khoản',
-      'verify_account_subtitle': 'Chọn phương thức bạn muốn dùng để xác thực tài khoản.',
+      'verify_account_subtitle':
+          'Chọn phương thức bạn muốn dùng để xác thực tài khoản.',
       'verify_via_email': 'Xác thực qua Email',
       'verify_via_zalo': 'Xác thực qua Zalo',
       'verify_zalo_subtitle': 'Gửi mã OTP đến @phone',
@@ -121,7 +122,8 @@ class AppTranslations extends Translations {
       'about_the': 'về',
       'service': 'dịch vụ',
       'reference_price': 'Giá tham khảo',
-      'contact_to_get_detail_and_best_deal': 'Liên hệ để nhận báo giá chi tiết và ưu đãi tốt nhất.',
+      'contact_to_get_detail_and_best_deal':
+          'Liên hệ để nhận báo giá chi tiết và ưu đãi tốt nhất.',
       'partner_trustworthy': 'Đối tác uy tín, đã được xác minh.',
       'partner_professional': 'Phục vụ chuyên nghiệp, tận tâm.',
       'partner_competitive': 'Giá cả cạnh tranh, minh bạch.',
@@ -139,7 +141,8 @@ class AppTranslations extends Translations {
       'booking_event_custom': 'Nội dung sự kiện (Tùy chọn)',
       'booking_event_custom_placeholder': 'VD: Tổ chức thăm lăng bác',
       'booking_note_optional': 'Ghi chú bổ sung (Tùy chọn)',
-      'booking_note_placeholder': 'VD: Cần người mặc đồng phục có tông màu vàng',
+      'booking_note_placeholder':
+          'VD: Cần người mặc đồng phục có tông màu vàng',
       'booking_location': 'Địa điểm tổ chức',
       'booking_location_ward': 'Phường/Xã',
       'booking_select_province': 'Chọn tỉnh/thành',
@@ -155,11 +158,14 @@ class AppTranslations extends Translations {
       'event_type_conference': 'Hội nghị',
       'event_type_birthday': 'Sinh nhật',
       'booking_stage_time_title': 'Chọn thời gian',
-      'booking_stage_time_subtitle': 'Chọn giờ bắt đầu, kết thúc và ngày tổ chức.',
+      'booking_stage_time_subtitle':
+          'Chọn giờ bắt đầu, kết thúc và ngày tổ chức.',
       'booking_stage_event_title': 'Nội dung sự kiện',
-      'booking_stage_event_subtitle': 'Cho biết nội dung hoặc ghi chú cần thiết.',
+      'booking_stage_event_subtitle':
+          'Cho biết nội dung hoặc ghi chú cần thiết.',
       'booking_stage_location_title': 'Địa điểm tổ chức',
-      'booking_stage_location_subtitle': 'Chọn khu vực và nhập địa chỉ chi tiết.',
+      'booking_stage_location_subtitle':
+          'Chọn khu vực và nhập địa chỉ chi tiết.',
       'start_over': 'Bắt đầu lại',
 
       // client order
@@ -447,7 +453,8 @@ class AppTranslations extends Translations {
       'about_the': 'about the',
       'service': 'service',
       'reference_price': 'Reference price',
-      'contact_to_get_detail_and_best_deal': 'Contact to get detail and best deal',
+      'contact_to_get_detail_and_best_deal':
+          'Contact to get detail and best deal',
       'partner_trustworthy': 'A trusted partner, fully verified.',
       'partner_professional': 'Professional and dedicated service.',
       'partner_competitive': 'Competitive and transparent pricing.',
@@ -463,7 +470,8 @@ class AppTranslations extends Translations {
       'booking_event_type': 'Event type',
       'booking_event_type_placeholder': 'Select event type',
       'booking_event_custom': 'Event details (Optional)',
-      'booking_event_custom_placeholder': "e.g., Visit the President's Mausoleum",
+      'booking_event_custom_placeholder':
+          "e.g., Visit the President's Mausoleum",
       'booking_note_optional': 'Additional notes (Optional)',
       'booking_note_placeholder': 'e.g., Need staff with yellow uniforms',
       'booking_location': 'Location',
@@ -483,9 +491,11 @@ class AppTranslations extends Translations {
       'booking_stage_time_title': 'Select time',
       'booking_stage_time_subtitle': 'Pick start/end time and event date.',
       'booking_stage_event_title': 'Event details',
-      'booking_stage_event_subtitle': 'Describe the event and add notes if needed.',
+      'booking_stage_event_subtitle':
+          'Describe the event and add notes if needed.',
       'booking_stage_location_title': 'Select location',
-      'booking_stage_location_subtitle': 'Choose area and enter detailed address.',
+      'booking_stage_location_subtitle':
+          'Choose area and enter detailed address.',
       'start_over': 'Start over',
 
       // client order

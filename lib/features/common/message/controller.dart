@@ -107,7 +107,10 @@ class MessageController extends GetxController {
     } else {
       filteredMessages.assignAll(
         messages
-            .where((message) => message.name.toLowerCase().contains(query.toLowerCase()))
+            .where(
+              (message) =>
+                  message.name.toLowerCase().contains(query.toLowerCase()),
+            )
             .toList(),
       );
     }

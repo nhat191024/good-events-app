@@ -40,10 +40,7 @@ class AssetOrderList extends StatelessWidget {
                 ),
               ),
               Container(
-                padding: const EdgeInsets.symmetric(
-                  horizontal: 8,
-                  vertical: 4,
-                ),
+                padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
                 decoration: BoxDecoration(
                   color: context.primary.withValues(alpha: 0.1),
                   borderRadius: BorderRadius.circular(12),
@@ -93,9 +90,7 @@ class AssetOrderList extends StatelessWidget {
               style: BorderStyle.solid,
             ),
           ),
-          child: const Center(
-            child: CircularProgressIndicator(),
-          ),
+          child: const Center(child: CircularProgressIndicator()),
         );
       },
     );
@@ -117,17 +112,11 @@ class AssetOrderList extends StatelessWidget {
         child: Column(
           mainAxisSize: MainAxisSize.min,
           children: [
-            Icon(
-              Icons.inventory_2_outlined,
-              size: 48,
-              color: Colors.grey[300],
-            ),
+            Icon(Icons.inventory_2_outlined, size: 48, color: Colors.grey[300]),
             const SizedBox(height: 12),
             Text(
               emptyMessage,
-              style: context.typography.sm.copyWith(
-                color: Colors.grey[500],
-              ),
+              style: context.typography.sm.copyWith(color: Colors.grey[500]),
               textAlign: TextAlign.center,
             ),
           ],

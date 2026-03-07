@@ -24,7 +24,12 @@ class HomeScreen extends GetView<HomeController> {
 
     return FScaffold(
       header: Container(
-        padding: EdgeInsets.only(top: statusBarHeight, left: 16, right: 16, bottom: 5),
+        padding: EdgeInsets.only(
+          top: statusBarHeight,
+          left: 16,
+          right: 16,
+          bottom: 5,
+        ),
         child: Column(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           crossAxisAlignment: CrossAxisAlignment.start,

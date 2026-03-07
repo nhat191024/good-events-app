@@ -86,10 +86,7 @@ class _OrderHeaderState extends State<OrderHeader> {
                       ),
                       IconButton(
                         onPressed: _activateSearch,
-                        icon: Icon(
-                          Icons.search,
-                          color: context.primary,
-                        ),
+                        icon: Icon(Icons.search, color: context.primary),
                         tooltip: 'search_orders'.tr,
                       ),
                     ],

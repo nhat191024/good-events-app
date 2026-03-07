@@ -11,7 +11,14 @@ class ChatBubble extends StatelessWidget {
   Widget build(BuildContext context) {
     // Determine explicit file extension for display if needed
     // Using simple logic from original code
-    final isImage = message.isFile && ['jpg', 'jpeg', 'png', 'gif'].contains(message.fileExtension.toLowerCase());
+    final isImage =
+        message.isFile &&
+        [
+          'jpg',
+          'jpeg',
+          'png',
+          'gif',
+        ].contains(message.fileExtension.toLowerCase());
 
     return Padding(
       padding: isFirst
@@ -34,8 +41,12 @@ class ChatBubble extends StatelessWidget {
                     ? AppColors.primary
                     : AppColors.lightBackground,
                 borderRadius: BorderRadius.circular(16).copyWith(
-                  bottomRight: message.isSender ? const Radius.circular(0) : null,
-                  bottomLeft: !message.isSender ? const Radius.circular(0) : null,
+                  bottomRight: message.isSender
+                      ? const Radius.circular(0)
+                      : null,
+                  bottomLeft: !message.isSender
+                      ? const Radius.circular(0)
+                      : null,
                 ),
               ),
               child: Column(

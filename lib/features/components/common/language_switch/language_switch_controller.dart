@@ -9,7 +9,8 @@ class LanguageSwitchController extends GetxController {
     final saved = StorageService.readMapData(key: LocalStorageKeys.locale);
     if (saved is Map<String, dynamic>) {
       final code = (saved['languageCode'] ?? 'vi') as String;
-      final country = (saved['countryCode'] ?? (code == 'vi' ? 'VN' : 'US')) as String;
+      final country =
+          (saved['countryCode'] ?? (code == 'vi' ? 'VN' : 'US')) as String;
       locale.value = Locale(code, country);
       WidgetsBinding.instance.addPostFrameCallback((_) {
         Get.updateLocale(locale.value);
@@ -26,7 +27,10 @@ class LanguageSwitchController extends GetxController {
 
     StorageService.writeMapData(
       key: LocalStorageKeys.locale,
-      value: {'languageCode': newLocale.languageCode, 'countryCode': newLocale.countryCode},
+      value: {
+        'languageCode': newLocale.languageCode,
+        'countryCode': newLocale.countryCode,
+      },
     );
   }
 }

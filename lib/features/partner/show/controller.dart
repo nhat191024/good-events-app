@@ -2,7 +2,8 @@ import 'package:sukientotapp/core/utils/import/global.dart';
 
 import 'package:sukientotapp/domain/repositories/partner/show_repository.dart';
 
-class ShowController extends GetxController with GetSingleTickerProviderStateMixin {
+class ShowController extends GetxController
+    with GetSingleTickerProviderStateMixin {
   final ShowRepository _repository;
   ShowController(this._repository);
 
@@ -49,7 +50,8 @@ class ShowController extends GetxController with GetSingleTickerProviderStateMix
   }
 
   void _onScroll() {
-    if (scrollController.position.pixels >= scrollController.position.maxScrollExtent - 200 &&
+    if (scrollController.position.pixels >=
+            scrollController.position.maxScrollExtent - 200 &&
         !isLoadMore.value) {
       loadMore();
     }
@@ -75,7 +77,9 @@ class ShowController extends GetxController with GetSingleTickerProviderStateMix
     isUpcomingLoadMore.value = true;
     // Simulate network delay
     await Future.delayed(const Duration(seconds: 2));
-    upcomingItems.addAll(List.generate(5, (index) => upcomingItems.length + index));
+    upcomingItems.addAll(
+      List.generate(5, (index) => upcomingItems.length + index),
+    );
     isUpcomingLoadMore.value = false;
   }
 
@@ -91,7 +95,9 @@ class ShowController extends GetxController with GetSingleTickerProviderStateMix
     isHistoryLoadMore.value = true;
     // Simulate network delay
     await Future.delayed(const Duration(seconds: 2));
-    historyItems.addAll(List.generate(5, (index) => historyItems.length + index));
+    historyItems.addAll(
+      List.generate(5, (index) => historyItems.length + index),
+    );
     isHistoryLoadMore.value = false;
   }
 

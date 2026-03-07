@@ -42,7 +42,9 @@ class AssetOrderCard extends StatelessWidget {
           color: Colors.white,
           borderRadius: BorderRadius.circular(12),
           border: Border.all(
-            color: isSelected ? context.primary.withValues(alpha: 0.4) : Colors.transparent,
+            color: isSelected
+                ? context.primary.withValues(alpha: 0.4)
+                : Colors.transparent,
             width: isSelected ? 2 : 1,
           ),
           boxShadow: [
@@ -70,10 +72,7 @@ class AssetOrderCard extends StatelessWidget {
                     width: 60,
                     height: 60,
                     color: Colors.grey[200],
-                    child: Icon(
-                      Icons.image_outlined,
-                      color: Colors.grey[400],
-                    ),
+                    child: Icon(Icons.image_outlined, color: Colors.grey[400]),
                   ),
                 ),
               ),
@@ -137,11 +136,7 @@ class AssetOrderCard extends StatelessWidget {
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
                       Text(
-                        '${NumberFormat.currency(
-                          locale: 'vi_VN',
-                          symbol: '',
-                          decimalDigits: 0,
-                        ).format(price)} đ',
+                        '${NumberFormat.currency(locale: 'vi_VN', symbol: '', decimalDigits: 0).format(price)} đ',
                         style: context.typography.sm.copyWith(
                           fontWeight: FontWeight.bold,
                           color: context.primary,

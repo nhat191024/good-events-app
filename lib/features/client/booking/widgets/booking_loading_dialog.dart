@@ -26,7 +26,9 @@ class BookingLoadingDialog extends StatelessWidget {
             const SizedBox(height: 12),
             Text(
               'please_wait'.tr,
-              style: context.typography.base.copyWith(fontWeight: FontWeight.w600),
+              style: context.typography.base.copyWith(
+                fontWeight: FontWeight.w600,
+              ),
             ),
           ],
         ),

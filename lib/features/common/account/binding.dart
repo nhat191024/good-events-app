@@ -8,15 +8,16 @@ import 'package:sukientotapp/data/repositories/partner/account_repository_impl.d
 class AccountBinding extends Bindings {
   @override
   void dependencies() {
-    
     Get.lazyPut<ApiService>(() => ApiService(), fenix: true);
 
     //Remmber to register a provider if needed (99% u will need it)
 
-    Get.lazyPut<AccountRepository>(() => AccountRepositoryImpl(/*Provider Get.find here*/));
+    Get.lazyPut<AccountRepository>(
+      () => AccountRepositoryImpl(/*Provider Get.find here*/),
+    );
 
-    Get.lazyPut<AccountController>(() => AccountController(Get.find<AccountRepository>()));
-    
-    
+    Get.lazyPut<AccountController>(
+      () => AccountController(Get.find<AccountRepository>()),
+    );
   }
 }

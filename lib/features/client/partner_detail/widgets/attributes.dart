@@ -13,7 +13,11 @@ class PartnerAttributesWidget extends StatelessWidget {
       children: [
         Text(
           'main_info'.tr,
-          style: TextStyle(fontSize: 16, fontWeight: FontWeight.w600, color: Color(0xFF111827)),
+          style: TextStyle(
+            fontSize: 16,
+            fontWeight: FontWeight.w600,
+            color: Color(0xFF111827),
+          ),
         ),
         const SizedBox(height: 12),
         LayoutBuilder(
@@ -24,7 +28,11 @@ class PartnerAttributesWidget extends StatelessWidget {
                 spacing: 16,
                 runSpacing: 16,
                 children: [
-                  _buildAttributeCard('type'.tr, 'Sự kiện', constraints.maxWidth),
+                  _buildAttributeCard(
+                    'type'.tr,
+                    'Sự kiện',
+                    constraints.maxWidth,
+                  ),
                   _buildAttributeCard(
                     'field'.tr,
                     controller.subCategory.value,

@@ -14,9 +14,7 @@ class EventOrdersTab extends StatelessWidget {
     return Column(
       children: [
         // Filters Section
-        EventOrderFilters(
-          controller: controller,
-        ),
+        EventOrderFilters(controller: controller),
 
         // Child TabBar
         Container(

@@ -11,7 +11,10 @@ class PartnerContentWidget extends StatelessWidget {
   Widget build(BuildContext context) {
     return Container(
       padding: const EdgeInsets.all(24), // lg:p-10 equivalent-ish
-      decoration: BoxDecoration(color: Colors.white, borderRadius: BorderRadius.circular(24)),
+      decoration: BoxDecoration(
+        color: Colors.white,
+        borderRadius: BorderRadius.circular(24),
+      ),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
@@ -27,13 +30,20 @@ class PartnerContentWidget extends StatelessWidget {
           const SizedBox(height: 8),
           Text(
             '${'detailed_info'.tr.capitalizeFirst} ${'about_the'.tr} ${'service'.tr.toLowerCase()} ${'and'.tr.toLowerCase()} ${'partner'.tr.toLowerCase()}',
-            style: TextStyle(fontSize: 14, color: Color(0xFF6B7280)), // Gray-500
+            style: TextStyle(
+              fontSize: 14,
+              color: Color(0xFF6B7280),
+            ), // Gray-500
           ),
           const SizedBox(height: 32), // Space-y-8
           // Video Section
           const Text(
             'Video',
-            style: TextStyle(fontSize: 16, fontWeight: FontWeight.w600, color: Color(0xFF111827)),
+            style: TextStyle(
+              fontSize: 16,
+              fontWeight: FontWeight.w600,
+              color: Color(0xFF111827),
+            ),
           ),
           const SizedBox(height: 12),
           Container(
@@ -44,7 +54,9 @@ class PartnerContentWidget extends StatelessWidget {
               borderRadius: BorderRadius.circular(16),
               border: Border.all(color: const Color(0xFFF3F4F6)),
             ),
-            child: const Center(child: Icon(Icons.play_circle_fill, size: 50, color: Colors.grey)),
+            child: const Center(
+              child: Icon(Icons.play_circle_fill, size: 50, color: Colors.grey),
+            ),
           ),
           const SizedBox(height: 32),
 

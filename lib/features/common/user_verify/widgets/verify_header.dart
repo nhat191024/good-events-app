@@ -5,7 +5,10 @@ class VerifyHeader extends StatelessWidget {
   final Widget subtitle;
 
   VerifyHeader({super.key, required String title, required String subtitle})
-    : title = Text(title, style: const TextStyle(fontSize: 20, fontWeight: FontWeight.w600)),
+    : title = Text(
+        title,
+        style: const TextStyle(fontSize: 20, fontWeight: FontWeight.w600),
+      ),
       subtitle = Text(subtitle, style: const TextStyle(fontSize: 13));
 
   @override

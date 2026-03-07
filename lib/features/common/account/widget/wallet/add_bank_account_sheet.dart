@@ -50,7 +50,9 @@ class AddBankAccountSheet extends StatelessWidget {
       child: Material(
         color: Colors.transparent,
         child: Padding(
-          padding: EdgeInsets.only(bottom: MediaQuery.of(context).viewInsets.bottom),
+          padding: EdgeInsets.only(
+            bottom: MediaQuery.of(context).viewInsets.bottom,
+          ),
           child: SingleChildScrollView(
             child: Container(
               decoration: const BoxDecoration(
@@ -65,7 +67,10 @@ class AddBankAccountSheet extends StatelessWidget {
                     padding: const EdgeInsets.fromLTRB(20, 15, 20, 10),
                     child: Text(
                       "add_new_bank".tr,
-                      style: const TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
+                      style: const TextStyle(
+                        fontSize: 20,
+                        fontWeight: FontWeight.bold,
+                      ),
                     ),
                   ),
                   const Divider(color: AppColors.dividers, thickness: 1),
@@ -77,7 +82,10 @@ class AddBankAccountSheet extends StatelessWidget {
                       children: [
                         Container(
                           decoration: BoxDecoration(
-                            border: Border.all(color: AppColors.dividers, width: 1),
+                            border: Border.all(
+                              color: AppColors.dividers,
+                              width: 1,
+                            ),
                             borderRadius: BorderRadius.circular(24),
                           ),
                           child: Column(
@@ -85,7 +93,12 @@ class AddBankAccountSheet extends StatelessWidget {
                             mainAxisSize: MainAxisSize.min,
                             children: [
                               Padding(
-                                padding: const EdgeInsets.fromLTRB(15, 10, 15, 10),
+                                padding: const EdgeInsets.fromLTRB(
+                                  15,
+                                  10,
+                                  15,
+                                  10,
+                                ),
                                 child: _buildTextField(
                                   context,
                                   'cardholder_name'.tr,
@@ -96,9 +109,18 @@ class AddBankAccountSheet extends StatelessWidget {
                                   controller.isCardNameError,
                                 ),
                               ),
-                              const Divider(color: AppColors.dividers, thickness: 1, height: 1),
+                              const Divider(
+                                color: AppColors.dividers,
+                                thickness: 1,
+                                height: 1,
+                              ),
                               Padding(
-                                padding: const EdgeInsets.fromLTRB(15, 10, 15, 10),
+                                padding: const EdgeInsets.fromLTRB(
+                                  15,
+                                  10,
+                                  15,
+                                  10,
+                                ),
                                 child: _buildTextField(
                                   context,
                                   'card_number'.tr,
@@ -109,14 +131,24 @@ class AddBankAccountSheet extends StatelessWidget {
                                   controller.isCardNumberError,
                                 ),
                               ),
-                              const Divider(color: AppColors.dividers, thickness: 1, height: 1),
+                              const Divider(
+                                color: AppColors.dividers,
+                                thickness: 1,
+                                height: 1,
+                              ),
                               Row(
-                                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                mainAxisAlignment:
+                                    MainAxisAlignment.spaceBetween,
                                 crossAxisAlignment: CrossAxisAlignment.start,
                                 children: [
                                   Expanded(
                                     child: Padding(
-                                      padding: const EdgeInsets.fromLTRB(15, 10, 15, 8),
+                                      padding: const EdgeInsets.fromLTRB(
+                                        15,
+                                        10,
+                                        15,
+                                        8,
+                                      ),
                                       child: _buildTextField(
                                         context,
                                         'expire_date'.tr,
@@ -138,7 +170,12 @@ class AddBankAccountSheet extends StatelessWidget {
                                   ),
                                   Expanded(
                                     child: Padding(
-                                      padding: const EdgeInsets.fromLTRB(15, 10, 15, 8),
+                                      padding: const EdgeInsets.fromLTRB(
+                                        15,
+                                        10,
+                                        15,
+                                        8,
+                                      ),
                                       child: _buildTextField(
                                         context,
                                         'cvv'.tr,
@@ -162,7 +199,8 @@ class AddBankAccountSheet extends StatelessWidget {
                               Obx(
                                 () => GestureDetector(
                                   onTap: () {
-                                    controller.saveBankInfo.value = !controller.saveBankInfo.value;
+                                    controller.saveBankInfo.value =
+                                        !controller.saveBankInfo.value;
                                   },
                                   child: AnimatedContainer(
                                     duration: const Duration(milliseconds: 200),
@@ -176,7 +214,9 @@ class AddBankAccountSheet extends StatelessWidget {
                                       borderRadius: BorderRadius.circular(100),
                                     ),
                                     child: AnimatedAlign(
-                                      duration: const Duration(milliseconds: 200),
+                                      duration: const Duration(
+                                        milliseconds: 200,
+                                      ),
                                       alignment: controller.saveBankInfo.value
                                           ? Alignment.centerRight
                                           : Alignment.centerLeft,
@@ -260,8 +300,10 @@ class AddBankAccountSheet extends StatelessWidget {
             controller: controller,
             inputFormatters: [
               if (needFormatter) ...[
-                if (keyboardType == TextInputType.number) FilteringTextInputFormatter.digitsOnly,
-                if (label.toLowerCase().contains('cvv')) LengthLimitingTextInputFormatter(3),
+                if (keyboardType == TextInputType.number)
+                  FilteringTextInputFormatter.digitsOnly,
+                if (label.toLowerCase().contains('cvv'))
+                  LengthLimitingTextInputFormatter(3),
                 if (label.toLowerCase().contains('card')) cardNumFormatter,
                 if (label.toLowerCase().contains('expire')) expireFormatter,
               ],
@@ -282,7 +324,10 @@ class AddBankAccountSheet extends StatelessWidget {
               isDense: true,
               border: InputBorder.none,
             ),
-            style: TextStyle(color: context.fTheme.colors.mutedForeground, fontSize: 14),
+            style: TextStyle(
+              color: context.fTheme.colors.mutedForeground,
+              fontSize: 14,
+            ),
           ),
         ),
       ],
