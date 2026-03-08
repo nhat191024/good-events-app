@@ -68,10 +68,10 @@ class HomeScreen extends GetView<HomeController> {
             const ClientQuickActionPanel(),
 
             const SizedBox(height: 4),
-            const ClientBillCountPanel(),
+            ClientBillCountPanel(controller: controller),
 
             const SizedBox(height: 8),
-            const NewOrderPanel(),
+            NewOrderPanel(controller: controller),
 
             const SizedBox(height: 14),
 
