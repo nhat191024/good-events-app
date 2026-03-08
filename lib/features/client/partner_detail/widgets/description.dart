@@ -1,6 +1,6 @@
 import 'package:sukientotapp/core/utils/import/global.dart';
 import 'package:sukientotapp/features/client/partner_detail/controller.dart';
-// import 'package:webview_flutter/webview_flutter.dart'; // Consider if webview is needed for video iframe
+import 'package:flutter_html/flutter_html.dart';
 
 class PartnerContentWidget extends StatelessWidget {
   final PartnerDetailController controller;
@@ -62,13 +62,17 @@ class PartnerContentWidget extends StatelessWidget {
 
           // Description Text
           Obx(
-            () => Text(
-              controller.description.value,
-              style: const TextStyle(
-                fontSize: 14,
-                height: 1.6,
-                color: Color(0xFF374151), // Gray-700
-              ),
+            () => Html(
+              data: controller.description.value,
+              style: {
+                "body": Style(
+                  fontSize: FontSize(14),
+                  lineHeight: LineHeight(1.6),
+                  color: const Color(0xFF374151), // Gray-700
+                  margin: Margins.zero,
+                  padding: HtmlPaddings.zero,
+                ),
+              },
             ),
           ),
         ],
