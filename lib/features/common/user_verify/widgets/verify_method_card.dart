@@ -36,7 +36,7 @@ class VerifyMethodCard extends StatelessWidget {
             width: selected ? 2 : 1.5,
           ),
           color: selected
-              ? primary.withOpacity(0.05)
+              ? primary.withValues(alpha: 0.05)
               : context.fTheme.colors.background,
         ),
         child: Row(
@@ -50,7 +50,7 @@ class VerifyMethodCard extends StatelessWidget {
                 shape: BoxShape.circle,
                 color: selected
                     ? primary
-                    : context.fTheme.colors.secondary.withOpacity(0.15),
+                    : context.fTheme.colors.secondary.withValues(alpha: 0.15),
               ),
               child: Icon(
                 icon,
