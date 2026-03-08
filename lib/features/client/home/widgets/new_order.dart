@@ -1,16 +1,18 @@
 import 'package:flutter_animate/flutter_animate.dart';
 import 'package:sukientotapp/core/utils/import/global.dart';
 import 'package:sukientotapp/features/client/bottom_navigation/controller.dart';
+import 'package:sukientotapp/features/client/home/controller.dart';
 
 class NewOrderPanel extends StatefulWidget {
-  const NewOrderPanel({super.key});
+  const NewOrderPanel({super.key, required this.controller});
+
+  final HomeController controller;
 
   @override
   State<NewOrderPanel> createState() => _NewOrderPanelState();
 }
 
-class _NewOrderPanelState extends State<NewOrderPanel>
-    with SingleTickerProviderStateMixin {
+class _NewOrderPanelState extends State<NewOrderPanel> with SingleTickerProviderStateMixin {
   AnimationController? _controller;
 
   @override
@@ -27,61 +29,67 @@ class _NewOrderPanelState extends State<NewOrderPanel>
                   color: Colors.white,
                   borderRadius: BorderRadius.circular(24),
                 ),
-                child: Row(
-                  children: [
-                    Container(
-                      decoration: const BoxDecoration(
-                        color: Color(0xFFE48729),
-                        shape: BoxShape.circle,
-                      ),
-                      padding: const EdgeInsets.all(8),
-                      child: const Icon(
-                        Icons.star,
-                        color: Colors.white,
-                        size: 36,
-                      ),
-                    ),
-                    const SizedBox(width: 6),
-                    Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        Text(
-                          'new_applicant'.trParams({'count': '2+'}),
-                          style: const TextStyle(
-                            color: Colors.black,
-                            fontSize: 15,
-                            fontWeight: FontWeight.w500,
-                          ),
+                child: Obx(() {
+                  final summary = widget.controller.summary.value;
+                  final count = summary?.pendingPartners ?? 0;
+                  final countStr = count > 9 ? '9+' : count.toString();
+
+                  return Row(
+                    children: [
+                      Container(
+                        decoration: const BoxDecoration(
+                          color: Color(0xFFE48729),
+                          shape: BoxShape.circle,
                         ),
-                        const SizedBox(height: 4),
-                        Text(
-                          'waiting_for_response'.tr,
-                          style: const TextStyle(
-                            color: Colors.black,
-                            fontSize: 12,
-                            fontWeight: FontWeight.w300,
-                          ),
+                        padding: const EdgeInsets.all(8),
+                        child: const Icon(
+                          Icons.star,
+                          color: Colors.white,
+                          size: 36,
                         ),
-                      ],
-                    ),
-                    // if (controller.reviewers.isNotEmpty) ...[
-                    const Spacer(),
-                    // width is calculated to fit 5 items (4 overlaps + base avatar)
-                    SizedBox(
-                      width: 38 + (22 * 4),
-                      height: 38,
-                      child: Stack(
-                        clipBehavior: Clip.none,
-                        children: _buildAvatarList(),
                       ),
-                    ),
-                    // ] else ...[
-                    //TODO: handle empty state when have data
-                    //   const Spacer(),
-                    //   const _AvatarWidget(isLast: true),
-                    // ],
-                  ],
-                ),
+                      const SizedBox(width: 6),
+                      Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Text(
+                            'new_applicant'.trParams({'count': countStr}),
+                            style: const TextStyle(
+                              color: Colors.black,
+                              fontSize: 15,
+                              fontWeight: FontWeight.w500,
+                            ),
+                          ),
+                          const SizedBox(height: 4),
+                          Text(
+                            'waiting_for_response'.tr,
+                            style: const TextStyle(
+                              color: Colors.black,
+                              fontSize: 12,
+                              fontWeight: FontWeight.w300,
+                            ),
+                          ),
+                        ],
+                      ),
+                      // if (controller.reviewers.isNotEmpty) ...[
+                      const Spacer(),
+                      // width is calculated to fit 5 items (4 overlaps + base avatar)
+                      SizedBox(
+                        width: 38 + (22 * 4),
+                        height: 38,
+                        child: Stack(
+                          clipBehavior: Clip.none,
+                          children: _buildAvatarList(),
+                        ),
+                      ),
+                      // ] else ...[
+                      //TODO: handle empty state when have data
+                      //   const Spacer(),
+                      //   const _AvatarWidget(isLast: true),
+                      // ],
+                    ],
+                  );
+                }),
               )
               .animate(
                 autoPlay: false,
@@ -93,6 +101,8 @@ class _NewOrderPanelState extends State<NewOrderPanel>
 
   // NOTE: For showcase purpose we use fake data here.
   List<Widget> _buildAvatarList() {
+    /// this is not related to 'reviews', it's just a name for the pictures
+    /// this widget is for showing pending applicants
     final fakeReviewers = [
       'https://i.pravatar.cc/150?img=12',
       'https://i.pravatar.cc/150?img=5',

@@ -7,4 +7,10 @@ class AppUrl {
   static String wards(int provinceId) => '/locations/$provinceId/wards';
   static const String logout = '/logout';
   static const String partnerDashboard = '/partner/dashboard';
+
+  // Client Home Screen APIs
+  static const String homeSummary = '/event/home';
+  static const String homeBlogs = '/blog/home';
+  static const String partnerCategories = '/partner-categories';
+  static String partnerCategoryDetail(String slug) => '/partner-categories/$slug';
 }
