@@ -2,7 +2,7 @@ import 'dart:ui';
 import 'package:sukientotapp/core/utils/import/global.dart';
 import '../../controller.dart';
 import 'package:sukientotapp/features/components/button/plus.dart';
-import 'package:sukientotapp/features/components/text/customTextField.dart';
+import 'package:sukientotapp/features/components/text/custom_text_field.dart';
 import 'add_bank_account_sheet.dart';
 
 class AddBalanceSheet extends StatelessWidget {
