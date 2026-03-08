@@ -2,7 +2,6 @@ class BlogItemModel {
   final String title;
   final String slug;
   final String type;
-  final String tag;
   final String publishedHuman;
   final int? maxPeople;
   final String? address;
