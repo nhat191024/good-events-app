@@ -6,7 +6,7 @@ class BlogCard extends StatelessWidget {
   final String imageUrl;
   final String title;
   final String address;
-  final int capacity;
+  final int? capacity;
   final String category; // Bottom left tag
   final String tag; // Top right tag
   final DateTime date;
@@ -17,7 +17,7 @@ class BlogCard extends StatelessWidget {
     required this.imageUrl,
     required this.title,
     required this.address,
-    required this.capacity,
+    this.capacity,
     required this.category,
     required this.tag,
     required this.date,
@@ -161,25 +161,27 @@ class BlogCard extends StatelessWidget {
                   ),
                   const SizedBox(height: 6),
 
-                  Row(
-                    children: [
-                      const Icon(
-                        CupertinoIcons.person_2_fill,
-                        color: Colors.white,
-                        size: 14,
-                      ),
-                      const SizedBox(width: 6),
-                      Text(
-                        '$capacity khách',
-                        style: const TextStyle(
+                  if (capacity != null && capacity! > 0) ...[
+                    Row(
+                      children: [
+                        const Icon(
+                          CupertinoIcons.person_2_fill,
                           color: Colors.white,
-                          fontSize: 13,
-                          fontWeight: FontWeight.w500,
+                          size: 14,
                         ),
-                      ),
-                    ],
-                  ),
-                  const SizedBox(height: 12),
+                        const SizedBox(width: 6),
+                        Text(
+                          '$capacity khách',
+                          style: const TextStyle(
+                            color: Colors.white,
+                            fontSize: 13,
+                            fontWeight: FontWeight.w500,
+                          ),
+                        ),
+                      ],
+                    ),
+                    const SizedBox(height: 12),
+                  ],
 
                   // Footer
                   Row(
@@ -194,14 +196,14 @@ class BlogCard extends StatelessWidget {
                           color: AppColors.red500,
                           borderRadius: BorderRadius.circular(20),
                         ),
-                        child: Text(
-                          category.toUpperCase(),
-                          style: const TextStyle(
-                            color: Colors.white,
-                            fontSize: 11,
-                            fontWeight: FontWeight.w700,
-                          ),
-                        ),
+                        // child: Text(
+                        //   category.toUpperCase(),
+                        //   style: const TextStyle(
+                        //     color: Colors.white,
+                        //     fontSize: 11,
+                        //     fontWeight: FontWeight.w700,
+                        //   ),
+                        // ),
                       ),
                       Row(
                         children: [
