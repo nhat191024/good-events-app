@@ -1,5 +1,4 @@
 import 'package:sukientotapp/core/utils/import/global.dart';
-import 'package:intl/intl.dart';
 import '../../controller.dart';
 
 class EventOrderCard extends StatelessWidget {
