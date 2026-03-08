@@ -63,7 +63,7 @@ class BookingOptionSheet extends StatelessWidget {
                 shrinkWrap: true,
                 padding: const EdgeInsets.symmetric(horizontal: 12),
                 itemCount: options.length,
-                separatorBuilder: (_, __) => Divider(
+                separatorBuilder: (_, _) => Divider(
                   height: 1,
                   color: Colors.black.withValues(alpha: 0.08),
                 ),
