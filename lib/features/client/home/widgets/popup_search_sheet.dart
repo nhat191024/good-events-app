@@ -1,5 +1,6 @@
 import 'package:flutter_animate/flutter_animate.dart';
 import 'package:sukientotapp/core/utils/import/global.dart';
+import 'package:sukientotapp/data/models/client/partner_category_model.dart';
 
 class PopupPartnerSearchSheet extends StatelessWidget {
   const PopupPartnerSearchSheet({
@@ -9,7 +10,7 @@ class PopupPartnerSearchSheet extends StatelessWidget {
     required this.isLoadingPartners,
   });
 
-  final RxList<PartnerCategory> partnerCategories;
+  final RxList<PartnerCategoryModel> partnerCategories;
   final RxBool isLoadingPartners;
   // final TextEditingController controller;
 
@@ -100,7 +101,7 @@ class PopupPartnerSearchSheet extends StatelessWidget {
   }
 
   /// build partner category
-  Widget _buildPartnerCategory(PartnerCategory category) {
+  Widget _buildPartnerCategory(PartnerCategoryModel category) {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start, // Ensure proper alignment
       mainAxisSize: MainAxisSize.min, // Keep column size minimal
@@ -125,7 +126,7 @@ class PopupPartnerSearchSheet extends StatelessWidget {
 
   /// build partner list
   /// grid with 3 columns
-  Widget _buildPartnerList(PartnerCategory category) {
+  Widget _buildPartnerList(PartnerCategoryModel category) {
     return GridView.builder(
       shrinkWrap: true,
       primary: false,
@@ -148,7 +149,7 @@ class PopupPartnerSearchSheet extends StatelessWidget {
 class PartnerItem extends StatelessWidget {
   const PartnerItem({super.key, required this.partner});
 
-  final PartnerCard partner;
+  final PartnerSubcategoryModel partner;
 
   @override
   Widget build(BuildContext context) {
@@ -157,10 +158,7 @@ class PartnerItem extends StatelessWidget {
         Get.toNamed(
           Routes.partnerDetail,
           arguments: {
-            'image': partner.image,
-            'name': partner.name,
-            'id': partner.id,
-            'category': partner.name,
+            'slug': partner.slug,
           },
         );
       },
@@ -189,40 +187,5 @@ class PartnerItem extends StatelessWidget {
         ],
       ),
     );
-  }
-}
-
-class PartnerCard {
-  const PartnerCard({
-    required this.id,
-    required this.name,
-    required this.image,
-  });
-
-  final String id;
-  final String name;
-  final String image;
-  @override
-  String toString() {
-    return 'PartnerCard(id: $id, name: $name)';
-  }
-}
-
-class PartnerCategory {
-  const PartnerCategory({
-    required this.id,
-    required this.name,
-    required this.image,
-    this.partnerList = const [],
-  });
-
-  final String id;
-  final String name;
-  final String image;
-  final List<PartnerCard> partnerList;
-
-  @override
-  String toString() {
-    return 'PartnerCategory(id: $id, name: $name, partnerList: $partnerList)';
   }
 }

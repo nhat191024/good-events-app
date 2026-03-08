@@ -1,38 +1,40 @@
 import 'package:flutter_animate/flutter_animate.dart';
 import 'package:sukientotapp/core/utils/import/global.dart';
 import 'package:sukientotapp/features/client/bottom_navigation/controller.dart';
+import 'package:sukientotapp/features/client/home/controller.dart';
 
-class ClientBillCountPanel extends StatefulWidget {
-  const ClientBillCountPanel({super.key});
+class ClientBillCountPanel extends StatelessWidget {
+  const ClientBillCountPanel({super.key, required this.controller});
 
-  @override
-  State<ClientBillCountPanel> createState() => _ClientBillCountPanelState();
-}
+  final HomeController controller;
 
-class _ClientBillCountPanelState extends State<ClientBillCountPanel> {
   @override
   Widget build(BuildContext context) {
     double panelWidth = MediaQuery.of(context).size.width;
     double itemWidth = (panelWidth - 36) / 2;
-    return Row(
-      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-      children: [
-        _BillItem(
-          width: itemWidth,
-          iconBgColor: AppColors.primary,
-          iconData: FIcons.calendarSearch,
-          title: 'pending_order',
-          count: "10",
-        ),
-        _BillItem(
-          width: itemWidth,
-          iconBgColor: AppColors.amber500,
-          iconData: FIcons.calendarCheck2,
-          title: 'confirmed_order',
-          count: "5",
-        ),
-      ],
-    ).animate(delay: 300.ms).fadeIn(duration: 200.ms);
+    return Obx(() {
+      final summary = controller.summary.value;
+
+      return Row(
+        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+        children: [
+          _BillItem(
+            width: itemWidth,
+            iconBgColor: AppColors.primary,
+            iconData: FIcons.calendarSearch,
+            title: 'pending_order',
+            count: summary?.pendingOrders.toString() ?? "0",
+          ),
+          _BillItem(
+            width: itemWidth,
+            iconBgColor: AppColors.amber500,
+            iconData: FIcons.calendarCheck2,
+            title: 'confirmed_order',
+            count: summary?.confirmedOrders.toString() ?? "0",
+          ),
+        ],
+      ).animate(delay: 300.ms).fadeIn(duration: 200.ms);
+    });
   }
 }
 
@@ -55,8 +57,7 @@ class _BillItem extends StatefulWidget {
   State<_BillItem> createState() => _BillItemState();
 }
 
-class _BillItemState extends State<_BillItem>
-    with SingleTickerProviderStateMixin {
+class _BillItemState extends State<_BillItem> with SingleTickerProviderStateMixin {
   AnimationController? _controller;
 
   @override
