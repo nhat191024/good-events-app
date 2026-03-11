@@ -42,60 +42,71 @@ class NewShowScreen extends GetView<NewShowController> {
               ],
             ),
 
-            Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: [
-                Text(
-                  'last_update'.trParams({'time': '5 phút trước'}),
-                  style: context.typography.sm.copyWith(
-                    color: context.fTheme.colors.mutedForeground,
+            Obx(
+              () => Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  Text(
+                    'last_update'.trParams({
+                      'time': controller.lastUpdated.value.isEmpty
+                          ? '...'
+                          : controller.lastUpdated.value,
+                    }),
+                    style: context.typography.sm.copyWith(
+                      color: context.fTheme.colors.mutedForeground,
+                    ),
                   ),
-                ),
-                CustomButtonPlus(
-                  onTap: () {}, //TODO: Refresh action
-                  btnText: 'refresh'.tr,
-                  textSize: 12,
-                  fontWeight: FontWeight.w600,
-                  height: 34,
-                  borderRadius: 10,
-                  borderColor: Colors.transparent,
-                  color: AppColors.red600,
-                ),
-              ],
+                  CustomButtonPlus(
+                    onTap: () => controller.fetchRealtimeBills(),
+                    btnText: 'refresh'.tr,
+                    textSize: 12,
+                    fontWeight: FontWeight.w600,
+                    height: 34,
+                    borderRadius: 10,
+                    borderColor: Colors.transparent,
+                    color: AppColors.red600,
+                  ),
+                ],
+              ),
             ),
           ],
         ),
       ),
-      child: Obx(
-        () => ListView.builder(
+      child: Obx(() {
+        if (controller.isLoading.value && controller.bills.isEmpty) {
+          return const Center(child: CircularProgressIndicator());
+        }
+        return ListView.builder(
           controller: controller.scrollController,
           padding: const EdgeInsets.only(top: 12, bottom: 100),
           itemCount:
-              controller.items.length + (controller.isLoadMore.value ? 1 : 0),
+              controller.bills.length + (controller.isLoading.value ? 1 : 0),
           itemBuilder: (context, index) {
-            if (index == controller.items.length) {
+            if (index == controller.bills.length) {
               return const Padding(
                 padding: EdgeInsets.all(16.0),
                 child: Center(child: CircularProgressIndicator()),
               );
             }
-            final i = controller.items[index];
+            final bill = controller.bills[index];
             return Show(
-              code: '$i',
-              timestamp: '10 Giờ',
-              price: '10 VND',
-              clientName: 'Client $i',
-              category: 'Category $i',
-              event: 'Event $i',
-              date: '0${(i % 9) + 1}-02-2026',
-              startTime: '10:00',
-              endTime: '12:00',
-              address: 'Address $i',
-              note: 'Note $i',
+              code: bill.code,
+              timestamp: bill.createdAt,
+              price: bill.finalTotal != null
+                  ? '${bill.finalTotal!.toStringAsFixed(0)} VND'
+                  : 'Chưa có',
+              clientName: bill.clientName,
+              category: bill.categoryName,
+              event: bill.eventName,
+              date: bill.date,
+              startTime: bill.startTime,
+              endTime: bill.endTime,
+              address: bill.address,
+              note: bill.note ?? 'unknown',
             );
           },
-        ),
-      ),
+        );
+      }),
     );
   }
 }

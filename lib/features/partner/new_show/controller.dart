@@ -1,41 +1,47 @@
 import 'package:sukientotapp/core/utils/import/global.dart';
-
+import 'package:sukientotapp/data/models/partner/partner_bill_model.dart';
 import 'package:sukientotapp/domain/repositories/partner/new_show_repository.dart';
 
 class NewShowController extends GetxController {
-  //TODO: Fetch data from repository for new show
   final NewShowRepository _repository;
   NewShowController(this._repository);
 
   final isLoading = false.obs;
-
-  // Pagination logic
   final ScrollController scrollController = ScrollController();
-  final items = <int>[].obs;
-  final isLoadMore = false.obs;
+
+  final bills = <PartnerBill>[].obs;
+  final availableCategories = <AvailableCategory>[].obs;
+  final lastUpdated = ''.obs;
 
   @override
   void onInit() {
     super.onInit();
-    // Initialize demo data
-    items.addAll(List.generate(5, (index) => index));
+    fetchRealtimeBills();
     scrollController.addListener(_onScroll);
   }
 
   void _onScroll() {
     if (scrollController.position.pixels >=
             scrollController.position.maxScrollExtent - 200 &&
-        !isLoadMore.value) {
-      loadMore();
+        !isLoading.value) {
+      fetchRealtimeBills();
     }
   }
 
-  Future<void> loadMore() async {
-    isLoadMore.value = true;
-    // Simulate network delay
-    await Future.delayed(const Duration(seconds: 2));
-    items.addAll(List.generate(5, (index) => items.length + index));
-    isLoadMore.value = false;
+  Future<void> fetchRealtimeBills() async {
+    if (isLoading.value) return;
+    isLoading.value = true;
+    try {
+      final response = await _repository.getRealtimeBills();
+      bills.assignAll(response.partnerBills);
+      availableCategories.assignAll(response.availableCategories);
+      lastUpdated.value = response.lastUpdated;
+      logger.i('[NewShow] [Fetch] Fetched ${bills.length} bills');
+    } catch (e) {
+      logger.e('[NewShow] [Fetch] Error: $e');
+    } finally {
+      isLoading.value = false;
+    }
   }
 
   @override

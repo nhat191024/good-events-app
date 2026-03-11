@@ -1,3 +1,5 @@
+import 'package:sukientotapp/data/models/partner/partner_bill_model.dart';
+
 abstract class NewShowRepository {
-  // Future<Either<Failure, Data>> getNewShowData();
+  Future<RealtimeBillsResponse> getRealtimeBills();
 }

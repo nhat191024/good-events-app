@@ -2,6 +2,7 @@ import 'package:get/get.dart';
 import 'controller.dart';
 
 import 'package:sukientotapp/core/services/api_service.dart';
+import 'package:sukientotapp/data/providers/partner/new_show_provider.dart';
 import 'package:sukientotapp/domain/repositories/partner/new_show_repository.dart';
 import 'package:sukientotapp/data/repositories/partner/new_show_repository_impl.dart';
 
@@ -10,10 +11,12 @@ class NewShowBinding extends Bindings {
   void dependencies() {
     Get.lazyPut<ApiService>(() => ApiService(), fenix: true);
 
-    //Remmber to register a provider if needed (99% u will need it)
+    Get.lazyPut<NewShowProvider>(
+      () => NewShowProvider(Get.find<ApiService>()),
+    );
 
     Get.lazyPut<NewShowRepository>(
-      () => NewShowRepositoryImpl(/*Provider Get.find here*/),
+      () => NewShowRepositoryImpl(Get.find<NewShowProvider>()),
     );
 
     Get.lazyPut<NewShowController>(
