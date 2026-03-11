@@ -13,4 +13,7 @@ class AppUrl {
   static const String homeBlogs = '/blog/home';
   static const String partnerCategories = '/partner-categories';
   static String partnerCategoryDetail(String slug) => '/partner-categories/$slug';
+
+  // Partner New Show
+  static const String partnerBillsRealtime = '/partner/bills/realtime';
 }
