@@ -67,7 +67,7 @@ class Show extends StatelessWidget {
                     ),
                   ),
                   Text(
-                    'time_ago'.trParams({'time': timestamp}),
+                    timestamp,
                     style: context.typography.xs.copyWith(
                       color: context.fTheme.colors.mutedForeground,
                     ),
@@ -138,11 +138,12 @@ class Show extends StatelessWidget {
       padding: const EdgeInsets.only(bottom: 8),
       child: Row(
         mainAxisAlignment: MainAxisAlignment.start,
-        crossAxisAlignment: CrossAxisAlignment.center,
+        crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           Icon(icon, size: 12, color: context.fTheme.colors.mutedForeground),
           const SizedBox(width: 4),
-          RichText(
+          Expanded(
+            child: RichText(
             text: TextSpan(
               children: [
                 TextSpan(
@@ -165,6 +166,7 @@ class Show extends StatelessWidget {
                 ),
               ],
             ),
+          ),
           ),
         ],
       ),
