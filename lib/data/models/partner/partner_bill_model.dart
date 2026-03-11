@@ -1,0 +1,112 @@
+class PartnerBill {
+  final int id;
+  final String code;
+  final double? finalTotal;
+  final String createdAt;
+  final String clientName;
+  final String categoryName;
+  final String eventName;
+  final String date;
+  final String startTime;
+  final String endTime;
+  final String address;
+  final String phone;
+  final String? note;
+
+  const PartnerBill({
+    required this.id,
+    required this.code,
+    this.finalTotal,
+    required this.createdAt,
+    required this.clientName,
+    required this.categoryName,
+    required this.eventName,
+    required this.date,
+    required this.startTime,
+    required this.endTime,
+    required this.address,
+    required this.phone,
+    this.note,
+  });
+
+  factory PartnerBill.fromMap(Map<String, dynamic> map) {
+    return PartnerBill(
+      id: map['id'] as int,
+      code: map['code'] as String,
+      finalTotal:
+          map['final_total'] != null
+              ? (map['final_total'] as num).toDouble()
+              : null,
+      createdAt: map['created_at'] as String,
+      clientName: map['client_name'] as String,
+      categoryName: map['category_name'] as String,
+      eventName: map['event_name'] as String,
+      date: map['date'] as String,
+      startTime: map['start_time'] as String,
+      endTime: map['end_time'] as String,
+      address: map['address'] as String,
+      phone: map['phone'] as String,
+      note: map['note'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toMap() {
+    return {
+      'id': id,
+      'code': code,
+      'final_total': finalTotal,
+      'created_at': createdAt,
+      'client_name': clientName,
+      'category_name': categoryName,
+      'event_name': eventName,
+      'date': date,
+      'start_time': startTime,
+      'end_time': endTime,
+      'address': address,
+      'phone': phone,
+      'note': note,
+    };
+  }
+}
+
+class AvailableCategory {
+  final int id;
+  final String name;
+
+  const AvailableCategory({required this.id, required this.name});
+
+  factory AvailableCategory.fromMap(Map<String, dynamic> map) {
+    return AvailableCategory(
+      id: map['id'] as int,
+      name: map['name'] as String,
+    );
+  }
+
+  Map<String, dynamic> toMap() => {'id': id, 'name': name};
+}
+
+class RealtimeBillsResponse {
+  final List<PartnerBill> partnerBills;
+  final List<AvailableCategory> availableCategories;
+  final String lastUpdated;
+
+  const RealtimeBillsResponse({
+    required this.partnerBills,
+    required this.availableCategories,
+    required this.lastUpdated,
+  });
+
+  factory RealtimeBillsResponse.fromMap(Map<String, dynamic> map) {
+    return RealtimeBillsResponse(
+      partnerBills:
+          (map['partner_bills'] as List<dynamic>)
+              .map((e) => PartnerBill.fromMap(e as Map<String, dynamic>))
+              .toList(),
+      availableCategories:
+          (map['available_categories'] as List<dynamic>)
+              .map((e) => AvailableCategory.fromMap(e as Map<String, dynamic>))
+              .toList(),
+      lastUpdated: map['last_updated'] as String,
+    );
+  }
+}
