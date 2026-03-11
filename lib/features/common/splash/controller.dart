@@ -84,6 +84,8 @@ class SplashController extends GetxController {
       final isTokenValid = await _authRepository.checkToken();
 
       if (isTokenValid) {
+        await PusherService.init();
+
         var role = StorageService.readMapData(
           key: LocalStorageKeys.user,
           mapKey: 'role',

@@ -39,6 +39,7 @@ class LoginController extends GetxController {
         'success'.tr,
         'login_successful'.trParams({'name': user.name}),
       );
+      await PusherService.init();
       await Future.delayed(const Duration(seconds: 1));
 
       var role = StorageService.readMapData(
