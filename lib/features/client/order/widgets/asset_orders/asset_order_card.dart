@@ -1,5 +1,5 @@
 import 'package:sukientotapp/core/utils/import/global.dart';
-import '../../controller.dart';
+import 'package:sukientotapp/data/models/client/asset_order_model.dart';
 
 class AssetOrderCard extends StatelessWidget {
   const AssetOrderCard({
@@ -8,7 +8,7 @@ class AssetOrderCard extends StatelessWidget {
     this.isSelected = false,
   });
 
-  final AssetOrder order;
+  final AssetOrderModel order;
   final bool isSelected;
 
   Color _getStatusColor() {
@@ -27,12 +27,14 @@ class AssetOrderCard extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final statusColor = _getStatusColor();
-    final formattedDate = DateFormat('dd/MM/yyyy').format(order.createdAt);
+    final formattedDate = DateFormat(
+      'dd/MM/yyyy',
+    ).format(DateTime.tryParse(order.createdAt) ?? DateTime.now());
     final price = order.finalTotal ?? order.total;
 
     return GestureDetector(
       onTap: () {
-        // Handle order detail view
+        Get.toNamed(Routes.clientAssetOrderDetail, arguments: order);
       },
       child: Container(
         margin: const EdgeInsets.only(bottom: 12),
@@ -41,9 +43,7 @@ class AssetOrderCard extends StatelessWidget {
           color: Colors.white,
           borderRadius: BorderRadius.circular(12),
           border: Border.all(
-            color: isSelected
-                ? context.primary.withValues(alpha: 0.4)
-                : Colors.transparent,
+            color: isSelected ? context.primary.withValues(alpha: 0.4) : Colors.transparent,
             width: isSelected ? 2 : 1,
           ),
           boxShadow: [
