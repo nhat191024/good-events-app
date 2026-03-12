@@ -10,7 +10,6 @@ class PartnerBill {
   final String startTime;
   final String endTime;
   final String address;
-  final String phone;
   final String? note;
 
   const PartnerBill({
@@ -25,7 +24,6 @@ class PartnerBill {
     required this.startTime,
     required this.endTime,
     required this.address,
-    required this.phone,
     this.note,
   });
 
@@ -45,7 +43,6 @@ class PartnerBill {
       startTime: map['start_time'] as String,
       endTime: map['end_time'] as String,
       address: map['address'] as String,
-      phone: map['phone'] as String,
       note: map['note'] as String?,
     );
   }
@@ -63,7 +60,6 @@ class PartnerBill {
       'start_time': startTime,
       'end_time': endTime,
       'address': address,
-      'phone': phone,
       'note': note,
     };
   }
