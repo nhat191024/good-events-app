@@ -84,5 +84,23 @@ class Pages {
       page: () => const ClientBooking(),
       binding: ClientBookingBinding(),
     ),
+
+    GetPage(
+      name: Routes.clientOrderDetail,
+      page: () => const ClientOrderDetailScreen(),
+      binding: ClientOrderDetailBinding(),
+      transition: Transition.cupertino,
+      transitionDuration: const Duration(milliseconds: 300),
+      curve: Curves.easeOut,
+    ),
+
+    GetPage(
+      name: Routes.clientAssetOrderDetail,
+      page: () => const ClientAssetOrderDetailScreen(),
+      binding: ClientAssetOrderDetailBinding(),
+      transition: Transition.cupertino,
+      transitionDuration: const Duration(milliseconds: 300),
+      curve: Curves.easeOut,
+    ),
   ];
 }
