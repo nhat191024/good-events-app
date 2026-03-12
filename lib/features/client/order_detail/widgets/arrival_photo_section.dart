@@ -1,0 +1,112 @@
+import 'package:sukientotapp/core/utils/import/global.dart';
+import 'package:cached_network_image/cached_network_image.dart';
+import '../controller.dart';
+
+class ArrivalPhotoSection extends GetView<ClientOrderDetailController> {
+  const ArrivalPhotoSection({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    return Obx(() {
+      // Arrival photo only applies strictly to history items
+      if (!controller.isHistory.value) return const SizedBox.shrink();
+
+      String? imageUrl = controller.arrivalPhoto;
+      bool isCategoryFallback = false;
+
+      // As requested, if arrival_photo is null, use category_image
+      if (imageUrl == null || imageUrl.isEmpty) {
+        imageUrl = controller.categoryImage;
+        isCategoryFallback = true;
+      }
+
+      return GestureDetector(
+        onTap: () {
+          if (imageUrl != null && imageUrl.isNotEmpty) {
+            _showFullScreenImage(context, imageUrl);
+          }
+        },
+        child: Container(
+          decoration: BoxDecoration(
+            color: FTheme.of(context).colors.primary.withValues(alpha: 0.05),
+            border: Border.all(
+              color: FTheme.of(context).colors.primary.withValues(alpha: 0.4),
+              width: 2,
+              style: BorderStyle.solid,
+            ),
+            borderRadius: BorderRadius.circular(8),
+          ),
+          padding: const EdgeInsets.all(12),
+          child: Row(
+            children: [
+              Container(
+                height: 48,
+                width: 48,
+                decoration: BoxDecoration(
+                  color: FTheme.of(context).colors.primary.withValues(alpha: 0.2),
+                  borderRadius: BorderRadius.circular(8),
+                ),
+                child: ClipRRect(
+                  borderRadius: BorderRadius.circular(8),
+                  child: imageUrl != null && imageUrl.isNotEmpty
+                      ? CachedNetworkImage(
+                          imageUrl: imageUrl,
+                          fit: BoxFit.cover,
+                          errorWidget: (context, url, error) =>
+                              const Icon(Icons.image_not_supported, color: Colors.grey),
+                        )
+                      : const Icon(Icons.image_not_supported, color: Colors.grey),
+                ),
+              ),
+              const SizedBox(width: 12),
+              Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Text(
+                    isCategoryFallback ? 'category_image'.tr : 'arrival_photo_banner'.tr,
+                    style: context.typography.base.copyWith(fontWeight: FontWeight.bold),
+                  ),
+                  Text(
+                    'click_to_view_photo'.tr,
+                    style: context.typography.xs.copyWith(color: Colors.grey[600]),
+                  ),
+                ],
+              ),
+            ],
+          ),
+        ),
+      );
+    });
+  }
+
+  void _showFullScreenImage(BuildContext context, String imageUrl) {
+    Get.dialog(
+      GestureDetector(
+        onTap: () => Get.back(), // tapping anywhere closes
+        child: Scaffold(
+          backgroundColor: Colors.black87,
+          body: Center(
+            child: InteractiveViewer(
+              panEnabled: true,
+              minScale: 1,
+              maxScale: 4,
+              child: Hero(
+                tag: imageUrl,
+                child: CachedNetworkImage(
+                  imageUrl: imageUrl,
+                  fit: BoxFit.contain,
+                  placeholder: (context, url) =>
+                      const CircularProgressIndicator(color: Colors.white),
+                  errorWidget: (context, url, error) =>
+                      const Icon(Icons.error, color: Colors.white, size: 48),
+                ),
+              ),
+            ),
+          ),
+        ),
+      ),
+      barrierDismissible: true,
+      barrierColor: Colors.black87,
+    );
+  }
+}
