@@ -19,4 +19,6 @@ abstract class Routes {
   static const clientHome = '/client/home';
   static const partnerDetail = '/client/partner-detail';
   static const clientBooking = '/client/client-booking';
+  static const clientOrderDetail = '/client/order-detail';
+  static const clientAssetOrderDetail = '/client/asset-order-detail';
 }
