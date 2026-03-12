@@ -1,87 +1,38 @@
 import 'package:sukientotapp/core/utils/import/global.dart';
+import 'package:sukientotapp/data/models/client/event_order_model.dart';
+import 'package:sukientotapp/data/models/client/history_order_model.dart';
+import 'package:sukientotapp/data/models/client/asset_order_model.dart';
+import 'package:sukientotapp/domain/repositories/client/order_repository.dart';
 
-// Mock Data Models
-class EventOrder {
-  final int id;
-  final String code;
-  final String partnerName;
-  final String partnerAvatar;
-  final String eventType;
-  final String location;
-  final String address;
-  final DateTime eventDate;
-  final String startTime;
-  final String endTime;
-  final String note;
-  final double finalPrice;
-  final String status; // pending, confirmed, in_job, completed, cancelled
-  final DateTime createdAt;
+class ClientOrderController extends GetxController with GetTickerProviderStateMixin {
+  final OrderRepository _repository;
 
-  EventOrder({
-    required this.id,
-    required this.code,
-    required this.partnerName,
-    required this.partnerAvatar,
-    required this.eventType,
-    required this.location,
-    required this.address,
-    required this.eventDate,
-    required this.startTime,
-    required this.endTime,
-    required this.note,
-    required this.finalPrice,
-    required this.status,
-    required this.createdAt,
-  });
-}
+  ClientOrderController(this._repository);
 
-class AssetOrder {
-  final int id;
-  final String productName;
-  final String categoryName;
-  final double total;
-  final double? finalTotal;
-  final String status; // pending, paid, cancelled
-  final String statusLabel;
-  final DateTime createdAt;
-  final String? thumbnail;
-
-  AssetOrder({
-    required this.id,
-    required this.productName,
-    required this.categoryName,
-    required this.total,
-    this.finalTotal,
-    required this.status,
-    required this.statusLabel,
-    required this.createdAt,
-    this.thumbnail,
-  });
-}
-
-class ClientOrderController extends GetxController
-    with GetTickerProviderStateMixin {
   // Parent tab controller (Event Orders | Asset Orders)
   late TabController parentTabController;
 
   // Child tab controllers
   late TabController eventOrdersTabController; // Current | History
-  late TabController
-  assetOrdersTabController; // All | Pending | Paid | Cancelled
+  late TabController assetOrdersTabController; // All | Pending | Paid | Cancelled
 
   final RxInt currentParentTab = 0.obs;
+  final RxInt currentEventOrdersTab = 0.obs;
 
   // Loading states
   final RxBool isLoadingEventOrders = false.obs;
+  final RxBool isLoadingHistoryOrders = false.obs;
   final RxBool isLoadingAssetOrders = false.obs;
+  final RxBool hasFetchedHistory = false.obs;
 
   // Data
-  final RxList<EventOrder> eventOrders = <EventOrder>[].obs;
-  final RxList<AssetOrder> assetOrders = <AssetOrder>[].obs;
+  final RxList<EventOrderModel> eventOrders = <EventOrderModel>[].obs;
+  final RxList<HistoryOrderModel> historyOrders = <HistoryOrderModel>[].obs;
+  final RxList<AssetOrderModel> assetOrders = <AssetOrderModel>[].obs;
 
   // Filters
   final RxString searchQuery = ''.obs;
-  final RxString selectedSort = 'newest'.obs;
+  final RxString selectedSort = 'upcoming'.obs;
   final RxList<String> selectedStatusFilters = <String>[].obs;
 
   @override
@@ -108,6 +59,18 @@ class ClientOrderController extends GetxController
       }
     });
 
+    // Listen to event orders tab changes (Current / History)
+    eventOrdersTabController.addListener(() {
+      if (!eventOrdersTabController.indexIsChanging) {
+        currentEventOrdersTab.value = eventOrdersTabController.index;
+        if (eventOrdersTabController.index == 1) {
+          if (!hasFetchedHistory.value) {
+            fetchHistoryOrders();
+          }
+        }
+      }
+    });
+
     // Load initial data
     fetchEventOrders();
     fetchAssetOrders();
@@ -121,162 +84,150 @@ class ClientOrderController extends GetxController
     super.onClose();
   }
 
-  // Mock API call for Event Orders
-  Future<void> fetchEventOrders() async {
+  // Fetch Event Orders from API
+  Future<void> fetchEventOrders({bool force = false}) async {
+    if (isLoadingEventOrders.value) return;
     isLoadingEventOrders.value = true;
 
-    await Future.delayed(const Duration(seconds: 2));
-
-    eventOrders.value = [
-      EventOrder(
-        id: 1001,
-        code: 'EV001',
-        partnerName: 'van bong',
-        partnerAvatar: 'https://i.pravatar.cc/150?img=1',
-        eventType: 'Tiệc cưới',
-        location: 'Bắc Ninh',
-        address: 'asdsadadsadssdad, Phường Chũ, Bắc Ninh',
-        eventDate: DateTime(2026, 1, 31),
-        startTime: '01:00',
-        endTime: '04:00',
-        note: 'asdsadsad',
-        finalPrice: 999999,
-        status: 'confirmed',
-        createdAt: DateTime.now().subtract(const Duration(days: 3)),
-      ),
-      EventOrder(
-        id: 1002,
-        code: 'EV002',
-        partnerName: 'MC Hùng',
-        partnerAvatar: 'https://i.pravatar.cc/150?img=2',
-        eventType: 'Hội nghị',
-        location: 'Hà Nội',
-        address: '123 Đường Láng, Đống Đa, Hà Nội',
-        eventDate: DateTime.now().add(const Duration(days: 5)),
-        startTime: '09:00',
-        endTime: '17:00',
-        note: 'Cần âm thanh chất lượng cao',
-        finalPrice: 5000000,
-        status: 'pending',
-        createdAt: DateTime.now().subtract(const Duration(days: 1)),
-      ),
-      EventOrder(
-        id: 1003,
-        code: 'EV003',
-        partnerName: 'DJ Sound Pro',
-        partnerAvatar: 'https://i.pravatar.cc/150?img=3',
-        eventType: 'Sinh nhật',
-        location: 'TP. Hồ Chí Minh',
-        address: '456 Nguyễn Huệ, Quận 1, TP.HCM',
-        eventDate: DateTime.now().add(const Duration(days: 2)),
-        startTime: '18:00',
-        endTime: '22:00',
-        note: 'Pool party theme',
-        finalPrice: 3500000,
-        status: 'in_job',
-        createdAt: DateTime.now().subtract(const Duration(days: 5)),
-      ),
-      EventOrder(
-        id: 1004,
-        code: 'EV004',
-        partnerName: 'Decor Events',
-        partnerAvatar: 'https://i.pravatar.cc/150?img=4',
-        eventType: 'Khai trương',
-        location: 'Đà Nẵng',
-        address: '789 Trần Phú, Hải Châu, Đà Nẵng',
-        eventDate: DateTime.now().subtract(const Duration(days: 10)),
-        startTime: '08:00',
-        endTime: '12:00',
-        note: 'Trang trí hoa tươi màu đỏ vàng',
-        finalPrice: 12000000,
-        status: 'completed',
-        createdAt: DateTime.now().subtract(const Duration(days: 15)),
-      ),
-    ];
-
-    isLoadingEventOrders.value = false;
+    try {
+      final res = await _repository.getEventOrders();
+      eventOrders.assignAll(res);
+    } catch (e) {
+      logger.e('Failed to fetch event orders: $e');
+    } finally {
+      isLoadingEventOrders.value = false;
+    }
   }
 
-  // Mock API call for Asset Orders
+  // Fetch History Orders from API
+  Future<void> fetchHistoryOrders({bool force = false}) async {
+    if (isLoadingHistoryOrders.value) return;
+    isLoadingHistoryOrders.value = true;
+
+    try {
+      final res = await _repository.getHistoryOrders();
+      historyOrders.assignAll(res);
+      hasFetchedHistory.value = true;
+    } catch (e) {
+      logger.e('Failed to fetch history orders: $e');
+    } finally {
+      isLoadingHistoryOrders.value = false;
+    }
+  }
+
+  // Fetch Asset Orders from API
   Future<void> fetchAssetOrders() async {
+    if (isLoadingAssetOrders.value) return;
     isLoadingAssetOrders.value = true;
+    try {
+      final res = await _repository.getAssetOrders();
+      assetOrders.assignAll(res);
+    } catch (e) {
+      logger.e('Failed to fetch asset orders: $e');
+    } finally {
+      isLoadingAssetOrders.value = false;
+    }
+  }
 
-    await Future.delayed(const Duration(milliseconds: 1500));
+  // Filter logic helper across EventOrder fields
+  bool _matchesEventOrderSearch(EventOrderModel order) {
+    if (searchQuery.value.trim().isEmpty) return true;
+    final q = searchQuery.value.toLowerCase();
+    return (order.code).toLowerCase().contains(q) ||
+        (order.eventName).toLowerCase().contains(q) ||
+        (order.categoryName).toLowerCase().contains(q) ||
+        (order.parentCategoryName).toLowerCase().contains(q) ||
+        (order.note).toLowerCase().contains(q);
+  }
 
-    assetOrders.value = [
-      AssetOrder(
-        id: 2001,
-        productName: 'Template thiết kế backdrop tiệc cưới',
-        categoryName: 'Thiết kế backdrop',
-        total: 299000,
-        finalTotal: 249000,
-        status: 'paid',
-        statusLabel: 'Đã thanh toán',
-        createdAt: DateTime.now().subtract(const Duration(days: 2)),
-        thumbnail: 'https://picsum.photos/200/200?random=1',
-      ),
-      AssetOrder(
-        id: 2002,
-        productName: 'Bộ thiết kế menu nhà hàng cao cấp',
-        categoryName: 'Thiết kế menu',
-        total: 199000,
-        status: 'pending',
-        statusLabel: 'Chờ xử lý',
-        createdAt: DateTime.now().subtract(const Duration(hours: 5)),
-        thumbnail: 'https://picsum.photos/200/200?random=2',
-      ),
-      AssetOrder(
-        id: 2003,
-        productName: 'Template thiệp mời sinh nhật trẻ em',
-        categoryName: 'Thiệp mời',
-        total: 150000,
-        finalTotal: 120000,
-        status: 'paid',
-        statusLabel: 'Đã thanh toán',
-        createdAt: DateTime.now().subtract(const Duration(days: 7)),
-        thumbnail: 'https://picsum.photos/200/200?random=3',
-      ),
-      AssetOrder(
-        id: 2004,
-        productName: 'Bộ icons social media cho sự kiện',
-        categoryName: 'Icons & Graphics',
-        total: 99000,
-        status: 'cancelled',
-        statusLabel: 'Đã hủy',
-        createdAt: DateTime.now().subtract(const Duration(days: 1)),
-        thumbnail: 'https://picsum.photos/200/200?random=4',
-      ),
-    ];
-
-    isLoadingAssetOrders.value = false;
+  bool _matchesHistoryOrderSearch(HistoryOrderModel order) {
+    if (searchQuery.value.trim().isEmpty) return true;
+    final q = searchQuery.value.toLowerCase();
+    return (order.code ?? '').toLowerCase().contains(q) ||
+        (order.eventName ?? '').toLowerCase().contains(q) ||
+        (order.categoryName ?? '').toLowerCase().contains(q) ||
+        (order.parentCategoryName ?? '').toLowerCase().contains(q) ||
+        (order.note ?? '').toLowerCase().contains(q);
   }
 
   // Filtered lists
-  List<EventOrder> get currentEventOrders {
-    return eventOrders.where((order) {
-      return order.status == 'pending' ||
-          order.status == 'confirmed' ||
-          order.status == 'in_job';
+  List<EventOrderModel> get currentEventOrders {
+    final filtered = eventOrders.where((order) {
+      final isValidCurrentStatus =
+          order.status == 'pending' || order.status == 'confirmed' || order.status == 'in_job';
+
+      if (!isValidCurrentStatus) return false;
+
+      if (selectedStatusFilters.isNotEmpty && !selectedStatusFilters.contains(order.status)) {
+        return false;
+      }
+
+      return _matchesEventOrderSearch(order);
     }).toList();
+
+    // Sorting block
+    filtered.sort((a, b) {
+      switch (selectedSort.value) {
+        case 'upcoming':
+          DateTime dateA = DateTime.tryParse('${a.date} ${a.startTime}') ?? DateTime.now();
+          DateTime dateB = DateTime.tryParse('${b.date} ${b.startTime}') ?? DateTime.now();
+          // Ascending by date, closest event first
+          return dateA.compareTo(dateB);
+        case 'most_applicants':
+          return b.applicantCount.compareTo(a.applicantCount);
+        case 'highest_budget':
+          return (b.finalTotal ?? 0).compareTo(a.finalTotal ?? 0);
+        case 'lowest_budget':
+          return (a.finalTotal ?? 0).compareTo(b.finalTotal ?? 0);
+        default:
+          return 0;
+      }
+    });
+
+    return filtered;
   }
 
-  List<EventOrder> get historyEventOrders {
-    return eventOrders.where((order) {
-      return order.status == 'completed' || order.status == 'cancelled';
+  List<HistoryOrderModel> get filteredHistoryOrders {
+    final filtered = historyOrders.where((order) {
+      if (selectedStatusFilters.isNotEmpty && !selectedStatusFilters.contains(order.status)) {
+        return false;
+      }
+      return _matchesHistoryOrderSearch(order);
     }).toList();
+
+    filtered.sort((a, b) {
+      switch (selectedSort.value) {
+        case 'newest':
+          DateTime dateA = DateTime.tryParse('${a.date} ${a.startTime}') ?? DateTime.now();
+          DateTime dateB = DateTime.tryParse('${b.date} ${b.startTime}') ?? DateTime.now();
+          return dateB.compareTo(dateA); // Descending
+        case 'oldest':
+          DateTime dateA = DateTime.tryParse('${a.date} ${a.startTime}') ?? DateTime.now();
+          DateTime dateB = DateTime.tryParse('${b.date} ${b.startTime}') ?? DateTime.now();
+          return dateA.compareTo(dateB); // Ascending
+        case 'highest-budget':
+          return (b.finalTotal ?? 0).compareTo(a.finalTotal ?? 0);
+        case 'lowest-budget':
+          return (a.finalTotal ?? 0).compareTo(b.finalTotal ?? 0);
+        default:
+          return 0; // Default or fallback
+      }
+    });
+
+    return filtered;
   }
 
-  List<AssetOrder> get allAssetOrders => assetOrders;
+  List<AssetOrderModel> get allAssetOrders => assetOrders;
 
-  List<AssetOrder> get pendingAssetOrders {
+  List<AssetOrderModel> get pendingAssetOrders {
     return assetOrders.where((order) => order.status == 'pending').toList();
   }
 
-  List<AssetOrder> get paidAssetOrders {
+  List<AssetOrderModel> get paidAssetOrders {
     return assetOrders.where((order) => order.status == 'paid').toList();
   }
 
-  List<AssetOrder> get cancelledAssetOrders {
+  List<AssetOrderModel> get cancelledAssetOrders {
     return assetOrders.where((order) => order.status == 'cancelled').toList();
   }
 }
