@@ -1,6 +1,6 @@
 import 'package:sukientotapp/core/utils/import/global.dart';
 import '../../controller.dart';
-import 'event_order_card.dart';
+import 'history_order_card.dart';
 
 class HistoryOrdersTab extends StatelessWidget {
   const HistoryOrdersTab({super.key, required this.controller});
@@ -10,11 +10,11 @@ class HistoryOrdersTab extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Obx(() {
-      if (controller.isLoadingEventOrders.value) {
+      if (controller.isLoadingHistoryOrders.value) {
         return _buildLoading();
       }
 
-      final orders = controller.historyEventOrders;
+      final orders = controller.filteredHistoryOrders;
 
       if (orders.isEmpty) {
         return _buildEmpty(context);
@@ -24,7 +24,7 @@ class HistoryOrdersTab extends StatelessWidget {
         padding: const EdgeInsets.all(16),
         itemCount: orders.length,
         itemBuilder: (context, index) {
-          return EventOrderCard(order: orders[index], isSelected: false);
+          return HistoryOrderCard(order: orders[index]);
         },
       );
     });
