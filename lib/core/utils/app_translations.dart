@@ -61,8 +61,7 @@ class AppTranslations extends Translations {
 
       // verify screen
       'verify_account_title': 'Xác thực tài khoản',
-      'verify_account_subtitle':
-          'Chọn phương thức bạn muốn dùng để xác thực tài khoản.',
+      'verify_account_subtitle': 'Chọn phương thức bạn muốn dùng để xác thực tài khoản.',
       'verify_via_email': 'Xác thực qua Email',
       'verify_via_zalo': 'Xác thực qua Zalo',
       'verify_zalo_subtitle': 'Gửi mã OTP đến @phone',
@@ -122,8 +121,7 @@ class AppTranslations extends Translations {
       'about_the': 'về',
       'service': 'dịch vụ',
       'reference_price': 'Giá tham khảo',
-      'contact_to_get_detail_and_best_deal':
-          'Liên hệ để nhận báo giá chi tiết và ưu đãi tốt nhất.',
+      'contact_to_get_detail_and_best_deal': 'Liên hệ để nhận báo giá chi tiết và ưu đãi tốt nhất.',
       'partner_trustworthy': 'Đối tác uy tín, đã được xác minh.',
       'partner_professional': 'Phục vụ chuyên nghiệp, tận tâm.',
       'partner_competitive': 'Giá cả cạnh tranh, minh bạch.',
@@ -141,8 +139,7 @@ class AppTranslations extends Translations {
       'booking_event_custom': 'Nội dung sự kiện (Tùy chọn)',
       'booking_event_custom_placeholder': 'VD: Tổ chức thăm lăng bác',
       'booking_note_optional': 'Ghi chú bổ sung (Tùy chọn)',
-      'booking_note_placeholder':
-          'VD: Cần người mặc đồng phục có tông màu vàng',
+      'booking_note_placeholder': 'VD: Cần người mặc đồng phục có tông màu vàng',
       'booking_location': 'Địa điểm tổ chức',
       'booking_location_ward': 'Phường/Xã',
       'booking_select_province': 'Chọn tỉnh/thành',
@@ -158,14 +155,11 @@ class AppTranslations extends Translations {
       'event_type_conference': 'Hội nghị',
       'event_type_birthday': 'Sinh nhật',
       'booking_stage_time_title': 'Chọn thời gian',
-      'booking_stage_time_subtitle':
-          'Chọn giờ bắt đầu, kết thúc và ngày tổ chức.',
+      'booking_stage_time_subtitle': 'Chọn giờ bắt đầu, kết thúc và ngày tổ chức.',
       'booking_stage_event_title': 'Nội dung sự kiện',
-      'booking_stage_event_subtitle':
-          'Cho biết nội dung hoặc ghi chú cần thiết.',
+      'booking_stage_event_subtitle': 'Cho biết nội dung hoặc ghi chú cần thiết.',
       'booking_stage_location_title': 'Địa điểm tổ chức',
-      'booking_stage_location_subtitle':
-          'Chọn khu vực và nhập địa chỉ chi tiết.',
+      'booking_stage_location_subtitle': 'Chọn khu vực và nhập địa chỉ chi tiết.',
       'start_over': 'Bắt đầu lại',
 
       // client order
@@ -187,8 +181,7 @@ class AppTranslations extends Translations {
       // Event Orders - Filters
       'search_orders': 'Tìm kiếm đơn hàng...',
       'sort_by': 'Sắp xếp theo',
-      'sort_newest': 'Đơn sắp tới',
-      'sort_oldest': 'Đơn muộn nhất',
+      'sort_upcoming': 'Đơn sắp tới',
       'sort_most_applicants': 'Nhiều ứng viên nhất',
       'sort_highest_budget': 'Ngân sách cao nhất',
       'sort_lowest_budget': 'Ngân sách thấp nhất',
@@ -202,6 +195,59 @@ class AppTranslations extends Translations {
       'event_at': 'Tổ chức ngày @day, @date từ lúc @start đến @end',
       'note_label': 'Ghi chú',
       'at_location': 'Ở @address',
+      'history_orders_label': 'Lịch sử đơn',
+      'history_yours': 'LỊCH SỬ CỦA BẠN',
+      'sort_newest': 'Gần đây',
+      'sort_oldest': 'Cũ hơn',
+      'partner_received': 'Nhận đơn:',
+      'unrated': 'Chưa đánh giá',
+      'created_at_label': 'Tạo lúc:',
+
+      // Client Order Detail
+      'order_details_title': 'Chi tiết đơn hàng',
+      'you_are_viewing_history':
+          'Bạn đang xem lịch sử, đối tác đã từng được bạn chốt đơn sẽ hiển thị ở đây. Bạn cũng có thể đánh giá trải nghiệm của mình bên dưới',
+      'please_wait_a_moment':
+          'Vui lòng đợi một lúc, chúng tôi đang gửi thông báo đến cho các đối tác gần đó và sẽ tải lại trang cho bạn',
+      'proposed_partner_price': 'Giá đối tác đề xuất',
+      'completion_rate': 'Tỷ lệ hoàn thành',
+      'cancellation_rate': 'Tỉ lệ hủy',
+      'profile': 'Hồ sơ',
+      'choose_partner': 'Chọn đối tác',
+      'cancel_order': 'Hủy đơn hàng',
+      'applicants_list': 'Danh sách đăng ký',
+      'chosen': 'Đã chọn',
+      'discounted': 'Đã giảm',
+      'rate_now': 'Đánh giá',
+      'rate_order': 'Đánh giá đơn hàng',
+      'rate_partner': 'Đánh giá đối tác (1-5 sao)',
+      'review_service': 'Nhận xét về dịch vụ',
+      'share_experience': 'chia sẻ trải nghiệm của bạn...',
+      'submit_review': 'Gửi đánh giá',
+      'cancel': 'Hủy',
+      'evaluate': 'Đánh giá',
+      'arrival_photo_banner': 'Ảnh đã đến nơi',
+      'click_to_view_photo': 'Bấm để xem ảnh',
+      'detailed_rental_info': 'Thông tin thuê chi tiết',
+      'detailed_history_info': 'Chi tiết lịch sử đơn',
+      'event_date': 'Ngày sự kiện',
+      'time': 'Thời gian',
+      'location': 'Địa điểm',
+      'event_type': 'Loại sụ kiện',
+      'special_note': 'Ghi chú đặc biệt',
+      'none': 'Không',
+      'order_creation_time': 'Thời gian tạo đơn',
+      'chosen_partner': 'Đối tác đã chốt',
+      'sealing_price': 'Giá niêm phong',
+      'apply_voucher_code': 'Mã giảm giá (Áp dụng vào giá chốt của ứng viên bạn chọn)',
+      'apply_code': 'Áp dụng mã',
+      'check_and_save_code': 'Kiểm tra & Lưu mã',
+      'voucher_placeholder': 'VD: N1993+1...',
+      'applied_code': 'Mã áp dụng',
+      'not_applicable': 'Không áp dụng',
+      'chat_now': 'Chat ngay',
+      'back_to_list': 'Quay lại danh sách',
+      'partner_not_found': 'Không tìm thấy đối tác',
 
       // Asset Orders - Tabs
       'all_orders': 'Tất cả',
@@ -213,6 +259,20 @@ class AppTranslations extends Translations {
       'purchased_designs': 'File - Tài liệu đã mua',
       'category_label': 'Danh mục',
       'load_more_orders': 'Xem thêm đơn hàng',
+
+      // Asset Order Detail
+      'asset_order_detail_title': 'Chi tiết đơn thiết kế',
+      'asset_order_details': 'Thông tin đơn hàng',
+      'order_id': 'Mã đơn',
+      'updated_at_label': 'Cập nhật lúc',
+      'payment_method': 'Phương thức thanh toán',
+      'design_price': 'Giá thiết kế',
+      'tax': 'Thuế',
+      'final_total': 'Thành tiền',
+      'download_zip': 'Tải ZIP',
+      'download': 'Tải xuống',
+      'download_starting': 'Đang chuẩn bị tải xuống...',
+      'repay': 'Thanh toán lại',
 
       // Empty States
       'no_current_orders': 'Bạn chưa có đơn hiện tại',
@@ -382,7 +442,6 @@ class AppTranslations extends Translations {
       'start': 'Bắt đầu',
       'previous': 'Trước',
       'skip': 'Bỏ qua',
-      'cancel': 'Hủy',
       'done': 'Xong',
       'confirm': 'Xác nhận',
       'take_photo': 'Chụp ảnh',
@@ -486,8 +545,7 @@ class AppTranslations extends Translations {
       'about_the': 'about the',
       'service': 'service',
       'reference_price': 'Reference price',
-      'contact_to_get_detail_and_best_deal':
-          'Contact to get detail and best deal',
+      'contact_to_get_detail_and_best_deal': 'Contact to get detail and best deal',
       'partner_trustworthy': 'A trusted partner, fully verified.',
       'partner_professional': 'Professional and dedicated service.',
       'partner_competitive': 'Competitive and transparent pricing.',
@@ -503,8 +561,7 @@ class AppTranslations extends Translations {
       'booking_event_type': 'Event type',
       'booking_event_type_placeholder': 'Select event type',
       'booking_event_custom': 'Event details (Optional)',
-      'booking_event_custom_placeholder':
-          "e.g., Visit the President's Mausoleum",
+      'booking_event_custom_placeholder': "e.g., Visit the President's Mausoleum",
       'booking_note_optional': 'Additional notes (Optional)',
       'booking_note_placeholder': 'e.g., Need staff with yellow uniforms',
       'booking_location': 'Location',
@@ -524,11 +581,9 @@ class AppTranslations extends Translations {
       'booking_stage_time_title': 'Select time',
       'booking_stage_time_subtitle': 'Pick start/end time and event date.',
       'booking_stage_event_title': 'Event details',
-      'booking_stage_event_subtitle':
-          'Describe the event and add notes if needed.',
+      'booking_stage_event_subtitle': 'Describe the event and add notes if needed.',
       'booking_stage_location_title': 'Select location',
-      'booking_stage_location_subtitle':
-          'Choose area and enter detailed address.',
+      'booking_stage_location_subtitle': 'Choose area and enter detailed address.',
       'start_over': 'Start over',
 
       // client order
@@ -539,6 +594,16 @@ class AppTranslations extends Translations {
       // Event Orders - Tabs
       'current_orders': 'Current Orders',
       'history': 'History',
+      'applicants_list': 'Applicants List',
+      'chosen': 'Chosen',
+      'discounted': 'Discounted',
+      'rate_now': 'Rate now',
+      'rate_order': 'Rate Order',
+      'rate_partner': 'Rate Partner (1-5 stars)',
+      'review_service': 'Service Review',
+      'share_experience': 'share your experience...',
+      'submit_review': 'Submit Review',
+      'cancel': 'Cancel',
 
       // Event Orders - Status
       'status_pending': 'Pending',
@@ -550,8 +615,7 @@ class AppTranslations extends Translations {
       // Event Orders - Filters
       'search_orders': 'Search orders...',
       'sort_by': 'Sort by',
-      'sort_newest': 'Upcoming Orders',
-      'sort_oldest': 'Latest Orders',
+      'sort_upcoming': 'Upcoming Orders',
       'sort_most_applicants': 'Most Applicants',
       'sort_highest_budget': 'Highest Budget',
       'sort_lowest_budget': 'Lowest Budget',
@@ -565,6 +629,49 @@ class AppTranslations extends Translations {
       'event_at': 'Event on @day, @date from @start to @end',
       'note_label': 'Note',
       'at_location': 'At @address',
+      'history_orders_label': 'History Orders',
+      'history_yours': 'HISTORY OF YOURS',
+      'sort_newest': 'Newest',
+      'sort_oldest': 'Oldest',
+      'partner_received': 'Partner:',
+      'unrated': 'Not rated',
+      'created_at_label': 'Created at:',
+
+      // Client Order Detail
+      'order_details_title': 'Order Details',
+      'you_are_viewing_history':
+          'You are viewing history. The partner you finalized will be shown here. You can also evaluate your experience below.',
+      'please_wait_a_moment':
+          'Please wait a moment, we are sending notifications to nearby partners and will reload the page for you.',
+      'proposed_partner_price': 'Partner Proposed Price',
+      'completion_rate': 'Completion Rate',
+      'cancellation_rate': 'Cancellation Rate',
+      'profile': 'Profile',
+      'choose_partner': 'Choose Partner',
+      'evaluate': 'Evaluate',
+      'arrival_photo_banner': 'Arrival Photo',
+      'click_to_view_photo': 'Tap to view photo',
+      'detailed_rental_info': 'Detailed Rental Info',
+      'detailed_history_info': 'Detailed History Info',
+      'event_date': 'Event Date',
+      'time': 'Time',
+      'location': 'Location',
+      'event_type': 'Event Type',
+      'special_note': 'Special Note',
+      'none': 'None',
+      'order_creation_time': 'Order Creation Time',
+      'chosen_partner': 'Chosen Partner',
+      'sealing_price': 'Sealing Price',
+      'apply_voucher_code': 'Voucher Code (Applied to the final price of the chosen applicant)',
+      'apply_code': 'Apply Code',
+      'check_and_save_code': 'Check & Save Code',
+      'voucher_placeholder': 'EX: N1993+1...',
+      'applied_code': 'Applied Code',
+      'not_applicable': 'Not Applicable',
+      'chat_now': 'Chat Now',
+      'cancel_order': 'Cancel Order',
+      'back_to_list': 'Back to List',
+      'partner_not_found': 'Partner not found',
 
       // Asset Orders - Tabs
       'all_orders': 'All',
@@ -750,6 +857,20 @@ class AppTranslations extends Translations {
       'confirm': 'Confirm',
       'take_photo': 'Take Photo',
       'complete': 'Complete',
+
+      // Asset Order Detail
+      'asset_order_detail_title': 'Design Order Detail',
+      'asset_order_details': 'Order Information',
+      'order_id': 'Order ID',
+      'updated_at_label': 'Updated',
+      'payment_method': 'Payment Method',
+      'design_price': 'Design Price',
+      'tax': 'Tax',
+      'final_total': 'Final Total',
+      'download_zip': 'Download ZIP',
+      'download': 'Download',
+      'download_starting': 'Preparing download...',
+      'repay': 'Repay',
 
       //dev
       'in_dev': 'Feature in development',
