@@ -1,4 +1,6 @@
+import 'package:dio/dio.dart';
 import 'package:pusher_channels_flutter/pusher_channels_flutter.dart';
+import 'package:sukientotapp/core/services/localstorage_service.dart';
 import 'package:sukientotapp/core/utils/env_config.dart';
 import 'package:sukientotapp/core/utils/logger.dart';
 
@@ -23,6 +25,9 @@ class PusherService {
         onError: (message, code, error) {
           logger.e('[Pusher] [Error] $message (code: $code)');
         },
+        onAuthorizer: (channelName, socketId, options) async {
+          return await _authorizeChannel(channelName, socketId);
+        },
       );
 
       await _pusher.connect();
@@ -34,6 +39,40 @@ class PusherService {
     }
   }
 
+  static Future<dynamic> _authorizeChannel(
+    String channelName,
+    String socketId,
+  ) async {
+    final token = StorageService.readData(key: LocalStorageKeys.token);
+    final authUrl = '${EnvConfig.apiBaseUrl}/broadcasting/auth';
+
+    try {
+      final dio = Dio();
+      final response = await dio.post<Map<String, dynamic>>(
+        authUrl,
+        data: {'channel_name': channelName, 'socket_id': socketId},
+        options: Options(
+          contentType: 'application/x-www-form-urlencoded',
+          headers: {
+            'Accept': 'application/json',
+            if (token != null) 'Authorization': 'Bearer $token',
+          },
+        ),
+      );
+
+      logger.i('[Pusher] [Auth] Authorized channel: $channelName');
+      return response.data;
+    } on DioException catch (e) {
+      logger.e(
+        '[Pusher] [Auth] Failed (${e.response?.statusCode}): ${e.response?.data}',
+      );
+      return null;
+    } catch (e) {
+      logger.e('[Pusher] [Auth] Exception: $e');
+      return null;
+    }
+  }
+
   static Future<void> subscribe({
     required String channelName,
     required String eventName,
@@ -41,7 +80,7 @@ class PusherService {
   }) async {
     await _pusher.subscribe(
       channelName: channelName,
-      onEvent: onEvent,
+      onEvent: (dynamic event) => onEvent(event as PusherEvent),
     );
     logger.i('[Pusher] [Subscribe] Channel: $channelName, Event: $eventName');
   }
