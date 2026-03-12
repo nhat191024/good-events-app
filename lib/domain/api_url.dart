@@ -13,4 +13,10 @@ class AppUrl {
   static const String homeBlogs = '/blog/home';
   static const String partnerCategories = '/partner-categories';
   static String partnerCategoryDetail(String slug) => '/partner-categories/$slug';
+
+  // Client Order Screen APIs
+  static const String clientOrders = '/orders';
+  static const String clientHistoryOrders = '/orders/history';
+  static String clientOrderDetail(int id) => '/orders/$id/details';
+  static const String clientAssetOrders = '/asset-orders';
 }
