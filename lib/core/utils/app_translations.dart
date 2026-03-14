@@ -221,7 +221,8 @@ class AppTranslations extends Translations {
       'no_pending_asset_orders': 'Không có đơn chờ xử lý',
       'no_paid_asset_orders': 'Không có đơn đã thanh toán',
       'no_cancelled_asset_orders': 'Không có đơn đã hủy',
-
+      'no_bills': 'Chưa có đơn hàng nào',
+      
       //partner show
       'my_shows': 'Show của tôi',
 
