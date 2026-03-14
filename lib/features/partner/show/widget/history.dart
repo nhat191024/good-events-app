@@ -1,5 +1,6 @@
 import 'dart:ui';
 
+import 'package:flutter/cupertino.dart';
 import 'package:sukientotapp/core/utils/import/global.dart';
 
 import './show.dart';
@@ -16,41 +17,65 @@ class HistoryWidget extends GetView<ShowController> {
       children: [
         Padding(
           padding: const EdgeInsets.symmetric(horizontal: 16),
-          child: Obx(
-            () => ListView.builder(
+          child: Obx(() {
+            if (controller.isHistoryLoading.value) {
+              return const Center(child: CircularProgressIndicator());
+            }
+            if (controller.historyBills.isEmpty) {
+              return Center(
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    Icon(
+                      CupertinoIcons.tray,
+                      size: 56,
+                      color: context.fTheme.colors.mutedForeground,
+                    ),
+                    const SizedBox(height: 12),
+                    Text(
+                      'no_bills'.tr,
+                      style: context.typography.sm.copyWith(
+                        color: context.fTheme.colors.mutedForeground,
+                      ),
+                    ),
+                  ],
+                ),
+              );
+            }
+            return ListView.builder(
               controller: controller.historyScrollController,
               padding: const EdgeInsets.only(
-                top: 60, // Add padding to avoid overlap with the glass header
-                bottom: 100, // Add padding to avoid navbar overlap
+                top: 60,
+                bottom: 100,
               ),
               itemCount:
-                  controller.historyItems.length +
+                  controller.historyBills.length +
                   (controller.isHistoryLoadMore.value ? 1 : 0),
               itemBuilder: (context, index) {
-                if (index == controller.historyItems.length) {
+                if (index == controller.historyBills.length) {
                   return const Padding(
                     padding: EdgeInsets.all(16.0),
                     child: Center(child: CircularProgressIndicator()),
                   );
                 }
-                final i = controller.historyItems[index];
+                final bill = controller.historyBills[index];
                 return Show(
-                  code: '$i',
-                  timestamp: '10 Giờ',
-                  price: '10 VND',
-                  clientName: 'Client $i',
-                  category: 'Category $i',
-                  event: 'Event $i',
-                  date: '0${(i % 9) + 1}-02-2026',
-                  startTime: '10:00',
-                  endTime: '12:00',
-                  address: 'Address $i',
-                  note: 'Note $i',
-                  currentStatus: 'completed',
+                  code: bill.code,
+                  timestamp: bill.createdAt,
+                  price: bill.finalTotal?.toStringAsFixed(0) ?? '0',
+                  clientName: bill.client.name,
+                  category: bill.category.name,
+                  event: bill.event.name,
+                  date: bill.date,
+                  startTime: bill.startTime,
+                  endTime: bill.endTime,
+                  address: bill.address,
+                  note: bill.note ?? '',
+                  currentStatus: bill.status,
                 );
               },
-            ),
-          ),
+            );
+          }),
         ),
         Positioned(
           top: 0,
