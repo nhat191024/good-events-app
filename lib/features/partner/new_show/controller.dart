@@ -10,12 +10,15 @@ class NewShowController extends GetxController {
   NewShowController(this._repository);
 
   final isLoading = false.obs;
+  final hasMorePages = true.obs;
   final ScrollController scrollController = ScrollController();
 
   final bills = <PartnerBill>[].obs;
   final availableCategories = <AvailableCategory>[].obs;
   final lastUpdated = ''.obs;
 
+  int _currentPage = 1;
+  int _lastPage = 1;
   final _subscribedChannels = <String>[];
 
   static const _pusherEventName = 'NewPartnerBillCreated';
@@ -30,26 +33,52 @@ class NewShowController extends GetxController {
   void _onScroll() {
     if (scrollController.position.pixels >=
             scrollController.position.maxScrollExtent - 200 &&
-        !isLoading.value) {
+        !isLoading.value &&
+        hasMorePages.value) {
       fetchRealtimeBills();
     }
   }
 
   Future<void> fetchRealtimeBills() async {
-    if (isLoading.value) return;
+    if (isLoading.value || !hasMorePages.value) return;
     isLoading.value = true;
+    final pageToFetch = _currentPage;
     try {
-      final response = await _repository.getRealtimeBills();
-      bills.assignAll(response.partnerBills);
-      availableCategories.assignAll(response.availableCategories);
+      final response = await _repository.getRealtimeBills(page: pageToFetch);
+
+      if (pageToFetch == 1) {
+        bills.assignAll(response.partnerBills);
+        availableCategories.assignAll(response.availableCategories);
+        await _subscribeToCategories();
+      } else {
+        bills.addAll(response.partnerBills);
+      }
+
       lastUpdated.value = response.lastUpdated;
-      logger.i('[NewShow] [Fetch] Fetched ${bills.length} bills');
-      await _subscribeToCategories();
+      _lastPage = response.meta.lastPage;
+
+      if (response.meta.currentPage < _lastPage) {
+        _currentPage = response.meta.currentPage + 1;
+        hasMorePages.value = true;
+      } else {
+        hasMorePages.value = false;
+      }
+
+      logger.i(
+        '[NewShow] [Fetch] Page $pageToFetch/$_lastPage - ${bills.length} total bills',
+      );
     } catch (e) {
       logger.e('[NewShow] [Fetch] Error: $e');
     } finally {
       isLoading.value = false;
     }
+  }
+
+  Future<void> refreshBills() async {
+    _currentPage = 1;
+    _lastPage = 1;
+    hasMorePages.value = true;
+    await fetchRealtimeBills();
   }
 
   Future<void> _subscribeToCategories() async {
