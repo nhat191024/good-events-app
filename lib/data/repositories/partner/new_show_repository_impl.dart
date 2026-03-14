@@ -8,8 +8,8 @@ class NewShowRepositoryImpl implements NewShowRepository {
   NewShowRepositoryImpl(this._provider);
 
   @override
-  Future<RealtimeBillsResponse> getRealtimeBills() async {
-    final data = await _provider.getRealtimeBills();
+  Future<RealtimeBillsResponse> getRealtimeBills({int page = 1}) async {
+    final data = await _provider.getRealtimeBills(page: page);
     return RealtimeBillsResponse.fromMap(data);
   }
 }

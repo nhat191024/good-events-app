@@ -6,8 +6,11 @@ class NewShowProvider {
 
   NewShowProvider(this._apiService);
 
-  Future<Map<String, dynamic>> getRealtimeBills() async {
-    final response = await _apiService.dio.get(AppUrl.partnerBillsRealtime);
+  Future<Map<String, dynamic>> getRealtimeBills({int page = 1}) async {
+    final response = await _apiService.dio.get(
+      AppUrl.partnerBillsRealtime,
+      queryParameters: {'page': page},
+    );
 
     if (response.statusCode == 200) {
       return response.data as Map<String, dynamic>;

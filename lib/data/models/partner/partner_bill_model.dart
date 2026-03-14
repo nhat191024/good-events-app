@@ -81,21 +81,47 @@ class AvailableCategory {
   Map<String, dynamic> toMap() => {'id': id, 'name': name};
 }
 
+class PaginationMeta {
+  final int currentPage;
+  final int perPage;
+  final int total;
+  final int lastPage;
+
+  const PaginationMeta({
+    required this.currentPage,
+    required this.perPage,
+    required this.total,
+    required this.lastPage,
+  });
+
+  factory PaginationMeta.fromMap(Map<String, dynamic> map) {
+    return PaginationMeta(
+      currentPage: map['current_page'] as int,
+      perPage: map['per_page'] as int,
+      total: map['total'] as int,
+      lastPage: map['last_page'] as int,
+    );
+  }
+}
+
 class RealtimeBillsResponse {
   final List<PartnerBill> partnerBills;
   final List<AvailableCategory> availableCategories;
   final String lastUpdated;
+  final PaginationMeta meta;
 
   const RealtimeBillsResponse({
     required this.partnerBills,
     required this.availableCategories,
     required this.lastUpdated,
+    required this.meta,
   });
 
   factory RealtimeBillsResponse.fromMap(Map<String, dynamic> map) {
+    final partnerBillsRaw = map['partner_bills'] as Map<String, dynamic>;
     return RealtimeBillsResponse(
       partnerBills:
-          (map['partner_bills'] as List<dynamic>)
+          (partnerBillsRaw['data'] as List<dynamic>)
               .map((e) => PartnerBill.fromMap(e as Map<String, dynamic>))
               .toList(),
       availableCategories:
@@ -103,6 +129,9 @@ class RealtimeBillsResponse {
               .map((e) => AvailableCategory.fromMap(e as Map<String, dynamic>))
               .toList(),
       lastUpdated: map['last_updated'] as String,
+      meta: PaginationMeta.fromMap(
+        partnerBillsRaw['meta'] as Map<String, dynamic>,
+      ),
     );
   }
 }
