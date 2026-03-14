@@ -265,7 +265,7 @@ class Show extends StatelessWidget {
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
                         Text(
-                          'time_ago'.trParams({'time': timestamp}),
+                          timestamp,
                           style: context.typography.xs.copyWith(
                             color: context.fTheme.colors.mutedForeground,
                             fontWeight: FontWeight.w400,
