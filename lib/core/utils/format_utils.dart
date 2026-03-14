@@ -11,4 +11,9 @@ class FormatUtils {
     }
     return NumberFormat.currency(locale: 'vi_VN', symbol: 'đ').format(value);
   }
+
+  /// Format currency with comma every 3 digits and with currency symbol at the end
+  static String formatCurrencyToDoule(int value) {
+    return '${NumberFormat('#,##0', 'vi_VN').format(value)} đ';
+  }
 }
