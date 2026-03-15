@@ -9,7 +9,7 @@ class ShowBill {
   final String startTime;
   final String endTime;
   final String address;
-  final double finalTotal;
+  final int finalTotal;
   final String updatedAt;
 
   final String event;
@@ -47,7 +47,7 @@ class ShowBill {
       startTime: map['start_time'] as String,
       endTime: map['end_time'] as String,
       address: map['address'] as String,
-      finalTotal: (map['final_total'] as num).toDouble(),
+      finalTotal: map['final_total'] as int,
       updatedAt: map['updated_at'] as String,
 
       status: map['status'] as String,
