@@ -2,6 +2,28 @@
 
 All notable changes to this project will be documented in this file.
 
+## [v1.11.0+14]
+
+- Intergartion API for accept bill in realtime partner bill screen
+
+## [v1.10.0+13]
+
+- Intergartion fetch bill API for partner my show screen
+- Add bill detail bottom sheet for partner my show screen
+
+## [v1.9.0+12]
+
+- Add pusher service
+- Intergartion pusher for realtime partner billl (now user can get bill in realtime)
+
+## [v1.8.0+11]
+
+- Integration API for realtime partner bill (only for init fetch)
+
+## [v1.7.0+10]
+
+- Integration API for partner dashboard
+
 ## [v1.6.1+9]
 
 - Add registration screen and features
