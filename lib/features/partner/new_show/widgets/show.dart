@@ -7,6 +7,7 @@ import '../widgets/accept.dart';
 class Show extends StatelessWidget {
   const Show({
     super.key,
+    required this.billId,
     required this.code,
     required this.timestamp,
     required this.price,
@@ -20,6 +21,7 @@ class Show extends StatelessWidget {
     this.note = 'unknown',
   });
 
+  final int billId;
   final String code;
   final String timestamp;
   final String price;
@@ -113,7 +115,7 @@ class Show extends StatelessWidget {
 
           const SizedBox(height: 10),
           CustomButtonPlus(
-            onTap: () => Get.bottomSheet(Accept(code: code)),
+            onTap: () => Get.bottomSheet(Accept(code: code, billId: billId)),
             btnText: 'apply_for_show'.tr,
             textSize: 14,
             fontWeight: FontWeight.w600,

@@ -90,6 +90,7 @@ class NewShowScreen extends GetView<NewShowController> {
             }
             final bill = controller.bills[index];
             return Show(
+              billId: bill.id,
               code: bill.code,
               timestamp: bill.createdAt,
               price: bill.finalTotal != null

@@ -81,6 +81,23 @@ class NewShowController extends GetxController {
     await fetchRealtimeBills();
   }
 
+  final isAccepting = false.obs;
+
+  Future<bool> acceptBill({required int billId, required double price}) async {
+    isAccepting.value = true;
+    try {
+      await _repository.acceptBill(billId: billId, price: price);
+      bills.removeWhere((b) => b.id == billId);
+      logger.i('[NewShow] [Accept] Bill $billId accepted at price $price');
+      return true;
+    } catch (e) {
+      logger.e('[NewShow] [Accept] Error: $e');
+      return false;
+    } finally {
+      isAccepting.value = false;
+    }
+  }
+
   Future<void> _subscribeToCategories() async {
     await _unsubscribeAll();
 
