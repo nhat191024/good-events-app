@@ -195,7 +195,7 @@ class Show extends StatelessWidget {
                       ),
                       const Spacer(),
                       Text(
-                        price,
+                        FormatUtils.formatCurrencyToDoule(int.parse(price)),
                         style: context.typography.base.copyWith(
                           fontWeight: FontWeight.bold,
                           color: context.fTheme.colors.primary,
