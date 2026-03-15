@@ -12,4 +12,9 @@ class NewShowRepositoryImpl implements NewShowRepository {
     final data = await _provider.getRealtimeBills(page: page);
     return RealtimeBillsResponse.fromMap(data);
   }
+
+  @override
+  Future<void> acceptBill({required int billId, required double price}) async {
+    await _provider.acceptBill(billId: billId, price: price);
+  }
 }
