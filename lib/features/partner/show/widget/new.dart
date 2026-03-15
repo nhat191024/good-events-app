@@ -58,11 +58,11 @@ class NewWidget extends GetView<ShowController> {
                 final bill = controller.newBills[index];
                 return Show(
                   code: bill.code,
-                  timestamp: bill.createdAt,
-                  price: bill.finalTotal?.toStringAsFixed(0) ?? '0',
-                  clientName: bill.client.name,
-                  category: bill.category.name,
-                  event: bill.event.name,
+                  timestamp: bill.updatedAt,
+                  price: bill.finalTotal.toStringAsFixed(0),
+                  clientName: bill.clientName,
+                  category: bill.category,
+                  event: bill.event,
                   date: bill.date,
                   startTime: bill.startTime,
                   endTime: bill.endTime,
