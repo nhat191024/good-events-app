@@ -230,6 +230,8 @@ class AppTranslations extends Translations {
       'upcomings': 'Sắp tới',
       'histories': 'Lịch sử',
 
+      'detail_info': 'Thông tin chi tiết',
+
       //common
       'home': 'Trang chủ',
       'bills': 'Đơn',
@@ -280,12 +282,17 @@ class AppTranslations extends Translations {
       'loading_with_dot': 'Đang tải...',
 
       'code': 'Mã',
+      'status': 'Trạng thái',
+      'time': 'Thời gian',
+      'location': 'Địa điểm',
       'event': 'Sự kiện',
       'start_time': 'Giờ bắt đầu',
       'end_time': 'Giờ kết thúc',
       'note': 'Ghi chú',
       'price': 'Giá',
       'your_price': 'Giá của bạn',
+
+      'total_price': 'Tổng giá',
 
       'notification': 'Thông báo',
       'login_successful': 'Đăng nhập thành công! Welcome, @name.',
@@ -560,6 +567,8 @@ class AppTranslations extends Translations {
       'upcomings': 'Upcomings',
       'histories': 'Histories',
 
+      'detail_info': 'Detail info',
+
       //common
       'home': 'Home',
       'bills': 'Bills',
@@ -602,12 +611,17 @@ class AppTranslations extends Translations {
       'new_show': 'New Show',
 
       'code': 'Code',
+      'status': 'Status',
+      'time': 'Time',
+      'location': 'Location',
       'event': 'Event',
       'start_time': 'Start Time',
       'end_time': 'End Time',
       'note': 'Note',
       'price': 'Price',
       'your_price': 'Your Price',
+
+      'total_price': 'Total Price',
 
       'notification': 'Notification',
       'login_successful': 'Login successful! Welcome, @name.',
