@@ -1,7 +1,34 @@
+import 'package:flutter/services.dart';
+import 'package:intl/intl.dart';
 import 'package:sukientotapp/core/utils/import/global.dart';
 
 import 'package:sukientotapp/features/components/button/plus.dart';
 import '../controller.dart';
+
+class _CurrencyInputFormatter extends TextInputFormatter {
+  final _fmt = NumberFormat('#,###', 'vi_VN');
+
+  @override
+  TextEditingValue formatEditUpdate(
+    TextEditingValue oldValue,
+    TextEditingValue newValue,
+  ) {
+    final digits = newValue.text.replaceAll(RegExp(r'[^0-9]'), '');
+    if (digits.isEmpty) return newValue.copyWith(text: '');
+    final number = int.parse(digits);
+    final formatted = _fmt.format(number).replaceAll(',', '.');
+    return newValue.copyWith(
+      text: formatted,
+      selection: TextSelection.collapsed(offset: formatted.length),
+    );
+  }
+
+  static double? parse(String formatted) {
+    final digits = formatted.replaceAll(RegExp(r'[^0-9]'), '');
+    if (digits.isEmpty) return null;
+    return double.tryParse(digits);
+  }
+}
 
 class Accept extends StatefulWidget {
   const Accept({super.key, required this.code, required this.billId});
@@ -15,6 +42,7 @@ class Accept extends StatefulWidget {
 
 class _AcceptState extends State<Accept> {
   final _priceController = TextEditingController();
+  final _currencyFormatter = _CurrencyInputFormatter();
 
   @override
   void dispose() {
@@ -23,8 +51,7 @@ class _AcceptState extends State<Accept> {
   }
 
   Future<void> _onSubmit() async {
-    final raw = _priceController.text.trim();
-    final price = double.tryParse(raw);
+    final price = _CurrencyInputFormatter.parse(_priceController.text);
     if (price == null || price < 10000) {
       GetxSuperSnackbar.showError(
         'invalid_price'.trParams({'min': '10.000'}),
@@ -89,11 +116,13 @@ class _AcceptState extends State<Accept> {
                   const SizedBox(height: 16),
                   TextField(
                     controller: _priceController,
+                    inputFormatters: [_currencyFormatter],
                     decoration: InputDecoration(
                       border: OutlineInputBorder(
                         borderRadius: BorderRadius.circular(10),
                       ),
                       hintText: 'input_price_quote'.tr,
+                      suffixText: 'VND',
                     ),
                     keyboardType: TextInputType.number,
                   ),
