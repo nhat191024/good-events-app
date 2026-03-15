@@ -268,11 +268,11 @@ class Show extends StatelessWidget {
                           Expanded(
                             child: CustomButtonPlus(
                               onTap: () => Get.snackbar('info'.tr, 'in_dev'.tr),
-                              icon: FIcons.mapPinCheck,
+                              icon: currentStatus == 'in_job' ? FIcons.mapPinCheck : FIcons.checkCheck,
                               iconSize: 16,
                               btnText: currentStatus == 'in_job'
-                                  ? 'arrived'.tr
-                                  : 'completed_show'.tr,
+                                  ? 'completed_show'.tr
+                                  : 'arrived'.tr,
                               textSize: 14,
                               fontWeight: FontWeight.w600,
                               height: 34,
