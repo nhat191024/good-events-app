@@ -1,5 +1,6 @@
 // Global imports for the project
 export 'package:get/get.dart';
+export 'package:getx_super_snackbar/getx_super_snackbar.dart';
 export 'package:flutter/material.dart';
 export 'package:flutter/foundation.dart';
 export 'package:forui/forui.dart';
