@@ -18,7 +18,7 @@ class Show extends StatelessWidget {
     required this.startTime,
     required this.endTime,
     required this.address,
-    this.note = 'unknown',
+    required this.note,
     required this.currentStatus,
   });
 
