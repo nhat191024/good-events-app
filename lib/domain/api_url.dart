@@ -21,6 +21,7 @@ class AppUrl {
 
   // Partner New Show
   static const String partnerBillsRealtime = '/partner/bills/realtime';
+  static String partnerBillAccept(int billId) => '/partner/bills/$billId/accept';
 
   // Partner Show List (filtered by status)
   static String partnerBills(String status) => '/partner/bills/$status';
