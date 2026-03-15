@@ -3,6 +3,7 @@ import 'package:sukientotapp/core/utils/import/global.dart  ';
 
 import 'package:sukientotapp/features/components/widget/badge.dart';
 import 'package:sukientotapp/features/components/button/plus.dart';
+import 'detail.dart';
 
 class Show extends StatelessWidget {
   Show({
@@ -23,7 +24,7 @@ class Show extends StatelessWidget {
 
   final String code;
   final String timestamp;
-  final String price;
+  final int price;
   final String clientName;
   final String category;
   final String event;
@@ -195,7 +196,7 @@ class Show extends StatelessWidget {
                       ),
                       const Spacer(),
                       Text(
-                        FormatUtils.formatCurrencyToDoule(int.parse(price)),
+                        FormatUtils.formatCurrencyToDoule(price),
                         style: context.typography.base.copyWith(
                           fontWeight: FontWeight.bold,
                           color: context.fTheme.colors.primary,
@@ -211,7 +212,38 @@ class Show extends StatelessWidget {
               currentStatus != 'expired' &&
               currentStatus != 'cancelled')
             GestureDetector(
-              onTap: () => Get.snackbar('info'.tr, 'in_dev'.tr),
+              onTap: () {
+                Get.bottomSheet(
+                  Detail(
+                    code: code,
+                    status:
+                        statusStyles[currentStatus]?['label'] ?? currentStatus,
+                    statusColor:
+                        statusStyles[currentStatus]?['bg'] ??
+                        const Color(0xFFF3F4F6),
+                    statusTextColor:
+                        statusStyles[currentStatus]?['text'] ??
+                        const Color(0xFF374151),
+                    clientName: clientName,
+                    event: event,
+                    startTime: startTime,
+                    endTime: endTime,
+                    date: date,
+                    address: address,
+                    note: note,
+                    total: price,
+                  ),
+                  isScrollControlled: true,
+                  backgroundColor: context.fTheme.colors.background,
+                  enterBottomSheetDuration: const Duration(milliseconds: 400),
+                  exitBottomSheetDuration: const Duration(milliseconds: 300),
+                  shape: const RoundedRectangleBorder(
+                    borderRadius: BorderRadius.vertical(
+                      top: Radius.circular(20),
+                    ),
+                  ),
+                );
+              },
               child: Container(
                 width: double.infinity,
 
