@@ -88,6 +88,17 @@ class NewWidget extends GetView<ShowController> {
                   mainAxisAlignment: MainAxisAlignment.end,
                   children: [
                     CustomButtonPlus(
+                      onTap: () => controller.refreshData(),
+                      btnText: 'refresh'.tr,
+                      textSize: 12,
+                      fontWeight: FontWeight.w600,
+                      height: 34,
+                      borderRadius: 10,
+                      borderColor: Colors.transparent,
+                      color: AppColors.red600,
+                    ),
+                    const SizedBox(width: 6),
+                    CustomButtonPlus(
                       onTap: () => Get.snackbar('info'.tr, 'in_dev'.tr),
                       icon: FIcons.calendarDays,
                       iconSize: 16,

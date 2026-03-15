@@ -44,10 +44,7 @@ class HistoryWidget extends GetView<ShowController> {
             }
             return ListView.builder(
               controller: controller.historyScrollController,
-              padding: const EdgeInsets.only(
-                top: 60,
-                bottom: 100,
-              ),
+              padding: const EdgeInsets.only(top: 60, bottom: 100),
               itemCount:
                   controller.historyBills.length +
                   (controller.isHistoryLoadMore.value ? 1 : 0),
@@ -90,6 +87,17 @@ class HistoryWidget extends GetView<ShowController> {
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.end,
                   children: [
+                    CustomButtonPlus(
+                      onTap: () => controller.refreshData(),
+                      btnText: 'refresh'.tr,
+                      textSize: 12,
+                      fontWeight: FontWeight.w600,
+                      height: 34,
+                      borderRadius: 10,
+                      borderColor: Colors.transparent,
+                      color: AppColors.red600,
+                    ),
+                    const SizedBox(width: 6),
                     CustomButtonPlus(
                       onTap: () => Get.snackbar('info'.tr, 'in_dev'.tr),
                       icon: FIcons.listFilterPlus,
