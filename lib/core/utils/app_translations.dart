@@ -304,7 +304,7 @@ class AppTranslations extends Translations {
       'apply_for_show': 'Nhận show',
       'price_quote': 'Báo giá show',
       'price_quote_for_show': 'Báo giá cho show #@code',
-      'input_price_quote': 'Nhập báo giá của bạn cho show này',
+      'input_price_quote': 'Nhập giá của bạn',
 
       'invalid_price': 'Vui lòng nhập giá hợp lệ (tối thiểu @min)',
       'accepted_show': 'Bạn đã nhận show #@code',
@@ -646,7 +646,7 @@ class AppTranslations extends Translations {
       'apply_for_show': 'Apply for Show',
       'price_quote': 'Show price Quote',
       'price_quote_for_show': 'Price Quote for Show #@code',
-      'input_price_quote': 'Input your price quote for this show',
+      'input_price_quote': 'Input your price',
 
       'invalid_price': 'Please enter a valid price (minimum @min)',
       'accepted_show': 'You have accepted show #@code',
