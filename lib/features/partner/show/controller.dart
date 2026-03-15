@@ -54,6 +54,17 @@ class ShowController extends GetxController
     tabController.animateTo(index);
   }
 
+  Future<void> refreshData() async {
+    final index = tabController.index;
+    if (index == 0) {
+      await _fetchNewBills(reset: true);
+    } else if (index == 1) {
+      await _fetchUpcomingBills(reset: true);
+    } else if (index == 2) {
+      await _fetchHistoryBills(reset: true);
+    }
+  }
+
   // ─── New Tab ────────────────────────────────────────────────────────────────
 
   Future<void> _fetchNewBills({bool reset = false}) async {
@@ -72,6 +83,7 @@ class ShowController extends GetxController
       newBills.addAll(response.bills);
     } catch (e) {
       Get.snackbar('error'.tr, 'load_data_failed'.tr);
+      logger.e('Failed to load new bills: $e');
     } finally {
       isLoading.value = false;
     }
@@ -121,6 +133,7 @@ class ShowController extends GetxController
       upcomingBills.addAll(response.bills);
     } catch (e) {
       Get.snackbar('error'.tr, 'load_data_failed'.tr);
+      logger.e('Failed to load new bills: $e');
     } finally {
       isUpcomingLoading.value = false;
     }
@@ -170,6 +183,7 @@ class ShowController extends GetxController
       historyBills.addAll(response.bills);
     } catch (e) {
       Get.snackbar('error'.tr, 'load_data_failed'.tr);
+      logger.e('Failed to load history bills: $e');
     } finally {
       isHistoryLoading.value = false;
     }
@@ -211,4 +225,3 @@ class ShowController extends GetxController
     super.onClose();
   }
 }
-
