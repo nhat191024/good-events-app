@@ -330,6 +330,8 @@ class AppTranslations extends Translations {
       'no_messages': 'Chưa có tin nhắn nào',
       'no_further_messages': 'Không còn tin nhắn nào nữa',
 
+      'bill_info': 'Thông tin đơn hàng',
+
       'conversation': 'Cuộc trò chuyện',
       'type_a_message': 'Nhập tin nhắn...',
 
@@ -692,6 +694,8 @@ class AppTranslations extends Translations {
       //messages
       'no_messages': 'No messages yet',
       'no_further_messages': 'No further messages',
+
+      'bill_info': 'Bill information',
 
       'conversation': 'Conversation',
       'type_a_message': 'Type a message...',
