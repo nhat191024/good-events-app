@@ -64,6 +64,20 @@ class OrderRepositoryImpl implements OrderRepository {
   }
 
   @override
+  Future<EventOrderModel?> getOrder(int orderId) async {
+    try {
+      final response = await _provider.getOrder(orderId);
+      if (response != null && response is Map<String, dynamic>) {
+        return EventOrderModel.fromJson(response);
+      }
+      return null;
+    } catch (e) {
+      logger.e('Failed to parse getOrder response: $e');
+      return null;
+    }
+  }
+
+  @override
   Future<List<AssetOrderModel>> getAssetOrders() async {
     try {
       final response = await _provider.getAssetOrders();
@@ -76,6 +90,38 @@ class OrderRepositoryImpl implements OrderRepository {
     } catch (e) {
       logger.e('Failed to parse getAssetOrders response: $e');
       return [];
+    }
+  }
+
+  @override
+  Future<Map<String, dynamic>> reportBill({
+    required int billId,
+    required String title,
+    required String description,
+  }) async {
+    return _provider.reportBill(billId, title, description);
+  }
+
+  @override
+  Future<Map<String, dynamic>> choosePartner({
+    required int orderId,
+    required int partnerId,
+  }) async {
+    try {
+      final response = await _provider.choosePartner(orderId, partnerId);
+      return response as Map<String, dynamic>;
+    } catch (e) {
+      return {'success': false, 'message': e.toString()};
+    }
+  }
+
+  @override
+  Future<Map<String, dynamic>> cancelOrder(int orderId) async {
+    try {
+      final response = await _provider.cancelOrder(orderId);
+      return response as Map<String, dynamic>;
+    } catch (e) {
+      return {'success': false, 'message': e.toString()};
     }
   }
 }
