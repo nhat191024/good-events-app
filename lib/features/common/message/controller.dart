@@ -18,7 +18,9 @@ class MessageController extends GetxController {
 
   // --- Message detail state ---
   final RxList<MessageModel> messagesDetail = <MessageModel>[].obs;
-  late String id;
+  final Rx<MessageListModel?> selectedThread = Rx<MessageListModel?>(null);
+
+  String get selectedThreadId => selectedThread.value?.id ?? '';
 
   final TextEditingController messageController = TextEditingController();
   final ScrollController scrollController = ScrollController();
