@@ -36,12 +36,13 @@ class MessageDetailScreen extends GetView<MessageController> {
                   Expanded(
                     child: ListView.builder(
                       controller: controller.scrollController,
+                      reverse: true,
                       itemCount: controller.messagesDetail.length,
                       itemBuilder: (context, index) {
                         final message = controller.messagesDetail[index];
                         return ChatBubble(
                           message: message,
-                          isFirst: index == 0,
+                          isFirst: index == controller.messagesDetail.length - 1,
                         );
                       },
                     ),
