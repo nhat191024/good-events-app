@@ -1,3 +1,5 @@
+import 'package:sukientotapp/core/utils/import/global.dart';
+
 class MessageModel {
   final int? id;
   final String sender;
@@ -23,25 +25,25 @@ class MessageModel {
     final DateTime? dateTime = DateTime.tryParse(isoString);
     if (dateTime == null) return isoString;
     final Duration diff = DateTime.now().difference(dateTime);
-    if (diff.inSeconds < 60) return 'just now';
+    if (diff.inSeconds < 60) return 'just_now'.tr;
     if (diff.inMinutes < 60) {
       final m = diff.inMinutes;
-      return '$m ${m == 1 ? 'minute' : 'minutes'} ago';
+      return (m == 1 ? 'minute_ago' : 'minutes_ago').trParams({'count': '$m'});
     }
     if (diff.inHours < 24) {
       final h = diff.inHours;
-      return '$h ${h == 1 ? 'hour' : 'hours'} ago';
+      return (h == 1 ? 'hour_ago' : 'hours_ago').trParams({'count': '$h'});
     }
     if (diff.inDays < 30) {
       final d = diff.inDays;
-      return '$d ${d == 1 ? 'day' : 'days'} ago';
+      return (d == 1 ? 'day_ago' : 'days_ago').trParams({'count': '$d'});
     }
     if (diff.inDays < 365) {
       final mo = (diff.inDays / 30).floor();
-      return '$mo ${mo == 1 ? 'month' : 'months'} ago';
+      return (mo == 1 ? 'month_ago' : 'months_ago').trParams({'count': '$mo'});
     }
     final y = (diff.inDays / 365).floor();
-    return '$y ${y == 1 ? 'year' : 'years'} ago';
+    return (y == 1 ? 'year_ago' : 'years_ago').trParams({'count': '$y'});
   }
 
   factory MessageModel.fromApiJson(
