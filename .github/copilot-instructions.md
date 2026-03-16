@@ -112,7 +112,7 @@ try {
   // Use a global error handler
   ErrorHandler.handle(e);
   // Show user friendly message
-  FToast.error(title: "Lỗi", description: "Không thể kết nối máy chủ");
+  GetxSuperSnackbar.showError(title: 'Error', 'Something went wrong. Please try again.');
 }
 
 ```
