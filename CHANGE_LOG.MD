@@ -2,6 +2,12 @@
 
 All notable changes to this project will be documented in this file.
 
+## [v1.12.0+13]
+
+- Add upload image component
+- Add upload arrived image bottom sheet in my show at upcoming tab
+- Intergartion API for upload arrived image to BE and change bill status
+
 ## [v1.11.0+14]
 
 - Intergartion API for accept bill in realtime partner bill screen
