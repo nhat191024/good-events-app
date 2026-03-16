@@ -8,113 +8,124 @@ class MessageController extends GetxController {
   final MessageRepository _repository;
   MessageController(this._repository);
 
-  final List<MessageListModel> messages = <MessageListModel>[
-    MessageListModel(
-      id: '1',
-      avatar: 'assets/images/placeholder.png',
-      name: 'Dr. John Doe',
-      newestMessage:
-          'Hello, how are you? Hello, how are you? Hello, how are you? Hello, how are you?',
-      time: '10m',
-      isRead: false,
-      unreadMessages: 2,
-    ),
-    MessageListModel(
-      id: '2',
-      avatar: 'assets/images/placeholder.png',
-      name: 'Jane',
-      newestMessage: 'Hello, how are you?',
-      time: '2m',
-      isRead: false,
-      unreadMessages: 1,
-    ),
-    MessageListModel(
-      id: '3',
-      avatar: 'assets/images/placeholder.png',
-      name: 'Dr. James',
-      newestMessage: 'Hello, how are you?',
-      time: '13m',
-      isRead: true,
-      unreadMessages: 0,
-    ),
-    MessageListModel(
-      id: '4',
-      avatar: 'assets/images/placeholder.png',
-      name: 'Isabella',
-      newestMessage: 'Hello, how are you?',
-      time: '20m',
-      isRead: true,
-      unreadMessages: 0,
-    ),
-  ];
+  // --- Thread list state ---
+  final RxList<MessageListModel> filteredMessages = <MessageListModel>[].obs;
+  final RxBool isLoading = false.obs;
+  final RxBool isLoadingMore = false.obs;
+  final RxBool hasMore = true.obs;
+  final RxString searchQuery = ''.obs;
+  int _currentPage = 1;
 
-  final RxList<MessageModel> messagesDetail = <MessageModel>[
-    MessageModel(
-      text: 'Thank you for booking an appointment with me.',
-      isSender: true,
-      sended: true,
-      time: '10:00',
-      date: '2024-10-31',
-    ),
-    MessageModel(
-      text: 'And if you have any questions or inquires do let me know.',
-      isSender: true,
-      sended: true,
-      time: '10:01',
-      date: '2024-10-31',
-    ),
-    MessageModel(
-      text: 'Hi, Doctor',
-      isSender: false,
-      sended: true,
-      time: '10:02',
-      date: '2024-11-01',
-    ),
-  ].obs;
-
+  // --- Message detail state ---
+  final RxList<MessageModel> messagesDetail = <MessageModel>[].obs;
   late String id;
-  late int totalMessage;
 
   final TextEditingController messageController = TextEditingController();
   final ScrollController scrollController = ScrollController();
+  final ScrollController listScrollController = ScrollController();
 
-  // Uncomment when file_picker is added
-  // var selectedFiles = <PlatformFile>[].obs;
-  var selectedFiles = <dynamic>[].obs; // Placeholder
-
-  Future<void> pickFiles() async {
-    Get.snackbar('Notice', 'File picking disabled in demo (missing plugin)');
-  }
-
-  void removeSelectedFile(dynamic file) {
-    selectedFiles.remove(file);
-  }
-
-  final RxList<MessageListModel> filteredMessages = <MessageListModel>[].obs;
-  final RxString searchQuery = ''.obs;
+  var selectedFiles = <dynamic>[].obs;
 
   @override
   void onInit() {
-    totalMessage = messages.length;
-    filteredMessages.assignAll(messages);
     super.onInit();
+    fetchThreads();
+    listScrollController.addListener(_onListScroll);
+    // Debounce search so we don't hammer the API on every keystroke
+    debounce(
+      searchQuery,
+      (_) => _resetAndFetch(),
+      time: const Duration(milliseconds: 500),
+    );
+  }
+
+  @override
+  void onClose() {
+    messageController.dispose();
+    scrollController.dispose();
+    listScrollController.dispose();
+    super.onClose();
+  }
+
+  // ──────────────────────────────────────────────
+  // Thread list
+  // ──────────────────────────────────────────────
+
+  Future<void> fetchThreads({bool loadMore = false}) async {
+    if (loadMore) {
+      if (!hasMore.value || isLoadingMore.value) return;
+      isLoadingMore.value = true;
+    } else {
+      isLoading.value = true;
+    }
+
+    try {
+      final response = await _repository.getThreads(
+        page: _currentPage,
+        search: searchQuery.value.isEmpty ? null : searchQuery.value,
+      );
+
+      final threads = (response['threads'] as List<dynamic>? ?? [])
+          .map((e) => MessageListModel.fromJson(e as Map<String, dynamic>))
+          .toList();
+
+      hasMore.value = response['has_more'] as bool? ?? false;
+      _currentPage = (response['current_page'] as int? ?? _currentPage);
+
+      if (loadMore) {
+        filteredMessages.addAll(threads);
+      } else {
+        filteredMessages.assignAll(threads);
+      }
+
+      logger.i(
+        '[MessageController] [fetchThreads] page=$_currentPage, hasMore=${hasMore.value}, count=${threads.length}',
+      );
+    } catch (e) {
+      logger.e('[MessageController] [fetchThreads] Error: $e');
+      AppSnackbar.showError(
+        message: e.toString().replaceFirst('Exception: ', ''),
+      );
+    } finally {
+      isLoading.value = false;
+      isLoadingMore.value = false;
+    }
+  }
+
+  Future<void> loadMore() async {
+    if (!hasMore.value || isLoadingMore.value) return;
+    _currentPage++;
+    await fetchThreads(loadMore: true);
+  }
+
+  Future<void> refreshThreads() async {
+    _currentPage = 1;
+    hasMore.value = true;
+    await fetchThreads();
   }
 
   void searchMessages(String query) {
     searchQuery.value = query;
-    if (query.isEmpty) {
-      filteredMessages.assignAll(messages);
-    } else {
-      filteredMessages.assignAll(
-        messages
-            .where(
-              (message) =>
-                  message.name.toLowerCase().contains(query.toLowerCase()),
-            )
-            .toList(),
-      );
+    // Actual fetch is triggered via debounce in onInit
+  }
+
+  void _resetAndFetch() {
+    _currentPage = 1;
+    hasMore.value = true;
+    fetchThreads();
+  }
+
+  void _onListScroll() {
+    final pos = listScrollController.position;
+    // Load more when within 200px of the bottom
+    if (pos.pixels >= pos.maxScrollExtent - 200) {
+      loadMore();
     }
   }
+
+  // ──────────────────────────────────────────────
+  // Message detail (chat window)
+  // ──────────────────────────────────────────────
 
   void scrollToBottom() {
     Future.delayed(const Duration(milliseconds: 100), () {
@@ -128,7 +139,7 @@ class MessageController extends GetxController {
     });
   }
 
-  void sendMessage() async {
+  void sendMessage() {
     if (messageController.text.isNotEmpty) {
       messagesDetail.add(
         MessageModel(
@@ -142,5 +153,15 @@ class MessageController extends GetxController {
       messageController.clear();
       scrollToBottom();
     }
+  }
+
+  Future<void> pickFiles() async {
+    AppSnackbar.showError(
+      message: 'File picking disabled in demo (missing plugin)',
+    );
+  }
+
+  void removeSelectedFile(dynamic file) {
+    selectedFiles.remove(file);
   }
 }
