@@ -87,9 +87,12 @@ class MessageScreen extends GetView<MessageController> {
                             height: 1,
                           ),
                         GestureDetector(
-                          onTap: () {
+                          onTap: () async {
                             controller.openThread(message);
-                            Get.to(() => const MessageDetailScreen());
+                            await Get.to<void>(
+                              () => const MessageDetailScreen(),
+                            );
+                            controller.closeThread();
                           },
                           child: Container(
                             padding: const EdgeInsets.fromLTRB(20, 10, 20, 10),

@@ -145,6 +145,25 @@ class MessageController extends GetxController {
     await _subscribeToThread(thread.id);
   }
 
+  void closeThread() {
+    if (selectedThread.value == null || messagesDetail.isEmpty) return;
+    final lastMessage = messagesDetail[0];
+    final threadId = selectedThreadId;
+    final idx = filteredMessages.indexWhere((t) => t.id == threadId);
+    if (idx != -1) {
+      filteredMessages[idx] = filteredMessages[idx].copyWith(
+        newestMessage: lastMessage.text,
+        newestMessageSender: lastMessage.sender,
+        time: lastMessage.time,
+        isRead: true,
+        unreadMessages: 0,
+      );
+    }
+    logger.i(
+      '[MessageController] [closeThread] Updated preview for thread=$threadId',
+    );
+  }
+
   Future<void> _subscribeToThread(String threadId) async {
     final channelName = 'private-thread.$threadId';
     await PusherService.subscribe(
