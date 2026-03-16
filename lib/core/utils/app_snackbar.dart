@@ -10,12 +10,14 @@ class AppSnackbar {
   /// success - with green background
   static void showSuccess({
     required String message,
-    String title = 'Thành công',
+    String? title,
     SnackPosition position = _defaultPosition,
   }) {
+    final String resolvedTitle = title ?? 'success'.tr;
+
     GetxSuperSnackbar.showSuccess(
       message,
-      title: title,
+      title: resolvedTitle,
       snackPosition: position,
       isDismissible: true,
       margin: const EdgeInsets.all(16.0),
@@ -26,12 +28,14 @@ class AppSnackbar {
   /// error - with red background
   static void showError({
     required String message,
-    String title = 'Đã xảy ra lỗi',
+    String? title,
     SnackPosition position = _defaultPosition,
   }) {
+    final String resolvedTitle = title ?? 'error'.tr;
+
     GetxSuperSnackbar.showError(
       message,
-      title: title,
+      title: resolvedTitle,
       snackPosition: position,
       isDismissible: true,
       margin: const EdgeInsets.all(16.0),
@@ -42,12 +46,14 @@ class AppSnackbar {
   /// warning - with yellow background
   static void showWarning({
     required String message,
-    String title = 'Cảnh báo',
+    String? title,
     SnackPosition position = _defaultPosition,
   }) {
+    final String resolvedTitle = title ?? 'warning'.tr;
+
     GetxSuperSnackbar.showWarning(
       message,
-      title: title,
+      title: resolvedTitle,
       snackPosition: position,
       isDismissible: true,
       margin: const EdgeInsets.all(16.0),
@@ -58,12 +64,14 @@ class AppSnackbar {
   /// info - with blue background
   static void showInfo({
     required String message,
-    String title = 'Thông tin',
+    String? title,
     SnackPosition position = _defaultPosition,
   }) {
+    final String resolvedTitle = title ?? 'info'.tr;
+
     GetxSuperSnackbar.showInfo(
       message,
-      title: title,
+      title: resolvedTitle,
       snackPosition: position,
       isDismissible: true,
       margin: const EdgeInsets.all(16.0),
