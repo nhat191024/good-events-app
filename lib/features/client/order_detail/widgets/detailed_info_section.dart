@@ -1,5 +1,5 @@
 import 'package:sukientotapp/core/utils/import/global.dart';
-import '../controller.dart';
+import '../controller/controller.dart';
 
 class DetailedInfoSection extends GetView<ClientOrderDetailController> {
   const DetailedInfoSection({super.key});
@@ -36,18 +36,22 @@ class DetailedInfoSection extends GetView<ClientOrderDetailController> {
             ),
           ),
           const SizedBox(height: 8),
-          Container(
-            padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 4),
-            decoration: BoxDecoration(
-              color: Colors.green[50],
-              border: Border.all(color: Colors.green[200]!),
-              borderRadius: BorderRadius.circular(16),
-            ),
-            child: Obx(
-              () => Text(
+          Obx(
+            () => Container(
+              padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 4),
+              decoration: BoxDecoration(
+                color: controller.status == 'confirmed' ? Colors.green[50] : Colors.orange[50],
+                border: Border.all(
+                  color: controller.status == 'confirmed'
+                      ? Colors.green[200]!
+                      : Colors.orange[200]!,
+                ),
+                borderRadius: BorderRadius.circular(16),
+              ),
+              child: Text(
                 controller.status.toUpperCase(),
                 style: context.typography.xs.copyWith(
-                  color: Colors.green[800],
+                  color: controller.status == 'confirmed' ? Colors.green[800] : Colors.orange[800],
                   fontWeight: FontWeight.bold,
                 ),
               ),
@@ -62,22 +66,33 @@ class DetailedInfoSection extends GetView<ClientOrderDetailController> {
             ),
           ),
           const SizedBox(height: 24),
-          _buildInfoRow(context, Icons.calendar_today, 'event_date'.tr, controller.date),
-          _buildInfoRow(
-            context,
-            Icons.access_time,
-            'time'.tr,
-            '${controller.startTime} - ${controller.endTime}',
+          Obx(
+            () => Column(
+              children: [
+                _buildInfoRow(context, Icons.calendar_today, 'event_date'.tr, controller.date),
+                _buildInfoRow(
+                  context,
+                  Icons.access_time,
+                  'time'.tr,
+                  '${controller.startTime} - ${controller.endTime}',
+                ),
+                _buildInfoRow(context, Icons.location_on, 'location'.tr, controller.address),
+                _buildInfoRow(context, Icons.stars, 'event_type'.tr, controller.eventName),
+                _buildInfoRow(
+                  context,
+                  Icons.sticky_note_2,
+                  'special_note'.tr,
+                  controller.note.isEmpty ? 'none'.tr : controller.note,
+                ),
+                _buildInfoRow(
+                  context,
+                  Icons.schedule,
+                  'order_creation_time'.tr,
+                  controller.createdAt,
+                ),
+              ],
+            ),
           ),
-          _buildInfoRow(context, Icons.location_on, 'location'.tr, controller.address),
-          _buildInfoRow(context, Icons.stars, 'event_type'.tr, controller.eventName),
-          _buildInfoRow(
-            context,
-            Icons.sticky_note_2,
-            'special_note'.tr,
-            controller.note.isEmpty ? 'none'.tr : controller.note,
-          ),
-          _buildInfoRow(context, Icons.schedule, 'order_creation_time'.tr, controller.createdAt),
 
           Obx(
             () => Container(
@@ -118,40 +133,42 @@ class DetailedInfoSection extends GetView<ClientOrderDetailController> {
             ),
           ),
 
-          Container(
-            padding: const EdgeInsets.all(12),
-            decoration: BoxDecoration(
-              color: Colors.grey[50],
-              borderRadius: BorderRadius.circular(8),
-            ),
-            child: Row(
-              children: [
-                Icon(Icons.monetization_on, color: Colors.grey[600], size: 20),
-                const SizedBox(width: 12),
-                Expanded(
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      Text(
-                        'sealing_price'.tr,
-                        style: context.typography.xs.copyWith(color: Colors.grey[600]),
-                      ),
-                      Text(
-                        '${NumberFormat.currency(locale: 'vi_VN', symbol: '', decimalDigits: 0).format(controller.finalTotal)} đ',
-                        style: context.typography.lg.copyWith(
-                          fontWeight: FontWeight.bold,
-                          color: Colors.red[700],
+          Obx(
+            () => Container(
+              padding: const EdgeInsets.all(12),
+              decoration: BoxDecoration(
+                color: Colors.grey[50],
+                borderRadius: BorderRadius.circular(8),
+              ),
+              child: Row(
+                children: [
+                  Icon(Icons.monetization_on, color: Colors.grey[600], size: 20),
+                  const SizedBox(width: 12),
+                  Expanded(
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Text(
+                          'sealing_price'.tr,
+                          style: context.typography.xs.copyWith(color: Colors.grey[600]),
                         ),
-                      ),
-                    ],
+                        Text(
+                          '${NumberFormat.currency(locale: 'vi_VN', symbol: '', decimalDigits: 0).format(controller.finalTotal)} đ',
+                          style: context.typography.lg.copyWith(
+                            fontWeight: FontWeight.bold,
+                            color: Colors.red[700],
+                          ),
+                        ),
+                      ],
+                    ),
                   ),
-                ),
-              ],
+                ],
+              ),
             ),
           ),
           const SizedBox(height: 24),
           Obx(() {
-            if (!controller.isHistory.value) {
+            if (!controller.isHistory.value && controller.status != 'confirmed') {
               return Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [

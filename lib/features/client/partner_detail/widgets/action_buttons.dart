@@ -1,5 +1,6 @@
 import 'package:sukientotapp/core/utils/import/global.dart';
 import 'package:sukientotapp/features/components/button/plus.dart';
+import 'package:sukientotapp/features/client/partner_detail/controller.dart';
 
 class PartnerActionButtons extends StatelessWidget {
   const PartnerActionButtons({super.key});
@@ -30,7 +31,13 @@ class PartnerActionButtons extends StatelessWidget {
             Expanded(
               child: CustomButtonPlus(
                 onTap: () {
-                  Get.toNamed(Routes.clientBooking);
+                  final catIdStr = Get.find<PartnerDetailController>().partnerId.value;
+                  final catId = int.tryParse(catIdStr);
+
+                  Get.toNamed(
+                    Routes.clientBooking,
+                    arguments: catId != null ? {'category_id': catId} : null,
+                  );
                 },
                 btnText: 'book_now'.tr,
                 color: AppColors.red600, // Primary red
