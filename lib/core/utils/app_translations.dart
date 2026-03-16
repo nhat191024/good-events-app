@@ -938,6 +938,30 @@ class AppTranslations extends Translations {
       'report_success_message': 'Report submitted successfully!',
       'report_failed': 'Failed to submit report. Please try again.',
 
+      // Asset Order Detail
+      'asset_order_detail_title': 'Design Order Detail',
+      'asset_order_details': 'Order Information',
+      'order_id': 'Order ID',
+      'updated_at_label': 'Updated',
+      'payment_method': 'Payment Method',
+      'design_price': 'Design Price',
+      'tax': 'Tax',
+      'final_total': 'Final Total',
+      'download_zip': 'Download ZIP',
+      'download': 'Download',
+      'download_starting': 'Preparing download...',
+      'repay': 'Repay',
+
+      // Report bottom sheet
+      'report_bill_title': 'Report Issue',
+      'report_title_label': 'Title',
+      'report_title_hint': 'Enter report title',
+      'report_desc_label': 'Description',
+      'report_desc_hint': 'Describe the issue clearly...',
+      'submit_report': 'Submit Report',
+      'report_success_message': 'Report submitted successfully!',
+      'report_failed': 'Failed to submit report. Please try again.',
+
       //dev
       'in_dev': 'Feature in development',
     },
