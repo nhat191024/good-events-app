@@ -1,5 +1,5 @@
 import 'package:sukientotapp/core/utils/import/global.dart';
-import '../controller.dart';
+import '../controller/controller.dart';
 import 'applicant_card.dart';
 
 class PartnerSection extends GetView<ClientOrderDetailController> {

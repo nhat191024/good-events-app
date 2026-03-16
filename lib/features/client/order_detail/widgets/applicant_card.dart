@@ -1,7 +1,7 @@
 import 'package:sukientotapp/core/utils/import/global.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:sukientotapp/data/models/client/order_detail_model.dart';
-import '../controller.dart';
+import '../controller/controller.dart';
 
 class ApplicantCard extends GetView<ClientOrderDetailController> {
   final OrderItemModel item;
@@ -161,8 +161,13 @@ class ApplicantCard extends GetView<ClientOrderDetailController> {
             ],
           ),
           const SizedBox(height: 16),
-          Obx(
-            () => Row(
+          Obx(() {
+            final isEnded =
+                controller.status == 'completed' ||
+                controller.status == 'cancelled' ||
+                controller.status == 'expired';
+
+            return Row(
               mainAxisAlignment: MainAxisAlignment.end,
               children: [
                 OutlinedButton(
@@ -174,10 +179,14 @@ class ApplicantCard extends GetView<ClientOrderDetailController> {
                   ),
                   child: Text('profile'.tr),
                 ),
-                if (!controller.isHistory.value && !isChosen) ...[
+                if (!controller.isHistory.value && !isEnded && !isChosen) ...[
                   const SizedBox(width: 8),
                   ElevatedButton(
-                    onPressed: () {},
+                    onPressed: () => controller.choosePartner(
+                      partnerId: partner.id,
+                      amount: item.total,
+                      partnerName: partnerName,
+                    ),
                     style: ElevatedButton.styleFrom(
                       backgroundColor: FTheme.of(context).colors.primary,
                       foregroundColor: Colors.white,
@@ -187,8 +196,8 @@ class ApplicantCard extends GetView<ClientOrderDetailController> {
                   ),
                 ],
               ],
-            ),
-          ),
+            );
+          }),
         ],
       ),
     );

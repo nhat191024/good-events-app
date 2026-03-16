@@ -1,5 +1,5 @@
 import 'package:sukientotapp/core/utils/import/global.dart';
-import '../controller.dart';
+import '../controller/controller.dart';
 
 class BottomActions extends GetView<ClientOrderDetailController> {
   const BottomActions({super.key});
@@ -7,39 +7,47 @@ class BottomActions extends GetView<ClientOrderDetailController> {
   @override
   Widget build(BuildContext context) {
     return Obx(() {
-      // If it's a history item, we show the 'Rate now' button instead
-      if (controller.isHistory.value) {
-        return Container(
-          padding: const EdgeInsets.all(16),
-          decoration: BoxDecoration(
-            color: Colors.white,
-            boxShadow: [
-              BoxShadow(
-                color: Colors.black.withValues(alpha: 0.05),
-                blurRadius: 10,
-                offset: const Offset(0, -5),
-              ),
-            ],
-          ),
-          child: SafeArea(
-            child: SizedBox(
-              width: double.infinity,
-              child: ElevatedButton(
-                onPressed: () => _showReviewBottomSheet(context),
-                style: ElevatedButton.styleFrom(
-                  backgroundColor: FTheme.of(context).colors.primary,
-                  foregroundColor: Colors.white,
-                  shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(8)),
-                  padding: const EdgeInsets.symmetric(vertical: 12),
+      final status = controller.status;
+      final isEnded = status == 'completed' || status == 'cancelled' || status == 'expired';
+
+      // If it's a history item or the status is ended, we handle history-like actions
+      if (controller.isHistory.value || isEnded) {
+        if (status == 'completed') {
+          return Container(
+            padding: const EdgeInsets.all(16),
+            decoration: BoxDecoration(
+              color: Colors.white,
+              boxShadow: [
+                BoxShadow(
+                  color: Colors.black.withValues(alpha: 0.05),
+                  blurRadius: 10,
+                  offset: const Offset(0, -5),
                 ),
-                child: Text('rate_now'.tr, style: const TextStyle(fontWeight: FontWeight.bold)),
+              ],
+            ),
+            child: SafeArea(
+              child: SizedBox(
+                width: double.infinity,
+                child: ElevatedButton(
+                  onPressed: () => _showReviewBottomSheet(context),
+                  style: ElevatedButton.styleFrom(
+                    backgroundColor: FTheme.of(context).colors.primary,
+                    foregroundColor: Colors.white,
+                    shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(8)),
+                    padding: const EdgeInsets.symmetric(vertical: 12),
+                  ),
+                  child: Text('rate_now'.tr, style: const TextStyle(fontWeight: FontWeight.bold)),
+                ),
               ),
             ),
-          ),
-        );
+          );
+        }
+
+        // If it's cancelled or expired, we don't show any bottom actions
+        return const SizedBox.shrink();
       }
 
-      // Otherwise, (current orders tab) show Chat and Cancel Buttons
+      // Otherwise, (current orders tab and active status) show Chat and Cancel Buttons
       return Container(
         padding: const EdgeInsets.all(16),
         decoration: BoxDecoration(
@@ -72,7 +80,7 @@ class BottomActions extends GetView<ClientOrderDetailController> {
               const SizedBox(width: 12),
               Expanded(
                 child: OutlinedButton(
-                  onPressed: () {},
+                  onPressed: () => controller.cancelOrder(),
                   style: OutlinedButton.styleFrom(
                     foregroundColor: Colors.red,
                     side: const BorderSide(color: Colors.red),

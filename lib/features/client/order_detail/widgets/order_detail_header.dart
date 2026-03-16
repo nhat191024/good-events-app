@@ -1,5 +1,6 @@
 import 'package:sukientotapp/core/utils/import/global.dart';
-import '../controller.dart';
+import '../controller/controller.dart';
+import 'report_bottom_sheet.dart';
 
 class OrderDetailHeader extends GetView<ClientOrderDetailController> {
   const OrderDetailHeader({super.key});
@@ -27,17 +28,34 @@ class OrderDetailHeader extends GetView<ClientOrderDetailController> {
               children: [
                 IconButton(
                   icon: Icon(Icons.refresh, color: Colors.grey[500]),
-                  onPressed: () {},
+                  onPressed: () {
+                    if (!controller.isHistory.value) {
+                      controller.fetchOrderDetails();
+                    }
+                  },
                 ),
-                Container(
-                  padding: const EdgeInsets.all(8),
-                  decoration: BoxDecoration(
-                    color: Colors.red[50],
-                    border: Border.all(color: Colors.red[200]!),
-                    borderRadius: BorderRadius.circular(8),
+                if (!controller.isHistory.value)
+                  GestureDetector(
+                    onTap: () {
+                      controller.reportTitleController.clear();
+                      controller.reportDescriptionController.clear();
+                      controller.reportErrors.clear();
+                      Get.bottomSheet(
+                        const ReportBottomSheet(),
+                        isScrollControlled: true,
+                        backgroundColor: Colors.transparent,
+                      );
+                    },
+                    child: Container(
+                      padding: const EdgeInsets.all(8),
+                      decoration: BoxDecoration(
+                        color: Colors.red[50],
+                        border: Border.all(color: Colors.red[200]!),
+                        borderRadius: BorderRadius.circular(8),
+                      ),
+                      child: const Icon(Icons.flag, color: Colors.red, size: 16),
+                    ),
                   ),
-                  child: const Icon(Icons.flag, color: Colors.red, size: 16),
-                ),
               ],
             ),
           ],
