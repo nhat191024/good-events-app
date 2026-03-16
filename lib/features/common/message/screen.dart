@@ -128,21 +128,46 @@ class MessageScreen extends GetView<MessageController> {
                                       Row(
                                         children: [
                                           Expanded(
-                                            child: Text(
-                                              message.newestMessage ??
-                                                  'no_messages'.tr,
-                                              style: TextStyle(
-                                                color: message.isRead
-                                                    ? AppColors
-                                                          .lightMutedForeground
-                                                    : AppColors.primary,
-                                                fontSize: 13,
-                                                fontWeight: message.isRead
-                                                    ? FontWeight.normal
-                                                    : FontWeight.w500,
-                                              ),
+                                            child: RichText(
                                               maxLines: 1,
                                               overflow: TextOverflow.ellipsis,
+                                              text: TextSpan(
+                                                children: [
+                                                  if (message
+                                                          .newestMessageSender !=
+                                                      null)
+                                                    TextSpan(
+                                                      text:
+                                                          '${message.newestMessageSender}: ',
+                                                      style: TextStyle(
+                                                        color: message.isRead
+                                                            ? AppColors
+                                                                  .lightMutedForeground
+                                                            : AppColors.primary,
+                                                        fontSize: 13,
+                                                        fontWeight:
+                                                            message.isRead
+                                                            ? FontWeight.normal
+                                                            : FontWeight.w500,
+                                                      ),
+                                                    ),
+                                                  TextSpan(
+                                                    text:
+                                                        message.newestMessage ??
+                                                        'no_messages'.tr,
+                                                    style: TextStyle(
+                                                      color: message.isRead
+                                                          ? AppColors
+                                                                .lightMutedForeground
+                                                          : AppColors.primary,
+                                                      fontSize: 13,
+                                                      fontWeight: message.isRead
+                                                          ? FontWeight.normal
+                                                          : FontWeight.w500,
+                                                    ),
+                                                  ),
+                                                ],
+                                              ),
                                             ),
                                           ),
                                           const SizedBox(width: 10),
