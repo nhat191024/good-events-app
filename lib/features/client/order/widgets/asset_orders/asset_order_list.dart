@@ -1,4 +1,5 @@
 import 'package:sukientotapp/core/utils/import/global.dart';
+import 'package:sukientotapp/data/models/client/asset_order_model.dart';
 import '../../controller.dart';
 import 'asset_order_card.dart';
 
@@ -11,7 +12,7 @@ class AssetOrderList extends StatelessWidget {
   });
 
   final ClientOrderController controller;
-  final List<AssetOrder> orders;
+  final List<AssetOrderModel> orders;
   final String emptyMessage;
 
   @override

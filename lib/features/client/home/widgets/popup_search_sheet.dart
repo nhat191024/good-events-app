@@ -1,6 +1,7 @@
 import 'package:flutter_animate/flutter_animate.dart';
 import 'package:sukientotapp/core/utils/import/global.dart';
 import 'package:sukientotapp/data/models/client/partner_category_model.dart';
+import 'package:cached_network_image/cached_network_image.dart';
 
 class PopupPartnerSearchSheet extends StatelessWidget {
   const PopupPartnerSearchSheet({
@@ -77,18 +78,23 @@ class PopupPartnerSearchSheet extends StatelessWidget {
                     );
                   }
 
-                  return ListView.separated(
-                    itemCount: partnerCategories.length,
-                    itemBuilder: (context, index) {
-                      return _buildPartnerCategory(partnerCategories[index]);
-                    },
-                    separatorBuilder: (context, index) {
-                      return const Divider(
-                        height: 5.0,
-                        thickness: 5.0,
-                        color: Color.fromARGB(32, 140, 126, 126),
-                      );
-                    },
+                  return CustomScrollView(
+                    slivers: [
+                      for (int i = 0; i < partnerCategories.length; i++) ...[
+                        SliverToBoxAdapter(
+                          child: _buildCategoryHeader(partnerCategories[i]),
+                        ),
+                        _buildPartnerSliverGrid(partnerCategories[i]),
+                        if (i < partnerCategories.length - 1)
+                          const SliverToBoxAdapter(
+                            child: Divider(
+                              height: 5.0,
+                              thickness: 5.0,
+                              color: Color.fromARGB(32, 140, 126, 126),
+                            ),
+                          ),
+                      ],
+                    ],
                   );
                 }),
               ),
@@ -100,48 +106,38 @@ class PopupPartnerSearchSheet extends StatelessWidget {
         .slideY(duration: 560.ms, begin: 0.1, end: 0, curve: Curves.elasticOut);
   }
 
-  /// build partner category
-  Widget _buildPartnerCategory(PartnerCategoryModel category) {
-    return Column(
-      crossAxisAlignment: CrossAxisAlignment.start, // Ensure proper alignment
-      mainAxisSize: MainAxisSize.min, // Keep column size minimal
-      children: [
-        Container(
-          padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
-          child: Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            children: [
-              Text(
-                category.name,
-                style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
-              ),
-              // FBadge(child: Text('${category.partnerList.length}')),
-            ],
+  /// build category header
+  Widget _buildCategoryHeader(PartnerCategoryModel category) {
+    return Container(
+      padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
+      child: Row(
+        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+        children: [
+          Text(
+            category.name,
+            style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
           ),
-        ),
-        _buildPartnerList(category),
-      ],
+          // FBadge(child: Text('${category.partnerList.length}')),
+        ],
+      ),
     );
   }
 
-  /// build partner list
-  /// grid with 3 columns
-  Widget _buildPartnerList(PartnerCategoryModel category) {
-    return GridView.builder(
-      shrinkWrap: true,
-      primary: false,
-      padding: EdgeInsets.zero,
-      physics: const NeverScrollableScrollPhysics(),
+  /// build partner sliver grid
+  Widget _buildPartnerSliverGrid(PartnerCategoryModel category) {
+    return SliverGrid(
       gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
         crossAxisCount: 3,
         childAspectRatio: 1,
         crossAxisSpacing: 4,
         mainAxisSpacing: 4,
       ),
-      itemCount: category.partnerList.length,
-      itemBuilder: (context, index) {
-        return PartnerItem(partner: category.partnerList[index]);
-      },
+      delegate: SliverChildBuilderDelegate(
+        (context, index) {
+          return PartnerItem(partner: category.partnerList[index]);
+        },
+        childCount: category.partnerList.length,
+      ),
     );
   }
 }
@@ -168,11 +164,27 @@ class PartnerItem extends StatelessWidget {
         children: [
           ClipRRect(
             borderRadius: BorderRadius.circular(10),
-            child: Image.network(
-              partner.image,
+            child: CachedNetworkImage(
+              imageUrl: partner.image,
               height: 70,
               width: 70,
               fit: BoxFit.cover,
+              placeholder: (context, url) => const SizedBox(
+                height: 70,
+                width: 70,
+                child: Center(
+                  child: SizedBox(
+                    width: 20,
+                    height: 20,
+                    child: CircularProgressIndicator(strokeWidth: 2),
+                  ),
+                ),
+              ),
+              errorWidget: (context, url, error) => const SizedBox(
+                height: 70,
+                width: 70,
+                child: Center(child: Icon(Icons.error, color: Colors.grey)),
+              ),
             ),
           ),
           const SizedBox(height: 8),

@@ -26,7 +26,6 @@ class CurrentOrdersTab extends StatelessWidget {
         itemBuilder: (context, index) {
           return EventOrderCard(
             order: orders[index],
-            isSelected: index == 0, // First item is "viewing"
           );
         },
       );

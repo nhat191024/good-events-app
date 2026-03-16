@@ -1,5 +1,6 @@
 import 'package:sukientotapp/core/utils/import/global.dart';
 import 'package:sukientotapp/features/client/booking/controller.dart';
+import 'package:sukientotapp/data/models/location_model.dart';
 import '../booking_fields.dart';
 import '../booking_layout.dart';
 import '../booking_option_sheet.dart';
@@ -45,53 +46,62 @@ class BookingLocationStage extends GetView<ClientBookingController> {
           left: Obx(
             () => BookingSelectField(
               label: 'booking_location'.tr,
-              value: controller.selectedProvince.value,
+              value: controller.selectedProvinceModel.value?.name ?? '',
               placeholder: 'booking_select_province'.tr,
-              onTap: () => _showOptions(
+              errorText: controller.fieldErrors['province'],
+              onTap: () => _showOptions<LocationModel>(
                 title: 'booking_location'.tr,
                 options: controller.provinces,
-                selectedValue: controller.selectedProvince.value,
+                selectedValue: controller.selectedProvinceModel.value,
                 onSelect: controller.selectProvince,
+                labelBuilder: (m) => m.name,
               ),
             ),
           ),
           right: Obx(
             () => BookingSelectField(
               label: 'booking_location_ward'.tr,
-              value: controller.selectedWard.value,
+              value: controller.selectedWardModel.value?.name ?? '',
               placeholder: 'booking_select_ward'.tr,
-              onTap: () => _showOptions(
+              errorText: controller.fieldErrors['ward'],
+              onTap: () => _showOptions<LocationModel>(
                 title: 'booking_location_ward'.tr,
                 options: controller.wards,
-                selectedValue: controller.selectedWard.value,
+                selectedValue: controller.selectedWardModel.value,
                 onSelect: controller.selectWard,
+                labelBuilder: (m) => m.name,
               ),
             ),
           ),
         ),
         const SizedBox(height: 12),
-        BookingTextField(
-          label: 'booking_address_detail'.tr,
-          hint: 'booking_address_placeholder'.tr,
-          controller: controller.addressDetailController,
+        Obx(
+          () => BookingTextField(
+            label: 'booking_address_detail'.tr,
+            hint: 'booking_address_placeholder'.tr,
+            controller: controller.addressDetailController,
+            errorText: controller.fieldErrors['locationDetail'],
+          ),
         ),
       ],
     );
   }
 
-  void _showOptions({
+  void _showOptions<T>({
     required String title,
-    required List<String> options,
-    required String selectedValue,
-    required ValueChanged<String> onSelect,
+    required List<T> options,
+    required T? selectedValue,
+    required ValueChanged<T> onSelect,
+    String Function(T value)? labelBuilder,
   }) {
     if (options.isEmpty) return;
     Get.bottomSheet(
-      BookingOptionSheet(
+      BookingOptionSheet<T>(
         title: title,
         options: options,
         selectedValue: selectedValue,
         onSelect: onSelect,
+        labelBuilder: labelBuilder,
       ),
       isScrollControlled: true,
     );

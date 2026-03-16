@@ -4,6 +4,11 @@ import 'package:sukientotapp/core/utils/import/global.dart';
 
 import 'package:sukientotapp/features/components/button/plus.dart';
 
+import 'package:sukientotapp/features/common/home/widget/guest_intro_card.dart';
+import 'package:sukientotapp/features/client/home/widgets/blogs_panel.dart';
+import 'package:sukientotapp/features/client/home/widgets/fake_search_bar.dart';
+import 'package:sukientotapp/features/client/home/widgets/popup_search_sheet.dart';
+
 class GuestHomeScreen extends GetView<GuestHomeController> {
   const GuestHomeScreen({super.key});
 
@@ -11,6 +16,7 @@ class GuestHomeScreen extends GetView<GuestHomeController> {
   Widget build(BuildContext context) {
     double statusBarHeight = MediaQuery.of(context).viewPadding.top;
     double screenWidth = MediaQuery.of(context).size.width;
+    TextEditingController searchController = TextEditingController();
 
     return FScaffold(
       header: Obx(
@@ -44,9 +50,7 @@ class GuestHomeScreen extends GetView<GuestHomeController> {
                     mainAxisSize: MainAxisSize.min,
                     children: [
                       Text(
-                        controller.userType.value
-                            ? 'customer'.tr
-                            : 'partner'.tr,
+                        controller.userType.value ? 'customer'.tr : 'partner'.tr,
                         style: TextStyle(
                           fontSize: 14,
                           fontWeight: FontWeight.bold,
@@ -133,33 +137,88 @@ class GuestHomeScreen extends GetView<GuestHomeController> {
                   onTap: () => Get.toNamed(Routes.registerScreen),
                   width: Get.width * 0.4,
                   color: Colors.white,
-                  textColor: controller.userType.value
-                      ? AppColors.amber500
-                      : AppColors.primary,
-                  borderColor: controller.userType.value
-                      ? AppColors.amber500
-                      : AppColors.primary,
+                  textColor: controller.userType.value ? AppColors.amber500 : AppColors.primary,
+                  borderColor: controller.userType.value ? AppColors.amber500 : AppColors.primary,
                 ),
                 CustomButtonPlus(
                   btnText: 'login'.tr,
                   onTap: () => Get.toNamed(Routes.loginScreen),
                   width: Get.width * 0.4,
-                  color: controller.userType.value
-                      ? AppColors.amber500
-                      : AppColors.primary,
-                  borderColor: controller.userType.value
-                      ? AppColors.amber500
-                      : AppColors.primary,
+                  color: controller.userType.value ? AppColors.amber500 : AppColors.primary,
+                  borderColor: controller.userType.value ? AppColors.amber500 : AppColors.primary,
                 ),
               ],
             ),
           ),
         ),
       ),
-      child: Center(
-        child: Text(
-          'guest_home_welcome'.tr,
-          style: TextStyle(fontSize: 24, fontWeight: FontWeight.bold),
+      child: SingleChildScrollView(
+        child: Column(
+          children: [
+            Obx(
+              () => controller.userType.value
+                  ? Padding(
+                      padding: const EdgeInsets.fromLTRB(16, 12, 16, 0),
+                      child: FakeSearchBar(
+                        onTap: () {
+                          searchController.clear();
+                          controller.ensurePartnersLoaded();
+                          showModalBottomSheet(
+                            context: context,
+                            builder: (context) => PopupPartnerSearchSheet(
+                              partnerCategories: controller.partnerList,
+                              isLoadingPartners: controller.isLoadingPartners,
+                            ),
+                            isScrollControlled: true,
+                          );
+                        },
+                      ),
+                    )
+                  : const SizedBox.shrink(),
+            ),
+            const Padding(
+              padding: EdgeInsets.only(top: 12),
+              child: GuestIntroCard(),
+            ),
+            const SizedBox(height: 16),
+            Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 16.0),
+              child: Row(
+                children: [
+                  Text(
+                    'news_and_blogs'.tr,
+                    style: context.typography.lg.copyWith(fontWeight: FontWeight.bold),
+                  ),
+                ],
+              ),
+            ),
+            const SizedBox(height: 12),
+            Obx(() {
+              if (controller.isLoadingBlogs.value && controller.blogs.isEmpty) {
+                return const SizedBox(
+                  height: 200,
+                  child: Center(
+                    child: CircularProgressIndicator(),
+                  ),
+                );
+              }
+
+              if (controller.blogs.isEmpty) {
+                return SizedBox(
+                  height: 100,
+                  child: Center(
+                    child: Text(
+                      'no_blogs'.tr,
+                      style: context.typography.sm.copyWith(color: Colors.grey),
+                    ),
+                  ),
+                );
+              }
+
+              return ClientBlogPanel(blogs: controller.blogs);
+            }),
+            const SizedBox(height: 32),
+          ],
         ),
       ),
     );

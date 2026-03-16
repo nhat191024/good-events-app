@@ -1,0 +1,62 @@
+import 'dart:async';
+import 'package:sukientotapp/core/utils/import/global.dart';
+import 'package:sukientotapp/data/models/client/event_order_model.dart';
+import 'package:sukientotapp/data/models/client/history_order_model.dart';
+import 'package:sukientotapp/data/models/client/order_detail_model.dart';
+import 'package:sukientotapp/domain/repositories/client/order_repository.dart';
+import 'package:sukientotapp/features/client/order/controller.dart';
+
+part 'state.dart';
+part 'actions.dart';
+part 'report.dart';
+
+class ClientOrderDetailController extends GetxController with ClientOrderDetailState {
+  final OrderRepository _repository;
+
+  ClientOrderDetailController(this._repository);
+
+  @override
+  void onInit() {
+    super.onInit();
+    final args = Get.arguments;
+    if (args != null && args is Map<String, dynamic>) {
+      final order = args['order'];
+      isHistory.value = args['isHistory'] ?? false;
+      _assignOrder(order);
+    } else {
+      _assignOrder(args);
+    }
+
+    // Auto-fetch if this is a current order (where applicant/bill details lie)
+    if (!isHistory.value && orderId != 0) {
+      fetchOrderDetails();
+      _startPeriodicRefresh();
+    }
+  }
+
+  void _startPeriodicRefresh() {
+    _refreshTimer?.cancel();
+    _refreshTimer = Timer.periodic(const Duration(minutes: 1), (timer) {
+      // Seamlessly fetch data in the background without triggering loading spinners
+      fetchOrderDetails(showLoading: false);
+    });
+  }
+
+  void _assignOrder(dynamic order) {
+    if (order is HistoryOrderModel) {
+      isHistory.value = true;
+      _historyOrder.value = order;
+    } else if (order is EventOrderModel) {
+      isHistory.value = false;
+      _eventOrder.value = order;
+    }
+  }
+
+  @override
+  void onClose() {
+    _refreshTimer?.cancel();
+    reportTitleController.dispose();
+    reportDescriptionController.dispose();
+    super.onClose();
+  }
+}
