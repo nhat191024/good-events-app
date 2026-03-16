@@ -335,6 +335,8 @@ class AppTranslations extends Translations {
       'conversation': 'Cuộc trò chuyện',
       'type_a_message': 'Nhập tin nhắn...',
 
+      'just_now': 'vừa xong',
+
       //account
       'general_setting': 'Cài đặt chung',
       'more_setting': 'Cài đặt khác',
@@ -699,6 +701,8 @@ class AppTranslations extends Translations {
 
       'conversation': 'Conversation',
       'type_a_message': 'Type a message...',
+
+      'just_now': 'just now',
 
       //account
       'general_setting': 'General Setting',
