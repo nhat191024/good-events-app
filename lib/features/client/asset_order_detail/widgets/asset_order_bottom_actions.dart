@@ -44,10 +44,6 @@ class AssetOrderBottomActions extends GetView<ClientAssetOrderDetailController> 
                     Get.snackbar(
                       'download'.tr,
                       'download_starting'.tr,
-                      snackPosition: SnackPosition.BOTTOM,
-                      backgroundColor: Colors.green[100],
-                      colorText: Colors.green[900],
-                      duration: const Duration(seconds: 3),
                     );
                   },
                   icon: const Icon(Icons.download, color: Colors.white),
