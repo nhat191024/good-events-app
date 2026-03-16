@@ -35,9 +35,17 @@ class AppUrl {
   // Partner Complete Bill
   static String partnerBillComplete(int billId) => '/partner/bills/$billId/complete';
 
+  // Client Booking Screen APIs
+  static const String quickBookingEventList = '/quick-booking/event-list';
+  static const String quickBookingSave = '/quick-booking/save';
+
   // Client Order Screen APIs
   static const String clientOrders = '/orders';
   static const String clientHistoryOrders = '/orders/history';
+  static String clientOrder(int id) => '/orders/$id';
   static String clientOrderDetail(int id) => '/orders/$id/details';
   static const String clientAssetOrders = '/asset-orders';
+  static const String choosePartner = '/orders/choose-partner';
+  static const String cancelOrder = '/orders/cancel';
+  static const String reportBill = '/report/bill';
 }
