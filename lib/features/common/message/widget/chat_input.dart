@@ -19,7 +19,6 @@ class ChatInput extends StatelessWidget {
                 scrollDirection: Axis.horizontal,
                 itemCount: controller.selectedFiles.length,
                 itemBuilder: (context, index) {
-                  // final file = controller.selectedFiles[index];
                   return Container(
                     width: 80,
                     margin: const EdgeInsets.only(right: 8),
@@ -47,21 +46,21 @@ class ChatInput extends StatelessWidget {
               ),
               contentPadding: const EdgeInsets.fromLTRB(10, 10, 10, 10),
               border: OutlineInputBorder(
-                borderRadius: BorderRadius.circular(50.0),
+                borderRadius: BorderRadius.circular(12),
                 borderSide: const BorderSide(
                   color: AppColors.lightBorder,
                   width: 1.0,
                 ),
               ),
               enabledBorder: OutlineInputBorder(
-                borderRadius: BorderRadius.circular(50.0),
+                borderRadius: BorderRadius.circular(12.0),
                 borderSide: const BorderSide(
                   color: AppColors.lightBorder,
                   width: 1.0,
                 ),
               ),
               focusedBorder: OutlineInputBorder(
-                borderRadius: BorderRadius.circular(50.0),
+                borderRadius: BorderRadius.circular(12.0),
                 borderSide: const BorderSide(
                   color: AppColors.lightBorder,
                   width: 1.0,
@@ -69,22 +68,12 @@ class ChatInput extends StatelessWidget {
               ),
               filled: true,
               fillColor: AppColors.white,
-              // prefixIcon: IconButton(
-              //   icon: const Icon(Icons.attach_file, color: AppColors.lightForeground),
-              //   onPressed: () {
-              //     controller.pickFiles();
-              //   },
-              // ),
               suffixIcon: Container(
                 width: 45,
                 height: 45,
                 margin: const EdgeInsets.all(4),
-                decoration: BoxDecoration(
-                  color: AppColors.primary,
-                  shape: BoxShape.circle,
-                ),
                 child: IconButton(
-                  icon: const Icon(Icons.send, color: Colors.white),
+                  icon: Icon(Icons.send, color: AppColors.primary),
                   onPressed: () {
                     controller.sendMessage();
                   },

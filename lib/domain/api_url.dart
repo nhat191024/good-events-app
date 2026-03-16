@@ -48,4 +48,11 @@ class AppUrl {
   static const String choosePartner = '/orders/choose-partner';
   static const String cancelOrder = '/orders/cancel';
   static const String reportBill = '/report/bill';
+  static String partnerBillComplete(int billId) =>
+      '/partner/bills/$billId/complete';
+
+  // Chat / Threads
+  static const String chats = '/chat';
+  static String chatMessages(String threadId) =>
+      '/chat/threads/$threadId/messages';
 }

@@ -424,8 +424,23 @@ class AppTranslations extends Translations {
       'no_messages': 'Chưa có tin nhắn nào',
       'no_further_messages': 'Không còn tin nhắn nào nữa',
 
+      'bill_info': 'Thông tin đơn hàng',
+
       'conversation': 'Cuộc trò chuyện',
       'type_a_message': 'Nhập tin nhắn...',
+
+      //times
+      'just_now': 'vừa xong',
+      'minute_ago': '@count phút trước',
+      'minutes_ago': '@count phút trước',
+      'hour_ago': '@count giờ trước',
+      'hours_ago': '@count giờ trước',
+      'day_ago': '@count ngày trước',
+      'days_ago': '@count ngày trước',
+      'month_ago': '@count tháng trước',
+      'months_ago': '@count tháng trước',
+      'year_ago': '@count năm trước',
+      'years_ago': '@count năm trước',
 
       //account
       'general_setting': 'Cài đặt chung',
@@ -858,6 +873,8 @@ class AppTranslations extends Translations {
       'no_messages': 'No messages yet',
       'no_further_messages': 'No further messages',
 
+      'bill_info': 'Bill information',
+
       'conversation': 'Conversation',
       'type_a_message': 'Type a message...',
 
@@ -901,6 +918,19 @@ class AppTranslations extends Translations {
       'not_found': 'Not Found',
       'invalid_request': 'Invalid Request',
       'load_data_failed': 'Failed to load data',
+
+      //times
+      'just_now': 'just now',
+      'minute_ago': '@count minute ago',
+      'minutes_ago': '@count minutes ago',
+      'hour_ago': '@count hour ago',
+      'hours_ago': '@count hours ago',
+      'day_ago': '@count day ago',
+      'days_ago': '@count days ago',
+      'month_ago': '@count month ago',
+      'months_ago': '@count months ago',
+      'year_ago': '@count year ago',
+      'years_ago': '@count years ago',
 
       //buttons
       'next': 'Next',

@@ -2,7 +2,23 @@
 
 All notable changes to this project will be documented in this file.
 
-## [v1.12.0+13]
+## [v1.16.0+19]
+
+- Intergartion pusher so app can receive realtime message
+
+## [v1.15.0+18]
+
+- Intergartion API for fetch thread messages
+
+## [v1.14.0+17]
+
+- Intergartion API for fetch threads list
+
+## [v1.13.0+16]
+
+- Intergartion API for complete show in my show at tab upcoming
+
+## [v1.12.0+15]
 
 - Add upload image component
 - Add upload arrived image bottom sheet in my show at upcoming tab
