@@ -1,3 +1,6 @@
+import 'dart:convert';
+
+import 'package:pusher_channels_flutter/pusher_channels_flutter.dart';
 import 'package:sukientotapp/core/utils/import/global.dart';
 
 import 'package:sukientotapp/domain/repositories/partner/message_repository.dart';
@@ -26,6 +29,9 @@ class MessageController extends GetxController {
 
   String get selectedThreadId => selectedThread.value?.id ?? '';
 
+  String? _subscribedChannel;
+  static const _pusherEventName = 'SendMessage';
+
   final TextEditingController messageController = TextEditingController();
   final ScrollController scrollController = ScrollController();
   final ScrollController listScrollController = ScrollController();
@@ -47,6 +53,7 @@ class MessageController extends GetxController {
 
   @override
   void onClose() {
+    _unsubscribeThread();
     messageController.dispose();
     scrollController.dispose();
     listScrollController.dispose();
@@ -129,11 +136,59 @@ class MessageController extends GetxController {
 
   /// Opens a thread and loads the first page of messages from the API.
   Future<void> openThread(MessageListModel thread) async {
+    await _unsubscribeThread();
     selectedThread.value = thread;
     _messagesPage = 1;
     _messagesHasMore = true;
     messagesDetail.clear();
     await loadMessages();
+    await _subscribeToThread(thread.id);
+  }
+
+  Future<void> _subscribeToThread(String threadId) async {
+    final channelName = 'private-thread.$threadId';
+    await PusherService.subscribe(
+      channelName: channelName,
+      eventName: _pusherEventName,
+      onEvent: _onPusherMessage,
+    );
+    _subscribedChannel = channelName;
+    logger.i('[MessageController] [Pusher] Subscribed to $channelName');
+  }
+
+  void _onPusherMessage(PusherEvent event) {
+    if (event.eventName != _pusherEventName) return;
+    if (event.data == null) return;
+
+    try {
+      final data = jsonDecode(event.data!) as Map<String, dynamic>;
+      final currentUserId =
+          StorageService.readMapData(key: LocalStorageKeys.user, mapKey: 'id')
+              as int?;
+      final incoming = MessageModel.fromApiJson(
+        data,
+        currentUserId: currentUserId,
+      );
+
+      if (incoming.isSender) return;
+
+      messagesDetail.add(incoming);
+      scrollToBottom();
+      logger.i(
+        '[MessageController] [Pusher] New message in thread=$_subscribedChannel',
+      );
+    } catch (e) {
+      logger.e('[MessageController] [Pusher] Error parsing event: $e');
+    }
+  }
+
+  Future<void> _unsubscribeThread() async {
+    if (_subscribedChannel == null) return;
+    await PusherService.unsubscribe(_subscribedChannel!);
+    logger.i(
+      '[MessageController] [Pusher] Unsubscribed from $_subscribedChannel',
+    );
+    _subscribedChannel = null;
   }
 
   Future<void> loadMessages() async {
