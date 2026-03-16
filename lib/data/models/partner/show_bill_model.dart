@@ -37,6 +37,26 @@ class ShowBill {
     this.arrivalPhoto,
   });
 
+  ShowBill copyWith({String? status}) {
+    return ShowBill(
+      id: id,
+      code: code,
+      category: category,
+      clientName: clientName,
+      date: date,
+      startTime: startTime,
+      endTime: endTime,
+      address: address,
+      finalTotal: finalTotal,
+      updatedAt: updatedAt,
+      event: event,
+      status: status ?? this.status,
+      note: note,
+      threadId: threadId,
+      arrivalPhoto: arrivalPhoto,
+    );
+  }
+
   factory ShowBill.fromMap(Map<String, dynamic> map) {
     return ShowBill(
       id: map['id'] as int,
