@@ -46,13 +46,12 @@ class ClientOrderController extends GetxController with GetTickerProviderStateMi
     eventOrdersTabController = TabController(
       length: 2,
       vsync: this,
-    ); // Current, History
+    );
     assetOrdersTabController = TabController(
       length: 3,
       vsync: this,
-    ); // Paid, Pending, Cancelled
+    );
 
-    // Listen to parent tab changes
     parentTabController.addListener(() {
       if (!parentTabController.indexIsChanging) {
         currentParentTab.value = parentTabController.index;
@@ -62,6 +61,17 @@ class ClientOrderController extends GetxController with GetTickerProviderStateMi
     // Listen to event orders tab changes (Current / History)
     eventOrdersTabController.addListener(() {
       if (!eventOrdersTabController.indexIsChanging) {
+        // Only reset filters if the tab actually changed
+        if (currentEventOrdersTab.value != eventOrdersTabController.index) {
+          selectedStatusFilters.clear();
+
+          if (eventOrdersTabController.index == 0) {
+            selectedSort.value = 'upcoming';
+          } else {
+            selectedSort.value = 'newest';
+          }
+        }
+
         currentEventOrdersTab.value = eventOrdersTabController.index;
         if (eventOrdersTabController.index == 1) {
           if (!hasFetchedHistory.value) {
@@ -210,7 +220,7 @@ class ClientOrderController extends GetxController with GetTickerProviderStateMi
         case 'lowest-budget':
           return (a.finalTotal ?? 0).compareTo(b.finalTotal ?? 0);
         default:
-          return 0; // Default or fallback
+          return 0;
       }
     });
 
