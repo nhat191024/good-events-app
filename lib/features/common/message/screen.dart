@@ -88,7 +88,7 @@ class MessageScreen extends GetView<MessageController> {
                           ),
                         GestureDetector(
                           onTap: () {
-                            controller.selectedThread.value = message;
+                            controller.openThread(message);
                             Get.to(() => const MessageDetailScreen());
                           },
                           child: Container(

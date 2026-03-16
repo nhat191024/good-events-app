@@ -9,17 +9,6 @@ class ChatBubble extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    // Determine explicit file extension for display if needed
-    // Using simple logic from original code
-    final isImage =
-        message.isFile &&
-        [
-          'jpg',
-          'jpeg',
-          'png',
-          'gif',
-        ].contains(message.fileExtension.toLowerCase());
-
     return Padding(
       padding: isFirst
           ? const EdgeInsets.only(top: 10)
@@ -33,49 +22,49 @@ class ChatBubble extends StatelessWidget {
             alignment: message.isSender
                 ? Alignment.centerRight
                 : Alignment.centerLeft,
-            child: Container(
-              margin: const EdgeInsets.symmetric(horizontal: 16, vertical: 4),
-              padding: const EdgeInsets.all(12),
-              decoration: BoxDecoration(
-                color: message.isSender
-                    ? AppColors.primary
-                    : AppColors.lightBackground,
-                borderRadius: BorderRadius.circular(16).copyWith(
-                  bottomRight: message.isSender
-                      ? const Radius.circular(0)
-                      : null,
-                  bottomLeft: !message.isSender
-                      ? const Radius.circular(0)
-                      : null,
+            child: Column(
+              children: [
+                if (!message.isSender)
+                  Padding(
+                    padding: const EdgeInsets.only(left: 10),
+                    child: Text(
+                      message.sender,
+                      style: const TextStyle(fontSize: 12, color: Colors.grey),
+                    ),
+                  ),
+                Container(
+                  margin: const EdgeInsets.symmetric(
+                    horizontal: 16,
+                    vertical: 4,
+                  ),
+                  padding: const EdgeInsets.all(12),
+                  decoration: BoxDecoration(
+                    color: message.isSender
+                        ? AppColors.primary
+                        : AppColors.lightBackground,
+                    borderRadius: BorderRadius.circular(16).copyWith(
+                      bottomRight: message.isSender
+                          ? const Radius.circular(0)
+                          : null,
+                      bottomLeft: !message.isSender
+                          ? const Radius.circular(0)
+                          : null,
+                    ),
+                  ),
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.end,
+                    children: [
+                      Text(
+                        message.text,
+                        style: TextStyle(
+                          color: message.isSender ? Colors.white : Colors.black,
+                          fontSize: 14,
+                        ),
+                      ),
+                    ],
+                  ),
                 ),
-              ),
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.end,
-                children: [
-                  if (message.isFile) ...[
-                    if (isImage)
-                      const Icon(Icons.image, color: Colors.white)
-                    else
-                      const Icon(Icons.insert_drive_file, color: Colors.white),
-
-                    const SizedBox(height: 8),
-                    Text(
-                      'File: .${message.fileExtension}',
-                      style: TextStyle(
-                        color: message.isSender ? Colors.white : Colors.black,
-                      ),
-                    ),
-                  ] else ...[
-                    Text(
-                      message.text,
-                      style: TextStyle(
-                        color: message.isSender ? Colors.white : Colors.black,
-                        fontSize: 14,
-                      ),
-                    ),
-                  ],
-                ],
-              ),
+              ],
             ),
           ),
           Padding(

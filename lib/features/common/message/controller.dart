@@ -19,6 +19,10 @@ class MessageController extends GetxController {
   // --- Message detail state ---
   final RxList<MessageModel> messagesDetail = <MessageModel>[].obs;
   final Rx<MessageListModel?> selectedThread = Rx<MessageListModel?>(null);
+  final RxBool isLoadingMessages = false.obs;
+  final RxBool isLoadingOlderMessages = false.obs;
+  int _messagesPage = 1;
+  bool _messagesHasMore = true;
 
   String get selectedThreadId => selectedThread.value?.id ?? '';
 
@@ -33,7 +37,7 @@ class MessageController extends GetxController {
     super.onInit();
     fetchThreads();
     listScrollController.addListener(_onListScroll);
-    // Debounce search so we don't hammer the API on every keystroke
+    scrollController.addListener(_onDetailScroll);
     debounce(
       searchQuery,
       (_) => _resetAndFetch(),
@@ -108,7 +112,6 @@ class MessageController extends GetxController {
 
   void searchMessages(String query) {
     searchQuery.value = query;
-    // Actual fetch is triggered via debounce in onInit
   }
 
   void _resetAndFetch() {
@@ -119,15 +122,116 @@ class MessageController extends GetxController {
 
   void _onListScroll() {
     final pos = listScrollController.position;
-    // Load more when within 200px of the bottom
     if (pos.pixels >= pos.maxScrollExtent - 200) {
       loadMore();
     }
   }
 
   // ──────────────────────────────────────────────
-  // Message detail (chat window)
+  // Message detail (API)
   // ──────────────────────────────────────────────
+
+  /// Opens a thread and loads the first page of messages from the API.
+  Future<void> openThread(MessageListModel thread) async {
+    selectedThread.value = thread;
+    _messagesPage = 1;
+    _messagesHasMore = true;
+    messagesDetail.clear();
+    await loadMessages();
+  }
+
+  Future<void> loadMessages() async {
+    if (isLoadingMessages.value) return;
+    final threadId = selectedThreadId;
+    if (threadId.isEmpty) return;
+
+    isLoadingMessages.value = true;
+    try {
+      final currentUserName =
+          StorageService.readMapData(key: LocalStorageKeys.user, mapKey: 'name')
+              as String? ??
+          '';
+      final response = await _repository.getMessages(
+        threadId: threadId,
+        page: _messagesPage,
+      );
+      final raw = response['messages'] as List<dynamic>? ?? [];
+      final messages = raw
+          .map(
+            (e) => MessageModel.fromApiJson(
+              e as Map<String, dynamic>,
+              currentUserName: currentUserName,
+            ),
+          )
+          .toList();
+
+      _messagesHasMore = response['hasMore'] as bool? ?? false;
+      messagesDetail.assignAll(messages);
+      scrollToBottom();
+
+      logger.i(
+        '[MessageController] [loadMessages] threadId=$threadId, count=${messages.length}, hasMore=$_messagesHasMore',
+      );
+    } catch (e) {
+      logger.e('[MessageController] [loadMessages] Error: $e');
+      AppSnackbar.showError(
+        message: e.toString().replaceFirst('Exception: ', ''),
+      );
+    } finally {
+      isLoadingMessages.value = false;
+    }
+  }
+
+  Future<void> loadOlderMessages() async {
+    if (!_messagesHasMore || isLoadingOlderMessages.value) return;
+    final threadId = selectedThreadId;
+    if (threadId.isEmpty) return;
+
+    isLoadingOlderMessages.value = true;
+    try {
+      final currentUserName =
+          StorageService.readMapData(key: LocalStorageKeys.user, mapKey: 'name')
+              as String? ??
+          '';
+      _messagesPage++;
+      final response = await _repository.getMessages(
+        threadId: threadId,
+        page: _messagesPage,
+      );
+      final raw = response['messages'] as List<dynamic>? ?? [];
+      final older = raw
+          .map(
+            (e) => MessageModel.fromApiJson(
+              e as Map<String, dynamic>,
+              currentUserName: currentUserName,
+            ),
+          )
+          .toList();
+
+      _messagesHasMore = response['hasMore'] as bool? ?? false;
+      messagesDetail.insertAll(0, older);
+
+      logger.i(
+        '[MessageController] [loadOlderMessages] page=$_messagesPage, count=${older.length}, hasMore=$_messagesHasMore',
+      );
+    } catch (e) {
+      logger.e('[MessageController] [loadOlderMessages] Error: $e');
+      _messagesPage--; // revert on failure
+      AppSnackbar.showError(
+        message: e.toString().replaceFirst('Exception: ', ''),
+      );
+    } finally {
+      isLoadingOlderMessages.value = false;
+    }
+  }
+
+  void _onDetailScroll() {
+    if (!scrollController.hasClients) return;
+    final pos = scrollController.position;
+    if (pos.pixels <= 200) {
+      loadOlderMessages();
+    }
+  }
 
   void scrollToBottom() {
     Future.delayed(const Duration(milliseconds: 100), () {

@@ -16,13 +16,40 @@ class MessageDetailScreen extends GetView<MessageController> {
         children: [
           Expanded(
             child: Obx(() {
-              return ListView.builder(
-                controller: controller.scrollController,
-                itemCount: controller.messagesDetail.length,
-                itemBuilder: (context, index) {
-                  final message = controller.messagesDetail[index];
-                  return ChatBubble(message: message, isFirst: index == 0);
-                },
+              if (controller.isLoadingMessages.value &&
+                  controller.messagesDetail.isEmpty) {
+                return const Center(child: CircularProgressIndicator());
+              }
+              return Column(
+                children: [
+                  Obx(() {
+                    if (!controller.isLoadingOlderMessages.value) {
+                      return const SizedBox.shrink();
+                    }
+                    return const Padding(
+                      padding: EdgeInsets.symmetric(vertical: 8),
+                      child: Center(
+                        child: CircularProgressIndicator(strokeWidth: 2),
+                      ),
+                    );
+                  }),
+                  Expanded(
+                    child: ListView.builder(
+                      controller: controller.scrollController,
+                      itemCount: controller.messagesDetail.length,
+                      itemBuilder: (context, index) {
+                        final message = controller.messagesDetail[index];
+                        logger.d(
+                          'Rendering message: ${message.text} (isSender: ${message.isSender})',
+                        );
+                        return ChatBubble(
+                          message: message,
+                          isFirst: index == 0,
+                        );
+                      },
+                    ),
+                  ),
+                ],
               );
             }),
           ),
