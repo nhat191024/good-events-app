@@ -7,6 +7,7 @@ export 'package:forui/forui.dart';
 export 'package:intl/intl.dart' hide TextDirection;
 
 // Exporting core utilities
+export 'package:sukientotapp/core/utils/app_snackbar.dart';
 export 'package:sukientotapp/core/utils/logger.dart';
 export 'package:sukientotapp/core/utils/format_utils.dart';
 export 'package:sukientotapp/core/routes/pages.dart';
