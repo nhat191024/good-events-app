@@ -1,3 +1,5 @@
+import 'package:dio/dio.dart';
+import 'package:image_picker/image_picker.dart';
 import 'package:sukientotapp/core/utils/import/global.dart';
 import 'package:sukientotapp/data/models/partner/show_bill_model.dart';
 import 'package:sukientotapp/domain/repositories/partner/show_repository.dart';
@@ -9,6 +11,7 @@ class ShowController extends GetxController
 
   final isLoading = false.obs;
   final isSearching = false.obs;
+  final selectedImage = Rxn<XFile>();
 
   final searchController = TextEditingController();
 
@@ -212,6 +215,42 @@ class ShowController extends GetxController
       _historyPage--;
     } finally {
       isHistoryLoadMore.value = false;
+    }
+  }
+
+  // ─── Mark In Job ─────────────────────────────────────────────────────────────
+
+  Future<void> markInJob(int billId) async {
+    final image = selectedImage.value;
+    if (image == null) return;
+
+    isLoading.value = true;
+    try {
+      await _repository.markInJob(billId, image);
+      selectedImage.value = null;
+      Get.back();
+      final index = upcomingBills.indexWhere((b) => b.id == billId);
+      if (index != -1) {
+        upcomingBills[index] = upcomingBills[index].copyWith(status: 'in_job');
+      }
+    } on DioException catch (e) {
+      final statusCode = e.response?.statusCode;
+      final message = e.response?.data?['message'] as String?;
+      if (statusCode == 403) {
+        AppSnackbar.showError(message: message ?? 'forbidden'.tr);
+      } else if (statusCode == 422) {
+        AppSnackbar.showError(message: message ?? 'invalid_request'.tr);
+      } else {
+        AppSnackbar.showError(message: 'load_data_failed'.tr);
+      }
+      logger.e('[Show] [MarkInJob] Error $statusCode: $e');
+      await _fetchUpcomingBills(reset: true);
+    } catch (e) {
+      AppSnackbar.showError(message: 'load_data_failed'.tr);
+      logger.e('[Show] [MarkInJob] Unexpected error: $e');
+      await _fetchUpcomingBills(reset: true);
+    } finally {
+      isLoading.value = false;
     }
   }
 

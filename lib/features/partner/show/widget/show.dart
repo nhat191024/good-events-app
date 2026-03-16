@@ -1,13 +1,15 @@
 import 'package:flutter/gestures.dart';
-import 'package:sukientotapp/core/utils/import/global.dart  ';
+import 'package:sukientotapp/core/utils/import/global.dart';
 
 import 'package:sukientotapp/features/components/widget/badge.dart';
 import 'package:sukientotapp/features/components/button/plus.dart';
 import 'detail.dart';
+import 'upload_arrived_photo.dart';
 
 class Show extends StatelessWidget {
   Show({
     super.key,
+    required this.billId,
     required this.code,
     required this.timestamp,
     required this.price,
@@ -22,6 +24,7 @@ class Show extends StatelessWidget {
     required this.currentStatus,
   });
 
+  final int billId;
   final String code;
   final String timestamp;
   final int price;
@@ -267,8 +270,35 @@ class Show extends StatelessWidget {
                         children: [
                           Expanded(
                             child: CustomButtonPlus(
-                              onTap: () => Get.snackbar('info'.tr, 'in_dev'.tr),
-                              icon: currentStatus == 'in_job' ? FIcons.checkCheck : FIcons.mapPinCheck,
+                              onTap: () {
+                                if (currentStatus == 'in_job') {
+                                  Get.snackbar('info'.tr, 'in_dev'.tr);
+                                } else {
+                                  Get.bottomSheet(
+                                    UploadArrivedPhoto(
+                                      code: code,
+                                      billId: billId,
+                                    ),
+                                    isScrollControlled: true,
+                                    backgroundColor:
+                                        context.fTheme.colors.background,
+                                    enterBottomSheetDuration: const Duration(
+                                      milliseconds: 400,
+                                    ),
+                                    exitBottomSheetDuration: const Duration(
+                                      milliseconds: 300,
+                                    ),
+                                    shape: const RoundedRectangleBorder(
+                                      borderRadius: BorderRadius.vertical(
+                                        top: Radius.circular(20),
+                                      ),
+                                    ),
+                                  );
+                                }
+                              },
+                              icon: currentStatus == 'in_job'
+                                  ? FIcons.checkCheck
+                                  : FIcons.mapPinCheck,
                               iconSize: 16,
                               btnText: currentStatus == 'in_job'
                                   ? 'completed_show'.tr
