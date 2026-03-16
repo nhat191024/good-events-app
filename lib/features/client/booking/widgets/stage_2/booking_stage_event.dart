@@ -47,6 +47,7 @@ class BookingEventStage extends GetView<ClientBookingController> {
                 ? ''
                 : controller.selectedEventType.value.tr,
             placeholder: 'booking_event_type_placeholder'.tr,
+            errorText: controller.fieldErrors['eventType'],
             onTap: () => _showOptions(
               title: 'booking_event_type'.tr,
               options: controller.eventTypes,
@@ -63,6 +64,7 @@ class BookingEventStage extends GetView<ClientBookingController> {
                   label: 'booking_event_custom'.tr,
                   hint: 'booking_event_custom_placeholder'.tr,
                   controller: controller.customEventController,
+                  errorText: controller.fieldErrors['customEvent'],
                 )
               : const SizedBox.shrink(),
         ),
@@ -77,16 +79,16 @@ class BookingEventStage extends GetView<ClientBookingController> {
     );
   }
 
-  void _showOptions({
+  void _showOptions<T>({
     required String title,
-    required List<String> options,
-    required String selectedValue,
-    required ValueChanged<String> onSelect,
-    String Function(String value)? labelBuilder,
+    required List<T> options,
+    required T? selectedValue,
+    required ValueChanged<T> onSelect,
+    String Function(T value)? labelBuilder,
   }) {
     if (options.isEmpty) return;
     Get.bottomSheet(
-      BookingOptionSheet(
+      BookingOptionSheet<T>(
         title: title,
         options: options,
         selectedValue: selectedValue,

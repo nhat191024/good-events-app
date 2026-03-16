@@ -1,6 +1,6 @@
 import 'package:sukientotapp/core/utils/import/global.dart';
 
-class BookingOptionSheet extends StatelessWidget {
+class BookingOptionSheet<T> extends StatelessWidget {
   const BookingOptionSheet({
     super.key,
     required this.title,
@@ -11,10 +11,10 @@ class BookingOptionSheet extends StatelessWidget {
   });
 
   final String title;
-  final List<String> options;
-  final String selectedValue;
-  final ValueChanged<String> onSelect;
-  final String Function(String value)? labelBuilder;
+  final List<T> options;
+  final T? selectedValue;
+  final ValueChanged<T> onSelect;
+  final String Function(T value)? labelBuilder;
 
   @override
   Widget build(BuildContext context) {
@@ -69,7 +69,7 @@ class BookingOptionSheet extends StatelessWidget {
                 ),
                 itemBuilder: (context, index) {
                   final option = options[index];
-                  final label = labelBuilder?.call(option) ?? option;
+                  final label = labelBuilder?.call(option) ?? option.toString();
                   final bool isSelected = option == selectedValue;
                   return ListTile(
                     contentPadding: const EdgeInsets.symmetric(horizontal: 8),
