@@ -16,7 +16,6 @@ class ShowBill {
   final String status;
   final String? note;
   final int? threadId;
-  final String? arrivalPhoto;
 
   const ShowBill({
     required this.id,
@@ -34,7 +33,6 @@ class ShowBill {
     required this.status,
     this.note,
     this.threadId,
-    this.arrivalPhoto,
   });
 
   ShowBill copyWith({String? status}) {
@@ -53,7 +51,6 @@ class ShowBill {
       status: status ?? this.status,
       note: note,
       threadId: threadId,
-      arrivalPhoto: arrivalPhoto,
     );
   }
 
@@ -74,7 +71,6 @@ class ShowBill {
       note: map['note'] as String?,
       threadId: map['thread_id'] as int?,
       event: map['event'] as String,
-      arrivalPhoto: map['arrival_photo'] as String?,
     );
   }
 }
