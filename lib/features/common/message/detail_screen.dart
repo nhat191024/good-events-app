@@ -39,9 +39,6 @@ class MessageDetailScreen extends GetView<MessageController> {
                       itemCount: controller.messagesDetail.length,
                       itemBuilder: (context, index) {
                         final message = controller.messagesDetail[index];
-                        logger.d(
-                          'Rendering message: ${message.text} (isSender: ${message.isSender})',
-                        );
                         return ChatBubble(
                           message: message,
                           isFirst: index == 0,
