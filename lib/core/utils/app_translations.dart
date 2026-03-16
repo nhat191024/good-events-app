@@ -90,6 +90,9 @@ class AppTranslations extends Translations {
       'dont_have_account': 'Không có tài khoản sự kiện tốt?',
       'partner_register_now': 'Đăng ký để bắt đầu làm việc ngay hôm nay!',
       'customer_register_now': 'Đăng ký để trải nghiệm dịch vụ ngay hôm nay!',
+      'register_now': 'Đăng ký ngay',
+      'become_partner': 'Trở thành đối tác',
+      'no_blogs': 'Chưa có bài viết nào',
 
       //partner home
       'quick_actions': 'Truy cập nhanh',
@@ -378,12 +381,10 @@ class AppTranslations extends Translations {
       'loading_with_dot': 'Đang tải...',
 
       'upload_arrived_photo': 'Tải ảnh đã đến nơi',
-      'upload_arrived_photo_desc':
-          'Tải ảnh lên để xác nhận bạn đã đến địa điểm.',
+      'upload_arrived_photo_desc': 'Tải ảnh lên để xác nhận bạn đã đến địa điểm.',
 
       'confirm_complete': 'Xác nhận hoàn thành',
-      'confirm_complete_message':
-          'Bạn có chắc chắn muốn đánh dấu đơn này là đã hoàn thành?',
+      'confirm_complete_message': 'Bạn có chắc chắn muốn đánh dấu đơn này là đã hoàn thành?',
 
       'complete_bill_success': 'Đơn đã được hoàn thành!',
       'insufficient_balance': 'Số dư không đủ để hoàn thành đơn!',
@@ -547,6 +548,9 @@ class AppTranslations extends Translations {
       'dont_have_account': "Don't have a Sự kiện tốt account?",
       'partner_register_now': 'Register to start working today!',
       'customer_register_now': 'Register to experience the service today!',
+      'register_now': 'Register Now',
+      'become_partner': 'Become a Partner',
+      'no_blogs': 'No blogs available',
 
       //partner home
       'quick_actions': 'Quick Actions',
@@ -827,12 +831,10 @@ class AppTranslations extends Translations {
       'loading_with_dot': 'Loading...',
 
       'upload_arrived_photo': 'Upload arrived photo',
-      'upload_arrived_photo_desc':
-          'Upload a photo to confirm you have arrived at the location.',
+      'upload_arrived_photo_desc': 'Upload a photo to confirm you have arrived at the location.',
 
       'confirm_complete': 'Confirm completion',
-      'confirm_complete_message':
-          'Are you sure you want to mark this bill as completed?',
+      'confirm_complete_message': 'Are you sure you want to mark this bill as completed?',
 
       'complete_bill_success': 'The bill has been completed!',
       'insufficient_balance': 'Insufficient balance to complete the bill!',
