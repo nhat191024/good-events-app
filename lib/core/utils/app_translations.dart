@@ -222,7 +222,7 @@ class AppTranslations extends Translations {
       'no_paid_asset_orders': 'Không có đơn đã thanh toán',
       'no_cancelled_asset_orders': 'Không có đơn đã hủy',
       'no_bills': 'Chưa có đơn hàng nào',
-      
+
       //partner show
       'my_shows': 'Show của tôi',
 
@@ -261,6 +261,7 @@ class AppTranslations extends Translations {
       'currency': 'VND',
 
       'click_to_upload': 'Nhấn để tải ảnh lên',
+      'upload_description': 'PNG, JPG, JPEG, WEBP (Tối đa 5MB)',
 
       ///Show
       'take_order': 'Nhận show',
@@ -282,6 +283,10 @@ class AppTranslations extends Translations {
       'waiting_for_response': 'đang chờ phản hồi',
       'loading': 'Đang tải',
       'loading_with_dot': 'Đang tải...',
+
+      'upload_arrived_photo': 'Tải ảnh đã đến nơi',
+      'upload_arrived_photo_desc':
+          'Tải ảnh lên để xác nhận bạn đã đến địa điểm.',
 
       'code': 'Mã',
       'status': 'Trạng thái',
@@ -358,6 +363,10 @@ class AppTranslations extends Translations {
       'error': 'Lỗi',
       'info': 'Thông tin',
 
+      'forbidden': 'Không có quyền',
+      'not_found': 'Không tìm thấy',
+      'invalid_request': 'Yêu cầu không hợp lệ',
+
       //buttons
       'next': 'Tiếp theo',
       'register': 'Đăng ký',
@@ -368,6 +377,8 @@ class AppTranslations extends Translations {
       'skip': 'Bỏ qua',
       'cancel': 'Hủy',
       'done': 'Xong',
+      'confirm': 'Xác nhận',
+      'take_photo': 'Chụp ảnh',
 
       //dev
       'in_dev': 'Tính năng đang phát triển',
@@ -604,6 +615,7 @@ class AppTranslations extends Translations {
       'currency': 'VNĐ',
 
       'click_to_upload': 'Click to upload',
+      'upload_description': 'PNG, JPG, JPEG, WEBP (Maximum 5MB)',
 
       ///Show
       'take_order': 'Take show',
@@ -642,6 +654,10 @@ class AppTranslations extends Translations {
       'waiting_for_response': 'Waiting for response',
       'loading': 'Loading',
       'loading_with_dot': 'Loading...',
+
+      'upload_arrived_photo': 'Upload arrived photo',
+      'upload_arrived_photo_desc':
+          'Upload a photo to confirm you have arrived at the location.',
 
       ///New Show
       'accept_new_show': ' Accept New Show',
@@ -701,6 +717,11 @@ class AppTranslations extends Translations {
       'error': 'Error',
       'info': 'Information',
 
+      'forbidden': 'Forbidden',
+      'not_found': 'Not Found',
+      'invalid_request': 'Invalid Request',
+      'load_data_failed': 'Failed to load data',
+
       //buttons
       'next': 'Next',
       'register': 'Register',
@@ -711,6 +732,8 @@ class AppTranslations extends Translations {
       'skip': 'Skip',
       'cancel': 'Cancel',
       'done': 'Done',
+      'cofirm': 'Confirm',
+      'take_photo': 'Take Photo',
 
       //dev
       'in_dev': 'Feature in development',
