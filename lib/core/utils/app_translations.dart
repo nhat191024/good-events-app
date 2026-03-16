@@ -179,7 +179,7 @@ class AppTranslations extends Translations {
       'status_cancelled': 'Đã hủy',
 
       // Event Orders - Filters
-      'search_orders': 'Tìm kiếm đơn hàng...',
+      'search_orders': 'Tìm kiếm đơn hàng: PB0123, Chú hề, ghi chú...',
       'sort_by': 'Sắp xếp theo',
       'sort_upcoming': 'Đơn sắp tới',
       'sort_most_applicants': 'Nhiều ứng viên nhất',
@@ -249,6 +249,29 @@ class AppTranslations extends Translations {
       'back_to_list': 'Quay lại danh sách',
       'partner_not_found': 'Không tìm thấy đối tác',
 
+      // Confirm Choose Partner Dialog
+      'confirm_choose_partner_title': 'Bạn có muốn chọn đối tác (@name)?',
+      'confirm_choose_partner_desc':
+          'Xác nhận chốt đơn sẽ mở khóa chat với đối tác và không thể chọn lại đối tác khác cho đơn này.',
+      'partner_proposed_price_label': 'Đối tác trả giá: ',
+      'accept_price_question': 'Bạn có chấp nhận mức giá này không?',
+      'confirm_no_btn': 'Ko, chưa chốt',
+      'confirm_yes_btn': 'Chốt đơn luôn!',
+      'choose_partner_success': 'Chốt đơn thành công!',
+      'choose_partner_failed': 'Chốt đơn thất bại.',
+
+      // Cancel Order Dialog
+      'confirm_cancel_order_title': 'Bạn có chắc chắn muốn hủy đơn không?',
+      'confirm_cancel_order_desc':
+          'Lượt hủy này có thể sẽ tăng tỉ lệ hủy đơn của tài khoản của bạn. Bạn sẽ phải đợi xác nhận nếu đã lỡ chốt đơn với một đối tác bất kỳ. Trong trường hợp đó, hãy chat với đối tác trước khi thực hiện hủy nhé!',
+      'cancel_order_no_btn': 'Ko hủy, tôi lỡ tay',
+      'cancel_order_yes_btn': 'Hủy đơn ngay',
+      'cancel_success': 'Hủy đơn thành công!',
+      'cancel_failed': 'Hủy đơn thất bại, vui lòng thử lại.',
+
+      'network_error': 'Lỗi mạng, vui lòng kiểm tra lại.',
+      'fetch_failed': 'Không thể tải dữ liệu.',
+
       // Asset Orders - Tabs
       'all_orders': 'Tất cả',
       'pending_status': 'Chờ xử lý',
@@ -259,6 +282,16 @@ class AppTranslations extends Translations {
       'purchased_designs': 'File - Tài liệu đã mua',
       'category_label': 'Danh mục',
       'load_more_orders': 'Xem thêm đơn hàng',
+
+      // Asset Order Detail
+      'report_bill_title': 'Báo cáo sự cố',
+      'report_title_label': 'Tiêu đề',
+      'report_title_hint': 'Nhập tiêu đề báo cáo',
+      'report_desc_label': 'Mô tả chi tiết',
+      'report_desc_hint': 'Trình bày rõ vấn đề bạn gặp phải...',
+      'submit_report': 'Gửi báo cáo',
+      'report_success_message': 'Gửi báo cáo sự cố thành công!',
+      'report_failed': 'Gửi báo cáo thất bại, vui lòng thử lại.',
 
       // Asset Order Detail
       'asset_order_detail_title': 'Chi tiết đơn thiết kế',
@@ -640,6 +673,29 @@ class AppTranslations extends Translations {
       'back_to_list': 'Back to List',
       'partner_not_found': 'Partner not found',
 
+      // Confirm Choose Partner Dialog
+      'confirm_choose_partner_title': 'Do you want to choose partner (@name)?',
+      'confirm_choose_partner_desc':
+          'Finalizing the order will unlock chat with the partner and you won\'t be able to choose another partner for this order.',
+      'partner_proposed_price_label': 'Partner proposed price: ',
+      'accept_price_question': 'Do you accept this price?',
+      'confirm_no_btn': 'No, not yet',
+      'confirm_yes_btn': 'Finalize now!',
+      'choose_partner_success': 'Partner chosen successfully!',
+      'choose_partner_failed': 'Failed to choose partner.',
+
+      // Cancel Order Dialog
+      'confirm_cancel_order_title': 'Are you sure you want to cancel the order?',
+      'confirm_cancel_order_desc':
+          'This cancellation may increase your account\'s cancellation rate. You will need confirmation if you have already finalized with a partner. In that case, please chat with the partner before cancelling!',
+      'cancel_order_no_btn': 'No, my mistake',
+      'cancel_order_yes_btn': 'Cancel now',
+      'cancel_success': 'Order cancelled successfully!',
+      'cancel_failed': 'Failed to cancel order, please try again.',
+
+      'network_error': 'Network error, please check again.',
+      'fetch_failed': 'Failed to load data.',
+
       // Asset Orders - Tabs
       'all_orders': 'All',
       'pending_status': 'Pending',
@@ -805,6 +861,16 @@ class AppTranslations extends Translations {
       'download': 'Download',
       'download_starting': 'Preparing download...',
       'repay': 'Repay',
+
+      // Report bottom sheet
+      'report_bill_title': 'Report Issue',
+      'report_title_label': 'Title',
+      'report_title_hint': 'Enter report title',
+      'report_desc_label': 'Description',
+      'report_desc_hint': 'Describe the issue clearly...',
+      'submit_report': 'Submit Report',
+      'report_success_message': 'Report submitted successfully!',
+      'report_failed': 'Failed to submit report. Please try again.',
 
       //dev
       'in_dev': 'Feature in development',
