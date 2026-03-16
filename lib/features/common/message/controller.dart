@@ -249,12 +249,18 @@ class MessageController extends GetxController {
     final threadId = selectedThreadId;
     if (threadId.isEmpty) return;
 
+    final currentUserName =
+        StorageService.readMapData(key: LocalStorageKeys.user, mapKey: 'name')
+            as String? ??
+        '';
+
     final optimistic = MessageModel(
+      sender: currentUserName,
       text: text,
       isSender: true,
       sended: false,
-      time: DateFormat("HH:mm").format(DateTime.now()),
-      date: DateFormat("yyyy-MM-dd").format(DateTime.now()),
+      time: 'just_now'.tr,
+      date: '',
     );
     messagesDetail.add(optimistic);
     messageController.clear();
@@ -265,6 +271,7 @@ class MessageController extends GetxController {
       final idx = messagesDetail.indexOf(optimistic);
       if (idx != -1) {
         messagesDetail[idx] = MessageModel(
+          sender: optimistic.sender,
           text: optimistic.text,
           isSender: optimistic.isSender,
           sended: true,
