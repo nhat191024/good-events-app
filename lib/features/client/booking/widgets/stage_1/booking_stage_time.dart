@@ -48,6 +48,7 @@ class BookingTimeStage extends GetView<ClientBookingController> {
               value: controller.selectedStartTime.value,
               placeholder: 'booking_time_placeholder'.tr,
               leading: FIcons.clock,
+              errorText: controller.fieldErrors['startTime'],
               onTap: () => _showTimePicker(
                 context,
                 title: 'booking_start_time'.tr,
@@ -62,6 +63,7 @@ class BookingTimeStage extends GetView<ClientBookingController> {
               value: controller.selectedEndTime.value,
               placeholder: 'booking_time_placeholder'.tr,
               leading: FIcons.clock,
+              errorText: controller.fieldErrors['endTime'],
               onTap: () => _showTimePicker(
                 context,
                 title: 'booking_end_time'.tr,
@@ -78,6 +80,7 @@ class BookingTimeStage extends GetView<ClientBookingController> {
             value: controller.selectedEventDate.value,
             placeholder: 'booking_date_placeholder'.tr,
             leading: FIcons.calendar,
+            errorText: controller.fieldErrors['eventDate'],
             onTap: () => _pickDate(context),
           ),
         ),

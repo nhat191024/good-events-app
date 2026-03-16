@@ -9,6 +9,7 @@ class BookingSelectField extends StatelessWidget {
     required this.onTap,
     this.leading,
     this.trailing,
+    this.errorText,
   });
 
   final String label;
@@ -17,16 +18,21 @@ class BookingSelectField extends StatelessWidget {
   final VoidCallback onTap;
   final IconData? leading;
   final IconData? trailing;
+  final String? errorText;
 
   @override
   Widget build(BuildContext context) {
     final bool hasValue = value.trim().isNotEmpty;
+    final bool hasError = errorText != null && errorText!.isNotEmpty;
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         Text(
           label,
-          style: context.typography.sm.copyWith(fontWeight: FontWeight.w600),
+          style: context.typography.sm.copyWith(
+            fontWeight: FontWeight.w600,
+            color: hasError ? context.fTheme.colors.destructive : null,
+          ),
         ),
         const SizedBox(height: 6),
         FTappable(
@@ -36,7 +42,9 @@ class BookingSelectField extends StatelessWidget {
             decoration: BoxDecoration(
               color: Colors.white,
               borderRadius: BorderRadius.circular(12),
-              border: Border.all(color: context.fTheme.colors.border),
+              border: Border.all(
+                color: hasError ? context.fTheme.colors.destructive : context.fTheme.colors.border,
+              ),
             ),
             child: Row(
               children: [
@@ -67,6 +75,15 @@ class BookingSelectField extends StatelessWidget {
             ),
           ),
         ),
+        if (hasError) ...[
+          const SizedBox(height: 6),
+          Text(
+            errorText!,
+            style: context.typography.sm.copyWith(
+              color: context.fTheme.colors.destructive,
+            ),
+          ),
+        ],
       ],
     );
   }
@@ -79,27 +96,35 @@ class BookingTextField extends StatelessWidget {
     required this.hint,
     required this.controller,
     this.maxLines = 1,
+    this.errorText,
   });
 
   final String label;
   final String hint;
   final TextEditingController controller;
   final int maxLines;
+  final String? errorText;
 
   @override
   Widget build(BuildContext context) {
+    final bool hasError = errorText != null && errorText!.isNotEmpty;
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         Text(
           label,
-          style: context.typography.sm.copyWith(fontWeight: FontWeight.w600),
+          style: context.typography.sm.copyWith(
+            fontWeight: FontWeight.w600,
+            color: hasError ? context.fTheme.colors.destructive : null,
+          ),
         ),
         const SizedBox(height: 6),
         FTextFormField(
           control: FTextFieldControl.managed(controller: controller),
           hint: hint,
           maxLines: maxLines,
+          autovalidateMode: hasError ? AutovalidateMode.always : AutovalidateMode.disabled,
+          validator: (_) => hasError ? errorText : null,
         ),
       ],
     );
