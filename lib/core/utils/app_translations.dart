@@ -260,6 +260,8 @@ class AppTranslations extends Translations {
 
       'currency': 'VND',
 
+      'click_to_upload': 'Nhấn để tải ảnh lên',
+
       ///Show
       'take_order': 'Nhận show',
       'arrived': 'Đã đến nơi',
@@ -599,7 +601,9 @@ class AppTranslations extends Translations {
 
       'verified': 'Verified',
 
-      'currency': 'USD',
+      'currency': 'VNĐ',
+
+      'click_to_upload': 'Click to upload',
 
       ///Show
       'take_order': 'Take show',
