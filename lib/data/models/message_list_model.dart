@@ -3,6 +3,7 @@ class MessageListModel {
   final String subject;
   final String name;
   final String? newestMessage;
+  final String? newestMessageSender;
   final String time;
   final bool isRead;
   final int unreadMessages;
@@ -12,6 +13,7 @@ class MessageListModel {
     this.subject = '',
     required this.name,
     required this.newestMessage,
+    required this.newestMessageSender,
     required this.time,
     required this.isRead,
     required this.unreadMessages,
@@ -32,6 +34,7 @@ class MessageListModel {
       subject: json['subject'] as String? ?? '',
       name: participantName,
       newestMessage: latestMessage?['body'] as String?,
+      newestMessageSender: latestMessage?['sender_name'] as String?,
       time: latestMessage?['created_at'] as String? ?? '',
       isRead: !isUnread,
       unreadMessages: isUnread ? 1 : 0,
@@ -44,6 +47,7 @@ class MessageListModel {
       'subject': subject,
       'name': name,
       'newestMessage': newestMessage,
+      'newestMessageSender': newestMessageSender,
       'time': time,
       'isRead': isRead,
       'unreadMessages': unreadMessages,
