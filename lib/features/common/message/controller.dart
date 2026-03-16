@@ -8,7 +8,7 @@ class MessageController extends GetxController {
   final MessageRepository _repository;
   MessageController(this._repository);
 
-  // --- Thread list state ---
+  // ─── Thread List State ────────────────────────────────────────────────────────
   final RxList<MessageListModel> filteredMessages = <MessageListModel>[].obs;
   final RxBool isLoading = false.obs;
   final RxBool isLoadingMore = false.obs;
@@ -16,7 +16,7 @@ class MessageController extends GetxController {
   final RxString searchQuery = ''.obs;
   int _currentPage = 1;
 
-  // --- Message detail state ---
+  // ─── Message Detail State ───────────────────────────────────────────────────
   final RxList<MessageModel> messagesDetail = <MessageModel>[].obs;
   final Rx<MessageListModel?> selectedThread = Rx<MessageListModel?>(null);
   final RxBool isLoadingMessages = false.obs;
@@ -53,9 +53,7 @@ class MessageController extends GetxController {
     super.onClose();
   }
 
-  // ──────────────────────────────────────────────
-  // Thread list
-  // ──────────────────────────────────────────────
+  // ─── Thread List ─────────────────────────────────────────────────────────────
 
   Future<void> fetchThreads({bool loadMore = false}) async {
     if (loadMore) {
@@ -127,9 +125,7 @@ class MessageController extends GetxController {
     }
   }
 
-  // ──────────────────────────────────────────────
-  // Message detail (API)
-  // ──────────────────────────────────────────────
+  // ─── Message Detail ──────────────────────────────────────────────────────────
 
   /// Opens a thread and loads the first page of messages from the API.
   Future<void> openThread(MessageListModel thread) async {
@@ -223,6 +219,8 @@ class MessageController extends GetxController {
     }
   }
 
+  // ─── Scroll ───────────────────────────────────────────────────────────────────
+
   void _onDetailScroll() {
     if (!scrollController.hasClients) return;
     final pos = scrollController.position;
@@ -242,6 +240,8 @@ class MessageController extends GetxController {
       }
     });
   }
+
+  // ─── Send Message ─────────────────────────────────────────────────────────────
 
   Future<void> sendMessage() async {
     final text = messageController.text.trim();
