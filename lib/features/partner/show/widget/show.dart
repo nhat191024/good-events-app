@@ -2,7 +2,10 @@ import 'package:flutter/gestures.dart';
 import 'package:sukientotapp/core/utils/import/global.dart';
 
 import 'package:sukientotapp/features/components/widget/badge.dart';
+import 'package:sukientotapp/features/components/widget/confirm_dialog.dart';
 import 'package:sukientotapp/features/components/button/plus.dart';
+
+import '../controller.dart';
 import 'detail.dart';
 import 'upload_arrived_photo.dart';
 
@@ -272,7 +275,19 @@ class Show extends StatelessWidget {
                             child: CustomButtonPlus(
                               onTap: () {
                                 if (currentStatus == 'in_job') {
-                                  Get.snackbar('info'.tr, 'in_dev'.tr);
+                                  ConfirmDialog.show(
+                                    title: 'confirm_complete'.tr,
+                                    message: 'confirm_complete_message'.tr,
+                                    confirmText: 'complete'.tr,
+                                    icon: FIcons.checkCheck,
+                                    iconColor: const Color(0xFF15803D),
+                                    confirmColor: const Color(0xFF15803D),
+                                    onConfirm: () {
+                                      Get.find<ShowController>().completeBill(
+                                        billId,
+                                      );
+                                    },
+                                  );
                                 } else {
                                   Get.bottomSheet(
                                     UploadArrivedPhoto(

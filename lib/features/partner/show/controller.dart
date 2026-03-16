@@ -218,6 +218,44 @@ class ShowController extends GetxController
     }
   }
 
+  // ─── Complete Bill ────────────────────────────────────────────────────────────
+
+  Future<void> completeBill(int billId) async {
+    isLoading.value = true;
+    try {
+      await _repository.completeBill(billId);
+      final index = upcomingBills.indexWhere((b) => b.id == billId);
+      if (index != -1) {
+        final completedBill = upcomingBills[index].copyWith(status: 'completed');
+        upcomingBills.removeAt(index);
+        historyBills.insert(0, completedBill);
+      } else {
+        await _fetchHistoryBills(reset: true);
+      }
+      AppSnackbar.showSuccess(message: 'complete_bill_success'.tr);
+    } on DioException catch (e) {
+      final statusCode = e.response?.statusCode;
+      final message = e.response?.data?['message'] as String?;
+      if (statusCode == 403) {
+        logger.e('[Show] [CompleteBill] 403 Forbidden: $e');
+        await _fetchUpcomingBills(reset: true);
+      } else if (statusCode == 422 &&
+          message != null &&
+          message.toLowerCase().contains('balance')) {
+        AppSnackbar.showError(message: 'insufficient_balance'.tr);
+        logger.e('[Show] [CompleteBill] 422 Insufficient balance: $e');
+      } else {
+        AppSnackbar.showError(message: message ?? 'load_data_failed'.tr);
+        logger.e('[Show] [CompleteBill] Error $statusCode: $e');
+      }
+    } catch (e) {
+      AppSnackbar.showError(message: 'load_data_failed'.tr);
+      logger.e('[Show] [CompleteBill] Unexpected error: $e');
+    } finally {
+      isLoading.value = false;
+    }
+  }
+
   // ─── Mark In Job ─────────────────────────────────────────────────────────────
 
   Future<void> markInJob(int billId) async {
