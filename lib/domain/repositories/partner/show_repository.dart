@@ -1,3 +1,4 @@
+import 'package:image_picker/image_picker.dart';
 import 'package:sukientotapp/data/models/partner/show_bill_model.dart';
 
 abstract class ShowRepository {
@@ -9,4 +10,6 @@ abstract class ShowRepository {
     int page = 1,
     int perPage = 5,
   });
+
+  Future<void> markInJob(int billId, XFile image);
 }

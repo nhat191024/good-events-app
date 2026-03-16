@@ -1,3 +1,5 @@
+import 'package:dio/dio.dart';
+import 'package:image_picker/image_picker.dart';
 import 'package:sukientotapp/core/services/api_service.dart';
 import 'package:sukientotapp/domain/api_url.dart';
 
@@ -40,5 +42,19 @@ class ShowProvider {
     } else {
       throw Exception('Failed to load bills for status: $status');
     }
+  }
+
+  Future<void> markInJob(int billId, XFile image) async {
+    final formData = FormData.fromMap({
+      'arrival_photo': await MultipartFile.fromFile(
+        image.path,
+        filename: image.name,
+      ),
+    });
+    await _apiService.dio.post(
+      AppUrl.partnerBillMarkInJob(billId),
+      data: formData,
+      options: Options(contentType: 'multipart/form-data'),
+    );
   }
 }

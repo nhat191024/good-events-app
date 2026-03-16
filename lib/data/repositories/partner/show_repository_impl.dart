@@ -1,3 +1,4 @@
+import 'package:image_picker/image_picker.dart';
 import 'package:sukientotapp/data/models/partner/show_bill_model.dart';
 import 'package:sukientotapp/data/providers/partner/show_provider.dart';
 import 'package:sukientotapp/domain/repositories/partner/show_repository.dart';
@@ -25,5 +26,10 @@ class ShowRepositoryImpl implements ShowRepository {
       perPage: perPage,
     );
     return ShowBillsResponse.fromMap(data);
+  }
+
+  @override
+  Future<void> markInJob(int billId, XFile image) async {
+    await _provider.markInJob(billId, image);
   }
 }
