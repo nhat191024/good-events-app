@@ -57,6 +57,7 @@ class NewWidget extends GetView<ShowController> {
                 }
                 final bill = controller.newBills[index];
                 return Show(
+                  billId: bill.id,
                   code: bill.code,
                   timestamp: bill.updatedAt,
                   price: bill.finalTotal,

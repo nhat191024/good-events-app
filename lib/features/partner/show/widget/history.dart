@@ -57,6 +57,7 @@ class HistoryWidget extends GetView<ShowController> {
                 }
                 final bill = controller.historyBills[index];
                 return Show(
+                  billId: bill.id,
                   code: bill.code,
                   timestamp: bill.updatedAt,
                   price: bill.finalTotal,
