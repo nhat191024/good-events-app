@@ -34,4 +34,8 @@ class AppUrl {
   // Partner Mark Bill In Job
   static String partnerBillMarkInJob(int billId) =>
       '/partner/bills/$billId/mark-in-job';
+
+  // Partner Complete Bill
+  static String partnerBillComplete(int billId) =>
+      '/partner/bills/$billId/complete';
 }

@@ -32,4 +32,9 @@ class ShowRepositoryImpl implements ShowRepository {
   Future<void> markInJob(int billId, XFile image) async {
     await _provider.markInJob(billId, image);
   }
+
+  @override
+  Future<void> completeBill(int billId) async {
+    await _provider.completeBill(billId);
+  }
 }

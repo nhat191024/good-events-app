@@ -57,4 +57,8 @@ class ShowProvider {
       options: Options(contentType: 'multipart/form-data'),
     );
   }
+
+  Future<void> completeBill(int billId) async {
+    await _apiService.dio.post(AppUrl.partnerBillComplete(billId));
+  }
 }
