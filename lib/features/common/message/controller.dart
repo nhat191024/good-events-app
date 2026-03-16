@@ -174,6 +174,20 @@ class MessageController extends GetxController {
 
       messagesDetail.add(incoming);
       scrollToBottom();
+
+      // Update the thread's newestMessage preview in the list
+      final threadId = selectedThreadId;
+      final idx = filteredMessages.indexWhere((t) => t.id == threadId);
+      if (idx != -1) {
+        filteredMessages[idx] = filteredMessages[idx].copyWith(
+          newestMessage: incoming.text,
+          newestMessageSender: incoming.sender,
+          time: MessageModel.diffForHumans(DateTime.now().toIso8601String()),
+          isRead: true,
+          unreadMessages: 0,
+        );
+      }
+
       logger.i(
         '[MessageController] [Pusher] New message in thread=$_subscribedChannel',
       );

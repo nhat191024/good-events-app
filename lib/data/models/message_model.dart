@@ -20,7 +20,7 @@ class MessageModel {
   });
 
   /// Converts an ISO 8601 timestamp string to a human-readable relative time.
-  static String _diffForHumans(String isoString) {
+  static String diffForHumans(String isoString) {
     if (isoString.isEmpty) return '';
     final DateTime? dateTime = DateTime.tryParse(isoString);
     if (dateTime == null) return isoString;
@@ -60,7 +60,7 @@ class MessageModel {
       text: message['body'] as String? ?? '',
       isSender: currentUserId != null && senderId == currentUserId,
       sended: true,
-      time: _diffForHumans(createdAt),
+      time: diffForHumans(createdAt),
       date: '',
     );
   }

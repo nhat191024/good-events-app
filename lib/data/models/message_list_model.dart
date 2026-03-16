@@ -77,6 +77,30 @@ class MessageListModel {
     );
   }
 
+  MessageListModel copyWith({
+    String? id,
+    String? subject,
+    List<String>? names,
+    String? newestMessage,
+    String? newestMessageSender,
+    String? time,
+    bool? isRead,
+    int? unreadMessages,
+    MessageBillModel? bill,
+  }) {
+    return MessageListModel(
+      id: id ?? this.id,
+      subject: subject ?? this.subject,
+      names: names ?? this.names,
+      newestMessage: newestMessage ?? this.newestMessage,
+      newestMessageSender: newestMessageSender ?? this.newestMessageSender,
+      time: time ?? this.time,
+      isRead: isRead ?? this.isRead,
+      unreadMessages: unreadMessages ?? this.unreadMessages,
+      bill: bill ?? this.bill,
+    );
+  }
+
   Map<String, dynamic> toJson() {
     return {
       'id': id,
