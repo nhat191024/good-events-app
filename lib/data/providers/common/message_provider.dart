@@ -1,7 +1,6 @@
 import 'package:dio/dio.dart';
 import 'package:sukientotapp/core/services/api_service.dart';
 import 'package:sukientotapp/core/utils/logger.dart';
-import 'package:sukientotapp/domain/api_url.dart';
 
 class MessageProvider {
   final ApiService _apiService;
