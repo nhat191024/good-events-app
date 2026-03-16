@@ -147,10 +147,9 @@ class MessageController extends GetxController {
 
     isLoadingMessages.value = true;
     try {
-      final currentUserName =
-          StorageService.readMapData(key: LocalStorageKeys.user, mapKey: 'name')
-              as String? ??
-          '';
+      final currentUserId =
+          StorageService.readMapData(key: LocalStorageKeys.user, mapKey: 'id')
+              as int?;
       final response = await _repository.getMessages(
         threadId: threadId,
         page: _messagesPage,
@@ -160,7 +159,7 @@ class MessageController extends GetxController {
           .map(
             (e) => MessageModel.fromApiJson(
               e as Map<String, dynamic>,
-              currentUserName: currentUserName,
+              currentUserId: currentUserId,
             ),
           )
           .toList();
@@ -189,10 +188,9 @@ class MessageController extends GetxController {
 
     isLoadingOlderMessages.value = true;
     try {
-      final currentUserName =
-          StorageService.readMapData(key: LocalStorageKeys.user, mapKey: 'name')
-              as String? ??
-          '';
+      final currentUserId =
+          StorageService.readMapData(key: LocalStorageKeys.user, mapKey: 'id')
+              as int?;
       _messagesPage++;
       final response = await _repository.getMessages(
         threadId: threadId,
@@ -203,7 +201,7 @@ class MessageController extends GetxController {
           .map(
             (e) => MessageModel.fromApiJson(
               e as Map<String, dynamic>,
-              currentUserName: currentUserName,
+              currentUserId: currentUserId,
             ),
           )
           .toList();
