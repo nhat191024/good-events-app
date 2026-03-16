@@ -5,7 +5,7 @@ import 'package:getx_super_snackbar/getx_super_snackbar.dart';
 class AppSnackbar {
   AppSnackbar._();
 
-  static const SnackPosition _defaultPosition = SnackPosition.BOTTOM;
+  static const SnackPosition _defaultPosition = SnackPosition.TOP;
 
   /// success - with green background
   static void showSuccess({
