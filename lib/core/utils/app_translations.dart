@@ -288,6 +288,13 @@ class AppTranslations extends Translations {
       'upload_arrived_photo_desc':
           'Tải ảnh lên để xác nhận bạn đã đến địa điểm.',
 
+      'confirm_complete': 'Xác nhận hoàn thành',
+      'confirm_complete_message':
+          'Bạn có chắc chắn muốn đánh dấu đơn này là đã hoàn thành?',
+
+      'complete_bill_success': 'Đơn đã được hoàn thành!',
+      'insufficient_balance': 'Số dư không đủ để hoàn thành đơn!',
+
       'code': 'Mã',
       'status': 'Trạng thái',
       'time': 'Thời gian',
@@ -379,6 +386,7 @@ class AppTranslations extends Translations {
       'done': 'Xong',
       'confirm': 'Xác nhận',
       'take_photo': 'Chụp ảnh',
+      'complete': 'Hoàn thành',
 
       //dev
       'in_dev': 'Tính năng đang phát triển',
@@ -659,6 +667,13 @@ class AppTranslations extends Translations {
       'upload_arrived_photo_desc':
           'Upload a photo to confirm you have arrived at the location.',
 
+      'confirm_complete': 'Confirm completion',
+      'confirm_complete_message':
+          'Are you sure you want to mark this bill as completed?',
+
+      'complete_bill_success': 'The bill has been completed!',
+      'insufficient_balance': 'Insufficient balance to complete the bill!',
+
       ///New Show
       'accept_new_show': ' Accept New Show',
       'accept_new_show_desc': 'View new show in real time.',
@@ -732,8 +747,9 @@ class AppTranslations extends Translations {
       'skip': 'Skip',
       'cancel': 'Cancel',
       'done': 'Done',
-      'cofirm': 'Confirm',
+      'confirm': 'Confirm',
       'take_photo': 'Take Photo',
+      'complete': 'Complete',
 
       //dev
       'in_dev': 'Feature in development',
