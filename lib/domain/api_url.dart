@@ -38,4 +38,7 @@ class AppUrl {
   // Partner Complete Bill
   static String partnerBillComplete(int billId) =>
       '/partner/bills/$billId/complete';
+
+  // Chat / Threads
+  static const String chats = '/chat';
 }

@@ -1,3 +1,3 @@
 abstract class MessageRepository {
-  // Future<Either<Failure, Data>> getMessageData();
+  Future<Map<String, dynamic>> getThreads({required int page, String? search});
 }
