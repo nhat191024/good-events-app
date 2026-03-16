@@ -59,4 +59,27 @@ class MessageProvider {
       rethrow;
     }
   }
+
+  Future<void> sendMessage({
+    required String endpoint,
+    required String body,
+  }) async {
+    try {
+      await _apiService.dio.post(
+        endpoint,
+        data: {'body': body},
+      );
+    } on DioException catch (e) {
+      logger.e('[MessageProvider] [sendMessage] DioException: ${e.message}');
+      if (e.response != null) {
+        throw Exception(
+          e.response?.data['message'] ?? 'Failed to send message',
+        );
+      }
+      throw Exception('Network error. Please check your connection.');
+    } catch (e) {
+      logger.e('[MessageProvider] [sendMessage] Unknown error: $e');
+      rethrow;
+    }
+  }
 }

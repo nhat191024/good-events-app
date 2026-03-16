@@ -5,4 +5,9 @@ abstract class MessageRepository {
     required String threadId,
     required int page,
   });
+
+  Future<void> sendMessage({
+    required String threadId,
+    required String body,
+  });
 }

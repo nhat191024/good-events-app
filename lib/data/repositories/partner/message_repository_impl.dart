@@ -31,4 +31,15 @@ class MessageRepositoryImpl implements MessageRepository {
       page: page,
     );
   }
+
+  @override
+  Future<void> sendMessage({
+    required String threadId,
+    required String body,
+  }) async {
+    return _provider.sendMessage(
+      endpoint: AppUrl.chatMessages(threadId),
+      body: body,
+    );
+  }
 }

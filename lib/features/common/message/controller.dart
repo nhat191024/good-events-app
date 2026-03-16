@@ -245,29 +245,43 @@ class MessageController extends GetxController {
     });
   }
 
-  void sendMessage() {
-    if (messageController.text.isNotEmpty) {
-      messagesDetail.add(
-        MessageModel(
-          text: messageController.text,
-          isSender: true,
-          sended: true,
-          time: DateFormat("HH:mm").format(DateTime.now()),
-          date: DateFormat("yyyy-MM-dd").format(DateTime.now()),
-        ),
-      );
-      messageController.clear();
-      scrollToBottom();
-    }
-  }
+  Future<void> sendMessage() async {
+    final text = messageController.text.trim();
+    if (text.isEmpty) return;
+    final threadId = selectedThreadId;
+    if (threadId.isEmpty) return;
 
-  Future<void> pickFiles() async {
-    AppSnackbar.showError(
-      message: 'File picking disabled in demo (missing plugin)',
+    final optimistic = MessageModel(
+      text: text,
+      isSender: true,
+      sended: false,
+      time: DateFormat("HH:mm").format(DateTime.now()),
+      date: DateFormat("yyyy-MM-dd").format(DateTime.now()),
     );
-  }
+    messagesDetail.add(optimistic);
+    messageController.clear();
+    scrollToBottom();
 
-  void removeSelectedFile(dynamic file) {
-    selectedFiles.remove(file);
+    try {
+      await _repository.sendMessage(threadId: threadId, body: text);
+      final idx = messagesDetail.indexOf(optimistic);
+      if (idx != -1) {
+        messagesDetail[idx] = MessageModel(
+          text: optimistic.text,
+          isSender: optimistic.isSender,
+          sended: true,
+          time: optimistic.time,
+          date: optimistic.date,
+        );
+      }
+      logger.i('[MessageController] [sendMessage] Sent to thread=$threadId');
+    } catch (e) {
+      logger.e('[MessageController] [sendMessage] Error: $e');
+      messagesDetail.remove(optimistic);
+      messageController.text = text; // restore text on failure
+      AppSnackbar.showError(
+        message: e.toString().replaceFirst('Exception: ', ''),
+      );
+    }
   }
 }
