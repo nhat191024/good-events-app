@@ -172,7 +172,7 @@ class MessageController extends GetxController {
 
       if (incoming.isSender) return;
 
-      messagesDetail.add(incoming);
+      messagesDetail.insert(0, incoming);
       scrollToBottom();
 
       // Update the thread's newestMessage preview in the list
@@ -230,8 +230,7 @@ class MessageController extends GetxController {
           .toList();
 
       _messagesHasMore = response['hasMore'] as bool? ?? false;
-      messagesDetail.assignAll(messages);
-      scrollToBottom();
+      messagesDetail.assignAll(messages.reversed.toList());
 
       logger.i(
         '[MessageController] [loadMessages] threadId=$threadId, count=${messages.length}, hasMore=$_messagesHasMore',
@@ -272,7 +271,7 @@ class MessageController extends GetxController {
           .toList();
 
       _messagesHasMore = response['hasMore'] as bool? ?? false;
-      messagesDetail.insertAll(0, older);
+      messagesDetail.addAll(older.reversed.toList());
 
       logger.i(
         '[MessageController] [loadOlderMessages] page=$_messagesPage, count=${older.length}, hasMore=$_messagesHasMore',
@@ -293,21 +292,18 @@ class MessageController extends GetxController {
   void _onDetailScroll() {
     if (!scrollController.hasClients) return;
     final pos = scrollController.position;
-    if (pos.pixels <= 200) {
+    if (pos.pixels >= pos.maxScrollExtent - 200) {
       loadOlderMessages();
     }
   }
 
   void scrollToBottom() {
-    Future.delayed(const Duration(milliseconds: 100), () {
-      if (scrollController.hasClients) {
-        scrollController.animateTo(
-          scrollController.position.maxScrollExtent,
-          duration: const Duration(milliseconds: 300),
-          curve: Curves.easeOut,
-        );
-      }
-    });
+    if (!scrollController.hasClients) return;
+    scrollController.animateTo(
+      0,
+      duration: const Duration(milliseconds: 300),
+      curve: Curves.easeOut,
+    );
   }
 
   // ─── Send Message ─────────────────────────────────────────────────────────────
@@ -331,7 +327,8 @@ class MessageController extends GetxController {
       time: 'just_now'.tr,
       date: '',
     );
-    messagesDetail.add(optimistic);
+
+    messagesDetail.insert(0, optimistic);
     messageController.clear();
     scrollToBottom();
 
