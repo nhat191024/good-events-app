@@ -1,43 +1,79 @@
+class MessageBillModel {
+  final int id;
+  final String eventName;
+  final String datetime;
+  final String address;
+
+  const MessageBillModel({
+    required this.id,
+    required this.eventName,
+    required this.datetime,
+    required this.address,
+  });
+
+  factory MessageBillModel.fromJson(Map<String, dynamic> json) {
+    return MessageBillModel(
+      id: json['id'] as int,
+      eventName: json['event_name'] as String? ?? '',
+      datetime: json['datetime'] as String? ?? '',
+      address: json['address'] as String? ?? '',
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    return {
+      'id': id,
+      'event_name': eventName,
+      'datetime': datetime,
+      'address': address,
+    };
+  }
+}
+
 class MessageListModel {
   final String id;
   final String subject;
-  final String name;
+  final List<String> names;
   final String? newestMessage;
   final String? newestMessageSender;
   final String time;
   final bool isRead;
   final int unreadMessages;
+  final MessageBillModel bill;
 
   MessageListModel({
     required this.id,
     this.subject = '',
-    required this.name,
+    required this.names,
     required this.newestMessage,
     required this.newestMessageSender,
     required this.time,
     required this.isRead,
     required this.unreadMessages,
+    required this.bill,
   });
 
   factory MessageListModel.fromJson(Map<String, dynamic> json) {
     final participants = json['participants'] as List<dynamic>? ?? [];
     final latestMessage = json['latest_message'] as Map<String, dynamic>?;
 
-    final participantName = participants.isNotEmpty
-        ? (participants.first as Map<String, dynamic>)['name'] as String? ?? ''
-        : '';
+    final participantNames = participants
+        .map((p) => (p as Map<String, dynamic>)['name'] as String? ?? '')
+        .where((name) => name.isNotEmpty)
+        .toList();
 
     final isUnread = json['is_unread'] as bool? ?? false;
 
     return MessageListModel(
       id: json['id'].toString(),
       subject: json['subject'] as String? ?? '',
-      name: participantName,
+      names: participantNames,
       newestMessage: latestMessage?['body'] as String?,
       newestMessageSender: latestMessage?['sender_name'] as String?,
       time: latestMessage?['created_at'] as String? ?? '',
       isRead: !isUnread,
       unreadMessages: isUnread ? 1 : 0,
+      bill: MessageBillModel.fromJson(json['bill'] as Map<String, dynamic>),
     );
   }
 
@@ -45,12 +81,13 @@ class MessageListModel {
     return {
       'id': id,
       'subject': subject,
-      'name': name,
+      'names': names,
       'newestMessage': newestMessage,
       'newestMessageSender': newestMessageSender,
       'time': time,
       'isRead': isRead,
       'unreadMessages': unreadMessages,
+      'bill': bill.toJson(),
     };
   }
 }
