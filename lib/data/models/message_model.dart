@@ -1,4 +1,6 @@
 class MessageModel {
+  final int? id;
+  final String sender;
   final String text;
   final bool isSender;
   final bool sended;
@@ -10,6 +12,8 @@ class MessageModel {
   final String fileExtension;
 
   MessageModel({
+    this.id,
+    this.sender = '',
     required this.text,
     required this.isSender,
     required this.sended,
@@ -20,6 +24,22 @@ class MessageModel {
     this.fileSize = '',
     this.fileExtension = '',
   });
+
+  factory MessageModel.fromApiJson(
+    Map<String, dynamic> json, {
+    required String currentUserName,
+  }) {
+    final sender = json['sender'] as String? ?? '';
+    return MessageModel(
+      id: json['id'] as int?,
+      sender: sender,
+      text: json['body'] as String? ?? '',
+      isSender: sender == currentUserName,
+      sended: true,
+      time: json['created_at'] as String? ?? '',
+      date: '',
+    );
+  }
 
   factory MessageModel.fromJson(Map<String, dynamic> json) {
     return MessageModel(

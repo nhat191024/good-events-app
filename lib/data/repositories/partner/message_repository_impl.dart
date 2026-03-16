@@ -1,4 +1,5 @@
 import 'package:sukientotapp/data/providers/common/message_provider.dart';
+import 'package:sukientotapp/domain/api_url.dart';
 import 'package:sukientotapp/domain/repositories/partner/message_repository.dart';
 
 class MessageRepositoryImpl implements MessageRepository {
@@ -17,6 +18,17 @@ class MessageRepositoryImpl implements MessageRepository {
       endpoint: _endpoint,
       page: page,
       search: search,
+    );
+  }
+
+  @override
+  Future<Map<String, dynamic>> getMessages({
+    required String threadId,
+    required int page,
+  }) async {
+    return _provider.getMessages(
+      endpoint: AppUrl.chatMessages(threadId),
+      page: page,
     );
   }
 }

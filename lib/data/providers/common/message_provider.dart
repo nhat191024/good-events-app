@@ -1,6 +1,7 @@
 import 'package:dio/dio.dart';
 import 'package:sukientotapp/core/services/api_service.dart';
 import 'package:sukientotapp/core/utils/logger.dart';
+import 'package:sukientotapp/domain/api_url.dart';
 
 class MessageProvider {
   final ApiService _apiService;
@@ -32,6 +33,30 @@ class MessageProvider {
       throw Exception('Network error. Please check your connection.');
     } catch (e) {
       logger.e('[MessageProvider] [getThreads] Unknown error: $e');
+      rethrow;
+    }
+  }
+
+  Future<Map<String, dynamic>> getMessages({
+    required String endpoint,
+    required int page,
+  }) async {
+    try {
+      final response = await _apiService.dio.get(
+        endpoint,
+        queryParameters: {'page': page},
+      );
+      return response.data as Map<String, dynamic>;
+    } on DioException catch (e) {
+      logger.e('[MessageProvider] [getMessages] DioException: ${e.message}');
+      if (e.response != null) {
+        throw Exception(
+          e.response?.data['message'] ?? 'Failed to fetch messages',
+        );
+      }
+      throw Exception('Network error. Please check your connection.');
+    } catch (e) {
+      logger.e('[MessageProvider] [getMessages] Unknown error: $e');
       rethrow;
     }
   }
