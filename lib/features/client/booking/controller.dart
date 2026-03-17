@@ -3,6 +3,7 @@ import 'package:sukientotapp/features/client/bottom_navigation/controller.dart';
 import 'package:sukientotapp/data/providers/client/booking_provider.dart';
 import 'package:sukientotapp/domain/repositories/location_repository.dart';
 import 'package:sukientotapp/data/models/location_model.dart';
+import 'package:sukientotapp/data/models/client/event_order_model.dart';
 import 'widgets/booking_loading_dialog.dart';
 
 class ClientBookingController extends GetxController {
@@ -360,8 +361,21 @@ class ClientBookingController extends GetxController {
 
     if (result['success'] == true) {
       Get.snackbar('success'.tr, 'booking_success'.tr);
-      Get.offAllNamed(Routes.clientHome);
-      Get.find<ClientBottomNavigationController>().setIndex(1);
+
+      final order = EventOrderModel.fromJson(result['bill']);
+
+      // Pop all screens (including booking flow and partner details)
+      // until we are back at the Main Bottom Navigation screen (ClientHome)
+      Get.until((route) => route.settings.name == Routes.clientHome || route.isFirst);
+
+      try {
+        Get.find<ClientBottomNavigationController>().setIndex(1);
+      } catch (e) {
+        logger.e('Navigation controller not found: $e');
+      }
+
+      // Then push order details on top of the Orders tab
+      Get.toNamed(Routes.clientOrderDetail, arguments: {'order': order, 'isHistory': false});
     } else {
       Get.snackbar('error'.tr, result['message'] ?? 'booking_failed'.tr);
       Get.back(); // Fallback back to partner screen
