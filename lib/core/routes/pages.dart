@@ -10,11 +10,7 @@ class Pages {
   static const initialRoute = Routes.splashScreen;
 
   static final routes = [
-    GetPage(
-      name: Routes.splashScreen,
-      page: () => const SplashScreen(),
-      binding: SplashBinding(),
-    ),
+    GetPage(name: Routes.splashScreen, page: () => const SplashScreen(), binding: SplashBinding()),
 
     GetPage(
       name: Routes.chooseYoSideScreen,
@@ -28,11 +24,7 @@ class Pages {
       binding: IntroductionBinding(),
     ),
 
-    GetPage(
-      name: Routes.loginScreen,
-      page: () => const LoginScreen(),
-      binding: LoginBinding(),
-    ),
+    GetPage(name: Routes.loginScreen, page: () => const LoginScreen(), binding: LoginBinding()),
 
     GetPage(
       name: Routes.registerScreen,
@@ -46,6 +38,11 @@ class Pages {
       binding: UserVerifyBinding(),
       transition: Transition.rightToLeft,
       transitionDuration: const Duration(milliseconds: 300),
+    ),
+    GetPage(
+      name: Routes.notification,
+      page: () => const NotificationScreen(),
+      binding: NotificationBinding(),
     ),
 
     //Guest

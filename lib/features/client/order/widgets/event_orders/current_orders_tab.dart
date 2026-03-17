@@ -20,14 +20,29 @@ class CurrentOrdersTab extends StatelessWidget {
         return _buildEmpty(context);
       }
 
-      return ListView.builder(
-        padding: const EdgeInsets.all(16),
-        itemCount: orders.length,
-        itemBuilder: (context, index) {
-          return EventOrderCard(
-            order: orders[index],
-          );
+      return NotificationListener<ScrollNotification>(
+        onNotification: (ScrollNotification scrollInfo) {
+          if (!controller.isFetchingMoreEvent.value &&
+              scrollInfo.metrics.pixels >= scrollInfo.metrics.maxScrollExtent - 100) {
+            controller.fetchEventOrders(loadMore: true);
+          }
+          return false;
         },
+        child: ListView.builder(
+          padding: const EdgeInsets.all(16),
+          itemCount: orders.length + (controller.isFetchingMoreEvent.value ? 1 : 0),
+          itemBuilder: (context, index) {
+            if (index == orders.length) {
+              return const Padding(
+                padding: EdgeInsets.symmetric(vertical: 16),
+                child: Center(child: CircularProgressIndicator()),
+              );
+            }
+            return EventOrderCard(
+              order: orders[index],
+            );
+          },
+        ),
       );
     });
   }

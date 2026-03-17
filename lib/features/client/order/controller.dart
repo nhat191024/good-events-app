@@ -94,34 +94,80 @@ class ClientOrderController extends GetxController with GetTickerProviderStateMi
     super.onClose();
   }
 
+  final RxInt eventCurrentPage = 1.obs;
+  final RxInt eventLastPage = 1.obs;
+  final RxBool isFetchingMoreEvent = false.obs;
+
   // Fetch Event Orders from API
-  Future<void> fetchEventOrders({bool force = false}) async {
-    if (isLoadingEventOrders.value) return;
-    isLoadingEventOrders.value = true;
+  Future<void> fetchEventOrders({bool force = false, bool loadMore = false}) async {
+    if (loadMore) {
+      if (isFetchingMoreEvent.value || eventCurrentPage.value >= eventLastPage.value) return;
+      isFetchingMoreEvent.value = true;
+      eventCurrentPage.value++;
+    } else {
+      if (isLoadingEventOrders.value) return;
+      isLoadingEventOrders.value = true;
+      eventCurrentPage.value = 1;
+    }
 
     try {
-      final res = await _repository.getEventOrders();
-      eventOrders.assignAll(res);
+      final res = await _repository.getEventOrders(page: eventCurrentPage.value);
+      if (loadMore) {
+        eventOrders.addAll(res.data);
+      } else {
+        eventOrders.assignAll(res.data);
+      }
+      eventLastPage.value = res.lastPage;
     } catch (e) {
       logger.e('Failed to fetch event orders: $e');
+      if (loadMore) {
+        eventCurrentPage.value--; // Revert page increment
+      }
     } finally {
-      isLoadingEventOrders.value = false;
+      if (loadMore) {
+        isFetchingMoreEvent.value = false;
+      } else {
+        isLoadingEventOrders.value = false;
+      }
     }
   }
 
+  final RxInt historyCurrentPage = 1.obs;
+  final RxInt historyLastPage = 1.obs;
+  final RxBool isFetchingMoreHistory = false.obs;
+
   // Fetch History Orders from API
-  Future<void> fetchHistoryOrders({bool force = false}) async {
-    if (isLoadingHistoryOrders.value) return;
-    isLoadingHistoryOrders.value = true;
+  Future<void> fetchHistoryOrders({bool force = false, bool loadMore = false}) async {
+    if (loadMore) {
+      if (isFetchingMoreHistory.value || historyCurrentPage.value >= historyLastPage.value) return;
+      isFetchingMoreHistory.value = true;
+      historyCurrentPage.value++;
+    } else {
+      if (isLoadingHistoryOrders.value) return;
+      isLoadingHistoryOrders.value = true;
+      historyCurrentPage.value = 1;
+    }
 
     try {
-      final res = await _repository.getHistoryOrders();
-      historyOrders.assignAll(res);
+      final res = await _repository.getHistoryOrders(page: historyCurrentPage.value);
+      if (loadMore) {
+        historyOrders.addAll(res.data);
+      } else {
+        historyOrders.assignAll(res.data);
+      }
+      historyLastPage.value = res.lastPage;
       hasFetchedHistory.value = true;
     } catch (e) {
       logger.e('Failed to fetch history orders: $e');
+      if (loadMore) {
+        historyCurrentPage.value--; // Revert page increment
+      }
     } finally {
-      isLoadingHistoryOrders.value = false;
+      if (loadMore) {
+        isFetchingMoreHistory.value = false;
+      } else {
+        isLoadingHistoryOrders.value = false;
+      }
     }
   }
 

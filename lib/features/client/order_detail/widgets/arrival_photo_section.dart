@@ -8,11 +8,13 @@ class ArrivalPhotoSection extends GetView<ClientOrderDetailController> {
   @override
   Widget build(BuildContext context) {
     return Obx(() {
-      // Arrival photo only applies strictly to history items
-      if (!controller.isHistory.value) return const SizedBox.shrink();
-
       String? imageUrl = controller.arrivalPhoto;
       bool isCategoryFallback = false;
+
+      // If not history AND no specific arrival photo, hide the section
+      if (!controller.isHistory.value && (imageUrl == null || imageUrl.isEmpty)) {
+        return const SizedBox.shrink();
+      }
 
       // As requested, if arrival_photo is null, use category_image
       if (imageUrl == null || imageUrl.isEmpty) {

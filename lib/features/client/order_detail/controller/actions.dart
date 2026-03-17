@@ -280,4 +280,40 @@ extension ClientOrderDetailActions on ClientOrderDetailController {
       isCancellingOrder.value = false;
     }
   }
+
+  Future<void> submitReview(int partnerId) async {
+    if (rating.value == 0) {
+      Get.snackbar('error'.tr, 'please_select_rating'.tr);
+      return;
+    }
+
+    isSubmittingReview.value = true;
+    try {
+      final comment = reviewCommentController.text.trim();
+      final result = await _repository.submitReview(
+        orderId: orderId,
+        partnerId: partnerId,
+        rating: rating.value,
+        comment: comment.isEmpty ? null : comment,
+      );
+
+      if (result['success'] == true) {
+        Get.back(); // Close bottom sheet
+        Get.snackbar('success'.tr, 'review_submitted_success'.tr);
+        await fetchOrderDetails(); // Refresh to show the new review (if API supports returning it)
+      } else {
+        Get.snackbar(
+          'error'.tr,
+          result['message'] ?? 'submit_review_failed'.tr,
+          backgroundColor: const Color(0xFFFFEBEE), // Colors.red[50]
+          colorText: const Color(0xFFB71C1C), // Colors.red[900]
+        );
+      }
+    } catch (e) {
+      logger.e('Error submitting review: $e');
+      Get.snackbar('error'.tr, e.toString());
+    } finally {
+      isSubmittingReview.value = false;
+    }
+  }
 }

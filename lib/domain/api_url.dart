@@ -17,21 +17,17 @@ class AppUrl {
   static const String homeSummary = '/event/home';
   static const String homeBlogs = '/blog/home';
   static const String partnerCategories = '/partner-categories';
-  static String partnerCategoryDetail(String slug) =>
-      '/partner-categories/$slug';
+  static String partnerCategoryDetail(String slug) => '/partner-categories/$slug';
 
   // Partner New Show
   static const String partnerBillsRealtime = '/partner/bills/realtime';
-  static String partnerBillAccept(int billId) =>
-      '/partner/bills/$billId/accept';
+  static String partnerBillAccept(int billId) => '/partner/bills/$billId/accept';
 
   // Partner my shows
   static String partnerBills(String status) => '/partner/bills/$status';
   static const String partnerBillsHistory = '/partner/bills/history';
-  static String partnerBillMarkInJob(int billId) =>
-      '/partner/bills/$billId/mark-in-job';
-  static String partnerBillComplete(int billId) =>
-      '/partner/bills/$billId/complete';
+  static String partnerBillMarkInJob(int billId) => '/partner/bills/$billId/mark-in-job';
+  static String partnerBillComplete(int billId) => '/partner/bills/$billId/complete';
 
   // Client Booking Screen APIs
   static const String quickBookingEventList = '/quick-booking/event-list';
@@ -46,9 +42,9 @@ class AppUrl {
   static const String choosePartner = '/orders/choose-partner';
   static const String cancelOrder = '/orders/cancel';
   static const String reportBill = '/report/bill';
+  static const String submitReview = '/orders/submit-review';
 
   // Chat / Threads
   static const String chats = '/chat';
-  static String chatMessages(String threadId) =>
-      '/chat/threads/$threadId/messages';
+  static String chatMessages(String threadId) => '/chat/threads/$threadId/messages';
 }

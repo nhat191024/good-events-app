@@ -12,40 +12,66 @@ class OrderRepositoryImpl implements OrderRepository {
   OrderRepositoryImpl(this._provider);
 
   @override
-  Future<List<EventOrderModel>> getEventOrders() async {
+  Future<({List<EventOrderModel> data, int lastPage})> getEventOrders({int page = 1}) async {
     try {
-      final response = await _provider.getEventOrders();
+      final response = await _provider.getEventOrders(page: page);
 
-      if (response != null && response is List) {
-        return response.map((json) => EventOrderModel.fromJson(json)).toList();
+      if (response != null && response['orders'] is Map && response['orders']['data'] is List) {
+        final data = (response['orders']['data'] as List)
+            .map((json) => EventOrderModel.fromJson(json))
+            .toList();
+        final meta = response['orders']['meta'];
+        final lastPage = meta != null ? (meta['last_page'] as int? ?? 1) : 1;
+        return (data: data, lastPage: lastPage);
+      } else if (response != null && response is List) {
+        // Fallback for old API format
+        final data = response.map((json) => EventOrderModel.fromJson(json)).toList();
+        return (data: data, lastPage: 1);
       } else if (response != null && response['data'] is List) {
-        // Handle paginated response if wrapped in 'data'
-        return (response['data'] as List).map((json) => EventOrderModel.fromJson(json)).toList();
+        final data = (response['data'] as List)
+            .map((json) => EventOrderModel.fromJson(json))
+            .toList();
+        final meta = response['meta'];
+        final lastPage = meta != null ? (meta['last_page'] as int? ?? 1) : 1;
+        return (data: data, lastPage: lastPage);
       }
 
-      return [];
+      return (data: <EventOrderModel>[], lastPage: 1);
     } catch (e) {
       logger.e('Failed to parse getEventOrders response: $e');
-      return [];
+      return (data: <EventOrderModel>[], lastPage: 1);
     }
   }
 
   @override
-  Future<List<HistoryOrderModel>> getHistoryOrders() async {
+  Future<({List<HistoryOrderModel> data, int lastPage})> getHistoryOrders({int page = 1}) async {
     try {
-      final response = await _provider.getHistoryOrders();
+      final response = await _provider.getHistoryOrders(page: page);
 
-      if (response != null && response is List) {
-        return response.map((json) => HistoryOrderModel.fromJson(json)).toList();
+      if (response != null && response['orders'] is Map && response['orders']['data'] is List) {
+        final data = (response['orders']['data'] as List)
+            .map((json) => HistoryOrderModel.fromJson(json))
+            .toList();
+        final meta = response['orders']['meta'];
+        final lastPage = meta != null ? (meta['last_page'] as int? ?? 1) : 1;
+        return (data: data, lastPage: lastPage);
+      } else if (response != null && response is List) {
+        // Fallback for old API format
+        final data = response.map((json) => HistoryOrderModel.fromJson(json)).toList();
+        return (data: data, lastPage: 1);
       } else if (response != null && response['data'] is List) {
-        // Handle paginated response if wrapped in 'data'
-        return (response['data'] as List).map((json) => HistoryOrderModel.fromJson(json)).toList();
+        final data = (response['data'] as List)
+            .map((json) => HistoryOrderModel.fromJson(json))
+            .toList();
+        final meta = response['meta'];
+        final lastPage = meta != null ? (meta['last_page'] as int? ?? 1) : 1;
+        return (data: data, lastPage: lastPage);
       }
 
-      return [];
+      return (data: <HistoryOrderModel>[], lastPage: 1);
     } catch (e) {
       logger.e('Failed to parse getHistoryOrders response: $e');
-      return [];
+      return (data: <HistoryOrderModel>[], lastPage: 1);
     }
   }
 
@@ -122,6 +148,26 @@ class OrderRepositoryImpl implements OrderRepository {
       return response as Map<String, dynamic>;
     } catch (e) {
       return {'success': false, 'message': e.toString()};
+    }
+  }
+
+  @override
+  Future<Map<String, dynamic>> submitReview({
+    required int orderId,
+    required int partnerId,
+    required int rating,
+    String? comment,
+  }) async {
+    try {
+      final response = await _provider.submitReview(
+        orderId: orderId,
+        partnerId: partnerId,
+        rating: rating,
+        comment: comment,
+      );
+      return response as Map<String, dynamic>;
+    } catch (e) {
+      return {'success': false, 'message': e.toString().replaceAll('Exception: ', '')};
     }
   }
 }

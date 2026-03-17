@@ -6,6 +6,7 @@ class EventOrderModel {
   final String startTime;
   final String endTime;
   final double? finalTotal;
+  final String? arrivalPhoto;
   final String note;
   final String status;
   final int threadId;
@@ -23,6 +24,7 @@ class EventOrderModel {
     required this.startTime,
     required this.endTime,
     this.finalTotal,
+    required this.arrivalPhoto,
     required this.note,
     required this.status,
     required this.threadId,
@@ -44,6 +46,7 @@ class EventOrderModel {
       finalTotal: json['final_total'] != null
           ? double.tryParse(json['final_total'].toString())
           : null,
+      arrivalPhoto: json['arrival_photo'] as String? ?? '',
       note: json['note'] as String? ?? '',
       status: json['status'] as String? ?? '',
       threadId: json['thread_id'] as int? ?? 0,
