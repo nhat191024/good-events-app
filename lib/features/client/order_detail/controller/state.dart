@@ -18,6 +18,11 @@ mixin ClientOrderDetailState {
   final isSubmittingReport = false.obs;
   final reportErrors = <String, List<String>>{}.obs;
 
+  // Review State
+  final RxInt rating = 0.obs;
+  final reviewCommentController = TextEditingController();
+  final RxBool isSubmittingReview = false.obs;
+
   // Unified Getters
   int get orderId {
     if (isHistory.value && _historyOrder.value != null) return _historyOrder.value!.id;
@@ -122,6 +127,9 @@ mixin ClientOrderDetailState {
     if (isHistory.value && _historyOrder.value != null) {
       return _historyOrder.value!.arrivalPhoto;
     }
+    if (!isHistory.value && _eventOrder.value != null) {
+      return _eventOrder.value!.arrivalPhoto;
+    }
     return null;
   }
 
@@ -130,6 +138,20 @@ mixin ClientOrderDetailState {
       return _historyOrder.value!.categoryImage;
     } else if (!isHistory.value && _eventOrder.value != null) {
       return _eventOrder.value!.categoryImage;
+    }
+    return null;
+  }
+
+  int? get partnerId {
+    if (isHistory.value && _historyOrder.value != null) {
+      return _historyOrder.value!.partner?.id;
+    }
+    if (!isHistory.value) {
+      final items = orderDetail.value?.items ?? [];
+      final chosen = items.where((i) => i.status == 'closed').firstOrNull;
+      if (chosen != null) {
+        return chosen.partner?.id;
+      }
     }
     return null;
   }
@@ -157,5 +179,12 @@ mixin ClientOrderDetailState {
       return _historyOrder.value!.partner?.statistics?.averageStars?.toDouble();
     }
     return null;
+  }
+
+  bool get canChat {
+    // For now, let's say we can chat if it's an active order (not history)
+    // AND it has someone to chat with (confirmed or in_job)
+    if (isHistory.value) return false;
+    return status == 'confirmed' || status == 'in_job' || status == 'completed';
   }
 }
