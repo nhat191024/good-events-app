@@ -3,9 +3,8 @@ import 'package:sukientotapp/core/utils/import/global.dart';
 import 'package:sukientotapp/data/models/client/partner_category_model.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 
-class PopupPartnerSearchSheet extends StatelessWidget {
+class PopupPartnerSearchSheet extends StatefulWidget {
   const PopupPartnerSearchSheet({
-    // required this.controller,
     super.key,
     required this.partnerCategories,
     required this.isLoadingPartners,
@@ -13,12 +12,59 @@ class PopupPartnerSearchSheet extends StatelessWidget {
 
   final RxList<PartnerCategoryModel> partnerCategories;
   final RxBool isLoadingPartners;
-  // final TextEditingController controller;
+
+  @override
+  State<PopupPartnerSearchSheet> createState() => _PopupPartnerSearchSheetState();
+}
+
+class _PopupPartnerSearchSheetState extends State<PopupPartnerSearchSheet> {
+  final TextEditingController _searchController = TextEditingController();
+  final RxString _searchQuery = ''.obs;
+
+  String _removeDiacritics(String str) {
+    const withDiacritics = 'áàảãạâấầẩẫậăắằẳẵặđéèẻẽẹêếềểễệíìỉĩịóòỏõọôốồổỗộơớờởỡợúùủũụưứừửữựýỳỷỹỵ';
+    const withoutDiacritics = 'aaaaaaaaaaaaaaaaadeeeeeeeeeeeiiiiiooooooooooooooooouuuuuuuuuuuyyyyy';
+    var lowerStr = str.toLowerCase();
+    for (int i = 0; i < withDiacritics.length; i++) {
+      lowerStr = lowerStr.replaceAll(withDiacritics[i], withoutDiacritics[i]);
+    }
+    return lowerStr;
+  }
+
+  List<PartnerCategoryModel> get _filteredCategories {
+    final query = _removeDiacritics(_searchQuery.value.trim());
+    if (query.isEmpty) return widget.partnerCategories;
+
+    return widget.partnerCategories
+        .map((category) {
+          final filteredPartners = category.partnerList.where((partner) {
+            return _removeDiacritics(partner.name).contains(query);
+          }).toList();
+
+          if (filteredPartners.isNotEmpty) {
+            return PartnerCategoryModel(
+              id: category.id,
+              name: category.name,
+              image: category.image,
+              partnerList: filteredPartners,
+            );
+          }
+          return null;
+        })
+        .whereType<PartnerCategoryModel>()
+        .toList();
+  }
+
+  @override
+  void dispose() {
+    _searchController.dispose();
+    super.dispose();
+  }
 
   @override
   Widget build(BuildContext context) {
     return Container(
-          padding: EdgeInsets.only(top: 45),
+          padding: const EdgeInsets.only(top: 45),
           height: Get.height,
           color: Colors.white,
           child: Column(
@@ -43,18 +89,34 @@ class PopupPartnerSearchSheet extends StatelessWidget {
               Padding(
                 padding: const EdgeInsets.symmetric(horizontal: 16),
                 child: SearchBar(
+                  controller: _searchController,
                   hintText: 'search_with_dot'.tr,
-                  onChanged: (value) {},
+                  onChanged: (value) {
+                    _searchQuery.value = value;
+                  },
                   leading: const Padding(
                     padding: EdgeInsets.only(left: 16),
                     child: Icon(Icons.search),
                   ),
+                  trailing: [
+                    Obx(
+                      () => _searchQuery.value.isNotEmpty
+                          ? IconButton(
+                              icon: const Icon(Icons.clear),
+                              onPressed: () {
+                                _searchController.clear();
+                                _searchQuery.value = '';
+                              },
+                            )
+                          : const SizedBox.shrink(),
+                    ),
+                  ],
                 ),
               ),
               const SizedBox(height: 10),
               Expanded(
                 child: Obx(() {
-                  if (isLoadingPartners.value && partnerCategories.isEmpty) {
+                  if (widget.isLoadingPartners.value && widget.partnerCategories.isEmpty) {
                     return Center(
                       child: Column(
                         mainAxisSize: MainAxisSize.min,
@@ -67,10 +129,12 @@ class PopupPartnerSearchSheet extends StatelessWidget {
                     );
                   }
 
-                  if (partnerCategories.isEmpty) {
+                  final filtered = _filteredCategories;
+
+                  if (filtered.isEmpty) {
                     return Center(
                       child: Text(
-                        'in_dev'.tr,
+                        _searchQuery.value.isEmpty ? 'in_dev'.tr : 'no_results_found'.tr,
                         style: TextStyle(
                           color: context.fTheme.colors.mutedForeground,
                         ),
@@ -80,12 +144,12 @@ class PopupPartnerSearchSheet extends StatelessWidget {
 
                   return CustomScrollView(
                     slivers: [
-                      for (int i = 0; i < partnerCategories.length; i++) ...[
+                      for (int i = 0; i < filtered.length; i++) ...[
                         SliverToBoxAdapter(
-                          child: _buildCategoryHeader(partnerCategories[i]),
+                          child: _buildCategoryHeader(filtered[i]),
                         ),
-                        _buildPartnerSliverGrid(partnerCategories[i]),
-                        if (i < partnerCategories.length - 1)
+                        _buildPartnerSliverGrid(filtered[i]),
+                        if (i < filtered.length - 1)
                           const SliverToBoxAdapter(
                             child: Divider(
                               height: 5.0,
@@ -117,7 +181,6 @@ class PopupPartnerSearchSheet extends StatelessWidget {
             category.name,
             style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
           ),
-          // FBadge(child: Text('${category.partnerList.length}')),
         ],
       ),
     );
@@ -150,6 +213,7 @@ class PartnerItem extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
+      behavior: HitTestBehavior.opaque,
       onTap: () {
         Get.toNamed(
           Routes.partnerDetail,
@@ -158,45 +222,51 @@ class PartnerItem extends StatelessWidget {
           },
         );
       },
-      child: Column(
-        mainAxisAlignment: MainAxisAlignment.center,
-        crossAxisAlignment: CrossAxisAlignment.center,
-        children: [
-          ClipRRect(
-            borderRadius: BorderRadius.circular(10),
-            child: CachedNetworkImage(
-              imageUrl: partner.image,
-              height: 70,
-              width: 70,
-              fit: BoxFit.cover,
-              placeholder: (context, url) => const SizedBox(
+      child: Container(
+        width: double.infinity,
+        height: double.infinity,
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          crossAxisAlignment: CrossAxisAlignment.center,
+          children: [
+            ClipRRect(
+              borderRadius: BorderRadius.circular(10),
+              child: CachedNetworkImage(
+                imageUrl: partner.image,
                 height: 70,
                 width: 70,
-                child: Center(
-                  child: SizedBox(
-                    width: 20,
-                    height: 20,
-                    child: CircularProgressIndicator(strokeWidth: 2),
+                fit: BoxFit.cover,
+                placeholder: (context, url) => const SizedBox(
+                  height: 70,
+                  width: 70,
+                  child: Center(
+                    child: SizedBox(
+                      width: 20,
+                      height: 20,
+                      child: CircularProgressIndicator(strokeWidth: 2),
+                    ),
                   ),
                 ),
-              ),
-              errorWidget: (context, url, error) => const SizedBox(
-                height: 70,
-                width: 70,
-                child: Center(child: Icon(Icons.error, color: Colors.grey)),
+                errorWidget: (context, url, error) => const SizedBox(
+                  height: 70,
+                  width: 70,
+                  child: Center(child: Icon(Icons.error, color: Colors.grey)),
+                ),
               ),
             ),
-          ),
-          const SizedBox(height: 8),
-          Padding(
-            padding: EdgeInsetsGeometry.symmetric(horizontal: 16),
-            child: Text(
-              textAlign: TextAlign.center,
-              partner.name,
-              style: TextStyle(fontSize: 14, fontWeight: FontWeight.normal),
+            const SizedBox(height: 8),
+            Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 4),
+              child: Text(
+                textAlign: TextAlign.center,
+                partner.name,
+                maxLines: 2,
+                overflow: TextOverflow.ellipsis,
+                style: const TextStyle(fontSize: 12, fontWeight: FontWeight.normal),
+              ),
             ),
-          ),
-        ],
+          ],
+        ),
       ),
     );
   }
