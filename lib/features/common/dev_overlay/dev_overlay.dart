@@ -5,6 +5,7 @@ import 'widgets/toggle_theme_item.dart';
 import 'widgets/clear_storage_item.dart';
 import 'widgets/auth_actions_group.dart';
 import 'widgets/open_http_log_item.dart';
+import 'widgets/pusher_actions_group.dart';
 
 /// A simple structure representing a dev menu item which may contain children.
 class DevMenuItem {
@@ -125,6 +126,7 @@ class _DevOverlayState extends State<DevOverlay> {
                   const ToggleThemeItem(),
                   const ClearStorageItem(),
                   const AuthActionsGroup(),
+                  const PusherActionsGroup(),
                   const OpenHttpLogItem(),
                 ],
               ),
