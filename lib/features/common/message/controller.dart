@@ -1,4 +1,5 @@
 import 'dart:convert';
+import 'package:pull_to_refresh/pull_to_refresh.dart';
 
 import 'package:pusher_channels_flutter/pusher_channels_flutter.dart';
 import 'package:sukientotapp/core/utils/import/global.dart';
@@ -10,6 +11,19 @@ import 'package:sukientotapp/data/models/message_list_model.dart';
 class MessageController extends GetxController {
   final MessageRepository _repository;
   MessageController(this._repository);
+
+  RefreshController refreshController = RefreshController(
+    initialRefresh: false,
+  );
+
+  void onRefresh() async {
+    await refreshThreads();
+    refreshController.refreshCompleted();
+  }
+
+  void onLoadMore() async {
+    refreshController.loadComplete();
+  }
 
   // ─── Thread List State ────────────────────────────────────────────────────────
   final RxList<MessageListModel> filteredMessages = <MessageListModel>[].obs;

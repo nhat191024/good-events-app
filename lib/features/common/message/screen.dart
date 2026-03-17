@@ -1,3 +1,5 @@
+import 'package:pull_to_refresh/pull_to_refresh.dart';
+
 import 'package:sukientotapp/core/utils/import/global.dart';
 
 import 'controller.dart';
@@ -43,8 +45,13 @@ class MessageScreen extends GetView<MessageController> {
                   ),
                 );
               }
-              return RefreshIndicator(
+              return SmartRefresher(
+                controller: controller.refreshController,
+                enablePullDown: true,
+                enablePullUp: false,
+                header: const ClassicHeader(),
                 onRefresh: controller.refreshThreads,
+                onLoading: controller.onLoadMore,
                 child: ListView.builder(
                   controller: controller.listScrollController,
                   padding: EdgeInsets.zero,
