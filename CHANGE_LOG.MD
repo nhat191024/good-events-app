@@ -2,6 +2,10 @@
 
 All notable changes to this project will be documented in this file.
 
+## [v1.17.0+20]
+
+- Update how chat handle websocket and optimize chat
+
 ## [v1.16.0+19]
 
 - Intergartion pusher so app can receive realtime message
