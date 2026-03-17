@@ -11,6 +11,13 @@ class PusherService {
       PusherChannelsFlutter.getInstance();
 
   static bool _initialized = false;
+  static String _connectionState = 'DISCONNECTED';
+  static final Set<String> _channels = {};
+
+  static String get connectionState => _connectionState;
+  static Set<String> get channels => Set.unmodifiable(_channels);
+  static bool get isInitialized => _initialized;
+  static Future<String?> getSocketId() => _pusher.getSocketId();
 
   static Future<void> init() async {
     if (_initialized) return;
@@ -20,6 +27,7 @@ class PusherService {
         apiKey: EnvConfig.pusherAppKey,
         cluster: EnvConfig.pusherCluster,
         onConnectionStateChange: (currentState, previousState) {
+          _connectionState = currentState;
           logger.i('[Pusher] [Connection] $previousState -> $currentState');
         },
         onError: (message, code, error) {
@@ -82,16 +90,20 @@ class PusherService {
       channelName: channelName,
       onEvent: (dynamic event) => onEvent(event as PusherEvent),
     );
+    _channels.add(channelName);
     logger.i('[Pusher] [Subscribe] Channel: $channelName, Event: $eventName');
   }
 
   static Future<void> unsubscribe(String channelName) async {
     await _pusher.unsubscribe(channelName: channelName);
+    _channels.remove(channelName);
     logger.i('[Pusher] [Unsubscribe] Channel: $channelName');
   }
 
   static Future<void> disconnect() async {
     await _pusher.disconnect();
+    _channels.clear();
+    _connectionState = 'DISCONNECTED';
     _initialized = false;
     logger.i('[Pusher] [Disconnect] Disconnected');
   }
