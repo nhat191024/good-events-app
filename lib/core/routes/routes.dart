@@ -10,6 +10,7 @@ abstract class Routes {
   static const registerScreen = '/register';
   static const userVerifyScreen = '/verify';
   static const introduction = '/introduction';
+  static const notification = '/notification';
 
   //Required Auth
   // Partner

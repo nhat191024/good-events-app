@@ -5,6 +5,7 @@ export 'package:sukientotapp/features/common/choose_yo_side/screen.dart';
 export 'package:sukientotapp/features/common/auth/login/screen.dart';
 export 'package:sukientotapp/features/common/auth/register/screen.dart';
 export 'package:sukientotapp/features/common/user_verify/screen.dart';
+export 'package:sukientotapp/features/common/notification/screen.dart';
 export 'package:sukientotapp/features/common/introduction/screen.dart';
 
 //Guest
