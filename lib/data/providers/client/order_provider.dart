@@ -7,9 +7,9 @@ class OrderProvider {
 
   OrderProvider({required Dio dio}) : _dio = dio;
 
-  Future<dynamic> getEventOrders() async {
+  Future<dynamic> getEventOrders({int page = 1}) async {
     try {
-      final response = await _dio.get(AppUrl.clientOrders);
+      final response = await _dio.get('${AppUrl.clientOrders}?page=$page');
       return response.data;
     } on DioException catch (e) {
       if (e.response != null) {
@@ -19,9 +19,9 @@ class OrderProvider {
     }
   }
 
-  Future<dynamic> getHistoryOrders() async {
+  Future<dynamic> getHistoryOrders({int page = 1}) async {
     try {
-      final response = await _dio.get(AppUrl.clientHistoryOrders);
+      final response = await _dio.get('${AppUrl.clientHistoryOrders}?page=$page');
       return response.data;
     } on DioException catch (e) {
       if (e.response != null) {
@@ -138,6 +138,31 @@ class OrderProvider {
     } on DioException catch (e) {
       if (e.response != null) {
         throw Exception(e.response?.data['message'] ?? 'cancel_failed'.tr);
+      }
+      throw Exception('network_error'.tr);
+    }
+  }
+
+  Future<dynamic> submitReview({
+    required int orderId,
+    required int partnerId,
+    required int rating,
+    String? comment,
+  }) async {
+    try {
+      final response = await _dio.post(
+        AppUrl.submitReview,
+        data: {
+          'order_id': orderId,
+          'partner_id': partnerId,
+          'rating': rating,
+          if (comment != null && comment.isNotEmpty) 'comment': comment,
+        },
+      );
+      return response.data;
+    } on DioException catch (e) {
+      if (e.response != null) {
+        throw Exception(e.response?.data['message'] ?? 'submit_review_failed'.tr);
       }
       throw Exception('network_error'.tr);
     }
