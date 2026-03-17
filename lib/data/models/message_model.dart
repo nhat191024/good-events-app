@@ -2,6 +2,7 @@ import 'package:sukientotapp/core/utils/import/global.dart';
 
 class MessageModel {
   final int? id;
+  final int? threadId;
   final String sender;
   final String text;
   final bool isSender;
@@ -12,6 +13,7 @@ class MessageModel {
   MessageModel({
     this.id,
     this.sender = '',
+    this.threadId,
     required this.text,
     required this.isSender,
     required this.sended,
@@ -52,10 +54,12 @@ class MessageModel {
   }) {
     final senderId = json['sender_id'] as int?;
     final message = json['message'] as Map<String, dynamic>? ?? {};
+    final threadId = message['thread_id'] as int?;
     final user = json['user'] as Map<String, dynamic>? ?? {};
     final createdAt = message['created_at'] as String? ?? '';
     return MessageModel(
       id: message['id'] as int?,
+      threadId: threadId,
       sender: user['name'] as String? ?? '',
       text: message['body'] as String? ?? '',
       isSender: currentUserId != null && senderId == currentUserId,
@@ -67,6 +71,7 @@ class MessageModel {
 
   factory MessageModel.fromJson(Map<String, dynamic> json) {
     return MessageModel(
+      threadId: json['threadId'] as int?,
       text: json['text'] ?? '',
       isSender: json['isSender'] ?? false,
       sended: json['sended'] ?? false,
@@ -77,6 +82,7 @@ class MessageModel {
 
   Map<String, dynamic> toJson() {
     return {
+      'threadId': threadId,
       'text': text,
       'isSender': isSender,
       'sended': sended,
