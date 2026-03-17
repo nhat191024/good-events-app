@@ -1,4 +1,5 @@
 import 'package:sukientotapp/core/utils/import/global.dart';
+import 'package:sukientotapp/features/client/bottom_navigation/controller.dart';
 import '../controller/controller.dart';
 
 class BottomActions extends GetView<ClientOrderDetailController> {
@@ -65,10 +66,16 @@ class BottomActions extends GetView<ClientOrderDetailController> {
             children: [
               Expanded(
                 child: ElevatedButton(
-                  onPressed: null, // Disabled chat for now
+                  onPressed: controller.canChat
+                      ? () {
+                          Get.find<ClientBottomNavigationController>().setIndex(2);
+                          // go back
+                          Get.back();
+                        }
+                      : null,
                   style: ElevatedButton.styleFrom(
-                    backgroundColor: Colors.grey[500],
-                    disabledBackgroundColor: Colors.grey[400],
+                    backgroundColor: FTheme.of(context).colors.primary,
+                    disabledBackgroundColor: Colors.grey[300],
                     foregroundColor: Colors.white,
                     disabledForegroundColor: Colors.white,
                     shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(8)),
@@ -101,6 +108,10 @@ class BottomActions extends GetView<ClientOrderDetailController> {
   }
 
   void _showReviewBottomSheet(BuildContext context) {
+    // Reset state before showing
+    controller.rating.value = 0;
+    controller.reviewCommentController.clear();
+
     Get.bottomSheet(
       Container(
         width: double.infinity,
@@ -108,111 +119,150 @@ class BottomActions extends GetView<ClientOrderDetailController> {
           color: Colors.white,
           borderRadius: BorderRadius.vertical(top: Radius.circular(16)),
         ),
-        child: Column(
-          mainAxisSize: MainAxisSize.min,
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            Padding(
-              padding: const EdgeInsets.all(16),
-              child: Row(
-                children: [
-                  const Icon(Icons.star, color: Colors.amber),
-                  const SizedBox(width: 8),
-                  Text(
-                    'rate_order'.tr,
-                    style: context.typography.lg.copyWith(fontWeight: FontWeight.bold),
-                  ),
-                ],
+        child: Padding(
+          padding: EdgeInsets.only(
+            bottom: MediaQuery.of(context).viewInsets.bottom,
+          ),
+          child: Column(
+            mainAxisSize: MainAxisSize.min,
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Padding(
+                padding: const EdgeInsets.all(16),
+                child: Row(
+                  children: [
+                    const Icon(Icons.star, color: Colors.amber),
+                    const SizedBox(width: 8),
+                    Text(
+                      'rate_order'.tr,
+                      style: context.typography.lg.copyWith(fontWeight: FontWeight.bold),
+                    ),
+                  ],
+                ),
               ),
-            ),
-            const Divider(height: 1),
-            Padding(
-              padding: const EdgeInsets.all(16),
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Text(
-                    'rate_partner'.tr,
-                    style: context.typography.sm.copyWith(fontWeight: FontWeight.bold),
-                  ),
-                  const SizedBox(height: 8),
-                  Row(
-                    children: List.generate(5, (index) {
-                      return IconButton(
-                        icon: const Icon(Icons.star_outline, color: Colors.grey, size: 28),
-                        splashRadius: 24,
-                        onPressed: () {
-                          // TODO: Handle rating state
-                        },
-                      );
-                    }),
-                  ),
-                  const SizedBox(height: 16),
-                  Text(
-                    'review_service'.tr,
-                    style: context.typography.sm.copyWith(fontWeight: FontWeight.bold),
-                  ),
-                  const SizedBox(height: 8),
-                  TextField(
-                    maxLines: 4,
-                    decoration: InputDecoration(
-                      hintText: 'share_experience'.tr,
-                      filled: true,
-                      fillColor: Colors.grey[50],
-                      contentPadding: const EdgeInsets.all(12),
-                      border: OutlineInputBorder(
-                        borderRadius: BorderRadius.circular(8),
-                        borderSide: BorderSide(color: Colors.grey[300]!),
-                      ),
-                      enabledBorder: OutlineInputBorder(
-                        borderRadius: BorderRadius.circular(8),
-                        borderSide: BorderSide(color: Colors.grey[300]!),
+              const Divider(height: 1),
+              Padding(
+                padding: const EdgeInsets.all(16),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Text(
+                      'rate_partner'.tr,
+                      style: context.typography.sm.copyWith(fontWeight: FontWeight.bold),
+                    ),
+                    const SizedBox(height: 8),
+                    Obx(
+                      () => Row(
+                        children: List.generate(5, (index) {
+                          final isSelected = index < controller.rating.value;
+                          return IconButton(
+                            icon: Icon(
+                              isSelected ? Icons.star : Icons.star_outline,
+                              color: isSelected ? Colors.amber : Colors.grey,
+                              size: 32,
+                            ),
+                            splashRadius: 24,
+                            onPressed: () {
+                              controller.rating.value = index + 1;
+                            },
+                          );
+                        }),
                       ),
                     ),
-                  ),
-                  const SizedBox(height: 24),
-                  Row(
-                    children: [
-                      Expanded(
-                        child: ElevatedButton(
-                          onPressed: null, // Default disabled until rated
-                          style: ElevatedButton.styleFrom(
-                            backgroundColor: FTheme.of(context).colors.primary,
-                            disabledBackgroundColor: Colors.grey[300],
-                            foregroundColor: Colors.white,
-                            disabledForegroundColor: Colors.white,
-                            shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(8)),
-                            padding: const EdgeInsets.symmetric(vertical: 12),
-                          ),
-                          child: Text(
-                            'submit_review'.tr,
-                            style: const TextStyle(fontWeight: FontWeight.bold),
-                          ),
+                    const SizedBox(height: 16),
+                    Text(
+                      'review_service'.tr,
+                      style: context.typography.sm.copyWith(fontWeight: FontWeight.bold),
+                    ),
+                    const SizedBox(height: 8),
+                    TextField(
+                      controller: controller.reviewCommentController,
+                      maxLines: 4,
+                      decoration: InputDecoration(
+                        hintText: 'share_experience'.tr,
+                        filled: true,
+                        fillColor: Colors.grey[50],
+                        contentPadding: const EdgeInsets.all(12),
+                        border: OutlineInputBorder(
+                          borderRadius: BorderRadius.circular(8),
+                          borderSide: BorderSide(color: Colors.grey[300]!),
+                        ),
+                        enabledBorder: OutlineInputBorder(
+                          borderRadius: BorderRadius.circular(8),
+                          borderSide: BorderSide(color: Colors.grey[300]!),
                         ),
                       ),
-                      const SizedBox(width: 12),
-                      Expanded(
-                        child: OutlinedButton(
-                          onPressed: () => Get.back(),
-                          style: OutlinedButton.styleFrom(
-                            foregroundColor: Colors.black,
-                            side: BorderSide(color: Colors.grey[300]!),
-                            shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(8)),
-                            padding: const EdgeInsets.symmetric(vertical: 12),
+                    ),
+                    const SizedBox(height: 24),
+                    Obx(() {
+                      final canSubmit =
+                          controller.rating.value > 0 && !controller.isSubmittingReview.value;
+                      return Row(
+                        children: [
+                          Expanded(
+                            child: ElevatedButton(
+                              onPressed: canSubmit
+                                  ? () {
+                                      final pId = controller.partnerId;
+                                      if (pId != null) {
+                                        controller.submitReview(pId);
+                                      } else {
+                                        Get.snackbar('error'.tr, 'partner_not_found'.tr);
+                                      }
+                                    }
+                                  : null,
+                              style: ElevatedButton.styleFrom(
+                                backgroundColor: FTheme.of(context).colors.primary,
+                                disabledBackgroundColor: Colors.grey[300],
+                                foregroundColor: Colors.white,
+                                disabledForegroundColor: Colors.white,
+                                shape: RoundedRectangleBorder(
+                                  borderRadius: BorderRadius.circular(8),
+                                ),
+                                padding: const EdgeInsets.symmetric(vertical: 12),
+                              ),
+                              child: controller.isSubmittingReview.value
+                                  ? const SizedBox(
+                                      height: 20,
+                                      width: 20,
+                                      child: CircularProgressIndicator(
+                                        strokeWidth: 2,
+                                        valueColor: AlwaysStoppedAnimation<Color>(Colors.white),
+                                      ),
+                                    )
+                                  : Text(
+                                      'submit_review'.tr,
+                                      style: const TextStyle(fontWeight: FontWeight.bold),
+                                    ),
+                            ),
                           ),
-                          child: Text(
-                            'cancel'.tr,
-                            style: const TextStyle(fontWeight: FontWeight.bold),
+                          const SizedBox(width: 12),
+                          Expanded(
+                            child: OutlinedButton(
+                              onPressed: () => Get.back(),
+                              style: OutlinedButton.styleFrom(
+                                foregroundColor: Colors.black,
+                                side: BorderSide(color: Colors.grey[300]!),
+                                shape: RoundedRectangleBorder(
+                                  borderRadius: BorderRadius.circular(8),
+                                ),
+                                padding: const EdgeInsets.symmetric(vertical: 12),
+                              ),
+                              child: Text(
+                                'cancel'.tr,
+                                style: const TextStyle(fontWeight: FontWeight.bold),
+                              ),
+                            ),
                           ),
-                        ),
-                      ),
-                    ],
-                  ),
-                  const SizedBox(height: 16),
-                ],
+                        ],
+                      );
+                    }),
+                    const SizedBox(height: 16),
+                  ],
+                ),
               ),
-            ),
-          ],
+            ],
+          ),
         ),
       ),
       isScrollControlled: true,
