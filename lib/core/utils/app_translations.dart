@@ -80,6 +80,10 @@ class AppTranslations extends Translations {
       'otp_invalid': 'Vui lòng nhập đúng mã OTP 6 số.',
       'verify_success': 'Xác thực thành công!',
       'otp_resent': 'Đã gửi lại mã OTP.',
+      'notifications': 'Thông báo',
+      'no_notifications': 'Chưa có thông báo nào',
+      'conversations': 'Trò chuyện',
+      'orders': 'Đơn hàng',
 
       //search hints
       'search_hint_1': 'Bạn đang tìm dịch vụ gì?',
@@ -250,7 +254,7 @@ class AppTranslations extends Translations {
       'not_applicable': 'Không áp dụng',
       'chat_now': 'Chat ngay',
       'back_to_list': 'Quay lại danh sách',
-      'partner_not_found': 'Không tìm thấy đối tác',
+      'partner_not_found': 'Hiện chưa có đối tác',
 
       // Confirm Choose Partner Dialog
       'confirm_choose_partner_title': 'Bạn có muốn chọn đối tác (@name)?',
@@ -553,6 +557,10 @@ class AppTranslations extends Translations {
       'please_select_location': 'Please select your operating area.',
       'failed_to_load_provinces': 'Failed to load provinces.',
       'failed_to_load_wards': 'Failed to load wards.',
+      'notifications': 'Notifications',
+      'no_notifications': 'No notifications',
+      'conversations': 'Conversations',
+      'orders': 'Orders',
 
       //search hints
       'search_hint_1': 'What service are you looking for?',
@@ -723,7 +731,7 @@ class AppTranslations extends Translations {
       'chat_now': 'Chat Now',
       'cancel_order': 'Cancel Order',
       'back_to_list': 'Back to List',
-      'partner_not_found': 'Partner not found',
+      'partner_not_found': 'Currently no partners found',
 
       // Confirm Choose Partner Dialog
       'confirm_choose_partner_title': 'Do you want to choose partner (@name)?',
