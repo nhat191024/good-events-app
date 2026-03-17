@@ -1,6 +1,8 @@
 import 'package:sukientotapp/core/utils/import/global.dart';
 import '../controller/controller.dart';
 
+import 'order_status_badge.dart';
+
 class DetailedInfoSection extends GetView<ClientOrderDetailController> {
   const DetailedInfoSection({super.key});
 
@@ -37,24 +39,11 @@ class DetailedInfoSection extends GetView<ClientOrderDetailController> {
           ),
           const SizedBox(height: 8),
           Obx(
-            () => Container(
+            () => OrderStatusBadge(
+              status: controller.status,
               padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 4),
-              decoration: BoxDecoration(
-                color: controller.status == 'confirmed' ? Colors.green[50] : Colors.orange[50],
-                border: Border.all(
-                  color: controller.status == 'confirmed'
-                      ? Colors.green[200]!
-                      : Colors.orange[200]!,
-                ),
-                borderRadius: BorderRadius.circular(16),
-              ),
-              child: Text(
-                controller.status.toUpperCase(),
-                style: context.typography.xs.copyWith(
-                  color: controller.status == 'confirmed' ? Colors.green[800] : Colors.orange[800],
-                  fontWeight: FontWeight.bold,
-                ),
-              ),
+              borderRadius: BorderRadius.circular(16),
+              upperCaseText: true,
             ),
           ),
           const SizedBox(height: 8),
