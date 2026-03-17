@@ -20,12 +20,27 @@ class HistoryOrdersTab extends StatelessWidget {
         return _buildEmpty(context);
       }
 
-      return ListView.builder(
-        padding: const EdgeInsets.all(16),
-        itemCount: orders.length,
-        itemBuilder: (context, index) {
-          return HistoryOrderCard(order: orders[index]);
+      return NotificationListener<ScrollNotification>(
+        onNotification: (ScrollNotification scrollInfo) {
+          if (!controller.isFetchingMoreHistory.value &&
+              scrollInfo.metrics.pixels >= scrollInfo.metrics.maxScrollExtent - 100) {
+            controller.fetchHistoryOrders(loadMore: true);
+          }
+          return false;
         },
+        child: ListView.builder(
+          padding: const EdgeInsets.all(16),
+          itemCount: orders.length + (controller.isFetchingMoreHistory.value ? 1 : 0),
+          itemBuilder: (context, index) {
+            if (index == orders.length) {
+              return const Padding(
+                padding: EdgeInsets.symmetric(vertical: 16),
+                child: Center(child: CircularProgressIndicator()),
+              );
+            }
+            return HistoryOrderCard(order: orders[index]);
+          },
+        ),
       );
     });
   }

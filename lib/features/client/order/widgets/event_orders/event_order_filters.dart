@@ -1,5 +1,6 @@
 import 'package:sukientotapp/core/utils/import/global.dart';
 import '../../controller.dart';
+import '../order_status_badge.dart';
 
 class EventOrderFilters extends StatelessWidget {
   const EventOrderFilters({super.key, required this.controller});
@@ -157,49 +158,37 @@ class EventOrderFilters extends StatelessWidget {
 
                   if (isCurrent) ...[
                     _StatusChip(
-                      label: 'status_pending'.tr,
-                      value: 'pending',
-                      color: const Color(0xFFF59E0B),
+                      status: 'pending',
                       isSelected: controller.selectedStatusFilters.contains('pending'),
                       onTap: () => _toggleFilter(controller, 'pending'),
                     ),
                     const SizedBox(width: 8),
                     _StatusChip(
-                      label: 'status_confirmed'.tr,
-                      value: 'confirmed',
-                      color: const Color(0xFF3B82F6),
+                      status: 'confirmed',
                       isSelected: controller.selectedStatusFilters.contains('confirmed'),
                       onTap: () => _toggleFilter(controller, 'confirmed'),
                     ),
                     const SizedBox(width: 8),
                     _StatusChip(
-                      label: 'status_in_job'.tr,
-                      value: 'in_job',
-                      color: const Color(0xFF10B981),
+                      status: 'in_job',
                       isSelected: controller.selectedStatusFilters.contains('in_job'),
                       onTap: () => _toggleFilter(controller, 'in_job'),
                     ),
                   ] else ...[
                     _StatusChip(
-                      label: 'status_completed'.tr,
-                      value: 'completed',
-                      color: Colors.green[800]!,
+                      status: 'completed',
                       isSelected: controller.selectedStatusFilters.contains('completed'),
                       onTap: () => _toggleFilter(controller, 'completed'),
                     ),
                     const SizedBox(width: 8),
                     _StatusChip(
-                      label: 'status_cancelled'.tr,
-                      value: 'cancelled',
-                      color: Colors.red[800]!,
+                      status: 'cancelled',
                       isSelected: controller.selectedStatusFilters.contains('cancelled'),
                       onTap: () => _toggleFilter(controller, 'cancelled'),
                     ),
                     const SizedBox(width: 8),
                     _StatusChip(
-                      label: 'expired'.tr,
-                      value: 'expired',
-                      color: Colors.grey[600]!,
+                      status: 'expired',
                       isSelected: controller.selectedStatusFilters.contains('expired'),
                       onTap: () => _toggleFilter(controller, 'expired'),
                     ),
@@ -289,21 +278,20 @@ class EventOrderFilters extends StatelessWidget {
 
 class _StatusChip extends StatelessWidget {
   const _StatusChip({
-    required this.label,
-    required this.value,
-    required this.color,
+    required this.status,
     required this.isSelected,
     required this.onTap,
   });
 
-  final String label;
-  final String value;
-  final Color color;
+  final String status;
   final bool isSelected;
   final VoidCallback onTap;
 
   @override
   Widget build(BuildContext context) {
+    final config = OrderStatusConfig.fromStatus(status, context);
+    final color = config.textColor;
+
     return GestureDetector(
       onTap: onTap,
       child: Container(
@@ -326,7 +314,7 @@ class _StatusChip extends StatelessWidget {
               : null,
         ),
         child: Text(
-          label,
+          config.text,
           style: context.typography.xs.copyWith(
             color: color,
             fontWeight: isSelected ? FontWeight.bold : FontWeight.w600,

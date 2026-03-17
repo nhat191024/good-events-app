@@ -2,6 +2,7 @@ import 'dart:async';
 import 'package:sukientotapp/core/utils/import/global.dart';
 import 'package:sukientotapp/data/models/client/history_order_model.dart';
 import 'package:cached_network_image/cached_network_image.dart';
+import '../order_status_badge.dart';
 
 class HistoryOrderCard extends StatelessWidget {
   const HistoryOrderCard({
@@ -10,58 +11,6 @@ class HistoryOrderCard extends StatelessWidget {
   });
 
   final HistoryOrderModel order;
-
-  Color _getStatusColor() {
-    switch (order.status) {
-      case 'completed':
-        return Colors.green[800]!;
-      case 'cancelled':
-        return Colors.red[800]!;
-      case 'expired':
-        return Colors.grey[600]!;
-      default:
-        return Colors.grey[600]!;
-    }
-  }
-
-  Color _getStatusBgColor() {
-    switch (order.status) {
-      case 'completed':
-        return Colors.green[100]!;
-      case 'cancelled':
-        return Colors.red[100]!;
-      case 'expired':
-        return Colors.grey[100]!;
-      default:
-        return Colors.grey[100]!;
-    }
-  }
-
-  Color _getStatusBorderColor() {
-    switch (order.status) {
-      case 'completed':
-        return Colors.green[200]!;
-      case 'cancelled':
-        return Colors.red[200]!;
-      case 'expired':
-        return Colors.grey[200]!;
-      default:
-        return Colors.grey[200]!;
-    }
-  }
-
-  String _getStatusText() {
-    switch (order.status) {
-      case 'completed':
-        return 'status_completed'.tr;
-      case 'cancelled':
-        return 'status_cancelled'.tr;
-      case 'expired':
-        return 'expired'.tr;
-      default:
-        return order.status ?? '';
-    }
-  }
 
   String _formatUpdatedAt() {
     if (order.updatedAt == null) return '';
@@ -84,10 +33,6 @@ class HistoryOrderCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final statusColor = _getStatusColor();
-    final statusBgColor = _getStatusBgColor();
-    final statusBorderColor = _getStatusBorderColor();
-
     final partnerName =
         order.partner?.partnerProfile?.partnerName ?? order.partner?.name ?? 'partner_not_found'.tr;
     final rating = order.partner?.statistics?.averageStars;
@@ -217,21 +162,10 @@ class HistoryOrderCard extends StatelessWidget {
                               color: context.primary,
                             ),
                           ),
-                          // Status Badge
-                          Container(
+                          OrderStatusBadge(
+                            status: order.status,
                             padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 2),
-                            decoration: BoxDecoration(
-                              color: statusBgColor,
-                              border: Border.all(color: statusBorderColor),
-                              borderRadius: BorderRadius.circular(4),
-                            ),
-                            child: Text(
-                              _getStatusText(),
-                              style: context.typography.xs.copyWith(
-                                color: statusColor,
-                                fontWeight: FontWeight.normal,
-                              ),
-                            ),
+                            borderRadius: BorderRadius.circular(4),
                           ),
                         ],
                       ),

@@ -1,6 +1,7 @@
 import 'package:sukientotapp/core/utils/import/global.dart';
 import 'package:sukientotapp/data/models/client/event_order_model.dart';
 import 'package:cached_network_image/cached_network_image.dart';
+import '../order_status_badge.dart';
 
 class EventOrderCard extends StatelessWidget {
   const EventOrderCard({
@@ -9,40 +10,6 @@ class EventOrderCard extends StatelessWidget {
   });
 
   final EventOrderModel order;
-
-  Color _getStatusColor() {
-    switch (order.status) {
-      case 'pending':
-        return const Color(0xFFF59E0B); // Amber
-      case 'confirmed':
-        return const Color(0xFF3B82F6); // Blue
-      case 'in_job':
-        return const Color(0xFF10B981); // Green
-      case 'completed':
-        return const Color(0xFF10B981); // Green
-      case 'cancelled':
-        return const Color(0xFFEF4444); // Red
-      default:
-        return const Color(0xFF6B7280); // Gray
-    }
-  }
-
-  String _getStatusText() {
-    switch (order.status) {
-      case 'pending':
-        return 'status_pending'.tr;
-      case 'confirmed':
-        return 'status_confirmed'.tr;
-      case 'in_job':
-        return 'status_in_job'.tr;
-      case 'completed':
-        return 'status_completed'.tr;
-      case 'cancelled':
-        return 'status_cancelled'.tr;
-      default:
-        return order.status;
-    }
-  }
 
   String _getVietnameseDayOfWeek(DateTime date) {
     final isVietnamese = Get.locale?.languageCode == 'vi';
@@ -70,7 +37,8 @@ class EventOrderCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final statusColor = _getStatusColor();
+    final statusConfig = OrderStatusConfig.fromStatus(order.status, context);
+    final statusColor = statusConfig.textColor;
 
     // Parse the date if needed, or use order.date directly. Since order.date is "YYYY-MM-DD", let's parse it securely:
     DateTime? parsedDate;
@@ -182,7 +150,7 @@ class EventOrderCard extends StatelessWidget {
                       ),
 
                       // applicant count numbers badge
-                      if (order.applicantCount > 0)
+                      if (order.applicantCount > 0 && order.status == 'pending')
                         Padding(
                           padding: const EdgeInsets.only(top: 12),
                           child: Container(
@@ -312,26 +280,7 @@ class EventOrderCard extends StatelessWidget {
                               ),
                             ),
 
-                            Container(
-                              padding: const EdgeInsets.symmetric(
-                                horizontal: 8,
-                                vertical: 4,
-                              ),
-                              decoration: BoxDecoration(
-                                color: statusColor.withValues(alpha: 0.1),
-                                borderRadius: BorderRadius.circular(6),
-                                border: Border.all(
-                                  color: statusColor.withValues(alpha: 0.2),
-                                ),
-                              ),
-                              child: Text(
-                                _getStatusText(),
-                                style: context.typography.xs.copyWith(
-                                  color: statusColor,
-                                  fontWeight: FontWeight.w600,
-                                ),
-                              ),
-                            ),
+                            OrderStatusBadge(status: order.status),
                           ],
                         ),
                       ],
