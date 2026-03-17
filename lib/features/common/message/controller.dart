@@ -146,6 +146,44 @@ class MessageController extends GetxController {
     }
   }
 
+  // ─── User Channel event handler (called by BottomNavController) ─────────────
+  void onUserChannelEvent(PusherEvent event) {
+    if (event.eventName != _pusherEventName) return;
+    if (event.data == null) return;
+
+    try {
+      final data = jsonDecode(event.data!) as Map<String, dynamic>;
+      final currentUserId =
+          StorageService.readMapData(key: LocalStorageKeys.user, mapKey: 'id')
+              as int?;
+      final incoming = MessageModel.fromApiJson(
+        data,
+        currentUserId: currentUserId,
+      );
+
+      final threadId = incoming.threadId?.toString();
+      if (threadId == null) return;
+      final idx = filteredMessages.indexWhere((t) => t.id == threadId);
+      if (idx != -1) {
+        filteredMessages[idx] = filteredMessages[idx].copyWith(
+          newestMessage: incoming.text,
+          newestMessageSender: incoming.sender,
+          time: MessageModel.diffForHumans(DateTime.now().toIso8601String()),
+          isRead: incoming.isSender,
+          unreadMessages: incoming.isSender
+              ? 0
+              : filteredMessages[idx].unreadMessages + 1,
+        );
+      }
+
+      logger.i(
+        '[MessageController] [UserChannel] Updated preview for thread=$threadId',
+      );
+    } catch (e) {
+      logger.e('[MessageController] [UserChannel] Error parsing event: $e');
+    }
+  }
+
   // ─── Message Detail ──────────────────────────────────────────────────────────
 
   /// Opens a thread and loads the first page of messages from the API.
@@ -173,6 +211,9 @@ class MessageController extends GetxController {
         unreadMessages: 0,
       );
     }
+
+    _unsubscribeThread();
+
     logger.i(
       '[MessageController] [closeThread] Updated preview for thread=$threadId',
     );
