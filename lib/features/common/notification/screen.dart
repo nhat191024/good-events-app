@@ -74,7 +74,10 @@ class NotificationScreen extends GetView<NotificationController> {
       return ListView.separated(
         padding: const EdgeInsets.all(16),
         itemCount: items.length,
-        separatorBuilder: (context, index) => const Divider(height: 32),
+        separatorBuilder: (context, index) => const Divider(
+          height: 20,
+          color: Colors.transparent,
+        ),
         itemBuilder: (context, index) {
           final item = items[index];
           return Row(
