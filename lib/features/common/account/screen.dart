@@ -33,7 +33,7 @@ class AccountScreen extends GetView<AccountController> {
                       mainAxisAlignment: MainAxisAlignment.start,
                       children: [
                         FAvatar(
-                          image: NetworkImage(controller.avatar.value),
+                          image: CachedNetworkImageProvider(controller.avatar.value),
                           size: 46.0,
                           semanticsLabel: 'User avatar',
                           fallback: const Text('ST'),
