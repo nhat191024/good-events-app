@@ -16,6 +16,7 @@ class ShowController extends GetxController
   final searchController = TextEditingController();
 
   late TabController tabController;
+  final _tabInitialized = [false, false, false];
 
   // --- New tab (status: pending) ---
   final ScrollController scrollController = ScrollController();
@@ -44,13 +45,27 @@ class ShowController extends GetxController
   void onInit() {
     super.onInit();
     tabController = TabController(length: 3, vsync: this);
+    tabController.addListener(_onTabChanged);
+
+    // Only fetch the default (first) tab on init
     _fetchNewBills(reset: true);
-    _fetchUpcomingBills(reset: true);
-    _fetchHistoryBills(reset: true);
+    _tabInitialized[0] = true;
 
     scrollController.addListener(_onScroll);
     upcomingScrollController.addListener(_onUpcomingScroll);
     historyScrollController.addListener(_onHistoryScroll);
+  }
+
+  void _onTabChanged() {
+    if (tabController.indexIsChanging) return;
+    final index = tabController.index;
+    if (_tabInitialized[index]) return;
+    _tabInitialized[index] = true;
+    if (index == 1) {
+      _fetchUpcomingBills(reset: true);
+    } else if (index == 2) {
+      _fetchHistoryBills(reset: true);
+    }
   }
 
   void switchTab(int index) {
@@ -59,6 +74,7 @@ class ShowController extends GetxController
 
   Future<void> refreshData() async {
     final index = tabController.index;
+    _tabInitialized[index] = true;
     if (index == 0) {
       await _fetchNewBills(reset: true);
     } else if (index == 1) {
@@ -77,6 +93,7 @@ class ShowController extends GetxController
       newBills.clear();
       isLoading.value = true;
     }
+    
     try {
       final response = await _repository.getBills(
         status: 'pending',
