@@ -39,6 +39,7 @@ class Pages {
       transition: Transition.rightToLeft,
       transitionDuration: const Duration(milliseconds: 300),
     ),
+    
     GetPage(
       name: Routes.notification,
       page: () => const NotificationScreen(),
