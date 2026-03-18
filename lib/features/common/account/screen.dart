@@ -33,7 +33,9 @@ class AccountScreen extends GetView<AccountController> {
                       mainAxisAlignment: MainAxisAlignment.start,
                       children: [
                         FAvatar(
-                          image: CachedNetworkImageProvider(controller.avatar.value),
+                          image: CachedNetworkImageProvider(
+                            controller.avatar.value,
+                          ),
                           size: 46.0,
                           semanticsLabel: 'User avatar',
                           fallback: const Text('ST'),
@@ -86,7 +88,8 @@ class AccountScreen extends GetView<AccountController> {
               onLoading: controller.onLoadMore,
               child: Stack(
                 children: [
-                  WalletHeader(controller: controller),
+                  if (controller.role.value == 'partner')
+                    WalletHeader(controller: controller),
                   Column(
                     children: [
                       Expanded(

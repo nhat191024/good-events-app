@@ -29,6 +29,12 @@ class AccountController extends GetxController {
               '')
           .toString()
           .obs;
+
+  RxString role =
+      (StorageService.readMapData(key: LocalStorageKeys.user, mapKey: 'role') ??
+              '')
+          .toString()
+          .obs;
   final RxBool saveBankInfo = false.obs;
 
   //============================================================================
