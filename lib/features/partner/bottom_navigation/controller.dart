@@ -7,8 +7,6 @@ class PartnerBottomNavigationController extends GetxController {
   final RxInt currentIndex = 0.obs;
   var isReverse = false.obs;
 
-  final ShowController showController = Get.find<ShowController>();
-
   String? _userChannel;
 
   @override
@@ -28,7 +26,9 @@ class PartnerBottomNavigationController extends GetxController {
         StorageService.readMapData(key: LocalStorageKeys.user, mapKey: 'id')
             as int?;
     if (userId == null) {
-      logger.w('[PartnerBottomNav] [UserChannel] userId is null, skipping subscribe');
+      logger.w(
+        '[PartnerBottomNav] [UserChannel] userId is null, skipping subscribe',
+      );
       return;
     }
     final channelName = 'private-user-messages.$userId';
@@ -53,7 +53,9 @@ class PartnerBottomNavigationController extends GetxController {
       '[PartnerBottomNav] [UserChannel] Raw event → name="${event.eventName}" data=${event.data}',
     );
     if (!Get.isRegistered<MessageController>()) {
-      logger.w('[PartnerBottomNav] [UserChannel] MessageController not registered, skipping');
+      logger.w(
+        '[PartnerBottomNav] [UserChannel] MessageController not registered, skipping',
+      );
       return;
     }
     Get.find<MessageController>().onUserChannelEvent(event);
