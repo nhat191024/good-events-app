@@ -39,11 +39,17 @@ class Pages {
       transition: Transition.rightToLeft,
       transitionDuration: const Duration(milliseconds: 300),
     ),
-    
+
     GetPage(
       name: Routes.notification,
       page: () => const NotificationScreen(),
       binding: NotificationBinding(),
+    ),
+
+    GetPage(
+      name: Routes.myProfile,
+      page: () => const MyProfileScreen(),
+      binding: MyProfileBinding(),
     ),
 
     //Guest

@@ -7,6 +7,7 @@ export 'package:sukientotapp/features/common/auth/register/binding.dart';
 export 'package:sukientotapp/features/common/user_verify/binding.dart';
 export 'package:sukientotapp/features/common/notification/binding.dart';
 export 'package:sukientotapp/features/common/introduction/binding.dart';
+export 'package:sukientotapp/features/common/my_profile/binding.dart';
 
 //Guest
 export 'package:sukientotapp/features/common/home/binding.dart';
