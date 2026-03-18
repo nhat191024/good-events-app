@@ -46,8 +46,6 @@ class ShowController extends GetxController
     super.onInit();
     tabController = TabController(length: 3, vsync: this);
     tabController.addListener(_onTabChanged);
-
-    // Only fetch the default (first) tab on init
     _fetchNewBills(reset: true);
     _tabInitialized[0] = true;
 
@@ -93,7 +91,7 @@ class ShowController extends GetxController
       newBills.clear();
       isLoading.value = true;
     }
-    
+
     try {
       final response = await _repository.getBills(
         status: 'pending',
@@ -243,7 +241,9 @@ class ShowController extends GetxController
       await _repository.completeBill(billId);
       final index = upcomingBills.indexWhere((b) => b.id == billId);
       if (index != -1) {
-        final completedBill = upcomingBills[index].copyWith(status: 'completed');
+        final completedBill = upcomingBills[index].copyWith(
+          status: 'completed',
+        );
         upcomingBills.removeAt(index);
         historyBills.insert(0, completedBill);
       } else {
