@@ -1,5 +1,4 @@
 import 'package:get_storage/get_storage.dart';
-import 'package:stack_trace/stack_trace.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 
 // Import các file của bạn (giữ nguyên)
@@ -8,31 +7,6 @@ import 'package:sukientotapp/core/utils/app_translations.dart';
 import 'package:sukientotapp/features/common/dev_overlay/dev_overlay.dart';
 
 void main() async {
-  // Chain.capture(
-  //   () async {
-  //     WidgetsFlutterBinding.ensureInitialized();
-  //     FlutterError.onError = (FlutterErrorDetails details) {
-  //       final terseTrace = Trace.from(details.stack!).terse;
-  //       debugPrint('--- WE HAVE FUKIN PROBLEM ---');
-  //       debugPrint(terseTrace.toString());
-  //     };
-  //     await dotenv.load();
-  //     await GetStorage.init();
-
-  //     // hide annoying gray bg of the status bar
-  //     SystemChrome.setSystemUIOverlayStyle(
-  //       SystemUiOverlayStyle(
-  //         statusBarColor: Colors.transparent,
-  //       ),
-  //     );
-  //     runApp(const GoodEvent());
-  //   },
-  //   onError: (error, stackChain) {
-  //     debugPrint('--- ASYNCHRONOUS IS FKED ---');
-  //     debugPrint('Error: $error');
-  //     debugPrint(stackChain.terse.toString());
-  //   },
-  // );
   WidgetsFlutterBinding.ensureInitialized();
   await dotenv.load();
   await GetStorage.init();
