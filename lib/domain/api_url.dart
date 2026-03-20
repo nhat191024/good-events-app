@@ -40,9 +40,11 @@ class AppUrl {
   static String clientOrderDetail(int id) => '/orders/$id/details';
   static const String clientAssetOrders = '/asset-orders';
   static const String choosePartner = '/orders/choose-partner';
+  static const String checkVoucherDiscount = '/orders/voucher-discount';
   static const String cancelOrder = '/orders/cancel';
   static const String reportBill = '/report/bill';
   static const String submitReview = '/orders/submit-review';
+  static const String validateVoucher = '/orders/validate-voucher';
 
   // Chat / Threads
   static const String chats = '/chat';
