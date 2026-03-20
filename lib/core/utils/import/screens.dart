@@ -7,6 +7,7 @@ export 'package:sukientotapp/features/common/auth/register/screen.dart';
 export 'package:sukientotapp/features/common/user_verify/screen.dart';
 export 'package:sukientotapp/features/common/notification/screen.dart';
 export 'package:sukientotapp/features/common/introduction/screen.dart';
+export 'package:sukientotapp/features/common/my_profile/screen.dart';
 
 //Guest
 export 'package:sukientotapp/features/common/home/screen.dart';
