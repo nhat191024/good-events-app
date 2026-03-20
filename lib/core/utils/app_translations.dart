@@ -61,7 +61,8 @@ class AppTranslations extends Translations {
 
       // verify screen
       'verify_account_title': 'Xác thực tài khoản',
-      'verify_account_subtitle': 'Chọn phương thức bạn muốn dùng để xác thực tài khoản.',
+      'verify_account_subtitle':
+          'Chọn phương thức bạn muốn dùng để xác thực tài khoản.',
       'verify_via_email': 'Xác thực qua Email',
       'verify_via_zalo': 'Xác thực qua Zalo',
       'verify_zalo_subtitle': 'Gửi mã OTP đến @phone',
@@ -128,7 +129,8 @@ class AppTranslations extends Translations {
       'about_the': 'về',
       'service': 'dịch vụ',
       'reference_price': 'Giá tham khảo',
-      'contact_to_get_detail_and_best_deal': 'Liên hệ để nhận báo giá chi tiết và ưu đãi tốt nhất.',
+      'contact_to_get_detail_and_best_deal':
+          'Liên hệ để nhận báo giá chi tiết và ưu đãi tốt nhất.',
       'partner_trustworthy': 'Đối tác uy tín, đã được xác minh.',
       'partner_professional': 'Phục vụ chuyên nghiệp, tận tâm.',
       'partner_competitive': 'Giá cả cạnh tranh, minh bạch.',
@@ -146,7 +148,8 @@ class AppTranslations extends Translations {
       'booking_event_custom': 'Nội dung sự kiện (Tùy chọn)',
       'booking_event_custom_placeholder': 'VD: Tổ chức thăm lăng bác',
       'booking_note_optional': 'Ghi chú bổ sung (Tùy chọn)',
-      'booking_note_placeholder': 'VD: Cần người mặc đồng phục có tông màu vàng',
+      'booking_note_placeholder':
+          'VD: Cần người mặc đồng phục có tông màu vàng',
       'booking_location': 'Địa điểm tổ chức',
       'booking_location_ward': 'Phường/Xã',
       'booking_select_province': 'Chọn tỉnh/thành',
@@ -162,11 +165,14 @@ class AppTranslations extends Translations {
       'event_type_conference': 'Hội nghị',
       'event_type_birthday': 'Sinh nhật',
       'booking_stage_time_title': 'Chọn thời gian',
-      'booking_stage_time_subtitle': 'Chọn giờ bắt đầu, kết thúc và ngày tổ chức.',
+      'booking_stage_time_subtitle':
+          'Chọn giờ bắt đầu, kết thúc và ngày tổ chức.',
       'booking_stage_event_title': 'Nội dung sự kiện',
-      'booking_stage_event_subtitle': 'Cho biết nội dung hoặc ghi chú cần thiết.',
+      'booking_stage_event_subtitle':
+          'Cho biết nội dung hoặc ghi chú cần thiết.',
       'booking_stage_location_title': 'Địa điểm tổ chức',
-      'booking_stage_location_subtitle': 'Chọn khu vực và nhập địa chỉ chi tiết.',
+      'booking_stage_location_subtitle':
+          'Chọn khu vực và nhập địa chỉ chi tiết.',
       'start_over': 'Bắt đầu lại',
 
       // client order
@@ -218,7 +224,6 @@ class AppTranslations extends Translations {
           'Vui lòng đợi một lúc, chúng tôi đang gửi thông báo đến cho các đối tác gần đó và sẽ tải lại trang cho bạn',
       'proposed_partner_price': 'Giá đối tác đề xuất',
       'completion_rate': 'Tỷ lệ hoàn thành',
-      'cancellation_rate': 'Tỉ lệ hủy',
       'profile': 'Hồ sơ',
       'choose_partner': 'Chọn đối tác',
       'cancel_order': 'Hủy đơn hàng',
@@ -231,22 +236,20 @@ class AppTranslations extends Translations {
       'review_service': 'Nhận xét về dịch vụ',
       'share_experience': 'chia sẻ trải nghiệm của bạn...',
       'submit_review': 'Gửi đánh giá',
-      'cancel': 'Hủy',
       'evaluate': 'Đánh giá',
       'arrival_photo_banner': 'Ảnh đã đến nơi',
       'click_to_view_photo': 'Bấm để xem ảnh',
       'detailed_rental_info': 'Thông tin thuê chi tiết',
       'detailed_history_info': 'Chi tiết lịch sử đơn',
       'event_date': 'Ngày sự kiện',
-      'time': 'Thời gian',
-      'location': 'Địa điểm',
       'event_type': 'Loại sụ kiện',
       'special_note': 'Ghi chú đặc biệt',
       'none': 'Không',
       'order_creation_time': 'Thời gian tạo đơn',
       'chosen_partner': 'Đối tác đã chốt',
       'sealing_price': 'Giá niêm phong',
-      'apply_voucher_code': 'Mã giảm giá (Áp dụng vào giá chốt của ứng viên bạn chọn)',
+      'apply_voucher_code':
+          'Mã giảm giá (Áp dụng vào giá chốt của ứng viên bạn chọn)',
       'apply_code': 'Áp dụng mã',
       'check_and_save_code': 'Kiểm tra & Lưu mã',
       'voucher_placeholder': 'VD: N1993+1...',
@@ -357,11 +360,20 @@ class AppTranslations extends Translations {
       'address': 'Địa chỉ',
 
       'verified': 'Đã xác minh',
+      'unverified': 'Chưa xác minh',
 
       'currency': 'VND',
 
       'click_to_upload': 'Nhấn để tải ảnh lên',
       'upload_description': 'PNG, JPG, JPEG, WEBP (Tối đa 5MB)',
+
+      'completed_orders': 'Đơn đã hoàn thành',
+      'cancellation_rate': 'Tỷ lệ hủy',
+
+      'stage_name': 'Nghệ danh',
+
+      'front': 'Mặt trước',
+      'back': 'Mặt sau',
 
       ///Show
       'take_order': 'Nhận show',
@@ -385,10 +397,12 @@ class AppTranslations extends Translations {
       'loading_with_dot': 'Đang tải...',
 
       'upload_arrived_photo': 'Tải ảnh đã đến nơi',
-      'upload_arrived_photo_desc': 'Tải ảnh lên để xác nhận bạn đã đến địa điểm.',
+      'upload_arrived_photo_desc':
+          'Tải ảnh lên để xác nhận bạn đã đến địa điểm.',
 
       'confirm_complete': 'Xác nhận hoàn thành',
-      'confirm_complete_message': 'Bạn có chắc chắn muốn đánh dấu đơn này là đã hoàn thành?',
+      'confirm_complete_message':
+          'Bạn có chắc chắn muốn đánh dấu đơn này là đã hoàn thành?',
 
       'complete_bill_success': 'Đơn đã được hoàn thành!',
       'insufficient_balance': 'Số dư không đủ để hoàn thành đơn!',
@@ -477,6 +491,16 @@ class AppTranslations extends Translations {
       'no_balance_description_1': 'Số dư của bạn hiện là',
       "no_balance_description_2": "vui lòng nạp tiền vào ví.",
 
+      'province': 'Thành phố',
+      'select_province_first': 'Vui lòng chọn thành phố trước',
+      'select_province': 'Chọn thành phố',
+      'ward': 'Phường',
+      'select_district': 'Chọn phường xã',
+
+      'selfie_image': 'Ảnh selfie',
+      'identity_card_image_front': 'Ảnh CCCD mặt trước',
+      'identity_card_image_back': 'Ảnh CCCD mặt sau',
+
       ///Statuses
       'success': 'Thành công',
       'failed': 'Thất bại',
@@ -495,6 +519,7 @@ class AppTranslations extends Translations {
       'start': 'Bắt đầu',
       'previous': 'Trước',
       'skip': 'Bỏ qua',
+      'cancel': 'Hủy',
       'done': 'Xong',
       'confirm': 'Xác nhận',
       'take_photo': 'Chụp ảnh',
@@ -605,7 +630,8 @@ class AppTranslations extends Translations {
       'about_the': 'about the',
       'service': 'service',
       'reference_price': 'Reference price',
-      'contact_to_get_detail_and_best_deal': 'Contact to get detail and best deal',
+      'contact_to_get_detail_and_best_deal':
+          'Contact to get detail and best deal',
       'partner_trustworthy': 'A trusted partner, fully verified.',
       'partner_professional': 'Professional and dedicated service.',
       'partner_competitive': 'Competitive and transparent pricing.',
@@ -621,7 +647,8 @@ class AppTranslations extends Translations {
       'booking_event_type': 'Event type',
       'booking_event_type_placeholder': 'Select event type',
       'booking_event_custom': 'Event details (Optional)',
-      'booking_event_custom_placeholder': "e.g., Visit the President's Mausoleum",
+      'booking_event_custom_placeholder':
+          "e.g., Visit the President's Mausoleum",
       'booking_note_optional': 'Additional notes (Optional)',
       'booking_note_placeholder': 'e.g., Need staff with yellow uniforms',
       'booking_location': 'Location',
@@ -641,9 +668,11 @@ class AppTranslations extends Translations {
       'booking_stage_time_title': 'Select time',
       'booking_stage_time_subtitle': 'Pick start/end time and event date.',
       'booking_stage_event_title': 'Event details',
-      'booking_stage_event_subtitle': 'Describe the event and add notes if needed.',
+      'booking_stage_event_subtitle':
+          'Describe the event and add notes if needed.',
       'booking_stage_location_title': 'Select location',
-      'booking_stage_location_subtitle': 'Choose area and enter detailed address.',
+      'booking_stage_location_subtitle':
+          'Choose area and enter detailed address.',
       'start_over': 'Start over',
 
       // client order
@@ -663,7 +692,6 @@ class AppTranslations extends Translations {
       'review_service': 'Service Review',
       'share_experience': 'share your experience...',
       'submit_review': 'Submit Review',
-      'cancel': 'Cancel',
 
       // Event Orders - Status
       'status_pending': 'Pending',
@@ -705,7 +733,6 @@ class AppTranslations extends Translations {
           'Please wait a moment, we are sending notifications to nearby partners and will reload the page for you.',
       'proposed_partner_price': 'Partner Proposed Price',
       'completion_rate': 'Completion Rate',
-      'cancellation_rate': 'Cancellation Rate',
       'profile': 'Profile',
       'choose_partner': 'Choose Partner',
       'evaluate': 'Evaluate',
@@ -714,15 +741,14 @@ class AppTranslations extends Translations {
       'detailed_rental_info': 'Detailed Rental Info',
       'detailed_history_info': 'Detailed History Info',
       'event_date': 'Event Date',
-      'time': 'Time',
-      'location': 'Location',
       'event_type': 'Event Type',
       'special_note': 'Special Note',
       'none': 'None',
       'order_creation_time': 'Order Creation Time',
       'chosen_partner': 'Chosen Partner',
       'sealing_price': 'Sealing Price',
-      'apply_voucher_code': 'Voucher Code (Applied to the final price of the chosen applicant)',
+      'apply_voucher_code':
+          'Voucher Code (Applied to the final price of the chosen applicant)',
       'apply_code': 'Apply Code',
       'check_and_save_code': 'Check & Save Code',
       'voucher_placeholder': 'EX: N1993+1...',
@@ -745,7 +771,8 @@ class AppTranslations extends Translations {
       'choose_partner_failed': 'Failed to choose partner.',
 
       // Cancel Order Dialog
-      'confirm_cancel_order_title': 'Are you sure you want to cancel the order?',
+      'confirm_cancel_order_title':
+          'Are you sure you want to cancel the order?',
       'confirm_cancel_order_desc':
           'This cancellation may increase your account\'s cancellation rate. You will need confirmation if you have already finalized with a partner. In that case, please chat with the partner before cancelling!',
       'cancel_order_no_btn': 'No, my mistake',
@@ -795,7 +822,6 @@ class AppTranslations extends Translations {
       'income': 'Thu nhập',
 
       'calendar': 'Calendar',
-
       'customer': 'Customer',
       'partner': 'Partner',
       'service_provider': 'Service Provider',
@@ -809,11 +835,23 @@ class AppTranslations extends Translations {
       'address': 'Address',
 
       'verified': 'Verified',
+      'unverified': 'Unverified',
 
       'currency': 'VNĐ',
 
       'click_to_upload': 'Click to upload',
       'upload_description': 'PNG, JPG, JPEG, WEBP (Maximum 5MB)',
+
+      'completed_orders': 'Completed Orders',
+      'cancellation_rate': 'Cancelled rate',
+
+      'stage_name': 'Stage name',
+
+      'front': 'Front',
+      'back': 'Back',
+
+      'id_number': 'ID Number',
+      'id_card': 'ID Card',
 
       ///Show
       'take_order': 'Take show',
@@ -854,10 +892,12 @@ class AppTranslations extends Translations {
       'loading_with_dot': 'Loading...',
 
       'upload_arrived_photo': 'Upload arrived photo',
-      'upload_arrived_photo_desc': 'Upload a photo to confirm you have arrived at the location.',
+      'upload_arrived_photo_desc':
+          'Upload a photo to confirm you have arrived at the location.',
 
       'confirm_complete': 'Confirm completion',
-      'confirm_complete_message': 'Are you sure you want to mark this bill as completed?',
+      'confirm_complete_message':
+          'Are you sure you want to mark this bill as completed?',
 
       'complete_bill_success': 'The bill has been completed!',
       'insufficient_balance': 'Insufficient balance to complete the bill!',
@@ -877,7 +917,7 @@ class AppTranslations extends Translations {
 
       'needs': 'Needs',
 
-      //messages
+      ///messages
       'no_messages': 'No messages yet',
       'no_further_messages': 'No further messages',
 
@@ -886,7 +926,7 @@ class AppTranslations extends Translations {
       'conversation': 'Conversation',
       'type_a_message': 'Type a message...',
 
-      //account
+      ///account
       'general_setting': 'General Setting',
       'more_setting': 'More Setting',
 
@@ -916,6 +956,16 @@ class AppTranslations extends Translations {
       'no_balance_description_1': 'Your current balance is',
       "no_balance_description_2": "please add balance to your wallet.",
 
+      'province': 'City',
+      'select_province_first': 'Please select city first',
+      'select_province': 'Select City',
+      'ward': 'Ward',
+      'select_district': 'Select ward',
+
+      'selfie_image': 'Selfie Image',
+      'identity_card_image_front': 'Identity Card Image Front',
+      'identity_card_image_back': 'Identity Card Image Back',
+
       ///Statuses
       'success': 'Success',
       'failed': 'Failed',
@@ -940,7 +990,7 @@ class AppTranslations extends Translations {
       'year_ago': '@count year ago',
       'years_ago': '@count years ago',
 
-      //buttons
+      ///buttons
       'next': 'Next',
       'register': 'Register',
       'login': 'Login',
@@ -953,8 +1003,9 @@ class AppTranslations extends Translations {
       'confirm': 'Confirm',
       'take_photo': 'Take Photo',
       'complete': 'Complete',
+      'edit_profile': 'Edit Profile',
 
-      // Asset Order Detail
+      /// Asset Order Detail
       'asset_order_detail_title': 'Design Order Detail',
       'asset_order_details': 'Order Information',
       'order_id': 'Order ID',
