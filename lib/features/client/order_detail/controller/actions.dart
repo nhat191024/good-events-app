@@ -31,7 +31,12 @@ extension ClientOrderDetailActions on ClientOrderDetailController {
       logger.e('Error fetching order details: $e');
     } finally {
       if (showLoading) isLoadingDetails.value = false;
+      refreshController.refreshCompleted();
     }
+  }
+
+  void onRefresh() async {
+    await fetchOrderDetails();
   }
 
   Future<void> choosePartner({
@@ -40,6 +45,39 @@ extension ClientOrderDetailActions on ClientOrderDetailController {
     required String partnerName,
   }) async {
     final context = Get.context!;
+    String? finalVoucherCode = ClientOrderDetailState.savedVouchers[orderId]?.code;
+    double? discountValue;
+
+    if (finalVoucherCode != null && finalVoucherCode.isNotEmpty) {
+      Get.dialog(
+        const Center(child: CircularProgressIndicator(color: Colors.white)),
+        barrierDismissible: false,
+      );
+      try {
+        final result = await _repository.checkVoucherDiscount(
+          orderId: orderId,
+          partnerId: partnerId,
+          voucherInput: finalVoucherCode,
+        );
+        if (Get.isDialogOpen == true) Get.back();
+
+        if (result['status'] == true && result['discount'] != null) {
+          final dynDiscount = result['discount'];
+          if (dynDiscount is num && dynDiscount > 0) {
+            discountValue = dynDiscount.toDouble();
+          } else {
+            finalVoucherCode = null;
+          }
+        } else {
+          finalVoucherCode = null;
+        }
+      } catch (e) {
+        if (Get.isDialogOpen == true) Get.back();
+        finalVoucherCode = null;
+        logger.e('Error checking voucher discount: $e');
+      }
+    }
+
     final confirmed = await Get.dialog<bool>(
       Dialog(
         shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(8)),
@@ -77,8 +115,19 @@ extension ClientOrderDetailActions on ClientOrderDetailController {
                               const TextSpan(text: '\n'),
                               TextSpan(text: 'partner_proposed_price_label'.tr),
                               TextSpan(
-                                text:
-                                    '${NumberFormat.currency(locale: 'vi_VN', symbol: '', decimalDigits: 0).format(amount)} đ',
+                                children: [
+                                  TextSpan(
+                                    text:
+                                        '${NumberFormat.currency(locale: 'vi_VN', symbol: '', decimalDigits: 0).format(amount)} đ',
+                                  ),
+                                  if (discountValue != null) ...[
+                                    TextSpan(text: '\n${'discount_from_voucher'.tr}'),
+                                    TextSpan(
+                                      text:
+                                          '${NumberFormat.currency(locale: 'vi_VN', symbol: '', decimalDigits: 0).format(amount - discountValue)} đ (-${NumberFormat.currency(locale: 'vi_VN', symbol: '', decimalDigits: 0).format(discountValue)} đ)',
+                                    ),
+                                  ],
+                                ],
                                 style: const TextStyle(
                                   color: Color(0xFFC62828), // Colors.red[800]
                                   fontWeight: FontWeight.bold,
@@ -143,6 +192,7 @@ extension ClientOrderDetailActions on ClientOrderDetailController {
       final result = await _repository.choosePartner(
         orderId: orderId,
         partnerId: partnerId,
+        voucherCode: finalVoucherCode,
       );
 
       if (result['success'] == true) {
@@ -315,5 +365,53 @@ extension ClientOrderDetailActions on ClientOrderDetailController {
     } finally {
       isSubmittingReview.value = false;
     }
+  }
+
+  Future<void> checkVoucher() async {
+    final code = voucherController.text.trim();
+    if (code.isEmpty) {
+      Get.snackbar(
+        'error'.tr,
+        'please_enter_voucher_code'.tr,
+        backgroundColor: const Color(0xFFFFEBEE),
+        colorText: const Color(0xFFB71C1C),
+      );
+      return;
+    }
+
+    isCheckingVoucher.value = true;
+    try {
+      final result = await _repository.validateVoucher(
+        orderId: orderId,
+        voucherInput: code,
+      );
+
+      if (result['status'] == true && result['details'] != null) {
+        final voucher = VoucherModel.fromJson(result['details']);
+        ClientOrderDetailState.savedVouchers[orderId] = voucher;
+        showVoucherResultBottomSheet(voucher);
+      } else {
+        Get.snackbar(
+          'error'.tr,
+          result['message'] ?? 'fetch_failed'.tr,
+          backgroundColor: const Color(0xFFFFEBEE),
+          colorText: const Color(0xFFB71C1C),
+        );
+      }
+    } catch (e) {
+      logger.e('Error checking voucher: $e');
+      Get.snackbar('error'.tr, 'network_error'.tr);
+    } finally {
+      isCheckingVoucher.value = false;
+    }
+  }
+
+  void showVoucherResultBottomSheet(VoucherModel voucher) {
+    Get.bottomSheet(
+      VoucherDetailsBottomSheet(voucher: voucher),
+      isScrollControlled: true,
+      backgroundColor: Colors.transparent,
+      ignoreSafeArea: false,
+    );
   }
 }

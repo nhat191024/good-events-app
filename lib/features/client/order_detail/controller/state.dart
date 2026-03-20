@@ -23,6 +23,11 @@ mixin ClientOrderDetailState {
   final reviewCommentController = TextEditingController();
   final RxBool isSubmittingReview = false.obs;
 
+  // Voucher State
+  final voucherController = TextEditingController();
+  final isCheckingVoucher = false.obs;
+  static final savedVouchers = <int, VoucherModel>{}.obs;
+
   // Unified Getters
   int get orderId {
     if (isHistory.value && _historyOrder.value != null) return _historyOrder.value!.id;
@@ -186,5 +191,12 @@ mixin ClientOrderDetailState {
     // AND it has someone to chat with (confirmed or in_job)
     if (isHistory.value) return false;
     return status == 'confirmed' || status == 'in_job' || status == 'completed';
+  }
+
+  HistoryReviewModel? get review {
+    if (isHistory.value && _historyOrder.value != null) {
+      return _historyOrder.value!.review;
+    }
+    return null;
   }
 }
