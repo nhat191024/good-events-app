@@ -255,14 +255,16 @@ class PartnerItem extends StatelessWidget {
               ),
             ),
             const SizedBox(height: 8),
-            Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 4),
-              child: Text(
-                textAlign: TextAlign.center,
-                partner.name,
-                maxLines: 2,
-                overflow: TextOverflow.ellipsis,
-                style: const TextStyle(fontSize: 12, fontWeight: FontWeight.normal),
+            Flexible(
+              child: Padding(
+                padding: const EdgeInsets.symmetric(horizontal: 4),
+                child: Text(
+                  textAlign: TextAlign.center,
+                  partner.name,
+                  maxLines: 2,
+                  overflow: TextOverflow.visible,
+                  style: const TextStyle(fontSize: 12, fontWeight: FontWeight.normal),
+                ),
               ),
             ),
           ],

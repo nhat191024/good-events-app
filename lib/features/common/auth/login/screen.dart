@@ -7,6 +7,11 @@ class LoginScreen extends GetView<LoginController> {
   @override
   Widget build(BuildContext context) {
     return FScaffold(
+      header: Container(
+        alignment: Alignment.centerLeft,
+        padding: const EdgeInsets.only(top: 22),
+        child: BackButton(),
+      ),
       child: Form(
         key: controller.loginFormKey,
         child: Column(
@@ -32,8 +37,7 @@ class LoginScreen extends GetView<LoginController> {
                   label: Text('username'.tr),
                   hint: 'username_hint'.tr,
                   autovalidateMode: AutovalidateMode.onUserInteraction,
-                  validator: (value) =>
-                      value != null ? null : 'username_invalid'.tr,
+                  validator: (value) => value != null ? null : 'username_invalid'.tr,
                 ),
               ],
             ),
@@ -49,8 +53,7 @@ class LoginScreen extends GetView<LoginController> {
                   label: Text('password'.tr),
                   hint: 'password_hint'.tr,
                   autovalidateMode: AutovalidateMode.onUserInteraction,
-                  validator: (value) =>
-                      8 <= (value?.length ?? 0) ? null : 'password_invalid'.tr,
+                  validator: (value) => 8 <= (value?.length ?? 0) ? null : 'password_invalid'.tr,
                 ),
               ],
             ),
@@ -59,9 +62,7 @@ class LoginScreen extends GetView<LoginController> {
             Obx(
               () => FButton(
                 onPress: controller.isLoading.value ? null : controller.login,
-                child: controller.isLoading.value
-                    ? Text('logging_loading'.tr)
-                    : Text('login'.tr),
+                child: controller.isLoading.value ? Text('logging_loading'.tr) : Text('login'.tr),
               ),
             ),
             const SizedBox(height: 20),

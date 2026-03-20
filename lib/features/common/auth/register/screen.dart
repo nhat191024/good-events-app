@@ -8,6 +8,11 @@ class RegisterScreen extends GetView<RegisterController> {
   @override
   Widget build(BuildContext context) {
     return FScaffold(
+      header: Container(
+        alignment: Alignment.centerLeft,
+        padding: const EdgeInsets.only(top: 22),
+        child: BackButton(),
+      ),
       child: Form(
         key: controller.registerFormKey,
         child: SingleChildScrollView(
@@ -43,8 +48,7 @@ class RegisterScreen extends GetView<RegisterController> {
                 label: Text('full_name'.tr),
                 hint: 'name_hint'.tr,
                 autovalidateMode: AutovalidateMode.onUserInteraction,
-                validator: (value) =>
-                    (value?.isNotEmpty ?? false) ? null : 'name_invalid'.tr,
+                validator: (value) => (value?.isNotEmpty ?? false) ? null : 'name_invalid'.tr,
               ),
               const SizedBox(height: 16),
 
@@ -101,8 +105,7 @@ class RegisterScreen extends GetView<RegisterController> {
                 label: Text('password'.tr),
                 hint: 'password_hint'.tr,
                 autovalidateMode: AutovalidateMode.onUserInteraction,
-                validator: (value) =>
-                    8 <= (value?.length ?? 0) ? null : 'password_invalid'.tr,
+                validator: (value) => 8 <= (value?.length ?? 0) ? null : 'password_invalid'.tr,
               ),
 
               const SizedBox(height: 16),
@@ -134,9 +137,7 @@ class RegisterScreen extends GetView<RegisterController> {
 
               Obx(
                 () => FButton(
-                  onPress: controller.isLoading.value
-                      ? null
-                      : controller.register,
+                  onPress: controller.isLoading.value ? null : controller.register,
                   child: controller.isLoading.value
                       ? Text('creating_account_loading'.tr)
                       : Text('create_account_btn'.tr),

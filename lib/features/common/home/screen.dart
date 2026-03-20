@@ -1,4 +1,5 @@
 import 'package:sukientotapp/features/common/home/controller.dart';
+import 'package:sukientotapp/features/common/home/widget/category_intro_card.dart';
 import 'package:sukientotapp/features/common/home/widget/user_switch.dart';
 import 'package:sukientotapp/core/utils/import/global.dart';
 
@@ -15,21 +16,21 @@ class GuestHomeScreen extends GetView<GuestHomeController> {
   @override
   Widget build(BuildContext context) {
     double statusBarHeight = MediaQuery.of(context).viewPadding.top;
-    double screenWidth = MediaQuery.of(context).size.width;
     TextEditingController searchController = TextEditingController();
 
     return FScaffold(
       header: Obx(
         () => Container(
-          padding: EdgeInsets.only(top: statusBarHeight, left: 16, right: 16),
+          padding: EdgeInsets.only(top: statusBarHeight, left: 16, right: 16, bottom: 5),
           width: double.infinity,
           decoration: BoxDecoration(
             gradient: LinearGradient(
               begin: Alignment.bottomCenter,
               end: Alignment.topCenter,
-              colors: controller.userType.value
-                  ? [Colors.yellow[800]!, Colors.yellow[500]!]
-                  : [Colors.red[900]!, Colors.red[500]!],
+              colors: [
+                AppColors.lightBackground,
+                AppColors.red50,
+              ],
             ),
           ),
           child: Column(
@@ -41,9 +42,9 @@ class GuestHomeScreen extends GetView<GuestHomeController> {
                   Text(
                     'home'.tr,
                     style: TextStyle(
-                      fontSize: 20,
+                      fontSize: 24,
                       fontWeight: FontWeight.bold,
-                      color: Colors.white,
+                      color: Colors.black,
                     ),
                   ),
                   Row(
@@ -54,7 +55,7 @@ class GuestHomeScreen extends GetView<GuestHomeController> {
                         style: TextStyle(
                           fontSize: 14,
                           fontWeight: FontWeight.bold,
-                          color: Colors.white,
+                          color: Colors.black,
                         ),
                       ),
                       SizedBox(width: 8),
@@ -79,46 +80,57 @@ class GuestHomeScreen extends GetView<GuestHomeController> {
               ),
               SizedBox(height: 12),
               //second row: CTA register
-              Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [
-                  //CTA register
-                  Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      SizedBox(
-                        width: screenWidth * 0.4,
-                        child: Text(
-                          'dont_have_account'.tr,
-                          style: TextStyle(
-                            fontSize: 16,
-                            color: Colors.white,
-                            fontWeight: FontWeight.bold,
+              Container(
+                padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
+                decoration: BoxDecoration(
+                  color: AppColors.red50,
+                  border: Border.all(color: AppColors.red200),
+                  borderRadius: BorderRadius.circular(16),
+                  boxShadow: [
+                    BoxShadow(
+                      color: AppColors.red200.withValues(alpha: 0.5),
+                      blurRadius: 10,
+                      offset: const Offset(0, 4),
+                    ),
+                  ],
+                ),
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    //CTA register text
+                    Expanded(
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Text(
+                            'dont_have_account'.tr,
+                            style: const TextStyle(
+                              fontSize: 16,
+                              color: Colors.black,
+                              fontWeight: FontWeight.bold,
+                            ),
                           ),
-                        ),
-                      ),
-                      SizedBox(height: 4),
-                      SizedBox(
-                        width: screenWidth * 0.5,
-                        child: Text(
-                          controller.userType.value
-                              ? 'partner_register_now'.tr
-                              : 'customer_register_now'.tr,
-                          softWrap: true,
-                          maxLines: 2,
-                          textAlign: TextAlign.left,
-                          style: TextStyle(
-                            fontSize: 12,
-                            color: Colors.white,
-                            fontWeight: FontWeight.normal,
+                          const SizedBox(height: 4),
+                          Text(
+                            controller.userType.value
+                                ? 'partner_register_now'.tr
+                                : 'customer_register_now'.tr,
+                            softWrap: true,
+                            maxLines: 2,
+                            textAlign: TextAlign.left,
+                            style: const TextStyle(
+                              fontSize: 12,
+                              color: Colors.black,
+                              fontWeight: FontWeight.normal,
+                            ),
                           ),
-                        ),
+                        ],
                       ),
-                    ],
-                  ),
-
-                  Image.asset(AppImages.placeHolder, width: 80),
-                ],
+                    ),
+                    const SizedBox(width: 8),
+                    Image.asset(AppImages.placeHolder, width: 80),
+                  ],
+                ),
               ),
             ],
           ),
@@ -137,15 +149,15 @@ class GuestHomeScreen extends GetView<GuestHomeController> {
                   onTap: () => Get.toNamed(Routes.registerScreen),
                   width: Get.width * 0.4,
                   color: Colors.white,
-                  textColor: controller.userType.value ? AppColors.amber500 : AppColors.primary,
-                  borderColor: controller.userType.value ? AppColors.amber500 : AppColors.primary,
+                  textColor: controller.userType.value ? AppColors.amber600 : AppColors.primary,
+                  borderColor: controller.userType.value ? AppColors.amber600 : AppColors.primary,
                 ),
                 CustomButtonPlus(
                   btnText: 'login'.tr,
                   onTap: () => Get.toNamed(Routes.loginScreen),
                   width: Get.width * 0.4,
-                  color: controller.userType.value ? AppColors.amber500 : AppColors.primary,
-                  borderColor: controller.userType.value ? AppColors.amber500 : AppColors.primary,
+                  color: controller.userType.value ? AppColors.amber600 : AppColors.primary,
+                  borderColor: controller.userType.value ? AppColors.amber600 : AppColors.primary,
                 ),
               ],
             ),
@@ -158,7 +170,7 @@ class GuestHomeScreen extends GetView<GuestHomeController> {
             Obx(
               () => controller.userType.value
                   ? Padding(
-                      padding: const EdgeInsets.fromLTRB(16, 12, 16, 0),
+                      padding: const EdgeInsets.fromLTRB(5, 12, 5, 0),
                       child: FakeSearchBar(
                         onTap: () {
                           searchController.clear();
@@ -179,6 +191,14 @@ class GuestHomeScreen extends GetView<GuestHomeController> {
             const Padding(
               padding: EdgeInsets.only(top: 12),
               child: GuestIntroCard(),
+            ),
+            Obx(
+              () => controller.userType.value
+                  ? const Padding(
+                      padding: EdgeInsets.only(top: 12),
+                      child: CategoryIntroCard(),
+                    )
+                  : const SizedBox.shrink(),
             ),
             const SizedBox(height: 16),
             Padding(

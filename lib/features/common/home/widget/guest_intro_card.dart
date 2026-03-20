@@ -23,23 +23,23 @@ class GuestIntroCard extends GetView<GuestHomeController> {
         boxShadow: [
           BoxShadow(
             color: const Color(0xFF6366F1).withValues(alpha: 0.3), // shadow-indigo-500/30
-            blurRadius: 15,
-            offset: const Offset(0, 10),
+            blurRadius: 8,
+            offset: const Offset(0, 5),
           ),
         ],
       ),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          Text(
-            'Sukientot.com'.toUpperCase(),
-            style: const TextStyle(
-              fontSize: 14,
-              fontWeight: FontWeight.w600,
-              letterSpacing: 1.5,
-              color: Color(0xCCFFFFFF), // white/80
-            ),
-          ),
+          // Text(
+          //   'Sukientot'.toUpperCase(),
+          //   style: const TextStyle(
+          //     fontSize: 14,
+          //     fontWeight: FontWeight.w600,
+          //     letterSpacing: 1.5,
+          //     color: Color(0xCCFFFFFF), // white/80
+          //   ),
+          // ),
           const SizedBox(height: 8),
           const Text(
             'Đặt show biểu diễn chỉ với một cú nhấp',
