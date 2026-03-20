@@ -47,4 +47,8 @@ class AppUrl {
   // Chat / Threads
   static const String chats = '/chat';
   static String chatMessages(String threadId) => '/chat/threads/$threadId/messages';
+
+  // Profile
+  static const String profile = '/profile/me';
+  static const String updateProfile = '/profile/update';
 }
