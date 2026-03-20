@@ -492,7 +492,9 @@ class AppTranslations extends Translations {
       'no_balance_description_1': 'Số dư của bạn hiện là',
       "no_balance_description_2": "vui lòng nạp tiền vào ví.",
 
+      'partner_name': 'Tên đối tác',
       'province': 'Thành phố',
+      'district': 'Phường',
       'select_province_first': 'Vui lòng chọn thành phố trước',
       'select_province': 'Chọn thành phố',
       'ward': 'Phường',
@@ -958,7 +960,9 @@ class AppTranslations extends Translations {
       'no_balance_description_1': 'Your current balance is',
       "no_balance_description_2": "please add balance to your wallet.",
 
+      'partner_name': 'Partner Name',
       'province': 'City',
+      'district': 'District',
       'select_province_first': 'Please select city first',
       'select_province': 'Select City',
       'ward': 'Ward',
