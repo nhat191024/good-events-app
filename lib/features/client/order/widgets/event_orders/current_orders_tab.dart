@@ -1,3 +1,4 @@
+import 'package:pull_to_refresh/pull_to_refresh.dart';
 import 'package:sukientotapp/core/utils/import/global.dart';
 import '../../controller.dart';
 import 'event_order_card.dart';
@@ -10,7 +11,7 @@ class CurrentOrdersTab extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Obx(() {
-      if (controller.isLoadingEventOrders.value) {
+      if (controller.isLoadingEventOrders.value && controller.eventOrders.isEmpty) {
         return _buildLoading();
       }
 
@@ -20,24 +21,18 @@ class CurrentOrdersTab extends StatelessWidget {
         return _buildEmpty(context);
       }
 
-      return NotificationListener<ScrollNotification>(
-        onNotification: (ScrollNotification scrollInfo) {
-          if (!controller.isFetchingMoreEvent.value &&
-              scrollInfo.metrics.pixels >= scrollInfo.metrics.maxScrollExtent - 100) {
-            controller.fetchEventOrders(loadMore: true);
-          }
-          return false;
-        },
+      return SmartRefresher(
+        controller: controller.eventRefreshController,
+        enablePullDown: true,
+        enablePullUp: true,
+        header: const ClassicHeader(),
+        footer: const ClassicFooter(),
+        onRefresh: controller.onRefreshEvent,
+        onLoading: controller.onLoadMoreEvent,
         child: ListView.builder(
           padding: const EdgeInsets.all(16),
-          itemCount: orders.length + (controller.isFetchingMoreEvent.value ? 1 : 0),
+          itemCount: orders.length,
           itemBuilder: (context, index) {
-            if (index == orders.length) {
-              return const Padding(
-                padding: EdgeInsets.symmetric(vertical: 16),
-                child: Center(child: CircularProgressIndicator()),
-              );
-            }
             return EventOrderCard(
               order: orders[index],
             );

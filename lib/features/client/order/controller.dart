@@ -1,3 +1,4 @@
+import 'package:pull_to_refresh/pull_to_refresh.dart';
 import 'package:sukientotapp/core/utils/import/global.dart';
 import 'package:sukientotapp/data/models/client/event_order_model.dart';
 import 'package:sukientotapp/data/models/client/history_order_model.dart';
@@ -15,6 +16,10 @@ class ClientOrderController extends GetxController with GetTickerProviderStateMi
   // Child tab controllers
   late TabController eventOrdersTabController; // Current | History
   late TabController assetOrdersTabController; // All | Pending | Paid | Cancelled
+
+  // Refresh controllers
+  final RefreshController eventRefreshController = RefreshController(initialRefresh: false);
+  final RefreshController historyRefreshController = RefreshController(initialRefresh: false);
 
   final RxInt currentParentTab = 0.obs;
   final RxInt currentEventOrdersTab = 0.obs;
@@ -126,10 +131,20 @@ class ClientOrderController extends GetxController with GetTickerProviderStateMi
     } finally {
       if (loadMore) {
         isFetchingMoreEvent.value = false;
+        eventRefreshController.loadComplete();
       } else {
         isLoadingEventOrders.value = false;
+        eventRefreshController.refreshCompleted();
       }
     }
+  }
+
+  void onRefreshEvent() async {
+    await fetchEventOrders();
+  }
+
+  void onLoadMoreEvent() async {
+    await fetchEventOrders(loadMore: true);
   }
 
   final RxInt historyCurrentPage = 1.obs;
@@ -165,10 +180,20 @@ class ClientOrderController extends GetxController with GetTickerProviderStateMi
     } finally {
       if (loadMore) {
         isFetchingMoreHistory.value = false;
+        historyRefreshController.loadComplete();
       } else {
         isLoadingHistoryOrders.value = false;
+        historyRefreshController.refreshCompleted();
       }
     }
+  }
+
+  void onRefreshHistory() async {
+    await fetchHistoryOrders();
+  }
+
+  void onLoadMoreHistory() async {
+    await fetchHistoryOrders(loadMore: true);
   }
 
   // Fetch Asset Orders from API

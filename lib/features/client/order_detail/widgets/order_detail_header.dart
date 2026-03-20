@@ -28,11 +28,7 @@ class OrderDetailHeader extends GetView<ClientOrderDetailController> {
               children: [
                 IconButton(
                   icon: Icon(Icons.refresh, color: Colors.grey[500]),
-                  onPressed: () {
-                    if (!controller.isHistory.value) {
-                      controller.fetchOrderDetails();
-                    }
-                  },
+                  onPressed: () => controller.onRefresh(),
                 ),
                 if (!controller.isHistory.value)
                   GestureDetector(
