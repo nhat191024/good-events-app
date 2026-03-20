@@ -1,4 +1,3 @@
-import 'package:pull_to_refresh/pull_to_refresh.dart';
 import 'package:sukientotapp/core/utils/import/global.dart';
 import 'package:sukientotapp/data/models/client/event_order_model.dart';
 import 'package:sukientotapp/data/models/client/history_order_model.dart';
