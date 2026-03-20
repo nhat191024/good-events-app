@@ -119,17 +119,16 @@ class _OrderHeaderState extends State<OrderHeader> {
                             ),
                           ),
                           style: context.typography.base,
-                          onSubmitted: (_) => _deactivateSearch(),
                         ),
                       ),
-                      if (searchController.text.isNotEmpty)
-                        IconButton(
-                          onPressed: () {
-                            searchController.clear();
-                          },
-                          icon: const Icon(Icons.clear, size: 20),
-                          tooltip: 'cancel'.tr,
-                        ),
+                      IconButton(
+                        onPressed: () {
+                          searchController.clear();
+                          _deactivateSearch();
+                        },
+                        icon: const Icon(Icons.clear, size: 20),
+                        tooltip: 'cancel'.tr,
+                      ),
                     ],
                   ),
               ],

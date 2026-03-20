@@ -31,6 +31,12 @@ class PartnerActionButtons extends StatelessWidget {
             Expanded(
               child: CustomButtonPlus(
                 onTap: () {
+                  if (StorageService.readData(key: LocalStorageKeys.token) == null) {
+                    Get.snackbar('info'.tr, 'login_required'.tr);
+                    Get.offAllNamed(Routes.guestHomeScreen);
+                    return;
+                  }
+
                   final catIdStr = Get.find<PartnerDetailController>().partnerId.value;
                   final catId = int.tryParse(catIdStr);
 

@@ -336,6 +336,7 @@ class AppTranslations extends Translations {
       'detail_info': 'Thông tin chi tiết',
 
       //common
+      'login_required': 'Bạn phải đăng nhập trước!',
       'home': 'Trang chủ',
       'bills': 'Đơn',
       'messages': 'Tin nhắn',
@@ -812,6 +813,7 @@ class AppTranslations extends Translations {
       'detail_info': 'Detail info',
 
       //common
+      'login_required': 'You must login first!',
       'home': 'Home',
       'bills': 'Bills',
       'messages': 'Messages',
