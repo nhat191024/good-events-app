@@ -13,6 +13,9 @@ abstract class Routes {
   static const notification = '/notification';
 
   //Required Auth
+  //Common
+  static const myProfile = '/my-profile';
+
   // Partner
   static const partnerHome = '/partner/home';
 

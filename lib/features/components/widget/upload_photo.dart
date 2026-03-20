@@ -102,7 +102,7 @@ class _UploadPhotoState extends State<UploadPhoto> {
                       ),
                       Text(
                         'upload_description'.tr,
-                        style: context.typography.base.copyWith(
+                        style: context.typography.sm.copyWith(
                           fontWeight: FontWeight.bold,
                           color: context.fTheme.colors.mutedForeground,
                         ),
