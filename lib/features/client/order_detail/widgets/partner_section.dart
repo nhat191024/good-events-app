@@ -20,12 +20,15 @@ class PartnerSection extends GetView<ClientOrderDetailController> {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          Obx(
-            () => Text(
+          Obx(() {
+            if (!controller.isHistory.value && controller.status != 'pending') {
+              return const SizedBox.shrink();
+            }
+            return Text(
               controller.isHistory.value ? 'you_are_viewing_history'.tr : 'please_wait_a_moment'.tr,
               style: context.typography.sm.copyWith(color: Colors.grey[600]),
-            ),
-          ),
+            );
+          }),
           const SizedBox(height: 16),
           Obx(() {
             // Current orders: loop over applicants from the API

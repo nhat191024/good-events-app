@@ -170,6 +170,10 @@ class DetailedInfoSection extends GetView<ClientOrderDetailController> {
                     children: [
                       Expanded(
                         child: TextField(
+                          onTapOutside: (event) {
+                            FocusManager.instance.primaryFocus?.unfocus();
+                          },
+                          controller: controller.voucherController,
                           decoration: InputDecoration(
                             hintText: 'voucher_placeholder'.tr,
                             contentPadding: const EdgeInsets.symmetric(horizontal: 12, vertical: 8),
@@ -178,16 +182,30 @@ class DetailedInfoSection extends GetView<ClientOrderDetailController> {
                         ),
                       ),
                       const SizedBox(width: 8),
-                      ElevatedButton(
-                        onPressed: () {},
-                        style: ElevatedButton.styleFrom(
-                          backgroundColor: FTheme.of(context).colors.primary,
-                          foregroundColor: Colors.white,
-                          shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(8)),
-                        ),
-                        child: Text(
-                          'check_and_save_code'.tr,
-                          style: const TextStyle(fontWeight: FontWeight.bold),
+                      // TODO: retrieval of validated voucher code for confirm/use can be done via ClientOrderDetailState.savedVouchers[controller.orderId]?.code
+                      Obx(
+                        () => ElevatedButton(
+                          onPressed: controller.isCheckingVoucher.value
+                              ? null
+                              : () => controller.checkVoucher(),
+                          style: ElevatedButton.styleFrom(
+                            backgroundColor: FTheme.of(context).colors.primary,
+                            foregroundColor: Colors.white,
+                            shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(8)),
+                          ),
+                          child: controller.isCheckingVoucher.value
+                              ? const SizedBox(
+                                  width: 20,
+                                  height: 20,
+                                  child: CircularProgressIndicator(
+                                    strokeWidth: 2,
+                                    valueColor: AlwaysStoppedAnimation<Color>(Colors.white),
+                                  ),
+                                )
+                              : Text(
+                                  'check_and_save_code'.tr,
+                                  style: const TextStyle(fontWeight: FontWeight.bold),
+                                ),
                         ),
                       ),
                     ],

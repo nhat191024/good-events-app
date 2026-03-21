@@ -3,6 +3,7 @@ import 'controller/controller.dart';
 import 'widgets/order_detail_header.dart';
 import 'widgets/partner_section.dart';
 import 'widgets/arrival_photo_section.dart';
+import 'widgets/user_review_section.dart';
 import 'widgets/detailed_info_section.dart';
 import 'widgets/bottom_actions.dart';
 
@@ -32,20 +33,28 @@ class ClientOrderDetailScreen extends GetView<ClientOrderDetailController> {
             ),
           ),
           body: SafeArea(
-            child: SingleChildScrollView(
-              padding: const EdgeInsets.symmetric(horizontal: 16),
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.stretch,
-                children: [
-                  const OrderDetailHeader(),
-                  const SizedBox(height: 16),
-                  const PartnerSection(),
-                  const SizedBox(height: 16),
-                  const ArrivalPhotoSection(),
-                  const SizedBox(height: 24),
-                  const DetailedInfoSection(),
-                  const SizedBox(height: 100), // Bottom padding for fixed buttons
-                ],
+            child: SmartRefresher(
+              controller: controller.refreshController,
+              onRefresh: controller.onRefresh,
+              enablePullUp: false,
+              header: const ClassicHeader(),
+              child: SingleChildScrollView(
+                padding: const EdgeInsets.symmetric(horizontal: 16),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.stretch,
+                  children: [
+                    const OrderDetailHeader(),
+                    const SizedBox(height: 16),
+                    const PartnerSection(),
+                    const SizedBox(height: 16),
+                    const ArrivalPhotoSection(),
+                    const SizedBox(height: 18),
+                    const UserReviewSection(),
+                    const SizedBox(height: 18),
+                    const DetailedInfoSection(),
+                    const SizedBox(height: 100), // Bottom padding for fixed buttons
+                  ],
+                ),
               ),
             ),
           ),

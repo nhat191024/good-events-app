@@ -17,6 +17,7 @@ abstract class OrderRepository {
   Future<Map<String, dynamic>> choosePartner({
     required int orderId,
     required int partnerId,
+    String? voucherCode,
   });
   Future<Map<String, dynamic>> cancelOrder(int orderId);
   Future<Map<String, dynamic>> submitReview({
@@ -24,5 +25,14 @@ abstract class OrderRepository {
     required int partnerId,
     required int rating,
     String? comment,
+  });
+  Future<Map<String, dynamic>> validateVoucher({
+    required int orderId,
+    required String voucherInput,
+  });
+  Future<Map<String, dynamic>> checkVoucherDiscount({
+    required int orderId,
+    required int partnerId,
+    required String voucherInput,
   });
 }

@@ -132,9 +132,10 @@ class OrderRepositoryImpl implements OrderRepository {
   Future<Map<String, dynamic>> choosePartner({
     required int orderId,
     required int partnerId,
+    String? voucherCode,
   }) async {
     try {
-      final response = await _provider.choosePartner(orderId, partnerId);
+      final response = await _provider.choosePartner(orderId, partnerId, voucherCode: voucherCode);
       return response as Map<String, dynamic>;
     } catch (e) {
       return {'success': false, 'message': e.toString()};
@@ -168,6 +169,40 @@ class OrderRepositoryImpl implements OrderRepository {
       return response as Map<String, dynamic>;
     } catch (e) {
       return {'success': false, 'message': e.toString().replaceAll('Exception: ', '')};
+    }
+  }
+
+  @override
+  Future<Map<String, dynamic>> validateVoucher({
+    required int orderId,
+    required String voucherInput,
+  }) async {
+    try {
+      final response = await _provider.validateVoucher(
+        orderId: orderId,
+        voucherInput: voucherInput,
+      );
+      return response as Map<String, dynamic>;
+    } catch (e) {
+      return {'status': false, 'message': e.toString().replaceAll('Exception: ', '')};
+    }
+  }
+
+  @override
+  Future<Map<String, dynamic>> checkVoucherDiscount({
+    required int orderId,
+    required int partnerId,
+    required String voucherInput,
+  }) async {
+    try {
+      final response = await _provider.checkVoucherDiscount(
+        orderId: orderId,
+        partnerId: partnerId,
+        voucherInput: voucherInput,
+      );
+      return response as Map<String, dynamic>;
+    } catch (e) {
+      return {'status': false, 'message': e.toString().replaceAll('Exception: ', '')};
     }
   }
 }

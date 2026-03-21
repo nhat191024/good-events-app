@@ -10,7 +10,7 @@ class HistoryOrdersTab extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Obx(() {
-      if (controller.isLoadingHistoryOrders.value) {
+      if (controller.isLoadingHistoryOrders.value && controller.historyOrders.isEmpty) {
         return _buildLoading();
       }
 
@@ -20,24 +20,18 @@ class HistoryOrdersTab extends StatelessWidget {
         return _buildEmpty(context);
       }
 
-      return NotificationListener<ScrollNotification>(
-        onNotification: (ScrollNotification scrollInfo) {
-          if (!controller.isFetchingMoreHistory.value &&
-              scrollInfo.metrics.pixels >= scrollInfo.metrics.maxScrollExtent - 100) {
-            controller.fetchHistoryOrders(loadMore: true);
-          }
-          return false;
-        },
+      return SmartRefresher(
+        controller: controller.historyRefreshController,
+        enablePullDown: true,
+        enablePullUp: true,
+        header: const ClassicHeader(),
+        footer: const ClassicFooter(),
+        onRefresh: controller.onRefreshHistory,
+        onLoading: controller.onLoadMoreHistory,
         child: ListView.builder(
           padding: const EdgeInsets.all(16),
-          itemCount: orders.length + (controller.isFetchingMoreHistory.value ? 1 : 0),
+          itemCount: orders.length,
           itemBuilder: (context, index) {
-            if (index == orders.length) {
-              return const Padding(
-                padding: EdgeInsets.symmetric(vertical: 16),
-                child: Center(child: CircularProgressIndicator()),
-              );
-            }
             return HistoryOrderCard(order: orders[index]);
           },
         ),
