@@ -1,4 +1,6 @@
 import 'package:flutter_quill/flutter_quill.dart';
+import 'package:flutter_localizations/flutter_localizations.dart';
+import 'package:syncfusion_localizations/syncfusion_localizations.dart';
 import 'package:get_storage/get_storage.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 
@@ -89,6 +91,14 @@ class GoodEvent extends StatelessWidget {
       fallbackLocale: const Locale('en', 'US'),
       localizationsDelegates: const [
         FlutterQuillLocalizations.delegate,
+        SfGlobalLocalizations.delegate,
+        GlobalMaterialLocalizations.delegate,
+        GlobalWidgetsLocalizations.delegate,
+        GlobalCupertinoLocalizations.delegate,
+      ],
+      supportedLocales: const [
+        Locale('vi', 'VN'),
+        Locale('en', 'US'),
       ],
 
       themeMode: ThemeMode.light,
