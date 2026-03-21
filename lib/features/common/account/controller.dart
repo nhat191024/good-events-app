@@ -84,6 +84,23 @@ class AccountController extends GetxController {
     refreshController.loadComplete();
   }
 
+  void syncFromStorage() {
+    name.value =
+        (StorageService.readMapData(
+                  key: LocalStorageKeys.user,
+                  mapKey: 'name',
+                ) ??
+                '')
+            .toString();
+    avatar.value =
+        (StorageService.readMapData(
+                  key: LocalStorageKeys.user,
+                  mapKey: 'avatar_url',
+                ) ??
+                '')
+            .toString();
+  }
+
   //============================================================================
   // CARD VALIDATION METHODS
   //============================================================================
