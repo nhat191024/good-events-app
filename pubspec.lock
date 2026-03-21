@@ -503,7 +503,7 @@ packages:
     source: hosted
     version: "6.0.0"
   flutter_localizations:
-    dependency: transitive
+    dependency: "direct main"
     description: flutter
     source: sdk
     version: "0.0.0"
@@ -1395,7 +1395,7 @@ packages:
     source: hosted
     version: "33.1.44"
   syncfusion_localizations:
-    dependency: transitive
+    dependency: "direct main"
     description:
       name: syncfusion_localizations
       sha256: "53f53fa71c2e6749565bbdfbd83115a9e7dc7cefd86addf46a3f7d88447fd54c"
