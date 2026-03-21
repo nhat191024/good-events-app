@@ -41,6 +41,17 @@ class StorageService {
   static void clearAllData() {
     box.erase();
   }
+
+  static dynamic updateMapData({
+    required String key,
+    required String mapKey,
+    required dynamic value,
+  }) {
+    final map = box.read<Map<String, dynamic>>(key) ?? {};
+    map[mapKey] = value;
+    box.write(key, map);
+    return map;
+  }
 }
 
 class LocalStorageKeys {
