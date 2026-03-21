@@ -30,6 +30,23 @@ class HomeController extends GetxController {
     fetchDashboardData();
   }
 
+  void syncFromStorage() {
+    name.value =
+        (StorageService.readMapData(
+                  key: LocalStorageKeys.user,
+                  mapKey: 'name',
+                ) ??
+                '')
+            .toString();
+    avatar.value =
+        (StorageService.readMapData(
+                  key: LocalStorageKeys.user,
+                  mapKey: 'avatar_url',
+                ) ??
+                '')
+            .toString();
+  }
+
   Future<void> fetchDashboardData() async {
     try {
       isLoading.value = true;
