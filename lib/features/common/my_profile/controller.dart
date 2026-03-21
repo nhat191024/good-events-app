@@ -9,11 +9,21 @@ class MyProfileController extends GetxController {
   final isLoading = true.obs;
   final Rxn<ProfileModel> profile = Rxn<ProfileModel>();
 
+  RefreshController refreshController = RefreshController(
+    initialRefresh: false,
+  );
+
   //============================================================================
   // PERSONAL INFORMATION
   //============================================================================
+  RxString role =
+      (StorageService.readMapData(key: LocalStorageKeys.user, mapKey: 'role') ??
+              '')
+          .toString()
+          .obs;
+
   RxString avatar =
-      (StorageService.readMapData(
+    (StorageService.readMapData(
                 key: LocalStorageKeys.user,
                 mapKey: 'avatar_url',
               ) ??
@@ -25,6 +35,14 @@ class MyProfileController extends GetxController {
   void onInit() {
     super.onInit();
     fetchProfile();
+  }
+
+  void onRefresh() async {
+    refreshController.refreshCompleted();
+  }
+
+  void onLoadMore() async {
+    refreshController.loadComplete();
   }
 
   Future<void> fetchProfile() async {
