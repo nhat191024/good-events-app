@@ -486,6 +486,13 @@ class AppTranslations extends Translations {
       'year_ago': '@count năm trước',
       'years_ago': '@count năm trước',
 
+      // show_calendar detail
+      'bill_code': 'Mã bill',
+      'client': 'Khách hàng',
+      'category': 'Danh mục',
+      'total': 'Thành tiền',
+      'no_events_today': 'Không có sự kiện',
+
       //account
       'general_setting': 'Cài đặt chung',
       'more_setting': 'Cài đặt khác',
@@ -997,6 +1004,13 @@ class AppTranslations extends Translations {
 
       'conversation': 'Conversation',
       'type_a_message': 'Type a message...',
+
+      // show_calendar detail
+      'bill_code': 'Bill Code',
+      'client': 'Client',
+      'category': 'Category',
+      'total': 'Total',
+      'no_events_today': 'No events',
 
       ///account
       'general_setting': 'General Setting',
