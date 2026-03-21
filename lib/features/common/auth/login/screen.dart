@@ -10,7 +10,11 @@ class LoginScreen extends GetView<LoginController> {
       header: Container(
         alignment: Alignment.centerLeft,
         padding: const EdgeInsets.only(top: 22),
-        child: BackButton(),
+        child: BackButton(
+          onPressed: () {
+            Get.offAllNamed(Routes.guestHomeScreen);
+          },
+        ),
       ),
       child: Form(
         key: controller.loginFormKey,

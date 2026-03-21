@@ -125,29 +125,6 @@ class EventOrderCard extends StatelessWidget {
                       ),
                       const SizedBox(height: 12),
 
-                      // Chat Button
-                      // TODO: redirect to chat screen using order.threadId
-                      Container(
-                        height: 28,
-                        width: 28,
-                        decoration: BoxDecoration(
-                          color: context.primary,
-                          shape: BoxShape.circle,
-                          boxShadow: [
-                            BoxShadow(
-                              color: context.primary.withValues(alpha: 0.3),
-                              blurRadius: 4,
-                              offset: const Offset(0, 2),
-                            ),
-                          ],
-                        ),
-                        child: const Icon(
-                          Icons.message,
-                          color: Colors.white,
-                          size: 16,
-                        ),
-                      ),
-
                       // applicant count numbers badge
                       if (order.applicantCount > 0 && order.status == 'pending')
                         Padding(

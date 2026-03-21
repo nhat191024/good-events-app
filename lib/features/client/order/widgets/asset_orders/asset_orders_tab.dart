@@ -19,9 +19,7 @@ class AssetOrdersTab extends StatelessWidget {
             controller: controller.assetOrdersTabController,
             labelColor: context.primary,
             unselectedLabelColor: Colors.black54,
-            labelStyle: context.typography.sm.copyWith(
-              fontWeight: FontWeight.w600,
-            ),
+            labelStyle: context.typography.sm.copyWith(fontWeight: FontWeight.w600),
             unselectedLabelStyle: context.typography.xs,
             indicatorSize: TabBarIndicatorSize.tab,
             dividerColor: Colors.grey.withValues(alpha: 0.2),
@@ -45,6 +43,10 @@ class AssetOrdersTab extends StatelessWidget {
                   controller: controller,
                   orders: controller.paidAssetOrders,
                   emptyMessage: 'no_paid_asset_orders'.tr,
+                  refreshController: controller.paidAssetRefreshController,
+                  onRefresh: () => controller.onRefreshAsset(controller.paidAssetRefreshController),
+                  onLoading: () =>
+                      controller.onLoadMoreAsset(controller.paidAssetRefreshController),
                 ),
               ),
 
@@ -54,6 +56,11 @@ class AssetOrdersTab extends StatelessWidget {
                   controller: controller,
                   orders: controller.pendingAssetOrders,
                   emptyMessage: 'no_pending_asset_orders'.tr,
+                  refreshController: controller.pendingAssetRefreshController,
+                  onRefresh: () =>
+                      controller.onRefreshAsset(controller.pendingAssetRefreshController),
+                  onLoading: () =>
+                      controller.onLoadMoreAsset(controller.pendingAssetRefreshController),
                 ),
               ),
 
@@ -63,6 +70,11 @@ class AssetOrdersTab extends StatelessWidget {
                   controller: controller,
                   orders: controller.cancelledAssetOrders,
                   emptyMessage: 'no_cancelled_asset_orders'.tr,
+                  refreshController: controller.cancelledAssetRefreshController,
+                  onRefresh: () =>
+                      controller.onRefreshAsset(controller.cancelledAssetRefreshController),
+                  onLoading: () =>
+                      controller.onLoadMoreAsset(controller.cancelledAssetRefreshController),
                 ),
               ),
 

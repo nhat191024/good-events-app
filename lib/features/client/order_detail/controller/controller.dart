@@ -3,8 +3,10 @@ import 'package:sukientotapp/core/utils/import/global.dart';
 import 'package:sukientotapp/data/models/client/event_order_model.dart';
 import 'package:sukientotapp/data/models/client/history_order_model.dart';
 import 'package:sukientotapp/data/models/client/order_detail_model.dart';
+import 'package:sukientotapp/data/models/client/voucher_model.dart';
 import 'package:sukientotapp/domain/repositories/client/order_repository.dart';
 import 'package:sukientotapp/features/client/order/controller.dart';
+import '../widgets/voucher_details_bottom_sheet.dart';
 
 part 'state.dart';
 part 'actions.dart';
@@ -12,6 +14,8 @@ part 'report.dart';
 
 class ClientOrderDetailController extends GetxController with ClientOrderDetailState {
   final OrderRepository _repository;
+
+  final RefreshController refreshController = RefreshController(initialRefresh: false);
 
   ClientOrderDetailController(this._repository);
 

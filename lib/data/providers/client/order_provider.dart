@@ -55,6 +55,18 @@ class OrderProvider {
     }
   }
 
+  Future<dynamic> getHistoryOrder(int orderId) async {
+    try {
+      final response = await _dio.get(AppUrl.clientHistoryOrder(orderId));
+      return response.data;
+    } on DioException catch (e) {
+      if (e.response != null) {
+        throw Exception(e.response?.data['message'] ?? 'fetch_failed'.tr);
+      }
+      throw Exception('network_error'.tr);
+    }
+  }
+
   Future<dynamic> getAssetOrders() async {
     try {
       final response = await _dio.get(AppUrl.clientAssetOrders);
@@ -101,13 +113,14 @@ class OrderProvider {
     }
   }
 
-  Future<dynamic> choosePartner(int orderId, int partnerId) async {
+  Future<dynamic> choosePartner(int orderId, int partnerId, {String? voucherCode}) async {
     try {
       final response = await _dio.post(
         AppUrl.choosePartner,
         data: {
           'order_id': orderId,
           'partner_id': partnerId,
+          if (voucherCode != null && voucherCode.isNotEmpty) 'voucher_code': voucherCode,
         },
       );
       return response.data;
@@ -165,6 +178,62 @@ class OrderProvider {
         throw Exception(e.response?.data['message'] ?? 'submit_review_failed'.tr);
       }
       throw Exception('network_error'.tr);
+    }
+  }
+
+  Future<dynamic> validateVoucher({
+    required int orderId,
+    required String voucherInput,
+  }) async {
+    try {
+      final response = await _dio.post(
+        AppUrl.validateVoucher,
+        data: {
+          'order_id': orderId,
+          'voucher_input': voucherInput,
+        },
+      );
+      return response.data;
+    } on DioException catch (e) {
+      if (e.response != null) {
+        return {
+          'status': false,
+          'message': e.response?.data['message'] ?? 'voucher_validation_failed'.tr,
+        };
+      }
+      return {
+        'status': false,
+        'message': 'network_error'.tr,
+      };
+    }
+  }
+
+  Future<dynamic> checkVoucherDiscount({
+    required int orderId,
+    required int partnerId,
+    required String voucherInput,
+  }) async {
+    try {
+      final response = await _dio.post(
+        AppUrl.checkVoucherDiscount,
+        data: {
+          'order_id': orderId,
+          'partner_id': partnerId,
+          'voucher_input': voucherInput,
+        },
+      );
+      return response.data;
+    } on DioException catch (e) {
+      if (e.response != null) {
+        return {
+          'status': false,
+          'message': e.response?.data['message'] ?? 'fetch_failed'.tr,
+        };
+      }
+      return {
+        'status': false,
+        'message': 'network_error'.tr,
+      };
     }
   }
 }

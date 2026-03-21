@@ -1,5 +1,6 @@
 import 'package:sukientotapp/core/utils/import/global.dart';
 import 'package:sukientotapp/features/client/bottom_navigation/controller.dart';
+import 'package:sukientotapp/features/client/order/controller.dart';
 import 'package:sukientotapp/data/providers/client/booking_provider.dart';
 import 'package:sukientotapp/domain/repositories/location_repository.dart';
 import 'package:sukientotapp/data/models/location_model.dart';
@@ -376,6 +377,13 @@ class ClientBookingController extends GetxController {
 
       // Then push order details on top of the Orders tab
       Get.toNamed(Routes.clientOrderDetail, arguments: {'order': order, 'isHistory': false});
+
+      // Trigger a refresh of the current orders tab if the controller is alive
+      try {
+        Get.find<ClientOrderController>().fetchEventOrders();
+      } catch (e) {
+        logger.e('Order controller not found, skipping refresh: $e');
+      }
     } else {
       Get.snackbar('error'.tr, result['message'] ?? 'booking_failed'.tr);
       Get.back(); // Fallback back to partner screen

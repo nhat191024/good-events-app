@@ -16,6 +16,16 @@ class ClientOrderController extends GetxController with GetTickerProviderStateMi
   late TabController eventOrdersTabController; // Current | History
   late TabController assetOrdersTabController; // All | Pending | Paid | Cancelled
 
+  // Refresh controllers
+  final RefreshController eventRefreshController = RefreshController(initialRefresh: false);
+  final RefreshController historyRefreshController = RefreshController(initialRefresh: false);
+
+  final RefreshController paidAssetRefreshController = RefreshController(initialRefresh: false);
+  final RefreshController pendingAssetRefreshController = RefreshController(initialRefresh: false);
+  final RefreshController cancelledAssetRefreshController = RefreshController(
+    initialRefresh: false,
+  );
+
   final RxInt currentParentTab = 0.obs;
   final RxInt currentEventOrdersTab = 0.obs;
 
@@ -43,14 +53,8 @@ class ClientOrderController extends GetxController with GetTickerProviderStateMi
     parentTabController = TabController(length: 2, vsync: this);
 
     // Initialize child tabs
-    eventOrdersTabController = TabController(
-      length: 2,
-      vsync: this,
-    );
-    assetOrdersTabController = TabController(
-      length: 3,
-      vsync: this,
-    );
+    eventOrdersTabController = TabController(length: 2, vsync: this);
+    assetOrdersTabController = TabController(length: 3, vsync: this);
 
     parentTabController.addListener(() {
       if (!parentTabController.indexIsChanging) {
@@ -68,7 +72,7 @@ class ClientOrderController extends GetxController with GetTickerProviderStateMi
           if (eventOrdersTabController.index == 0) {
             selectedSort.value = 'upcoming';
           } else {
-            selectedSort.value = 'newest';
+            selectedSort.value = 'latest_activity';
           }
         }
 
@@ -91,6 +95,13 @@ class ClientOrderController extends GetxController with GetTickerProviderStateMi
     parentTabController.dispose();
     eventOrdersTabController.dispose();
     assetOrdersTabController.dispose();
+
+    eventRefreshController.dispose();
+    historyRefreshController.dispose();
+    paidAssetRefreshController.dispose();
+    pendingAssetRefreshController.dispose();
+    cancelledAssetRefreshController.dispose();
+
     super.onClose();
   }
 
@@ -126,10 +137,20 @@ class ClientOrderController extends GetxController with GetTickerProviderStateMi
     } finally {
       if (loadMore) {
         isFetchingMoreEvent.value = false;
+        eventRefreshController.loadComplete();
       } else {
         isLoadingEventOrders.value = false;
+        eventRefreshController.refreshCompleted();
       }
     }
+  }
+
+  void onRefreshEvent() async {
+    await fetchEventOrders();
+  }
+
+  void onLoadMoreEvent() async {
+    await fetchEventOrders(loadMore: true);
   }
 
   final RxInt historyCurrentPage = 1.obs;
@@ -165,14 +186,24 @@ class ClientOrderController extends GetxController with GetTickerProviderStateMi
     } finally {
       if (loadMore) {
         isFetchingMoreHistory.value = false;
+        historyRefreshController.loadComplete();
       } else {
         isLoadingHistoryOrders.value = false;
+        historyRefreshController.refreshCompleted();
       }
     }
   }
 
+  void onRefreshHistory() async {
+    await fetchHistoryOrders();
+  }
+
+  void onLoadMoreHistory() async {
+    await fetchHistoryOrders(loadMore: true);
+  }
+
   // Fetch Asset Orders from API
-  Future<void> fetchAssetOrders() async {
+  Future<void> fetchAssetOrders({RefreshController? refreshController}) async {
     if (isLoadingAssetOrders.value) return;
     isLoadingAssetOrders.value = true;
     try {
@@ -182,7 +213,17 @@ class ClientOrderController extends GetxController with GetTickerProviderStateMi
       logger.e('Failed to fetch asset orders: $e');
     } finally {
       isLoadingAssetOrders.value = false;
+      refreshController?.refreshCompleted();
     }
+  }
+
+  void onRefreshAsset(RefreshController refreshController) async {
+    await fetchAssetOrders(refreshController: refreshController);
+  }
+
+  void onLoadMoreAsset(RefreshController refreshController) async {
+    // Currently getAssetOrders doesn't support pagination
+    refreshController.loadNoData();
   }
 
   // Filter logic helper across EventOrder fields
@@ -253,14 +294,18 @@ class ClientOrderController extends GetxController with GetTickerProviderStateMi
 
     filtered.sort((a, b) {
       switch (selectedSort.value) {
+        case 'latest_activity':
+          final dateA = DateTime.tryParse(a.updatedAt ?? '') ?? DateTime(0);
+          final dateB = DateTime.tryParse(b.updatedAt ?? '') ?? DateTime(0);
+          return dateB.compareTo(dateA); // Most recently updated first
         case 'newest':
-          DateTime dateA = DateTime.tryParse('${a.date} ${a.startTime}') ?? DateTime.now();
-          DateTime dateB = DateTime.tryParse('${b.date} ${b.startTime}') ?? DateTime.now();
-          return dateB.compareTo(dateA); // Descending
+          final dateA = DateTime.tryParse('${a.date} ${a.startTime}') ?? DateTime(0);
+          final dateB = DateTime.tryParse('${b.date} ${b.startTime}') ?? DateTime(0);
+          return dateB.compareTo(dateA); // Descending by order date
         case 'oldest':
-          DateTime dateA = DateTime.tryParse('${a.date} ${a.startTime}') ?? DateTime.now();
-          DateTime dateB = DateTime.tryParse('${b.date} ${b.startTime}') ?? DateTime.now();
-          return dateA.compareTo(dateB); // Ascending
+          final dateA = DateTime.tryParse('${a.date} ${a.startTime}') ?? DateTime(0);
+          final dateB = DateTime.tryParse('${b.date} ${b.startTime}') ?? DateTime(0);
+          return dateA.compareTo(dateB); // Ascending by order date
         case 'highest-budget':
           return (b.finalTotal ?? 0).compareTo(a.finalTotal ?? 0);
         case 'lowest-budget':

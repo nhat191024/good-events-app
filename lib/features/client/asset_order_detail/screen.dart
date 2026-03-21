@@ -19,12 +19,10 @@ class ClientAssetOrderDetailScreen extends GetView<ClientAssetOrderDetailControl
           icon: const Icon(Icons.arrow_back, color: Colors.black),
           onPressed: () => Get.back(),
         ),
-        title: Flexible(
-          child: Text(
-            'asset_order_detail_title'.tr,
-            style: context.typography.sm.copyWith(color: Colors.black),
-            overflow: TextOverflow.ellipsis,
-          ),
+        title: Text(
+          'asset_order_detail_title'.tr,
+          style: context.typography.sm.copyWith(color: Colors.black),
+          overflow: TextOverflow.ellipsis,
         ),
       ),
       body: SingleChildScrollView(

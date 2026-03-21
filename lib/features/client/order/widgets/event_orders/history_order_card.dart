@@ -34,7 +34,7 @@ class HistoryOrderCard extends StatelessWidget {
   Widget build(BuildContext context) {
     final partnerName =
         order.partner?.partnerProfile?.partnerName ?? order.partner?.name ?? 'partner_not_found'.tr;
-    final rating = order.partner?.statistics?.averageStars;
+    final rating = order.review?.rating;
 
     return Container(
       margin: const EdgeInsets.only(bottom: 12),
@@ -135,7 +135,7 @@ class HistoryOrderCard extends StatelessWidget {
                               const Icon(Icons.star, size: 12, color: Colors.amber),
                               const SizedBox(width: 2),
                               Text(
-                                rating != null ? rating.toStringAsFixed(1) : 'unrated'.tr,
+                                rating != null ? rating.toString() : 'unrated'.tr,
                                 style: context.typography.xs.copyWith(color: Colors.grey[700]),
                               ),
                             ],
