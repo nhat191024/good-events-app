@@ -140,7 +140,7 @@ class AccountScreen extends GetView<AccountController> {
                                     'show_calendar'.tr,
                                     FIcons.calendar1,
                                     () {
-                                      // Get.toNamed(Routes.profileScreen);
+                                      Get.toNamed(Routes.partnerShowCalendar);
                                     },
                                   ),
                                   _buildListItem(
