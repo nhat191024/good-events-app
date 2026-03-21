@@ -15,6 +15,7 @@ abstract class Routes {
   //Required Auth
   //Common
   static const myProfile = '/my-profile';
+  static const editProfile = '/my-profile/edit';
 
   // Partner
   static const partnerHome = '/partner/home';

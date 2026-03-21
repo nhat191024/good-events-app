@@ -60,6 +60,14 @@ class Pages {
       binding: MyProfileBinding(),
     ),
 
+    GetPage(
+      name: Routes.editProfile,
+      page: () => const EditProfileScreen(),
+      binding: EditProfileBinding(),
+      transition: Transition.rightToLeft,
+      transitionDuration: const Duration(milliseconds: 300),
+    ),
+
     //Guest
     GetPage(
       name: Routes.guestHomeScreen,
