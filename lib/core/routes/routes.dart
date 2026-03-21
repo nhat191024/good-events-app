@@ -20,6 +20,7 @@ abstract class Routes {
 
   // Partner
   static const partnerHome = '/partner/home';
+  static const partnerShowCalendar = '/partner/show-calendar';
 
   // Client
   static const clientHome = '/client/home';

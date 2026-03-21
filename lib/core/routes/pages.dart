@@ -97,6 +97,14 @@ class Pages {
       binding: ClientBottomNavigationBinding(),
     ),
 
+    GetPage(
+      name: Routes.partnerShowCalendar,
+      page: () => const ShowCalendarScreen(),
+      binding: ShowCalendarBinding(),
+      transition: Transition.rightToLeft,
+      transitionDuration: const Duration(milliseconds: 300),
+    ),
+
     //Partner Detail
     GetPage(
       name: Routes.partnerDetail,
