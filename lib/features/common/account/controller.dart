@@ -1,5 +1,3 @@
-import 'package:pull_to_refresh/pull_to_refresh.dart';
-
 import 'package:sukientotapp/core/utils/import/global.dart';
 
 import 'package:sukientotapp/domain/repositories/partner/account_repository.dart';
@@ -21,6 +19,7 @@ class AccountController extends GetxController {
               '')
           .toString()
           .obs;
+
   RxString avatar =
       (StorageService.readMapData(
                 key: LocalStorageKeys.user,
@@ -68,10 +67,14 @@ class AccountController extends GetxController {
     },
   ];
 
-  // @override
-  // void onInit() {
-  //   super.onInit();
-  // }
+  @override
+  void onInit() {
+    super.onInit();
+
+    logger.d(
+      '[AccountController] avatar: ${avatar.value}, name: ${name.value}, role: ${role.value}',
+    );
+  }
 
   void onRefresh() async {
     refreshController.refreshCompleted();

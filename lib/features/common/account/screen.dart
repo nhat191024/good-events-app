@@ -1,5 +1,3 @@
-import 'package:pull_to_refresh/pull_to_refresh.dart';
-
 import 'package:sukientotapp/core/utils/import/global.dart';
 import 'controller.dart';
 
@@ -134,7 +132,7 @@ class AccountScreen extends GetView<AccountController> {
                                     'my_profile'.tr,
                                     FIcons.user,
                                     () {
-                                      // Get.toNamed(Routes.profileScreen);
+                                      Get.toNamed(Routes.myProfile);
                                     },
                                   ),
                                   _buildListItem(

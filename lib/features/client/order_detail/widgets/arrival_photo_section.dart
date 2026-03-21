@@ -1,5 +1,4 @@
 import 'package:sukientotapp/core/utils/import/global.dart';
-import 'package:cached_network_image/cached_network_image.dart';
 import '../controller/controller.dart';
 
 class ArrivalPhotoSection extends GetView<ClientOrderDetailController> {

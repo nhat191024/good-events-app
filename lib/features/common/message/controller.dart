@@ -1,5 +1,4 @@
 import 'dart:convert';
-import 'package:pull_to_refresh/pull_to_refresh.dart';
 
 import 'package:pusher_channels_flutter/pusher_channels_flutter.dart';
 import 'package:sukientotapp/core/utils/import/global.dart';

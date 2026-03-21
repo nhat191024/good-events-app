@@ -1,5 +1,3 @@
-import 'package:flutter/material.dart';
-import 'package:get/get.dart';
 import 'package:sukientotapp/core/utils/import/global.dart';
 
 class OrderStatusConfig {

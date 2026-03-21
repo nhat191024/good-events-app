@@ -1,6 +1,5 @@
 import 'package:sukientotapp/core/utils/import/global.dart';
 import 'package:sukientotapp/data/models/client/event_order_model.dart';
-import 'package:cached_network_image/cached_network_image.dart';
 import '../order_status_badge.dart';
 
 class EventOrderCard extends StatelessWidget {

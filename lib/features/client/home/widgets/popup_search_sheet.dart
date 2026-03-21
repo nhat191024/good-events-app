@@ -1,7 +1,6 @@
 import 'package:flutter_animate/flutter_animate.dart';
 import 'package:sukientotapp/core/utils/import/global.dart';
 import 'package:sukientotapp/data/models/client/partner_category_model.dart';
-import 'package:cached_network_image/cached_network_image.dart';
 
 class PopupPartnerSearchSheet extends StatefulWidget {
   const PopupPartnerSearchSheet({
@@ -222,7 +221,7 @@ class PartnerItem extends StatelessWidget {
           },
         );
       },
-      child: Container(
+      child: SizedBox(
         width: double.infinity,
         height: double.infinity,
         child: Column(
