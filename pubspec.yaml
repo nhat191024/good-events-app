@@ -58,6 +58,7 @@ dependencies:
   flutter_quill: ^11.5.0
   vsc_quill_delta_to_html: ^1.0.5
   url_launcher: ^6.3.2
+  syncfusion_flutter_calendar: ^33.1.44
 
 dev_dependencies:
   flutter_test:
