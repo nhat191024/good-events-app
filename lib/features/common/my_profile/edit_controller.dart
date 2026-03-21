@@ -1,5 +1,8 @@
 import 'package:dio/dio.dart';
+import 'package:flutter_quill/flutter_quill.dart';
+import 'package:flutter_quill_delta_from_html/flutter_quill_delta_from_html.dart';
 import 'package:image_picker/image_picker.dart';
+import 'package:vsc_quill_delta_to_html/vsc_quill_delta_to_html.dart';
 
 import 'package:sukientotapp/core/utils/import/global.dart';
 import 'package:sukientotapp/data/models/common/profile_model.dart';
@@ -24,7 +27,9 @@ class EditProfileController extends GetxController {
   late final TextEditingController emailController;
   late final TextEditingController countryCodeController;
   late final TextEditingController phoneController;
-  late final TextEditingController bioController;
+  late final QuillController quillBioController;
+  final FocusNode bioFocusNode = FocusNode();
+  final ScrollController bioScrollController = ScrollController();
   late final TextEditingController partnerNameController;
   late final TextEditingController identityCardController;
 
@@ -53,7 +58,24 @@ class EditProfileController extends GetxController {
     emailController = TextEditingController(text: initialProfile.email);
     countryCodeController = TextEditingController();
     phoneController = TextEditingController(text: initialProfile.phone);
-    bioController = TextEditingController(text: initialProfile.bio);
+
+    // Initialize Quill editor with existing HTML bio content
+    Document bioDocument;
+    if (initialProfile.bio.isNotEmpty) {
+      try {
+        final delta = HtmlToDelta().convert(initialProfile.bio);
+        bioDocument = Document.fromDelta(delta);
+      } catch (_) {
+        bioDocument = Document();
+      }
+    } else {
+      bioDocument = Document();
+    }
+    quillBioController = QuillController(
+      document: bioDocument,
+      selection: const TextSelection.collapsed(offset: 0),
+    );
+
     partnerNameController = TextEditingController(
       text: initialProfile.partnerName ?? '',
     );
@@ -72,7 +94,9 @@ class EditProfileController extends GetxController {
     emailController.dispose();
     countryCodeController.dispose();
     phoneController.dispose();
-    bioController.dispose();
+    quillBioController.dispose();
+    bioFocusNode.dispose();
+    bioScrollController.dispose();
     partnerNameController.dispose();
     identityCardController.dispose();
     super.onClose();
@@ -120,6 +144,14 @@ class EditProfileController extends GetxController {
     fetchWards(province.id);
   }
 
+  String _getBioHtml() {
+    final deltaJson = quillBioController.document.toDelta().toJson();
+    final converter = QuillDeltaToHtmlConverter(
+      List<Map<String, dynamic>>.from(deltaJson),
+    );
+    return converter.convert();
+  }
+
   Future<void> pickImage(String type) async {
     final XFile? image = await ImagePicker().pickImage(
       source: ImageSource.gallery,
@@ -162,7 +194,7 @@ class EditProfileController extends GetxController {
         'name': name,
         'email': email,
         'phone': phoneController.text.trim(),
-        'bio': bioController.text.trim(),
+        'bio': _getBioHtml(),
       };
 
       if (role.value == 'partner') {

@@ -1,5 +1,6 @@
 import 'dart:io';
 
+import 'package:flutter_quill/flutter_quill.dart';
 import 'package:sukientotapp/core/utils/import/global.dart';
 import 'package:sukientotapp/features/components/button/plus.dart';
 import 'package:sukientotapp/features/components/widget/upload_photo.dart';
@@ -210,18 +211,52 @@ class EditProfileScreen extends GetView<EditProfileController> {
             border: Border.all(color: context.fTheme.colors.border),
             borderRadius: BorderRadius.circular(8),
           ),
-          child: Material(
-            color: Colors.transparent,
-            child: TextField(
-              controller: controller.bioController,
-              maxLines: 4,
-              minLines: 3,
-              decoration: InputDecoration(
-                hintText: 'bio_hint'.tr,
-                contentPadding: const EdgeInsets.all(12),
-                border: InputBorder.none,
+          child: Column(
+            children: [
+              // Rich text toolbar
+              QuillSimpleToolbar(
+                controller: controller.quillBioController,
+                config: QuillSimpleToolbarConfig(
+                  multiRowsDisplay: false,
+                  showFontFamily: false,
+                  showFontSize: false,
+                  showStrikeThrough: false,
+                  showInlineCode: false,
+                  showColorButton: false,
+                  showBackgroundColorButton: false,
+                  showListCheck: false,
+                  showCodeBlock: false,
+                  showQuote: false,
+                  showIndent: false,
+                  showUndo: false,
+                  showRedo: false,
+                  showSearchButton: false,
+                  showClipboardCut: false,
+                  showClipboardCopy: false,
+                  showClipboardPaste: false,
+                  showDirection: false,
+                  showSubscript: false,
+                  showSuperscript: false,
+                  showSmallButton: true,
+                  showLineHeightButton: false,
+                  showClearFormat: true,
+                  showDividers: false,
+                ),
               ),
-            ),
+              Divider(height: 1, color: context.fTheme.colors.border),
+              // Rich text editor
+              QuillEditor(
+                controller: controller.quillBioController,
+                focusNode: controller.bioFocusNode,
+                scrollController: controller.bioScrollController,
+                config: QuillEditorConfig(
+                  placeholder: 'bio_hint'.tr,
+                  minHeight: 100,
+                  maxHeight: 200,
+                  padding: const EdgeInsets.all(12),
+                ),
+              ),
+            ],
           ),
         ),
       ],
