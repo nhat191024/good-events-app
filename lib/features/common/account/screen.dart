@@ -163,7 +163,9 @@ class AccountScreen extends GetView<AccountController> {
                                     context,
                                     'change_password'.tr,
                                     FIcons.lockKeyholeOpen,
-                                    () {},
+                                    () {
+                                      Get.toNamed(Routes.changePassword);
+                                    },
                                   ),
                                   const Divider(
                                     color: AppColors.dividers,
