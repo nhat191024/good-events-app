@@ -7,6 +7,8 @@ abstract class OrderRepository {
   Future<({List<EventOrderModel> data, int lastPage})> getEventOrders({int page = 1});
   Future<({List<HistoryOrderModel> data, int lastPage})> getHistoryOrders({int page = 1});
   Future<EventOrderModel?> getOrder(int orderId);
+  Future<HistoryOrderModel?> getHistoryOrder(int orderId);
+
   Future<OrderDetailModel?> getOrderDetails(int orderId);
   Future<List<AssetOrderModel>> getAssetOrders();
   Future<Map<String, dynamic>> reportBill({
