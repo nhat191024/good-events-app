@@ -55,6 +55,7 @@ dependencies:
   flutter_html: ^3.0.0
   pusher_channels_flutter: ^2.6.0
   getx_super_snackbar: ^1.0.2
+  flutter_quill: ^11.5.0
 
 dev_dependencies:
   flutter_test:
