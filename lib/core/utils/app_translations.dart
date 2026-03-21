@@ -34,12 +34,14 @@ class AppTranslations extends Translations {
       'create_account': 'Tạo tài khoản',
       'full_name': 'Họ và tên',
       'name_hint': 'Nhập họ và tên đầy đủ',
+      'name_required': 'Vui lòng nhập họ và tên.',
       'email_address': 'Địa chỉ email',
       'email_hint': 'email@vídụ.com',
+      'email_required': 'Vui lòng nhập địa chỉ email.',
       'phone_number': 'Số điện thoại',
       'phone_hint': '0987654321',
       'identity_card_number': 'Số CCCD',
-      'cccd_hint': '034758372993',
+      'cccd_hint': 'Nhập số CCCD của bạn',
       'password_confirmation': 'Xác nhận mật khẩu',
       'password_confirmation_hint': 'Nhập lại mật khẩu',
       'password_mismatch_error': 'Mật khẩu không khớp.',
@@ -371,8 +373,6 @@ class AppTranslations extends Translations {
       'completed_orders': 'Đơn đã hoàn thành',
       'cancellation_rate': 'Tỷ lệ hủy',
 
-      'stage_name': 'Nghệ danh',
-
       'front': 'Mặt trước',
       'back': 'Mặt sau',
 
@@ -492,7 +492,14 @@ class AppTranslations extends Translations {
       'no_balance_description_1': 'Số dư của bạn hiện là',
       "no_balance_description_2": "vui lòng nạp tiền vào ví.",
 
-      'partner_name': 'Tên đối tác',
+      'stage_name': 'Nghệ danh',
+      'stage_name_hint': 'Nhập nghệ danh của bạn',
+
+      'bio': 'Tiểu sử',
+      'bio_hint': 'Hãy kể cho chúng tôi về bạn và dịch vụ của bạn...',
+
+      'id_card': 'ID Card',
+
       'province': 'Thành phố',
       'district': 'Phường',
       'select_province_first': 'Vui lòng chọn thành phố trước',
@@ -504,6 +511,8 @@ class AppTranslations extends Translations {
       'identity_card_image_front': 'Ảnh CCCD mặt trước',
       'identity_card_image_back': 'Ảnh CCCD mặt sau',
 
+      'profile_updated': 'Hồ sơ đã được cập nhật!',
+
       ///Statuses
       'success': 'Thành công',
       'failed': 'Thất bại',
@@ -513,6 +522,8 @@ class AppTranslations extends Translations {
       'forbidden': 'Không có quyền',
       'not_found': 'Không tìm thấy',
       'invalid_request': 'Yêu cầu không hợp lệ',
+      'load_data_failed': 'Không thể tải dữ liệu',
+      'update_failed': 'Cập nhật thất bại',
 
       //buttons
       'next': 'Tiếp theo',
@@ -527,6 +538,8 @@ class AppTranslations extends Translations {
       'confirm': 'Xác nhận',
       'take_photo': 'Chụp ảnh',
       'complete': 'Hoàn thành',
+      'edit_profile': 'Chỉnh sửa hồ sơ',
+      'save': 'Lưu',
 
       //dev
       'in_dev': 'Tính năng đang phát triển',
@@ -561,12 +574,14 @@ class AppTranslations extends Translations {
       'create_account': 'Create Account',
       'full_name': 'Full Name',
       'name_hint': 'Enter your full name',
+      'name_required': 'Please enter your full name.',
       'email_address': 'Email Address',
       'email_hint': 'email@example.com',
+      'email_required': 'Please enter your email address.',
       'phone_number': 'Phone Number',
       'phone_hint': '0987654321',
       'identity_card_number': 'Identity Card Number',
-      'cccd_hint': '034758372993',
+      'cccd_hint': 'Enter your ID card number',
       'password_confirmation': 'Confirm Password',
       'password_confirmation_hint': 'Re-enter password',
       'password_mismatch_error': 'Passwords do not match.',
@@ -849,13 +864,8 @@ class AppTranslations extends Translations {
       'completed_orders': 'Completed Orders',
       'cancellation_rate': 'Cancelled rate',
 
-      'stage_name': 'Stage name',
-
       'front': 'Front',
       'back': 'Back',
-
-      'id_number': 'ID Number',
-      'id_card': 'ID Card',
 
       ///Show
       'take_order': 'Take show',
@@ -960,7 +970,14 @@ class AppTranslations extends Translations {
       'no_balance_description_1': 'Your current balance is',
       "no_balance_description_2": "please add balance to your wallet.",
 
-      'partner_name': 'Partner Name',
+      'stage_name': 'Stage name',
+      'stage_name_hint': 'Enter your stage name',
+
+      'bio': 'Bio',
+      'bio_hint': 'Tell us about yourself and your services...',
+
+      'id_card': 'ID Card',
+
       'province': 'City',
       'district': 'District',
       'select_province_first': 'Please select city first',
@@ -971,6 +988,8 @@ class AppTranslations extends Translations {
       'selfie_image': 'Selfie Image',
       'identity_card_image_front': 'Identity Card Image Front',
       'identity_card_image_back': 'Identity Card Image Back',
+      
+      'profile_updated': 'Profile has been updated!',
 
       ///Statuses
       'success': 'Success',
@@ -982,6 +1001,7 @@ class AppTranslations extends Translations {
       'not_found': 'Not Found',
       'invalid_request': 'Invalid Request',
       'load_data_failed': 'Failed to load data',
+      'update_failed': 'Update failed',
 
       //times
       'just_now': 'just now',
@@ -1010,32 +1030,9 @@ class AppTranslations extends Translations {
       'take_photo': 'Take Photo',
       'complete': 'Complete',
       'edit_profile': 'Edit Profile',
+      'save': 'Save',
 
       /// Asset Order Detail
-      'asset_order_detail_title': 'Design Order Detail',
-      'asset_order_details': 'Order Information',
-      'order_id': 'Order ID',
-      'updated_at_label': 'Updated',
-      'payment_method': 'Payment Method',
-      'design_price': 'Design Price',
-      'tax': 'Tax',
-      'final_total': 'Final Total',
-      'download_zip': 'Download ZIP',
-      'download': 'Download',
-      'download_starting': 'Preparing download...',
-      'repay': 'Repay',
-
-      // Report bottom sheet
-      'report_bill_title': 'Report Issue',
-      'report_title_label': 'Title',
-      'report_title_hint': 'Enter report title',
-      'report_desc_label': 'Description',
-      'report_desc_hint': 'Describe the issue clearly...',
-      'submit_report': 'Submit Report',
-      'report_success_message': 'Report submitted successfully!',
-      'report_failed': 'Failed to submit report. Please try again.',
-
-      // Asset Order Detail
       'asset_order_detail_title': 'Design Order Detail',
       'asset_order_details': 'Order Information',
       'order_id': 'Order ID',
