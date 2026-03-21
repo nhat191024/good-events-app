@@ -9,6 +9,7 @@ export 'package:sukientotapp/features/common/notification/screen.dart';
 export 'package:sukientotapp/features/common/introduction/screen.dart';
 export 'package:sukientotapp/features/common/my_profile/screen.dart';
 export 'package:sukientotapp/features/common/my_profile/edit_screen.dart';
+export 'package:sukientotapp/features/common/change_password/screen.dart';
 
 //Guest
 export 'package:sukientotapp/features/common/home/screen.dart';

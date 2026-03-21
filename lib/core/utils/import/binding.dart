@@ -9,6 +9,7 @@ export 'package:sukientotapp/features/common/notification/binding.dart';
 export 'package:sukientotapp/features/common/introduction/binding.dart';
 export 'package:sukientotapp/features/common/my_profile/binding.dart';
 export 'package:sukientotapp/features/common/my_profile/edit_binding.dart';
+export 'package:sukientotapp/features/common/change_password/binding.dart';
 
 //Guest
 export 'package:sukientotapp/features/common/home/binding.dart';

@@ -55,4 +55,5 @@ class AppUrl {
   // Profile
   static const String profile = '/profile/me';
   static const String updateProfile = '/profile/update';
+  static const String updatePassword = '/profile/password';
 }

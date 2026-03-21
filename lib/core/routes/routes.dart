@@ -16,6 +16,7 @@ abstract class Routes {
   //Common
   static const myProfile = '/my-profile';
   static const editProfile = '/my-profile/edit';
+  static const changePassword = '/change-password';
 
   // Partner
   static const partnerHome = '/partner/home';

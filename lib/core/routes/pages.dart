@@ -68,6 +68,14 @@ class Pages {
       transitionDuration: const Duration(milliseconds: 300),
     ),
 
+    GetPage(
+      name: Routes.changePassword,
+      page: () => const ChangePasswordScreen(),
+      binding: ChangePasswordBinding(),
+      transition: Transition.rightToLeft,
+      transitionDuration: const Duration(milliseconds: 300),
+    ),
+
     //Guest
     GetPage(
       name: Routes.guestHomeScreen,

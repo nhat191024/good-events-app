@@ -27,6 +27,32 @@ class ProfileProvider {
     }
   }
 
+  Future<Map<String, dynamic>> updatePassword({
+    required String currentPassword,
+    required String password,
+    required String passwordConfirmation,
+  }) async {
+    try {
+      final response = await _apiService.dio.post(
+        AppUrl.updatePassword,
+        data: {
+          'current_password': currentPassword,
+          'password': password,
+          'password_confirmation': passwordConfirmation,
+        },
+      );
+      if (response.statusCode == 200) {
+        return response.data as Map<String, dynamic>;
+      } else {
+        throw Exception('Failed to update password: ${response.statusCode}');
+      }
+    } on DioException catch (e) {
+      logger.e('[ProfileProvider] [updatePassword] DioException: ${e.message}');
+      final errorMessage = e.response?.data['message'] ?? 'Failed to update password';
+      throw Exception(errorMessage);
+    }
+  }
+
   Future<Map<String, dynamic>> getProfile() async {
     try {
       final response = await _apiService.dio.get(AppUrl.profile);
