@@ -111,14 +111,14 @@ mason make feature --name profile_settings --role client --use_repository true
 
 ### Standardized Error Handling
 
-Sử dụng `ErrorHandler` và `GetxSuperSnackbar` (custom wrapper) để hiển thị lỗi cho người dùng.
+Sử dụng `ErrorHandler` và `AppSnackbar` (custom wrapper) để hiển thị lỗi cho người dùng.
 
 ```dart
 try {
   final response = await apiProvider.getData();
 } catch (e) {
   ErrorHandler.handle(e);
-  GetxSuperSnackbar.showError(title: 'Error', message: e.toString());
+  AppSnackbar.showError(title: 'Error', message: e.toString());
 }
 ```
 
