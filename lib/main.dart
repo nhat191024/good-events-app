@@ -1,3 +1,4 @@
+import 'package:flutter_quill/flutter_quill.dart';
 import 'package:get_storage/get_storage.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 
@@ -86,6 +87,9 @@ class GoodEvent extends StatelessWidget {
       translations: AppTranslations(),
       locale: const Locale('vi', 'VN'),
       fallbackLocale: const Locale('en', 'US'),
+      localizationsDelegates: const [
+        FlutterQuillLocalizations.delegate,
+      ],
 
       themeMode: ThemeMode.light,
 
