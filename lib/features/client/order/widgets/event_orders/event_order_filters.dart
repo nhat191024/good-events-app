@@ -231,6 +231,7 @@ class EventOrderFilters extends StatelessWidget {
                 _buildSortOption(context, controller, 'highest_budget', 'sort_highest_budget'),
                 _buildSortOption(context, controller, 'lowest_budget', 'sort_lowest_budget'),
               ] else ...[
+                _buildSortOption(context, controller, 'latest_activity', 'sort_latest_activity'),
                 _buildSortOption(context, controller, 'newest', 'sort_newest'),
                 _buildSortOption(context, controller, 'oldest', 'sort_oldest'),
                 _buildSortOption(context, controller, 'highest-budget', 'sort_highest_budget'),

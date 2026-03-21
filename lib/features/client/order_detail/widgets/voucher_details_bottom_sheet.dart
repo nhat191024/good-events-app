@@ -135,7 +135,6 @@ class VoucherDetailsBottomSheet extends StatelessWidget {
                                               : 0)
                                           .toString(),
                                 }),
-                          subtitle: 'keep_code_hint'.tr,
                         ),
                       ),
                     ],
@@ -207,7 +206,7 @@ class VoucherDetailsBottomSheet extends StatelessWidget {
     BuildContext context, {
     required String title,
     required String value,
-    required String subtitle,
+    String? subtitle,
     bool isSubtitleBold = false,
   }) {
     return Container(
@@ -227,13 +226,14 @@ class VoucherDetailsBottomSheet extends StatelessWidget {
             style: context.typography.sm.copyWith(fontWeight: FontWeight.bold, fontSize: 13),
           ),
           const SizedBox(height: 2),
-          Text(
-            subtitle,
-            style: context.typography.xs.copyWith(
-              color: isSubtitleBold ? Colors.black87 : Colors.grey[600],
-              fontWeight: isSubtitleBold ? FontWeight.bold : FontWeight.normal,
+          if (subtitle != null)
+            Text(
+              subtitle,
+              style: context.typography.xs.copyWith(
+                color: isSubtitleBold ? Colors.black87 : Colors.grey[600],
+                fontWeight: isSubtitleBold ? FontWeight.bold : FontWeight.normal,
+              ),
             ),
-          ),
         ],
       ),
     );

@@ -55,6 +55,18 @@ class OrderProvider {
     }
   }
 
+  Future<dynamic> getHistoryOrder(int orderId) async {
+    try {
+      final response = await _dio.get(AppUrl.clientHistoryOrder(orderId));
+      return response.data;
+    } on DioException catch (e) {
+      if (e.response != null) {
+        throw Exception(e.response?.data['message'] ?? 'fetch_failed'.tr);
+      }
+      throw Exception('network_error'.tr);
+    }
+  }
+
   Future<dynamic> getAssetOrders() async {
     try {
       final response = await _dio.get(AppUrl.clientAssetOrders);

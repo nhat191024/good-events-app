@@ -104,6 +104,20 @@ class OrderRepositoryImpl implements OrderRepository {
   }
 
   @override
+  Future<HistoryOrderModel?> getHistoryOrder(int orderId) async {
+    try {
+      final response = await _provider.getHistoryOrder(orderId);
+      if (response != null && response is Map<String, dynamic>) {
+        return HistoryOrderModel.fromJson(response);
+      }
+      return null;
+    } catch (e) {
+      logger.e('Failed to parse getHistoryOrder response: $e');
+      return null;
+    }
+  }
+
+  @override
   Future<List<AssetOrderModel>> getAssetOrders() async {
     try {
       final response = await _provider.getAssetOrders();

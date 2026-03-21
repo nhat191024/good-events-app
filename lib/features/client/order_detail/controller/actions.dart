@@ -4,20 +4,44 @@ extension ClientOrderDetailActions on ClientOrderDetailController {
   Future<void> fetchOrderDetails({bool showLoading = true}) async {
     if (showLoading) isLoadingDetails.value = true;
     try {
-      final results = await Future.wait([
-        _repository.getOrderDetails(orderId),
-        if (!isHistory.value) _repository.getOrder(orderId),
-      ]);
+      if (isHistory.value) {
+        // For history orders: fetch the single history order + its details in parallel
+        final results = await Future.wait([
+          _repository.getOrderDetails(orderId),
+          _repository.getHistoryOrder(orderId),
+        ]);
 
-      final details = results[0] as OrderDetailModel?;
-      orderDetail.value = details;
+        final details = results[0] as OrderDetailModel?;
+        orderDetail.value = details;
 
-      if (!isHistory.value && results.length > 1) {
+        final updatedOrder = results[1] as HistoryOrderModel?;
+        if (updatedOrder != null) {
+          _historyOrder.value = updatedOrder;
+
+          // Sync back to ClientOrderController's history list if it exists
+          if (Get.isRegistered<ClientOrderController>()) {
+            final listController = Get.find<ClientOrderController>();
+            final index = listController.historyOrders.indexWhere((o) => o.id == updatedOrder.id);
+            if (index != -1) {
+              listController.historyOrders[index] = updatedOrder;
+            }
+          }
+        }
+      } else {
+        // For current orders: fetch order details + the order itself in parallel
+        final results = await Future.wait([
+          _repository.getOrderDetails(orderId),
+          _repository.getOrder(orderId),
+        ]);
+
+        final details = results[0] as OrderDetailModel?;
+        orderDetail.value = details;
+
         final updatedOrder = results[1] as EventOrderModel?;
         if (updatedOrder != null) {
           _eventOrder.value = updatedOrder;
 
-          // Sync back to ClientOrderController if it exists
+          // Sync back to ClientOrderController's event orders list if it exists
           if (Get.isRegistered<ClientOrderController>()) {
             final listController = Get.find<ClientOrderController>();
             final index = listController.eventOrders.indexWhere((o) => o.id == updatedOrder.id);
@@ -349,8 +373,8 @@ extension ClientOrderDetailActions on ClientOrderDetailController {
 
       if (result['success'] == true) {
         Get.back(); // Close bottom sheet
-        Get.snackbar('success'.tr, 'review_submitted_success'.tr);
-        await fetchOrderDetails(); // Refresh to show the new review (if API supports returning it)
+        Get.snackbar('success'.tr, result['message'] ?? 'review_submitted_success'.tr);
+        await fetchOrderDetails();
       } else {
         Get.snackbar(
           'error'.tr,

@@ -24,12 +24,10 @@ class ClientOrderDetailScreen extends GetView<ClientOrderDetailController> {
               icon: const Icon(Icons.arrow_back, color: Colors.black),
               onPressed: () => Get.back(),
             ),
-            title: Flexible(
-              child: Text(
-                'back_to_list'.tr,
-                style: context.typography.sm.copyWith(color: Colors.black),
-                overflow: TextOverflow.ellipsis,
-              ),
+            title: Text(
+              'back_to_list'.tr,
+              style: context.typography.sm.copyWith(color: Colors.black),
+              overflow: TextOverflow.ellipsis,
             ),
           ),
           body: SafeArea(

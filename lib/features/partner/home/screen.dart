@@ -73,6 +73,7 @@ class HomeScreen extends GetView<HomeController> {
                     hasNotification:
                         controller.dashboardData.value?.hasNotification ??
                         false,
+						onTap: () => Get.toNamed(Routes.notification),
                   ),
                 ),
               ],

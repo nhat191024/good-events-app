@@ -9,118 +9,141 @@ class AssetOrderList extends StatelessWidget {
     required this.controller,
     required this.orders,
     required this.emptyMessage,
+    required this.refreshController,
+    required this.onRefresh,
+    required this.onLoading,
   });
 
   final ClientOrderController controller;
   final List<AssetOrderModel> orders;
   final String emptyMessage;
+  final RefreshController refreshController;
+  final VoidCallback onRefresh;
+  final VoidCallback onLoading;
 
   @override
   Widget build(BuildContext context) {
-    if (controller.isLoadingAssetOrders.value) {
-      return _buildLoading();
-    }
-
-    if (orders.isEmpty) {
-      return _buildEmpty(context);
-    }
-
-    return Column(
-      children: [
-        // Header
-        Container(
-          padding: const EdgeInsets.all(16),
-          color: Colors.white,
-          child: Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            children: [
-              Text(
-                'purchased_designs'.tr,
-                style: context.typography.base.copyWith(
-                  fontWeight: FontWeight.w600,
-                ),
-              ),
-              Container(
-                padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
-                decoration: BoxDecoration(
-                  color: context.primary.withValues(alpha: 0.1),
-                  borderRadius: BorderRadius.circular(12),
-                ),
-                child: Text(
-                  '${orders.length}',
-                  style: context.typography.xs.copyWith(
-                    color: context.primary,
-                    fontWeight: FontWeight.w600,
-                  ),
-                ),
-              ),
-            ],
-          ),
-        ),
-
-        // List
-        Expanded(
-          child: ListView.builder(
-            padding: const EdgeInsets.all(16),
-            itemCount: orders.length,
-            itemBuilder: (context, index) {
-              return AssetOrderCard(
-                order: orders[index],
-                isSelected: index == 0,
-              );
-            },
-          ),
-        ),
-      ],
+    return SmartRefresher(
+      controller: refreshController,
+      enablePullDown: true,
+      enablePullUp: false,
+      header: const ClassicHeader(),
+      onRefresh: onRefresh,
+      onLoading: onLoading,
+      child: _buildContent(context),
     );
   }
 
-  Widget _buildLoading() {
+  Widget _buildContent(BuildContext context) {
     return ListView.builder(
-      padding: const EdgeInsets.all(16),
-      itemCount: 3,
+      padding: EdgeInsets.zero,
+      physics: const AlwaysScrollableScrollPhysics(),
+      itemCount: _getItemCount(),
       itemBuilder: (context, index) {
-        return Container(
-          margin: const EdgeInsets.only(bottom: 12),
-          height: 100,
-          decoration: BoxDecoration(
-            color: context.primary.withValues(alpha: 0.05),
-            borderRadius: BorderRadius.circular(12),
-            border: Border.all(
-              color: context.primary.withValues(alpha: 0.1),
-              style: BorderStyle.solid,
-            ),
+        if (controller.isLoadingAssetOrders.value) {
+          return _buildLoadingItem(context, index);
+        }
+
+        if (orders.isEmpty) {
+          return _buildEmptyItem(context);
+        }
+
+        if (index == 0) {
+          return _buildHeader(context);
+        }
+
+        return Padding(
+          padding: const EdgeInsets.symmetric(horizontal: 16),
+          child: AssetOrderCard(
+            order: orders[index - 1],
+            isSelected: (index - 1) == 0,
           ),
-          child: const Center(child: CircularProgressIndicator()),
         );
       },
     );
   }
 
-  Widget _buildEmpty(BuildContext context) {
-    return Center(
-      child: Container(
-        margin: const EdgeInsets.all(24),
-        padding: const EdgeInsets.all(24),
-        decoration: BoxDecoration(
-          color: Colors.grey[50],
-          borderRadius: BorderRadius.circular(12),
-          border: Border.all(
-            color: Colors.grey[200]!,
-            style: BorderStyle.solid,
-          ),
-        ),
-        child: Column(
-          mainAxisSize: MainAxisSize.min,
-          children: [
-            Icon(Icons.inventory_2_outlined, size: 48, color: Colors.grey[300]),
-            const SizedBox(height: 12),
-            Text(
-              emptyMessage,
-              style: context.typography.sm.copyWith(color: Colors.grey[500]),
-              textAlign: TextAlign.center,
+  int _getItemCount() {
+    if (controller.isLoadingAssetOrders.value) return 3;
+    if (orders.isEmpty) return 1;
+    return orders.length + 1; // Header + List
+  }
+
+  Widget _buildHeader(BuildContext context) {
+    return Container(
+      padding: const EdgeInsets.all(16),
+      color: Colors.white,
+      child: Row(
+        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+        children: [
+          Text(
+            'purchased_designs'.tr,
+            style: context.typography.base.copyWith(
+              fontWeight: FontWeight.w600,
             ),
-          ],
+          ),
+          Container(
+            padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
+            decoration: BoxDecoration(
+              color: context.primary.withValues(alpha: 0.1),
+              borderRadius: BorderRadius.circular(12),
+            ),
+            child: Text(
+              '${orders.length}',
+              style: context.typography.xs.copyWith(
+                color: context.primary,
+                fontWeight: FontWeight.w600,
+              ),
+            ),
+          ),
+        ],
+      ),
+    );
+  }
+
+  Widget _buildLoadingItem(BuildContext context, int index) {
+    return Container(
+      margin: const EdgeInsets.fromLTRB(16, 0, 16, 12),
+      height: 100,
+      decoration: BoxDecoration(
+        color: context.primary.withValues(alpha: 0.05),
+        borderRadius: BorderRadius.circular(12),
+        border: Border.all(
+          color: context.primary.withValues(alpha: 0.1),
+          style: BorderStyle.solid,
+        ),
+      ),
+      child: const Center(child: CircularProgressIndicator()),
+    );
+  }
+
+  Widget _buildEmptyItem(BuildContext context) {
+    return SizedBox(
+      height: MediaQuery.of(context).size.height * 0.7,
+      child: Center(
+        child: Container(
+          margin: const EdgeInsets.all(24),
+          padding: const EdgeInsets.all(24),
+          decoration: BoxDecoration(
+            color: Colors.grey[50],
+            borderRadius: BorderRadius.circular(12),
+            border: Border.all(
+              color: Colors.grey[200]!,
+              style: BorderStyle.solid,
+            ),
+          ),
+          child: Column(
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              Icon(Icons.inventory_2_outlined, size: 48, color: Colors.grey[300]),
+              const SizedBox(height: 12),
+              Text(
+                emptyMessage,
+                style: context.typography.sm.copyWith(color: Colors.grey[500]),
+                textAlign: TextAlign.center,
+              ),
+            ],
+          ),
         ),
       ),
     );
