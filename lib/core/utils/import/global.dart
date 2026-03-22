@@ -7,6 +7,7 @@ export 'package:forui/forui.dart';
 export 'package:intl/intl.dart' hide TextDirection;
 export 'package:cached_network_image/cached_network_image.dart';
 export 'package:pull_to_refresh/pull_to_refresh.dart' hide RefreshIndicator, RefreshIndicatorState;
+export 'package:flutter_animate/flutter_animate.dart';
 
 // Exporting core utilities
 export 'package:sukientotapp/core/utils/app_snackbar.dart';
