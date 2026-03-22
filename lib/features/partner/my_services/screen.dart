@@ -34,11 +34,18 @@ class MyServicesScreen extends GetView<MyServicesController> {
                       itemBuilder: (context, index) {
                         final service = controller.services[index];
                         return ServiceCard(
-                          service: service,
-                          onEdit: () => controller.openEditSheet(service),
-                          onManageMedia: () =>
-                              controller.openManageMediaSheet(service),
-                        ).animate().fadeIn(duration: 500.ms);
+                              service: service,
+                              onEdit: () => controller.openEditSheet(service),
+                              onManageMedia: () =>
+                                  controller.openManageMediaSheet(service),
+                            )
+                            .animate(delay: (index * 100).ms)
+                            .fadeIn(duration: 400.ms)
+                            .slideY(
+                              begin: -0.02,
+                              end: 0,
+                              curve: Curves.easeOut,
+                            );
                       },
                     ),
             );
