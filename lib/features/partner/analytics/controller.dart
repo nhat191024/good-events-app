@@ -1,5 +1,4 @@
 import 'package:sukientotapp/core/utils/import/global.dart';
-import 'package:sukientotapp/core/utils/logger.dart';
 import 'package:sukientotapp/data/models/partner/analytics_model.dart';
 import 'package:sukientotapp/domain/repositories/partner/analytics_repository.dart';
 

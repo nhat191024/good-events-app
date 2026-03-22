@@ -1,7 +1,6 @@
 import 'package:sukientotapp/core/utils/import/global.dart';
 import 'package:sukientotapp/features/common/introduction/controller.dart';
 import 'package:sukientotapp/features/common/introduction/step_images.dart';
-import 'package:flutter_animate/flutter_animate.dart';
 
 class IntroBackground extends StatelessWidget {
   final IntroductionController controller;

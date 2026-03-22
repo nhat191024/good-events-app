@@ -172,7 +172,7 @@ class _PusherConnectionsSheetState extends State<_PusherConnectionsSheet> {
                   : ListView.separated(
                       shrinkWrap: true,
                       itemCount: channels.length,
-                      separatorBuilder: (_, __) => const Divider(height: 1),
+                      separatorBuilder: (_, _) => const Divider(height: 1),
                       itemBuilder: (_, index) {
                         final ch = channels[index];
                         final isPrivate = ch.startsWith('private-');

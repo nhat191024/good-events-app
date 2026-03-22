@@ -1,5 +1,3 @@
-import 'package:flutter_animate/flutter_animate.dart';
-
 import 'package:sukientotapp/core/utils/import/global.dart';
 
 import 'package:sukientotapp/features/client/home/widgets/bill_count.dart';

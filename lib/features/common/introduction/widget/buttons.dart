@@ -1,7 +1,6 @@
 import 'package:sukientotapp/core/utils/import/global.dart';
 import 'package:sukientotapp/features/common/introduction/controller.dart';
 import 'package:sukientotapp/features/components/button/plus.dart';
-import 'package:flutter_animate/flutter_animate.dart';
 
 class IntroButtons extends StatelessWidget {
   final IntroductionController controller;

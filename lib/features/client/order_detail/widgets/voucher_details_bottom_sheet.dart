@@ -1,6 +1,5 @@
 import 'package:sukientotapp/core/utils/import/global.dart';
 import 'package:sukientotapp/data/models/client/voucher_model.dart';
-import 'package:intl/intl.dart';
 
 class VoucherDetailsBottomSheet extends StatelessWidget {
   final VoucherModel voucher;
@@ -103,7 +102,7 @@ class VoucherDetailsBottomSheet extends StatelessWidget {
                           context,
                           title: 'min_order_condition'.tr,
                           value:
-                              '${NumberFormat.currency(locale: 'vi_VN', symbol: 'đ', decimalDigits: 0).format(voucher.minOrderAmount)}',
+                              NumberFormat.currency(locale: 'vi_VN', symbol: 'đ', decimalDigits: 0).format(voucher.minOrderAmount),
                           subtitle: 'voucher_apply_hint'.tr,
                         ),
                       ),

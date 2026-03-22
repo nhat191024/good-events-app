@@ -1,4 +1,3 @@
-import 'package:flutter_animate/flutter_animate.dart';
 import 'package:sukientotapp/core/utils/import/global.dart';
 import 'package:sukientotapp/features/client/home/controller.dart';
 import 'package:sukientotapp/features/components/common/language_switch/language_switch.dart';

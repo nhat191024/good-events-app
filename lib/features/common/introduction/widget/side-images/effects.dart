@@ -1,5 +1,4 @@
 import 'package:sukientotapp/core/utils/import/global.dart';
-import 'package:flutter_animate/flutter_animate.dart';
 import 'positions.dart';
 
 /// [isLeft] = true means this image is on the left side of the screen.

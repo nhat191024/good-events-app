@@ -1,6 +1,3 @@
-// this will import the QuickActionPanel with a warpper ClientQuickActionPanel
-
-import 'package:flutter_animate/flutter_animate.dart';
 import 'package:sukientotapp/core/utils/import/global.dart';
 
 class ClientQuickActionPanel extends StatelessWidget {
