@@ -11,98 +11,52 @@ class ShowCalendarScreen extends GetView<ShowCalendarController> {
   Widget build(BuildContext context) {
     return FScaffold(
       childPad: false,
-      header: Container(
-        padding: EdgeInsets.only(
-          top: context.statusBarHeight + 8,
-          left: 16,
-          right: 16,
-          bottom: 8,
-        ),
-        child: Row(
-          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-          children: [
-            GestureDetector(
-              onTap: () => Get.back(),
-              child: Container(
-                width: 40,
-                height: 40,
-                decoration: const BoxDecoration(
-                  shape: BoxShape.circle,
-                  color: Colors.white,
-                ),
-                child: const Center(
-                  child: Icon(
-                    Icons.arrow_back,
-                    color: AppColors.lightForeground,
-                    size: 24,
-                  ),
-                ),
-              ),
-            ),
-            Text(
-              'show_calendar'.tr,
-              style: Get.textTheme.headlineSmall?.copyWith(
-                fontWeight: FontWeight.bold,
-              ),
-            ),
-            Obx(
-              () => GestureDetector(
-                onTap: controller.toggleView,
-                child: Container(
-                  width: 40,
-                  height: 40,
-                  decoration: BoxDecoration(
-                    shape: BoxShape.circle,
-                    color: Colors.white,
-                    border: Border.all(color: AppColors.dividers),
-                  ),
-                  child: Center(
-                    child: Icon(
-                      controller.currentView.value == CalendarView.month
-                          ? FIcons.calendar1
-                          : FIcons.layoutGrid,
-                      size: 18,
-                      color: AppColors.lightForeground,
-                    ),
-                  ),
-                ),
-              ),
-            ),
-          ],
-        ),
-      ),
+      header: _CalendarHeader(controller: controller),
       child: Obx(() {
         if (controller.isLoading.value) {
-          return Center(
-            child: CircularProgressIndicator(
-              valueColor: AlwaysStoppedAnimation<Color>(
-                context.fTheme.colors.primary,
-              ),
-            ),
-          );
+          return const _LoadingState();
         }
 
         return SfCalendar(
           controller: controller.calendarController,
           view: CalendarView.month,
           dataSource: BillDataSource(controller.appointments),
+          todayHighlightColor: AppColors.primary,
+          selectionDecoration: BoxDecoration(
+            border: Border.all(color: AppColors.primary, width: 2),
+            borderRadius: BorderRadius.circular(6),
+          ),
           monthViewSettings: const MonthViewSettings(
             appointmentDisplayMode: MonthAppointmentDisplayMode.appointment,
             showAgenda: true,
-            agendaViewHeight: 180,
+            agendaViewHeight: 200,
+            agendaItemHeight: 60,
           ),
           appointmentTextStyle: const TextStyle(
-            fontSize: 12,
-            fontWeight: FontWeight.w500,
+            fontSize: 11,
+            fontWeight: FontWeight.w600,
             color: Colors.white,
           ),
           headerStyle: const CalendarHeaderStyle(
             textAlign: TextAlign.center,
+            backgroundColor: Colors.transparent,
             textStyle: TextStyle(
               fontWeight: FontWeight.bold,
               fontSize: 16,
+              color: AppColors.lightForeground,
+              letterSpacing: 0.3,
             ),
           ),
+          viewHeaderStyle: const ViewHeaderStyle(
+            backgroundColor: Colors.transparent,
+            dayTextStyle: TextStyle(
+              fontSize: 11,
+              fontWeight: FontWeight.w600,
+              color: AppColors.lightMutedForeground,
+              letterSpacing: 0.5,
+            ),
+          ),
+          cellBorderColor: AppColors.dividers,
           onTap: (CalendarTapDetails details) {
             if (details.appointments != null &&
                 details.appointments!.isNotEmpty) {
@@ -112,7 +66,7 @@ class ShowCalendarScreen extends GetView<ShowCalendarController> {
               );
             }
           },
-        );
+        ).animate().fadeIn(duration: 350.ms);
       }),
     );
   }
@@ -130,6 +84,7 @@ class ShowCalendarScreen extends GetView<ShowCalendarController> {
     showModalBottomSheet(
       context: context,
       backgroundColor: Colors.transparent,
+      isScrollControlled: true,
       builder: (_) => _BillDetailSheet(
         appointment: appointment,
         bill: bill,
@@ -140,6 +95,136 @@ class ShowCalendarScreen extends GetView<ShowCalendarController> {
     );
   }
 }
+
+// ─── Header ───────────────────────────────────────────────────────────────────
+
+class _CalendarHeader extends StatelessWidget {
+  final ShowCalendarController controller;
+  const _CalendarHeader({required this.controller});
+
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      padding: EdgeInsets.only(
+        top: context.statusBarHeight + 6,
+        left: 16,
+        right: 16,
+        bottom: 12,
+      ),
+      decoration: const BoxDecoration(
+        color: Colors.white,
+        border: Border(
+          bottom: BorderSide(color: AppColors.dividers, width: 1),
+        ),
+      ),
+      child: Row(
+        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+        children: [
+          _HeaderIconButton(
+            onTap: () => Get.back(),
+            child: const Icon(
+              Icons.arrow_back_ios_new_rounded,
+              color: AppColors.lightForeground,
+              size: 17,
+            ),
+          ),
+          Column(
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              Text(
+                'show_calendar'.tr,
+                style: const TextStyle(
+                  fontWeight: FontWeight.bold,
+                  fontSize: 16,
+                  color: AppColors.lightForeground,
+                  letterSpacing: 0.2,
+                ),
+              ),
+              const SizedBox(height: 1),
+              Text(
+                'confirmed_bookings'.tr,
+                style: const TextStyle(
+                  fontSize: 11,
+                  color: AppColors.lightMutedForeground,
+                ),
+              ),
+            ],
+          ),
+          Obx(
+            () => _HeaderIconButton(
+              onTap: controller.toggleView,
+              child: Icon(
+                controller.currentView.value == CalendarView.month
+                    ? FIcons.calendar1
+                    : FIcons.layoutGrid,
+                size: 17,
+                color: AppColors.lightForeground,
+              ),
+            ),
+          ),
+        ],
+      ),
+    );
+  }
+}
+
+class _HeaderIconButton extends StatelessWidget {
+  final VoidCallback onTap;
+  final Widget child;
+  const _HeaderIconButton({required this.onTap, required this.child});
+
+  @override
+  Widget build(BuildContext context) {
+    return GestureDetector(
+      onTap: onTap,
+      child: Container(
+        width: 40,
+        height: 40,
+        decoration: BoxDecoration(
+          color: AppColors.lightBackground,
+          shape: BoxShape.circle,
+          border: Border.all(color: AppColors.dividers),
+        ),
+        child: Center(child: child),
+      ),
+    );
+  }
+}
+
+// ─── Loading State ────────────────────────────────────────────────────────────
+
+class _LoadingState extends StatelessWidget {
+  const _LoadingState();
+
+  @override
+  Widget build(BuildContext context) {
+    return Center(
+      child: Column(
+        mainAxisSize: MainAxisSize.min,
+        children: [
+          SizedBox(
+            width: 36,
+            height: 36,
+            child: CircularProgressIndicator(
+              strokeWidth: 3,
+              valueColor: AlwaysStoppedAnimation<Color>(AppColors.primary),
+            ),
+          ),
+          const SizedBox(height: 14),
+          const Text(
+            'Loading...',
+            style: TextStyle(
+              color: AppColors.lightMutedForeground,
+              fontSize: 13,
+            ),
+          ),
+        ],
+      ),
+    );
+  }
+}
+
+// ─── Bill Detail Bottom Sheet ─────────────────────────────────────────────────
 
 class _BillDetailSheet extends StatelessWidget {
   final Appointment appointment;
@@ -159,135 +244,305 @@ class _BillDetailSheet extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final timeFormat = DateFormat('HH:mm');
-    final dateFormat = DateFormat('EEEE, dd/MM/yyyy');
 
     return Container(
       decoration: const BoxDecoration(
         color: Colors.white,
-        borderRadius: BorderRadius.vertical(top: Radius.circular(24)),
+        borderRadius: BorderRadius.vertical(top: Radius.circular(28)),
       ),
-      padding: const EdgeInsets.fromLTRB(24, 16, 24, 32),
       child: Column(
         mainAxisSize: MainAxisSize.min,
-        crossAxisAlignment: CrossAxisAlignment.start,
         children: [
+          // Drag handle
+          const SizedBox(height: 10),
           Center(
             child: Container(
-              width: 40,
+              width: 36,
               height: 4,
               decoration: BoxDecoration(
-                color: Colors.grey[300],
+                color: AppColors.dividers,
                 borderRadius: BorderRadius.circular(2),
               ),
             ),
           ),
-          const SizedBox(height: 16),
-          Row(
-            children: [
-              Container(
-                width: 12,
-                height: 12,
-                decoration: const BoxDecoration(
-                  color: Color(0xFF4CAF50),
-                  shape: BoxShape.circle,
+          const SizedBox(height: 14),
+          // Gradient event header card
+          Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 16),
+            child: Container(
+              width: double.infinity,
+              padding: const EdgeInsets.all(20),
+              decoration: const BoxDecoration(
+                gradient: LinearGradient(
+                  colors: [AppColors.red600, AppColors.red700],
+                  begin: Alignment.topLeft,
+                  end: Alignment.bottomRight,
                 ),
+                borderRadius: BorderRadius.all(Radius.circular(20)),
               ),
-              const SizedBox(width: 8),
-              Expanded(
-                child: Text(
-                  appointment.subject,
-                  style: const TextStyle(
-                    fontSize: 18,
-                    fontWeight: FontWeight.bold,
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Container(
+                    padding: const EdgeInsets.symmetric(
+                      horizontal: 10,
+                      vertical: 4,
+                    ),
+                    decoration: BoxDecoration(
+                      color: Colors.white.withValues(alpha: 0.22),
+                      borderRadius: BorderRadius.circular(20),
+                    ),
+                    child: Row(
+                      mainAxisSize: MainAxisSize.min,
+                      children: [
+                        Container(
+                          width: 6,
+                          height: 6,
+                          decoration: const BoxDecoration(
+                            color: Colors.white,
+                            shape: BoxShape.circle,
+                          ),
+                        ),
+                        const SizedBox(width: 5),
+                        Text(
+                          'confirmed'.tr.toUpperCase(),
+                          style: const TextStyle(
+                            color: Colors.white,
+                            fontSize: 10,
+                            fontWeight: FontWeight.w700,
+                            letterSpacing: 0.8,
+                          ),
+                        ),
+                      ],
+                    ),
                   ),
-                ),
+                  const SizedBox(height: 10),
+                  Text(
+                    appointment.subject,
+                    style: const TextStyle(
+                      color: Colors.white,
+                      fontSize: 19,
+                      fontWeight: FontWeight.bold,
+                      height: 1.25,
+                    ),
+                  ),
+                  const SizedBox(height: 10),
+                  Row(
+                    children: [
+                      const Icon(
+                        Icons.calendar_today_rounded,
+                        color: Colors.white70,
+                        size: 12,
+                      ),
+                      const SizedBox(width: 5),
+                      Text(
+                        DateFormat('EEE, dd MMM yyyy').format(
+                          appointment.startTime,
+                        ),
+                        style: const TextStyle(
+                          color: Colors.white70,
+                          fontSize: 12,
+                          fontWeight: FontWeight.w500,
+                        ),
+                      ),
+                      const SizedBox(width: 14),
+                      const Icon(
+                        Icons.access_time_rounded,
+                        color: Colors.white70,
+                        size: 13,
+                      ),
+                      const SizedBox(width: 4),
+                      Text(
+                        '${timeFormat.format(appointment.startTime)} – ${timeFormat.format(appointment.endTime)}',
+                        style: const TextStyle(
+                          color: Colors.white70,
+                          fontSize: 12,
+                          fontWeight: FontWeight.w500,
+                        ),
+                      ),
+                    ],
+                  ),
+                ],
               ),
-            ],
-          ),
-          const SizedBox(height: 12),
-          _DetailRow(
-            icon: FIcons.hash,
-            label: 'bill_code'.tr,
-            value: code,
-          ),
-          _DetailRow(
-            icon: FIcons.user,
-            label: 'client'.tr,
-            value: clientName,
-          ),
-          _DetailRow(
-            icon: FIcons.calendar1,
-            label: 'date'.tr,
-            value: dateFormat.format(appointment.startTime),
-          ),
-          _DetailRow(
-            icon: FIcons.clock,
-            label: 'time'.tr,
-            value:
-                '${timeFormat.format(appointment.startTime)} - ${timeFormat.format(appointment.endTime)}',
-          ),
-          _DetailRow(
-            icon: FIcons.mapPin,
-            label: 'address'.tr,
-            value: address,
-          ),
-          if (bill != null) ...[
-            _DetailRow(
-              icon: FIcons.briefcase,
-              label: 'category'.tr,
-              value: bill!.category,
             ),
-            _DetailRow(
-              icon: FIcons.dollarSign,
-              label: 'total'.tr,
-              value: NumberFormat.currency(
-                locale: 'vi_VN',
-                symbol: '₫',
-                decimalDigits: 0,
-              ).format(bill!.finalTotal),
+          ),
+          // Detail cards
+          Padding(
+            padding: const EdgeInsets.fromLTRB(16, 14, 16, 8),
+            child: Column(
+              children: [
+                _InfoCard(
+                  items: [
+                    _DetailItem(
+                      iconBg: const Color(0xFFEFF6FF),
+                      icon: FIcons.hash,
+                      iconColor: const Color(0xFF3B82F6),
+                      label: 'bill_code'.tr,
+                      value: code,
+                    ),
+                    _DetailItem(
+                      iconBg: const Color(0xFFF0FDF4),
+                      icon: FIcons.user,
+                      iconColor: const Color(0xFF22C55E),
+                      label: 'client'.tr,
+                      value: clientName,
+                    ),
+                  ],
+                ),
+                const SizedBox(height: 10),
+                _InfoCard(
+                  items: [
+                    _DetailItem(
+                      iconBg: const Color(0xFFFFF7ED),
+                      icon: FIcons.mapPin,
+                      iconColor: const Color(0xFFF97316),
+                      label: 'address'.tr,
+                      value: address,
+                    ),
+                  ],
+                ),
+                if (bill != null) ...[
+                  const SizedBox(height: 10),
+                  _InfoCard(
+                    items: [
+                      _DetailItem(
+                        iconBg: const Color(0xFFFDF4FF),
+                        icon: FIcons.briefcase,
+                        iconColor: const Color(0xFFA855F7),
+                        label: 'category'.tr,
+                        value: bill!.category,
+                      ),
+                      _DetailItem(
+                        iconBg: const Color(0xFFFEF3C7),
+                        icon: FIcons.dollarSign,
+                        iconColor: AppColors.amber600,
+                        label: 'total'.tr,
+                        value: NumberFormat.currency(
+                          locale: 'vi_VN',
+                          symbol: '₫',
+                          decimalDigits: 0,
+                        ).format(bill!.finalTotal),
+                      ),
+                    ],
+                  ),
+                ],
+              ],
             ),
-          ],
-          const SizedBox(height: 8),
+          ),
+          SizedBox(
+            height: 16 + MediaQuery.of(context).viewPadding.bottom,
+          ),
         ],
+      ),
+    ).animate().slideY(
+          begin: 0.1,
+          end: 0,
+          duration: 320.ms,
+          curve: Curves.easeOutCubic,
+        ).fadeIn(duration: 250.ms);
+  }
+}
+
+// ─── Info Card ────────────────────────────────────────────────────────────────
+
+class _InfoCard extends StatelessWidget {
+  final List<_DetailItem> items;
+  const _InfoCard({required this.items});
+
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      decoration: BoxDecoration(
+        color: AppColors.lightBackground,
+        borderRadius: BorderRadius.circular(16),
+        border: Border.all(color: AppColors.dividers),
+      ),
+      child: Column(
+        children: items.asMap().entries.map((entry) {
+          final index = entry.key;
+          final item = entry.value;
+          return Column(
+            children: [
+              _DetailRow(item: item),
+              if (index < items.length - 1)
+                const Divider(
+                  height: 1,
+                  indent: 54,
+                  endIndent: 16,
+                  color: AppColors.dividers,
+                ),
+            ],
+          );
+        }).toList(),
       ),
     );
   }
 }
 
-class _DetailRow extends StatelessWidget {
+// ─── Detail Row ───────────────────────────────────────────────────────────────
+
+class _DetailItem {
+  final Color iconBg;
   final IconData icon;
+  final Color iconColor;
   final String label;
   final String value;
 
-  const _DetailRow({
+  const _DetailItem({
+    required this.iconBg,
     required this.icon,
+    required this.iconColor,
     required this.label,
     required this.value,
   });
+}
+
+class _DetailRow extends StatelessWidget {
+  final _DetailItem item;
+  const _DetailRow({required this.item});
 
   @override
   Widget build(BuildContext context) {
     return Padding(
-      padding: const EdgeInsets.symmetric(vertical: 6),
+      padding: const EdgeInsets.symmetric(horizontal: 14, vertical: 11),
       child: Row(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          Icon(icon, size: 16, color: context.fTheme.colors.mutedForeground),
-          const SizedBox(width: 10),
-          SizedBox(
-            width: 80,
-            child: Text(
-              label,
-              style: TextStyle(
-                fontSize: 13,
-                color: context.fTheme.colors.mutedForeground,
-              ),
+          Container(
+            width: 32,
+            height: 32,
+            decoration: BoxDecoration(
+              color: item.iconBg,
+              borderRadius: BorderRadius.circular(8),
+            ),
+            child: Center(
+              child: Icon(item.icon, size: 15, color: item.iconColor),
             ),
           ),
+          const SizedBox(width: 12),
           Expanded(
-            child: Text(
-              value,
-              style: const TextStyle(fontSize: 14, fontWeight: FontWeight.w500),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Text(
+                  item.label,
+                  style: const TextStyle(
+                    fontSize: 11,
+                    color: AppColors.lightMutedForeground,
+                    fontWeight: FontWeight.w500,
+                  ),
+                ),
+                const SizedBox(height: 2),
+                Text(
+                  item.value,
+                  style: const TextStyle(
+                    fontSize: 14,
+                    fontWeight: FontWeight.w600,
+                    color: AppColors.lightForeground,
+                    height: 1.3,
+                  ),
+                ),
+              ],
             ),
           ),
         ],
