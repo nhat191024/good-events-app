@@ -105,6 +105,14 @@ class Pages {
       transitionDuration: const Duration(milliseconds: 300),
     ),
 
+    GetPage(
+      name: Routes.partnerMyServices,
+      page: () => const MyServicesScreen(),
+      binding: MyServicesBinding(),
+      transition: Transition.rightToLeft,
+      transitionDuration: const Duration(milliseconds: 300),
+    ),
+
     //Partner Detail
     GetPage(
       name: Routes.partnerDetail,
