@@ -538,13 +538,22 @@ class AppTranslations extends Translations {
       ///my services
       'my_services': 'Dịch vụ của tôi',
       'add_service': 'Thêm dịch vụ',
+      'add_service_subtitle':
+          'Thêm dịch vụ của bạn. Giới thiệu dịch vụ chỉ hỗ trợ cho admin duyệt không hiển thị cho khách hàng',
+      'edit_service_subtitle':
+          'Danh mục của dịch vụ, hiện không trợ thay đổi giới thiệu',
       'no_services': 'Bạn chưa có dịch vụ nào',
       'manage_media': 'Quản lý media',
-      'service_media_info': 'Giới thiệu dịch vụ',
+      'service_media_info': 'Giới thiệu dịch vụ cho admin',
       'select_category': 'Chọn danh mục',
       'service_created': 'Dịch vụ đã được tạo thành công!',
-      'add_media': 'Thêm media',
+      'images_count': 'Số lượng ảnh',
+      'service_images': 'Ảnh giới thiệu dịch vụ cho khách',
       'no_media_yet': 'Chưa có media nào',
+      'tap_add_media_hint':
+          'Nhấn vào nút "Thêm media" để admin có thể duyệt dịch vụ của bạn nhanh hơn.',
+      'tap_add_images_hint':
+          'Nhấn vào nút "Thêm ảnh" để khách hàng có thể xem dịch vụ của bạn.',
       'media_required': 'Vui lòng thêm ít nhất 1 media.',
       'media_item': 'Media',
       'media_url': 'Đường dẫn video',
@@ -1113,13 +1122,22 @@ class AppTranslations extends Translations {
       ///my services
       'my_services': 'My Services',
       'add_service': 'Add Service',
+      'add_service_subtitle':
+          'Add your service. Service introduction is for admin review only and will not be shown to customers',
+      'edit_service_subtitle':
+          'Service category, currently does not support changing introduction',
       'no_services': 'You have no services yet',
       'manage_media': 'Manage media',
-      'service_media_info': 'Service media info',
+      'service_media_info': 'Introduce your service for admin',
       'select_category': 'Select category',
       'service_created': 'Service created successfully!',
-      'add_media': 'Add media',
+      'images_count': 'Images',
+      'service_images': 'Service images for customers',
       'no_media_yet': 'No media yet',
+      'tap_add_media_hint':
+          'Tap the "Add media" button to let admin review your service faster.',
+      'tap_add_images_hint':
+          'Tap the "Add images" button to add images for your service. These images will be shown to customers when they view your service.',
       'media_required': 'Please add at least 1 media.',
       'media_item': 'Media',
       'media_url': 'Video URL',
