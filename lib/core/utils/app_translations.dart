@@ -398,6 +398,8 @@ class AppTranslations extends Translations {
       'front': 'Mặt trước',
       'back': 'Mặt sau',
 
+      'no_data': 'Không có dữ liệu',
+
       ///Show
       'take_order': 'Nhận show',
       'arrived': 'Đã đến nơi',
@@ -469,19 +471,6 @@ class AppTranslations extends Translations {
       'conversation': 'Cuộc trò chuyện',
       'type_a_message': 'Nhập tin nhắn...',
 
-      //times
-      'just_now': 'vừa xong',
-      'minute_ago': '@count phút trước',
-      'minutes_ago': '@count phút trước',
-      'hour_ago': '@count giờ trước',
-      'hours_ago': '@count giờ trước',
-      'day_ago': '@count ngày trước',
-      'days_ago': '@count ngày trước',
-      'month_ago': '@count tháng trước',
-      'months_ago': '@count tháng trước',
-      'year_ago': '@count năm trước',
-      'years_ago': '@count năm trước',
-
       // show_calendar detail
       'bill_code': 'Mã bill',
       'client': 'Khách hàng',
@@ -495,7 +484,6 @@ class AppTranslations extends Translations {
 
       'my_profile': 'Hồ sơ của tôi',
       'show_calendar': 'Lịch show',
-      'revenue_statistics': 'Thống kê doanh thu',
       'change_password': 'Đổi mật khẩu',
       'current_password': 'Mật khẩu hiện tại',
       'current_password_hint': 'Nhập mật khẩu hiện tại',
@@ -571,8 +559,19 @@ class AppTranslations extends Translations {
       'images_limit_reached': 'Đã đạt giới hạn 10 ảnh',
       'image_too_large': 'Ảnh vượt quá 5MB, vui lòng chọn ảnh khác',
       'delete_image_confirm_title': 'Xóa ảnh?',
-      'delete_image_confirm_desc': 'Ảnh sẽ bị xóa vĩnh viễn và không thể khôi phục.',
-      'delete': 'Xóa',
+      'delete_image_confirm_desc':
+          'Ảnh sẽ bị xóa vĩnh viễn và không thể khôi phục.',
+
+      ///Statistics
+      'revenue_statistics': 'Thống kê doanh thu',
+      'monthly_revenue': 'Doanh thu hàng tháng',
+      'last_12_months': '12 tháng qua',
+      'overview': 'Tổng quan',
+      'number_of_customers': 'Số lượng khách hàng',
+      'satisfaction_rate': 'Tỷ lệ hài lòng',
+      'revenue': 'Doanh thu',
+      'orders_processed': 'Đơn hàng đã nhận',
+      'top_services': 'Dịch vụ phổ biến',
 
       ///Statuses
       'success': 'Thành công',
@@ -594,6 +593,19 @@ class AppTranslations extends Translations {
       'load_data_failed': 'Không thể tải dữ liệu',
       'update_failed': 'Cập nhật thất bại',
 
+      ///times
+      'just_now': 'vừa xong',
+      'minute_ago': '@count phút trước',
+      'minutes_ago': '@count phút trước',
+      'hour_ago': '@count giờ trước',
+      'hours_ago': '@count giờ trước',
+      'day_ago': '@count ngày trước',
+      'days_ago': '@count ngày trước',
+      'month_ago': '@count tháng trước',
+      'months_ago': '@count tháng trước',
+      'year_ago': '@count năm trước',
+      'years_ago': '@count năm trước',
+
       //buttons
       'next': 'Tiếp theo',
       'register': 'Đăng ký',
@@ -610,6 +622,7 @@ class AppTranslations extends Translations {
       'edit_profile': 'Chỉnh sửa hồ sơ',
       'save': 'Lưu',
       'edit': 'Chỉnh sửa',
+      'delete': 'Xóa',
 
       //dev
       'in_dev': 'Tính năng đang phát triển',
@@ -960,6 +973,8 @@ class AppTranslations extends Translations {
       'front': 'Front',
       'back': 'Back',
 
+      'no_data': 'No data',
+
       ///Show
       'take_order': 'Take show',
       'arrived': 'Arrived',
@@ -1045,7 +1060,6 @@ class AppTranslations extends Translations {
 
       'my_profile': 'My Profile',
       'show_calendar': 'Show Calendar',
-      'revenue_statistics': 'Revenue Statistics',
       'change_password': 'Change Password',
       'current_password': 'Current Password',
       'current_password_hint': 'Enter current password',
@@ -1120,8 +1134,19 @@ class AppTranslations extends Translations {
       'images_limit_reached': 'Limit of 10 images reached',
       'image_too_large': 'Image exceeds 5MB, please choose another',
       'delete_image_confirm_title': 'Delete image?',
-      'delete_image_confirm_desc': 'This image will be permanently deleted and cannot be recovered.',
-      'delete': 'Delete',
+      'delete_image_confirm_desc':
+          'This image will be permanently deleted and cannot be recovered.',
+
+      ///Statistics
+      'revenue_statistics': 'Revenue Statistics',
+      'monthly_revenue': 'Monthly Revenue',
+      'last_12_months': 'Last 12 Months',
+      'overview': 'Overview',
+      'number_of_customers': 'Number of Customers',
+      'satisfaction_rate': 'Satisfaction Rate',
+      'revenue': 'Revenue',
+      'orders_processed': 'Orders Processed',
+      'top_services': 'Top Services',
 
       ///Statuses
       'success': 'Success',
@@ -1133,9 +1158,9 @@ class AppTranslations extends Translations {
       'rejected': 'Rejected',
       'pending': 'Pending',
 
-      'pending_status': 'Chờ xử lý',
-      'paid_status': 'Đã thanh toán',
-      'cancelled_status': 'Đã hủy',
+      'pending_status': 'Pending',
+      'paid_status': 'Paid',
+      'cancelled_status': 'Cancelled',
 
       'forbidden': 'Forbidden',
       'not_found': 'Not Found',
@@ -1143,7 +1168,7 @@ class AppTranslations extends Translations {
       'load_data_failed': 'Failed to load data',
       'update_failed': 'Update failed',
 
-      //times
+      ///times
       'just_now': 'just now',
       'minute_ago': '@count minute ago',
       'minutes_ago': '@count minutes ago',
@@ -1172,6 +1197,7 @@ class AppTranslations extends Translations {
       'edit_profile': 'Edit Profile',
       'save': 'Save',
       'edit': 'Edit',
+      'delete': 'Delete',
 
       /// Asset Order Detail
       'asset_order_detail_title': 'Design Order Detail',
