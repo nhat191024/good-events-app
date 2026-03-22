@@ -478,6 +478,8 @@ class AppTranslations extends Translations {
       'total': 'Thành tiền',
       'no_events_today': 'Không có sự kiện',
 
+      'confirmed_bookings': 'Đơn đã chốt',
+
       //account
       'general_setting': 'Cài đặt chung',
       'more_setting': 'Cài đặt khác',
@@ -1067,6 +1069,8 @@ class AppTranslations extends Translations {
       'category': 'Category',
       'total': 'Total',
       'no_events_today': 'No events',
+
+      'confirmed_bookings': 'Confirmed Bookings',
 
       ///account
       'general_setting': 'General Setting',
