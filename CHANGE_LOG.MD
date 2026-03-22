@@ -2,6 +2,30 @@
 
 All notable changes to this project will be documented in this file.
 
+## [v1.22.0+25]
+
+- Add change password screen
+
+## [v1.21.0+24]
+
+- Add analytic screen
+
+## [v1.20.0+23]
+
+- Add my service screen
+- Add edit service view
+- Add add service view
+- Add service media manage view
+
+## [v1.19.0+22]
+
+- Add show calender screen
+
+## [v1.18.0+21]
+
+- Add my profile screen
+- Add edit profile screen
+
 ## [v1.17.0+20]
 
 - Update how chat handle websocket and optimize chat
