@@ -1,3 +1,4 @@
+import 'package:flutter_animate/flutter_animate.dart';
 import 'package:sukientotapp/core/utils/import/global.dart';
 import 'package:sukientotapp/data/models/partner/service_model.dart';
 import 'controller.dart';
@@ -16,7 +17,7 @@ class MyServicesScreen extends GetView<MyServicesController> {
           ),
           child: Obx(() {
             if (controller.isLoading.value) {
-              return const Center(child: CircularProgressIndicator());
+              return _buildSkeleton();
             }
 
             return SmartRefresher(
@@ -26,25 +27,7 @@ class MyServicesScreen extends GetView<MyServicesController> {
               header: const ClassicHeader(),
               onRefresh: controller.onRefresh,
               child: controller.services.isEmpty
-                  ? Center(
-                      child: Column(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        children: [
-                          Icon(
-                            FIcons.briefcase,
-                            size: 64,
-                            color: context.fTheme.colors.mutedForeground,
-                          ),
-                          const SizedBox(height: 16),
-                          Text(
-                            'no_services'.tr,
-                            style: context.typography.base.copyWith(
-                              color: context.fTheme.colors.mutedForeground,
-                            ),
-                          ),
-                        ],
-                      ),
-                    )
+                  ? _buildEmptyState(context)
                   : ListView.separated(
                       padding: const EdgeInsets.fromLTRB(16, 16, 16, 100),
                       itemCount: controller.services.length,
@@ -56,7 +39,7 @@ class MyServicesScreen extends GetView<MyServicesController> {
                           onEdit: () => controller.openEditSheet(service),
                           onManageMedia: () =>
                               controller.openManageMediaSheet(service),
-                        );
+                        ).animate().fadeIn(duration: 500.ms);
                       },
                     ),
             );
@@ -76,7 +59,150 @@ class MyServicesScreen extends GetView<MyServicesController> {
       ],
     );
   }
+
+  Widget _buildSkeleton() {
+    return ListView.separated(
+      padding: const EdgeInsets.fromLTRB(16, 16, 16, 100),
+      itemCount: 5,
+      separatorBuilder: (_, _) => const SizedBox(height: 12),
+      itemBuilder: (_, _) => const _ServiceCardSkeleton(),
+    );
+  }
+
+  Widget _buildEmptyState(BuildContext context) {
+    return Center(
+      child: Padding(
+        padding: const EdgeInsets.symmetric(horizontal: 32),
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            Container(
+              width: 96,
+              height: 96,
+              decoration: BoxDecoration(
+                color: context.fTheme.colors.secondary,
+                borderRadius: BorderRadius.circular(24),
+              ),
+              child: Center(
+                child: Icon(
+                  FIcons.briefcase,
+                  size: 44,
+                  color: context.fTheme.colors.mutedForeground,
+                ),
+              ),
+            ),
+            const SizedBox(height: 20),
+            Text(
+              'no_services'.tr,
+              style: context.typography.lg.copyWith(
+                fontWeight: FontWeight.w600,
+              ),
+              textAlign: TextAlign.center,
+            ),
+            const SizedBox(height: 8),
+            Text(
+              'no_services_desc'.tr,
+              style: context.typography.sm.copyWith(
+                color: context.fTheme.colors.mutedForeground,
+              ),
+              textAlign: TextAlign.center,
+            ),
+          ],
+        ),
+      ),
+    );
+  }
 }
+
+// ---------------------------------------------------------------------------
+// Skeleton placeholder shown while loading
+// ---------------------------------------------------------------------------
+
+class _ServiceCardSkeleton extends StatelessWidget {
+  const _ServiceCardSkeleton();
+
+  @override
+  Widget build(BuildContext context) {
+    final color = context.fTheme.colors.secondary;
+    return Container(
+      padding: const EdgeInsets.all(16),
+      decoration: BoxDecoration(
+        color: Colors.white,
+        borderRadius: BorderRadius.circular(16),
+        boxShadow: [
+          BoxShadow(
+            color: Colors.black.withValues(alpha: 0.05),
+            blurRadius: 8,
+            offset: const Offset(0, 2),
+          ),
+        ],
+      ),
+      child: Row(
+        children: [
+          Container(
+            width: 44,
+            height: 44,
+            decoration: BoxDecoration(
+              color: color,
+              borderRadius: BorderRadius.circular(12),
+            ),
+          ),
+          const SizedBox(width: 12),
+          Expanded(
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Container(
+                  height: 14,
+                  width: double.infinity,
+                  decoration: BoxDecoration(
+                    color: color,
+                    borderRadius: BorderRadius.circular(7),
+                  ),
+                ),
+                const SizedBox(height: 8),
+                Container(
+                  height: 22,
+                  width: 80,
+                  decoration: BoxDecoration(
+                    color: color,
+                    borderRadius: BorderRadius.circular(20),
+                  ),
+                ),
+              ],
+            ),
+          ),
+          const SizedBox(width: 12),
+          Column(
+            children: [
+              Container(
+                width: 34,
+                height: 34,
+                decoration: BoxDecoration(
+                  color: color,
+                  borderRadius: BorderRadius.circular(10),
+                ),
+              ),
+              const SizedBox(height: 8),
+              Container(
+                width: 34,
+                height: 34,
+                decoration: BoxDecoration(
+                  color: color,
+                  borderRadius: BorderRadius.circular(10),
+                ),
+              ),
+            ],
+          ),
+        ],
+      ),
+    );
+  }
+}
+
+// ---------------------------------------------------------------------------
+// Service card
+// ---------------------------------------------------------------------------
 
 class ServiceCard extends StatelessWidget {
   final ServiceModel service;
@@ -90,98 +216,148 @@ class ServiceCard extends StatelessWidget {
     this.onManageMedia,
   });
 
+  Color _accentColor() => switch (service.status) {
+    'approved' => const Color(0xFF10B981),
+    'rejected' => const Color(0xFFEF4444),
+    _ => const Color(0xFFF59E0B),
+  };
+
   @override
   Widget build(BuildContext context) {
+    final accent = _accentColor();
+
     return Container(
-      padding: const EdgeInsets.all(16),
       decoration: BoxDecoration(
         color: Colors.white,
         borderRadius: BorderRadius.circular(16),
         boxShadow: [
           BoxShadow(
             color: Colors.black.withValues(alpha: 0.06),
-            blurRadius: 8,
-            offset: const Offset(0, 2),
+            blurRadius: 10,
+            offset: const Offset(0, 3),
           ),
         ],
       ),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          Row(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              Expanded(
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
+      clipBehavior: Clip.antiAlias,
+      child: IntrinsicHeight(
+        child: Row(
+          crossAxisAlignment: CrossAxisAlignment.stretch,
+          children: [
+            // Left status stripe
+            Container(width: 4, color: accent),
+            Expanded(
+              child: Padding(
+                padding: const EdgeInsets.fromLTRB(14, 14, 14, 14),
+                child: Row(
+                  crossAxisAlignment: CrossAxisAlignment.center,
                   children: [
-                    Text(
-                      service.category,
-                      style: context.typography.base.copyWith(
-                        fontWeight: FontWeight.w600,
-                        fontSize: 16,
+                    // Category icon
+                    Container(
+                      width: 44,
+                      height: 44,
+                      decoration: BoxDecoration(
+                        color: accent.withValues(alpha: 0.12),
+                        borderRadius: BorderRadius.circular(12),
                       ),
-                      maxLines: 2,
-                      overflow: TextOverflow.ellipsis,
+                      child: Icon(FIcons.briefcase, size: 22, color: accent),
                     ),
-                    const SizedBox(height: 6),
-                    StatusBadge(status: service.status),
-                  ],
-                ),
-              ),
-              const SizedBox(width: 12),
-              Row(
-                children: [
-                  Tooltip(
-                    message: 'manage_media'.tr,
-                    child: IconButton.outlined(
-                      onPressed: onManageMedia,
-                      icon: Icon(
-                        FIcons.image,
-                        size: 18,
-                        color: context.fTheme.colors.foreground,
+                    const SizedBox(width: 12),
+                    // Title & badge
+                    Expanded(
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          Text(
+                            service.category,
+                            style: context.typography.base.copyWith(
+                              fontWeight: FontWeight.w600,
+                              fontSize: 15,
+                            ),
+                            maxLines: 2,
+                            overflow: TextOverflow.ellipsis,
+                          ),
+                          const SizedBox(height: 6),
+                          StatusBadge(status: service.status),
+                        ],
                       ),
-                      style: IconButton.styleFrom(
-                        side: BorderSide(color: context.fTheme.colors.border),
-                        shape: RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(10),
+                    ),
+                    const SizedBox(width: 10),
+                    // Action buttons (stacked)
+                    Column(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        _ActionIconButton(
+                          onPressed: onManageMedia,
+                          icon: FIcons.image,
+                          tooltip: 'manage_media'.tr,
+                          iconColor: context.fTheme.colors.foreground,
+                          borderColor: context.fTheme.colors.border,
                         ),
-                      ),
-                    ),
-                  ),
-                  const SizedBox(width: 8),
-                  Tooltip(
-                    message: 'edit'.tr,
-                    child: IconButton.outlined(
-                      onPressed: service.isEditable ? onEdit : null,
-                      icon: Icon(
-                        FIcons.pencil,
-                        size: 18,
-                        color: service.isEditable
-                            ? context.fTheme.colors.primary
-                            : context.fTheme.colors.mutedForeground,
-                      ),
-                      style: IconButton.styleFrom(
-                        side: BorderSide(
-                          color: service.isEditable
+                        const SizedBox(height: 8),
+                        _ActionIconButton(
+                          onPressed: service.isEditable ? onEdit : null,
+                          icon: FIcons.pencil,
+                          tooltip: 'edit'.tr,
+                          iconColor: service.isEditable
+                              ? context.fTheme.colors.primary
+                              : context.fTheme.colors.mutedForeground,
+                          borderColor: service.isEditable
                               ? context.fTheme.colors.primary
                               : context.fTheme.colors.mutedForeground,
                         ),
-                        shape: RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(10),
-                        ),
-                      ),
+                      ],
                     ),
-                  ),
-                ],
+                  ],
+                ),
               ),
-            ],
-          ),
-        ],
+            ),
+          ],
+        ),
       ),
     );
   }
 }
+
+class _ActionIconButton extends StatelessWidget {
+  final VoidCallback? onPressed;
+  final IconData icon;
+  final String tooltip;
+  final Color iconColor;
+  final Color borderColor;
+
+  const _ActionIconButton({
+    this.onPressed,
+    required this.icon,
+    required this.tooltip,
+    required this.iconColor,
+    required this.borderColor,
+  });
+
+  @override
+  Widget build(BuildContext context) {
+    return Tooltip(
+      message: tooltip,
+      child: IconButton.outlined(
+        onPressed: onPressed,
+        icon: Icon(icon, size: 17, color: iconColor),
+        style: IconButton.styleFrom(
+          minimumSize: const Size(34, 34),
+          maximumSize: const Size(34, 34),
+          padding: EdgeInsets.zero,
+          side: BorderSide(color: borderColor),
+          shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.circular(10),
+          ),
+        ),
+      ),
+    );
+  }
+}
+
+// ---------------------------------------------------------------------------
+// Status badge
+// ---------------------------------------------------------------------------
 
 class StatusBadge extends StatelessWidget {
   final String status;
@@ -191,20 +367,24 @@ class StatusBadge extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final Color bgColor;
+    final Color dotColor;
     final Color textColor;
     final String label;
 
     switch (status) {
       case 'approved':
         bgColor = const Color(0xFFD1FAE5);
+        dotColor = const Color(0xFF10B981);
         textColor = const Color(0xFF065F46);
         label = 'approved'.tr;
       case 'rejected':
         bgColor = const Color(0xFFFEE2E2);
+        dotColor = const Color(0xFFEF4444);
         textColor = const Color(0xFF991B1B);
         label = 'rejected'.tr;
-      default: // pending
+      default:
         bgColor = const Color(0xFFFEF3C7);
+        dotColor = const Color(0xFFF59E0B);
         textColor = const Color(0xFF92400E);
         label = 'pending'.tr;
     }
@@ -215,12 +395,23 @@ class StatusBadge extends StatelessWidget {
         color: bgColor,
         borderRadius: BorderRadius.circular(20),
       ),
-      child: Text(
-        label,
-        style: context.typography.xs.copyWith(
-          color: textColor,
-          fontWeight: FontWeight.w600,
-        ),
+      child: Row(
+        mainAxisSize: MainAxisSize.min,
+        children: [
+          Container(
+            width: 6,
+            height: 6,
+            decoration: BoxDecoration(color: dotColor, shape: BoxShape.circle),
+          ),
+          const SizedBox(width: 5),
+          Text(
+            label,
+            style: context.typography.xs.copyWith(
+              color: textColor,
+              fontWeight: FontWeight.w600,
+            ),
+          ),
+        ],
       ),
     );
   }

@@ -18,10 +18,10 @@ class ServiceMediaEntry {
   }
 
   Map<String, dynamic> toJson() => {
-        'name': nameController.text.trim(),
-        'url': urlController.text.trim(),
-        'description': descriptionController.text.trim(),
-      };
+    'name': nameController.text.trim(),
+    'url': urlController.text.trim(),
+    'description': descriptionController.text.trim(),
+  };
 }
 
 class MyServicesController extends GetxController {
@@ -94,6 +94,8 @@ class MyServicesController extends GetxController {
       isScrollControlled: true,
       ignoreSafeArea: false,
       backgroundColor: Colors.transparent,
+      enterBottomSheetDuration: const Duration(milliseconds: 300),
+      exitBottomSheetDuration: const Duration(milliseconds: 250),
     );
 
     try {
@@ -156,13 +158,16 @@ class MyServicesController extends GetxController {
       isScrollControlled: true,
       ignoreSafeArea: false,
       backgroundColor: Colors.transparent,
+      enterBottomSheetDuration: const Duration(milliseconds: 300),
+      exitBottomSheetDuration: const Duration(milliseconds: 250),
     );
 
     try {
       final allCategories = await _repository.getServiceCategories();
       final usedIds = services.map((s) => s.categoryId).toSet();
-      categories.value =
-          allCategories.where((c) => !usedIds.contains(c.id)).toList();
+      categories.value = allCategories
+          .where((c) => !usedIds.contains(c.id))
+          .toList();
     } catch (e) {
       AppSnackbar.showError(title: 'error'.tr, message: e.toString());
       Get.back();
@@ -180,18 +185,12 @@ class MyServicesController extends GetxController {
 
   Future<void> submitCreateService() async {
     if (addSelectedCategoryId.value.isEmpty) {
-      AppSnackbar.showError(
-        title: 'error'.tr,
-        message: 'select_category'.tr,
-      );
+      AppSnackbar.showError(title: 'error'.tr, message: 'select_category'.tr);
       return;
     }
 
     if (addMediaEntries.isEmpty) {
-      AppSnackbar.showError(
-        title: 'error'.tr,
-        message: 'media_required'.tr,
-      );
+      AppSnackbar.showError(title: 'error'.tr, message: 'media_required'.tr);
       return;
     }
 
@@ -233,6 +232,8 @@ class MyServicesController extends GetxController {
       isScrollControlled: true,
       ignoreSafeArea: false,
       backgroundColor: Colors.transparent,
+      enterBottomSheetDuration: const Duration(milliseconds: 300),
+      exitBottomSheetDuration: const Duration(milliseconds: 250),
     );
 
     try {
@@ -266,10 +267,7 @@ class MyServicesController extends GetxController {
     for (final img in candidates) {
       final bytes = await img.length();
       if (bytes > maxSizeBytes) {
-        AppSnackbar.showError(
-          title: 'error'.tr,
-          message: 'image_too_large'.tr,
-        );
+        AppSnackbar.showError(title: 'error'.tr, message: 'image_too_large'.tr);
       } else {
         validImages.add(img);
       }
@@ -278,8 +276,10 @@ class MyServicesController extends GetxController {
 
     try {
       isUploadingImages.value = true;
-      final newImages =
-          await _repository.uploadServiceImages(_mediaServiceId, validImages);
+      final newImages = await _repository.uploadServiceImages(
+        _mediaServiceId,
+        validImages,
+      );
       serviceImages.addAll(newImages);
     } catch (e) {
       AppSnackbar.showError(title: 'error'.tr, message: e.toString());
