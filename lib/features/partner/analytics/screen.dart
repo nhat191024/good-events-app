@@ -25,20 +25,209 @@ class AnalyticsScreen extends GetView<AnalyticsController> {
           header: const ClassicHeader(),
           onRefresh: controller.onRefresh,
           child: SingleChildScrollView(
-            padding: const EdgeInsets.fromLTRB(16, 16, 16, 32),
+            padding: const EdgeInsets.fromLTRB(16, 8, 16, 32),
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
+                _RevenueHeroCard(stats: controller.statistics.value),
+                const SizedBox(height: 20),
+                _SectionLabel(label: 'monthly_revenue'.tr, sub: 'last_12_months'.tr),
+                const SizedBox(height: 10),
                 _RevenueChartSection(entries: controller.revenueChart),
-                const SizedBox(height: 24),
+                const SizedBox(height: 20),
+                _SectionLabel(label: 'overview'.tr),
+                const SizedBox(height: 10),
                 _StatisticsSection(stats: controller.statistics.value),
-                const SizedBox(height: 24),
+                const SizedBox(height: 20),
+                _SectionLabel(label: 'top_services'.tr),
+                const SizedBox(height: 10),
                 _TopServicesSection(services: controller.topServices),
               ],
             ),
           ),
         );
       }),
+    );
+  }
+}
+
+// ─── Section Label ────────────────────────────────────────────────────────────
+
+class _SectionLabel extends StatelessWidget {
+  final String label;
+  final String? sub;
+
+  const _SectionLabel({required this.label, this.sub});
+
+  @override
+  Widget build(BuildContext context) {
+    return Row(
+      crossAxisAlignment: CrossAxisAlignment.center,
+      children: [
+        Container(
+          width: 3,
+          height: 16,
+          decoration: BoxDecoration(
+            color: context.fTheme.colors.primary,
+            borderRadius: BorderRadius.circular(2),
+          ),
+        ),
+        const SizedBox(width: 8),
+        Text(
+          label,
+          style: TextStyle(
+            fontSize: 15,
+            fontWeight: FontWeight.bold,
+            color: context.fTheme.colors.foreground,
+          ),
+        ),
+        if (sub != null) ...[
+          const SizedBox(width: 8),
+          Text(
+            sub!,
+            style: TextStyle(
+              fontSize: 11,
+              color: context.fTheme.colors.mutedForeground,
+            ),
+          ),
+        ],
+      ],
+    );
+  }
+}
+
+// ─── Revenue Hero Card ────────────────────────────────────────────────────────
+
+class _RevenueHeroCard extends StatelessWidget {
+  final PartnerStatisticsModel? stats;
+
+  const _RevenueHeroCard({required this.stats});
+
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      width: double.infinity,
+      padding: const EdgeInsets.all(20),
+      decoration: BoxDecoration(
+        gradient: LinearGradient(
+          colors: [
+            context.fTheme.colors.primary,
+            context.fTheme.colors.primary.withValues(alpha: 0.7),
+          ],
+          begin: Alignment.topLeft,
+          end: Alignment.bottomRight,
+        ),
+        borderRadius: BorderRadius.circular(20),
+      ),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Text(
+            'revenue'.tr,
+            style: TextStyle(
+              fontSize: 13,
+              color: context.fTheme.colors.primaryForeground.withValues(alpha: 0.8),
+            ),
+          ),
+          const SizedBox(height: 4),
+          Text(
+            _fmt(stats?.revenue ?? 0),
+            style: TextStyle(
+              fontSize: 32,
+              fontWeight: FontWeight.bold,
+              color: context.fTheme.colors.primaryForeground,
+              letterSpacing: -0.5,
+            ),
+          ),
+          const SizedBox(height: 16),
+          Row(
+            children: [
+              _HeroStat(
+                icon: Icons.people_outline_rounded,
+                label: 'number_of_customers'.tr,
+                value: '${stats?.numberOfCustomers ?? 0}',
+              ),
+              _HeroDivider(),
+              _HeroStat(
+                icon: Icons.receipt_long_outlined,
+                label: 'orders_placed'.tr,
+                value: '${stats?.ordersPlaced ?? 0}',
+              ),
+              _HeroDivider(),
+              _HeroStat(
+                icon: Icons.check_circle_outline_rounded,
+                label: 'completed_orders'.tr,
+                value: '${stats?.completedOrders ?? 0}',
+              ),
+            ],
+          ),
+        ],
+      ),
+    );
+  }
+
+  String _fmt(double value) {
+    if (value >= 1000000000) return '${(value / 1000000000).toStringAsFixed(1)}B đ';
+    if (value >= 1000000) return '${(value / 1000000).toStringAsFixed(1)}M đ';
+    if (value >= 1000) return '${(value / 1000).toStringAsFixed(0)}K đ';
+    return '${value.toStringAsFixed(0)} đ';
+  }
+}
+
+class _HeroDivider extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      width: 1,
+      height: 30,
+      margin: const EdgeInsets.symmetric(horizontal: 12),
+      color: context.fTheme.colors.primaryForeground.withValues(alpha: 0.25),
+    );
+  }
+}
+
+class _HeroStat extends StatelessWidget {
+  final IconData icon;
+  final String label;
+  final String value;
+
+  const _HeroStat({
+    required this.icon,
+    required this.label,
+    required this.value,
+  });
+
+  @override
+  Widget build(BuildContext context) {
+    return Expanded(
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Icon(
+            icon,
+            size: 13,
+            color: context.fTheme.colors.primaryForeground.withValues(alpha: 0.75),
+          ),
+          const SizedBox(height: 3),
+          Text(
+            value,
+            style: TextStyle(
+              fontSize: 18,
+              fontWeight: FontWeight.bold,
+              color: context.fTheme.colors.primaryForeground,
+            ),
+          ),
+          Text(
+            label,
+            style: TextStyle(
+              fontSize: 10,
+              color: context.fTheme.colors.primaryForeground.withValues(alpha: 0.7),
+            ),
+            maxLines: 1,
+            overflow: TextOverflow.ellipsis,
+          ),
+        ],
+      ),
     );
   }
 }
@@ -52,44 +241,25 @@ class _RevenueChartSection extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return FCard(
-      child: Padding(
-        padding: const EdgeInsets.all(16),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            Text(
-              'monthly_revenue'.tr,
-              style: TextStyle(
-                fontSize: 15,
-                fontWeight: FontWeight.bold,
-                color: context.fTheme.colors.foreground,
-              ),
-            ),
-            const SizedBox(height: 4),
-            Text(
-              'last_12_months'.tr,
-              style: TextStyle(
-                fontSize: 12,
-                color: context.fTheme.colors.mutedForeground,
-              ),
-            ),
-            const SizedBox(height: 20),
-            SizedBox(
-              height: 200,
-              child: entries.isEmpty
-                  ? Center(
-                      child: Text(
-                        'no_data'.tr,
-                        style: TextStyle(
-                          color: context.fTheme.colors.mutedForeground,
-                        ),
-                      ),
-                    )
-                  : _buildChart(context),
-            ),
-          ],
-        ),
+    return Container(
+      padding: const EdgeInsets.fromLTRB(8, 14, 8, 8),
+      decoration: BoxDecoration(
+        color: context.fTheme.colors.background,
+        borderRadius: BorderRadius.circular(16),
+        border: Border.all(color: context.fTheme.colors.border),
+      ),
+      child: SizedBox(
+        height: 180,
+        child: entries.isEmpty
+            ? Center(
+                child: Text(
+                  'no_data'.tr,
+                  style: TextStyle(
+                    color: context.fTheme.colors.mutedForeground,
+                  ),
+                ),
+              )
+            : _buildChart(context),
       ),
     );
   }
@@ -121,16 +291,13 @@ class _RevenueChartSection extends StatelessWidget {
         ),
         titlesData: FlTitlesData(
           show: true,
-          topTitles: const AxisTitles(
-            sideTitles: SideTitles(showTitles: false),
-          ),
-          rightTitles: const AxisTitles(
-            sideTitles: SideTitles(showTitles: false),
-          ),
+          topTitles: const AxisTitles(sideTitles: SideTitles(showTitles: false)),
+          rightTitles: const AxisTitles(sideTitles: SideTitles(showTitles: false)),
+          leftTitles: const AxisTitles(sideTitles: SideTitles(showTitles: false)),
           bottomTitles: AxisTitles(
             sideTitles: SideTitles(
               showTitles: true,
-              reservedSize: 28,
+              reservedSize: 24,
               getTitlesWidget: (value, meta) {
                 final index = value.toInt();
                 if (index < 0 || index >= entries.length) {
@@ -150,30 +317,12 @@ class _RevenueChartSection extends StatelessWidget {
               },
             ),
           ),
-          leftTitles: AxisTitles(
-            sideTitles: SideTitles(
-              showTitles: true,
-              reservedSize: 44,
-              getTitlesWidget: (value, meta) {
-                if (value == 0) {
-                  return const SizedBox.shrink();
-                }
-                return Text(
-                  _formatRevenue(value),
-                  style: TextStyle(
-                    fontSize: 9,
-                    color: context.fTheme.colors.mutedForeground,
-                  ),
-                );
-              },
-            ),
-          ),
         ),
         gridData: FlGridData(
           show: true,
           drawVerticalLine: false,
           getDrawingHorizontalLine: (value) => FlLine(
-            color: context.fTheme.colors.border.withValues(alpha: 0.5),
+            color: context.fTheme.colors.border.withValues(alpha: 0.4),
             strokeWidth: 1,
           ),
         ),
@@ -185,13 +334,21 @@ class _RevenueChartSection extends StatelessWidget {
             barRods: [
               BarChartRodData(
                 toY: revenue,
-                color: revenue > 0
-                    ? context.fTheme.colors.primary
-                    : context.fTheme.colors.border,
-                width: 14,
+                gradient: revenue > 0
+                    ? LinearGradient(
+                        colors: [
+                          context.fTheme.colors.primary,
+                          context.fTheme.colors.primary.withValues(alpha: 0.55),
+                        ],
+                        begin: Alignment.topCenter,
+                        end: Alignment.bottomCenter,
+                      )
+                    : null,
+                color: revenue > 0 ? null : context.fTheme.colors.border,
+                width: 16,
                 borderRadius: const BorderRadius.only(
-                  topLeft: Radius.circular(4),
-                  topRight: Radius.circular(4),
+                  topLeft: Radius.circular(5),
+                  topRight: Radius.circular(5),
                 ),
               ),
             ],
@@ -202,13 +359,9 @@ class _RevenueChartSection extends StatelessWidget {
   }
 
   String _formatRevenue(double value) {
-    if (value >= 1000000000) {
-      return '${(value / 1000000000).toStringAsFixed(1)}B';
-    } else if (value >= 1000000) {
-      return '${(value / 1000000).toStringAsFixed(1)}M';
-    } else if (value >= 1000) {
-      return '${(value / 1000).toStringAsFixed(0)}K';
-    }
+    if (value >= 1000000000) return '${(value / 1000000000).toStringAsFixed(1)}B';
+    if (value >= 1000000) return '${(value / 1000000).toStringAsFixed(1)}M';
+    if (value >= 1000) return '${(value / 1000).toStringAsFixed(0)}K';
     return value.toStringAsFixed(0);
   }
 }
@@ -222,130 +375,96 @@ class _StatisticsSection extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Column(
-      crossAxisAlignment: CrossAxisAlignment.start,
-      children: [
-        Text(
-          'overview'.tr,
-          style: TextStyle(
-            fontSize: 15,
-            fontWeight: FontWeight.bold,
-            color: context.fTheme.colors.foreground,
-          ),
-        ),
-        GridView.count(
-          crossAxisCount: 2,
-          shrinkWrap: true,
-          physics: const NeverScrollableScrollPhysics(),
-          mainAxisSpacing: 12,
-          crossAxisSpacing: 12,
-          childAspectRatio: 1.6,
+    final cells = [
+      _StatCellData(
+        icon: Icons.thumb_up_alt_outlined,
+        color: const Color(0xFF22C55E),
+        label: 'satisfaction_rate'.tr,
+        value: '${stats?.satisfactionRate.toStringAsFixed(1) ?? '0.0'}%',
+      ),
+      _StatCellData(
+        icon: Icons.cancel_outlined,
+        color: const Color(0xFFEF4444),
+        label: 'cancellation_rate'.tr,
+        value: '${stats?.cancellationRate.toStringAsFixed(1) ?? '0.0'}%',
+      ),
+    ];
+
+    return Container(
+      decoration: BoxDecoration(
+        color: context.fTheme.colors.background,
+        borderRadius: BorderRadius.circular(16),
+        border: Border.all(color: context.fTheme.colors.border),
+      ),
+      child: IntrinsicHeight(
+        child: Row(
           children: [
-            _StatCard(
-              label: 'number_of_customers'.tr,
-              value: '${stats?.numberOfCustomers ?? 0}',
-              icon: Icons.people_outline_rounded,
-              color: const Color(0xFF6366F1),
+            Expanded(child: _StatPanelCell(data: cells[0])),
+            VerticalDivider(
+              width: 1,
+              thickness: 1,
+              color: context.fTheme.colors.border,
             ),
-            _StatCard(
-              label: 'satisfaction_rate'.tr,
-              value: '${stats?.satisfactionRate.toStringAsFixed(1) ?? '0.0'}%',
-              icon: Icons.thumb_up_alt_outlined,
-              color: const Color(0xFF22C55E),
-            ),
-            _StatCard(
-              label: 'revenue'.tr,
-              value: _formatRevenue(stats?.revenue ?? 0),
-              icon: Icons.account_balance_wallet_outlined,
-              color: const Color(0xFFF59E0B),
-            ),
-            _StatCard(
-              label: 'orders_processed'.tr,
-              value: '${stats?.ordersPlaced ?? 0}',
-              icon: Icons.receipt_long_outlined,
-              color: const Color(0xFF3B82F6),
-            ),
-            _StatCard(
-              label: 'completed_orders'.tr,
-              value: '${stats?.completedOrders ?? 0}',
-              icon: Icons.check_circle_outline_rounded,
-              color: const Color(0xFF10B981),
-            ),
-            _StatCard(
-              label: 'cancellation_rate'.tr,
-              value: '${stats?.cancellationRate.toStringAsFixed(1) ?? '0.0'}%',
-              icon: Icons.cancel_outlined,
-              color: const Color(0xFFEF4444),
-            ),
+            Expanded(child: _StatPanelCell(data: cells[1])),
           ],
         ),
-      ],
+      ),
     );
-  }
-
-  String _formatRevenue(double value) {
-    if (value >= 1000000000) {
-      return '${(value / 1000000000).toStringAsFixed(1)}B đ';
-    } else if (value >= 1000000) {
-      return '${(value / 1000000).toStringAsFixed(1)}M đ';
-    } else if (value >= 1000) {
-      return '${(value / 1000).toStringAsFixed(0)}K đ';
-    }
-    return '${value.toStringAsFixed(0)} đ';
   }
 }
 
-class _StatCard extends StatelessWidget {
-  final String label;
-  final String value;
+class _StatCellData {
   final IconData icon;
   final Color color;
+  final String label;
+  final String value;
 
-  const _StatCard({
-    required this.label,
-    required this.value,
+  const _StatCellData({
     required this.icon,
     required this.color,
+    required this.label,
+    required this.value,
   });
+}
+
+class _StatPanelCell extends StatelessWidget {
+  final _StatCellData data;
+
+  const _StatPanelCell({required this.data});
 
   @override
   Widget build(BuildContext context) {
-    return FCard(
+    return Padding(
+      padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 16),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
-        mainAxisAlignment: MainAxisAlignment.center,
         children: [
-          Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            children: [
-              Flexible(
-                child: Text(
-                  label,
-                  maxLines: 2,
-                  overflow: TextOverflow.ellipsis,
-                  style: TextStyle(
-                    fontSize: 11,
-                    color: context.fTheme.colors.mutedForeground,
-                  ),
-                ),
-              ),
-              Container(
-                padding: const EdgeInsets.all(6),
-                decoration: BoxDecoration(
-                  color: color.withValues(alpha: 0.12),
-                  borderRadius: BorderRadius.circular(8),
-                ),
-                child: Icon(icon, size: 16, color: color),
-              ),
-            ],
+          Container(
+            padding: const EdgeInsets.all(8),
+            decoration: BoxDecoration(
+              color: data.color.withValues(alpha: 0.1),
+              borderRadius: BorderRadius.circular(10),
+            ),
+            child: Icon(data.icon, size: 18, color: data.color),
           ),
+          const SizedBox(height: 10),
           Text(
-            value,
+            data.value,
             style: TextStyle(
-              fontSize: 18,
+              fontSize: 22,
               fontWeight: FontWeight.bold,
               color: context.fTheme.colors.foreground,
             ),
+          ),
+          const SizedBox(height: 2),
+          Text(
+            data.label,
+            style: TextStyle(
+              fontSize: 12,
+              color: context.fTheme.colors.mutedForeground,
+            ),
+            maxLines: 2,
+            overflow: TextOverflow.ellipsis,
           ),
         ],
       ),
@@ -362,191 +481,158 @@ class _TopServicesSection extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Column(
-      crossAxisAlignment: CrossAxisAlignment.start,
-      children: [
-        Text(
-          'top_services'.tr,
-          style: TextStyle(
-            fontSize: 15,
-            fontWeight: FontWeight.bold,
-            color: context.fTheme.colors.foreground,
+    if (services.isEmpty) {
+      return Container(
+        padding: const EdgeInsets.all(32),
+        width: double.infinity,
+        decoration: BoxDecoration(
+          color: context.fTheme.colors.background,
+          borderRadius: BorderRadius.circular(16),
+          border: Border.all(color: context.fTheme.colors.border),
+        ),
+        child: Center(
+          child: Text(
+            'no_data'.tr,
+            style: TextStyle(color: context.fTheme.colors.mutedForeground),
           ),
         ),
-        const SizedBox(height: 12),
-        FCard(
-          child: services.isEmpty
-              ? Padding(
-                  padding: const EdgeInsets.all(24),
-                  child: Center(
-                    child: Text(
-                      'no_data'.tr,
-                      style: TextStyle(
-                        color: context.fTheme.colors.mutedForeground,
-                      ),
-                    ),
-                  ),
-                )
-              : Column(
-                  children: [
-                    _TableHeader(context),
-                    const Divider(height: 1),
-                    ...List.generate(services.length, (i) {
-                      return Column(
-                        children: [
-                          _ServiceRow(
-                            rank: i + 1,
-                            service: services[i],
-                          ),
-                          if (i < services.length - 1)
-                            Divider(
-                              height: 1,
-                              color:
-                                  context.fTheme.colors.border.withValues(alpha: 0.5),
-                            ),
-                        ],
-                      );
-                    }),
-                  ],
-                ),
-        ),
-      ],
-    );
-  }
+      );
+    }
 
-  Widget _TableHeader(BuildContext context) {
-    return Padding(
-      padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 10),
-      child: Row(
-        children: [
-          SizedBox(
-            width: 28,
-            child: Text(
-              '#',
-              style: TextStyle(
-                fontSize: 12,
-                fontWeight: FontWeight.bold,
-                color: context.fTheme.colors.mutedForeground,
-              ),
-            ),
+    final maxCount = services.fold<int>(
+      0,
+      (prev, s) => s.orderCount > prev ? s.orderCount : prev,
+    );
+
+    return Column(
+      children: List.generate(services.length, (i) {
+        return Padding(
+          padding: EdgeInsets.only(bottom: i < services.length - 1 ? 10 : 0),
+          child: _ServiceTile(
+            rank: i + 1,
+            service: services[i],
+            maxCount: maxCount,
           ),
-          Expanded(
-            child: Text(
-              'service'.tr,
-              style: TextStyle(
-                fontSize: 12,
-                fontWeight: FontWeight.bold,
-                color: context.fTheme.colors.mutedForeground,
-              ),
-            ),
-          ),
-          SizedBox(
-            width: 56,
-            child: Text(
-              'orders'.tr,
-              textAlign: TextAlign.center,
-              style: TextStyle(
-                fontSize: 12,
-                fontWeight: FontWeight.bold,
-                color: context.fTheme.colors.mutedForeground,
-              ),
-            ),
-          ),
-          SizedBox(
-            width: 80,
-            child: Text(
-              'revenue'.tr,
-              textAlign: TextAlign.right,
-              style: TextStyle(
-                fontSize: 12,
-                fontWeight: FontWeight.bold,
-                color: context.fTheme.colors.mutedForeground,
-              ),
-            ),
-          ),
-        ],
-      ),
+        );
+      }),
     );
   }
 }
 
-class _ServiceRow extends StatelessWidget {
+class _ServiceTile extends StatelessWidget {
   final int rank;
   final TopServiceModel service;
+  final int maxCount;
 
-  const _ServiceRow({required this.rank, required this.service});
+  const _ServiceTile({
+    required this.rank,
+    required this.service,
+    required this.maxCount,
+  });
+
+  static const _rankColors = [
+    Color(0xFFF59E0B),
+    Color(0xFF9CA3AF),
+    Color(0xFFB45309),
+  ];
 
   @override
   Widget build(BuildContext context) {
-    final rankColors = [
-      const Color(0xFFF59E0B),
-      const Color(0xFF9CA3AF),
-      const Color(0xFFB45309),
-    ];
     final rankColor = rank <= 3
-        ? rankColors[rank - 1]
+        ? _rankColors[rank - 1]
         : context.fTheme.colors.mutedForeground;
+    final progress = maxCount > 0 ? service.orderCount / maxCount : 0.0;
 
-    return Padding(
-      padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
+    return Container(
+      padding: const EdgeInsets.all(14),
+      decoration: BoxDecoration(
+        color: context.fTheme.colors.background,
+        borderRadius: BorderRadius.circular(14),
+        border: Border.all(color: context.fTheme.colors.border),
+      ),
       child: Row(
         children: [
-          SizedBox(
-            width: 28,
-            child: Text(
-              '$rank',
-              style: TextStyle(
-                fontSize: 13,
-                fontWeight: FontWeight.bold,
-                color: rankColor,
+          Container(
+            width: 36,
+            height: 36,
+            decoration: BoxDecoration(
+              color: rankColor.withValues(alpha: 0.12),
+              shape: BoxShape.circle,
+            ),
+            child: Center(
+              child: Text(
+                '$rank',
+                style: TextStyle(
+                  fontSize: 14,
+                  fontWeight: FontWeight.bold,
+                  color: rankColor,
+                ),
               ),
             ),
           ),
+          const SizedBox(width: 12),
           Expanded(
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                Text(
-                  service.name,
-                  style: TextStyle(
-                    fontSize: 13,
-                    fontWeight: FontWeight.w500,
-                    color: context.fTheme.colors.foreground,
-                  ),
-                ),
-                if (service.latestOrder != null)
-                  Text(
-                    service.latestOrder!.substring(0, 10),
-                    style: TextStyle(
-                      fontSize: 10,
-                      color: context.fTheme.colors.mutedForeground,
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    Expanded(
+                      child: Text(
+                        service.name,
+                        style: TextStyle(
+                          fontSize: 14,
+                          fontWeight: FontWeight.w600,
+                          color: context.fTheme.colors.foreground,
+                        ),
+                        maxLines: 1,
+                        overflow: TextOverflow.ellipsis,
+                      ),
                     ),
-                  ),
-              ],
-            ),
-          ),
-          SizedBox(
-            width: 56,
-            child: Center(
-              child: FBadge(
-                style: FBadgeStyle.secondary(),
-                child: Text(
-                  '${service.orderCount}',
-                  style: const TextStyle(fontSize: 11),
+                    const SizedBox(width: 8),
+                    Text(
+                      _fmt(service.totalRevenue),
+                      style: TextStyle(
+                        fontSize: 13,
+                        fontWeight: FontWeight.bold,
+                        color: context.fTheme.colors.primary,
+                      ),
+                    ),
+                  ],
                 ),
-              ),
-            ),
-          ),
-          SizedBox(
-            width: 80,
-            child: Text(
-              _formatRevenue(service.totalRevenue),
-              textAlign: TextAlign.right,
-              style: TextStyle(
-                fontSize: 12,
-                fontWeight: FontWeight.w600,
-                color: context.fTheme.colors.primary,
-              ),
+                const SizedBox(height: 6),
+                ClipRRect(
+                  borderRadius: BorderRadius.circular(4),
+                  child: LinearProgressIndicator(
+                    value: progress,
+                    minHeight: 5,
+                    backgroundColor: context.fTheme.colors.border,
+                    valueColor: AlwaysStoppedAnimation<Color>(rankColor),
+                  ),
+                ),
+                const SizedBox(height: 5),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    Text(
+                      '${service.orderCount} ${'orders'.tr}',
+                      style: TextStyle(
+                        fontSize: 11,
+                        color: context.fTheme.colors.mutedForeground,
+                      ),
+                    ),
+                    if (service.latestOrder != null)
+                      Text(
+                        service.latestOrder!.substring(0, 10),
+                        style: TextStyle(
+                          fontSize: 11,
+                          color: context.fTheme.colors.mutedForeground,
+                        ),
+                      ),
+                  ],
+                ),
+              ],
             ),
           ),
         ],
@@ -554,14 +640,10 @@ class _ServiceRow extends StatelessWidget {
     );
   }
 
-  String _formatRevenue(double value) {
-    if (value >= 1000000000) {
-      return '${(value / 1000000000).toStringAsFixed(1)}B đ';
-    } else if (value >= 1000000) {
-      return '${(value / 1000000).toStringAsFixed(1)}M đ';
-    } else if (value >= 1000) {
-      return '${(value / 1000).toStringAsFixed(0)}K đ';
-    }
+  String _fmt(double value) {
+    if (value >= 1000000000) return '${(value / 1000000000).toStringAsFixed(1)}B đ';
+    if (value >= 1000000) return '${(value / 1000000).toStringAsFixed(1)}M đ';
+    if (value >= 1000) return '${(value / 1000).toStringAsFixed(0)}K đ';
     return '${value.toStringAsFixed(0)} đ';
   }
 }
