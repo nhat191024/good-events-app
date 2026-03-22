@@ -517,9 +517,14 @@ class AppTranslations extends Translations {
       'stage_name': 'Nghệ danh',
       'stage_name_hint': 'Nhập nghệ danh của bạn',
 
+      'basic_info': 'Thông tin cơ bản',
+      'partner_info': 'Thông tin đối tác',
+      'joined': 'Ngày tham gia',
+
       'bio': 'Tiểu sử',
       'bio_hint': 'Hãy kể cho chúng tôi về bạn và dịch vụ của bạn...',
 
+      'id_verification': 'Xác thực danh tính',
       'id_card': 'ID Card',
 
       'province': 'Thành phố',
@@ -1101,9 +1106,14 @@ class AppTranslations extends Translations {
       'stage_name': 'Stage name',
       'stage_name_hint': 'Enter your stage name',
 
+      'basic_info': 'Basic info',
+      'partner_info': 'Partner info',
+      'joined': 'Joined',
+
       'bio': 'Bio',
       'bio_hint': 'Tell us about yourself and your services...',
 
+      'id_verification': 'Identity Verification',
       'id_card': 'ID Card',
 
       'province': 'City',
