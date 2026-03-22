@@ -156,7 +156,7 @@ class AccountScreen extends GetView<AccountController> {
                                     'revenue_statistics'.tr,
                                     FIcons.chartArea,
                                     () {
-                                      // Get.toNamed(Routes.profileScreen);
+                                      Get.toNamed(Routes.partnerAnalytics);
                                     },
                                   ),
                                   _buildListItem(
