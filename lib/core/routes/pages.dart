@@ -113,6 +113,14 @@ class Pages {
       transitionDuration: const Duration(milliseconds: 300),
     ),
 
+    GetPage(
+      name: Routes.partnerAnalytics,
+      page: () => const AnalyticsScreen(),
+      binding: AnalyticsBinding(),
+      transition: Transition.rightToLeft,
+      transitionDuration: const Duration(milliseconds: 300),
+    ),
+
     //Partner Detail
     GetPage(
       name: Routes.partnerDetail,
