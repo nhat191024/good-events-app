@@ -52,6 +52,18 @@ class AppUrl {
   static const String chats = '/chat';
   static String chatMessages(String threadId) => '/chat/threads/$threadId/messages';
 
+  // Partner Services
+  static const String partnerServices = '/partner/service/index';
+  static const String partnerServiceCreate = '/partner/service';
+  static String partnerServiceDetail(String id) => '/partner/service/$id';
+  static String partnerServiceUpdate(String id) => '/partner/service/$id';
+  static String partnerServiceImages(String id) => '/partner/service/$id/images';
+  static String partnerServiceDeleteImage(String serviceId, String mediaId) =>
+      '/partner/service/$serviceId/images/$mediaId';
+
+  // Partner Categories
+  static const String partnerServiceCategories = '/partner/category/index';
+
   // Profile
   static const String profile = '/profile/me';
   static const String updateProfile = '/profile/update';
