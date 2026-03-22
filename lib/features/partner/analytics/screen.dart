@@ -14,8 +14,7 @@ class AnalyticsScreen extends GetView<AnalyticsController> {
         prefixes: [FHeaderAction.back(onPress: () => Get.back())],
       ),
       child: Obx(() {
-        if (controller.isLoading.value &&
-            controller.statistics.value == null) {
+        if (controller.isLoading.value && controller.statistics.value == null) {
           return const Center(child: CircularProgressIndicator());
         }
         return SmartRefresher(
@@ -31,15 +30,30 @@ class AnalyticsScreen extends GetView<AnalyticsController> {
               children: [
                 _RevenueHeroCard(stats: controller.statistics.value),
                 const SizedBox(height: 20),
-                _SectionLabel(label: 'monthly_revenue'.tr, sub: 'last_12_months'.tr),
+
+                _SectionLabel(
+                      label: 'monthly_revenue'.tr,
+                      sub: 'last_12_months'.tr,
+                    )
+                    .animate(delay: 200.ms)
+                    .fadeIn(duration: 400.ms)
+                    .slideY(begin: -0.02, end: 0, curve: Curves.easeOut),
                 const SizedBox(height: 10),
                 _RevenueChartSection(entries: controller.revenueChart),
                 const SizedBox(height: 20),
-                _SectionLabel(label: 'overview'.tr),
+
+                _SectionLabel(label: 'overview'.tr)
+                    .animate(delay: 300.ms)
+                    .fadeIn(duration: 400.ms)
+                    .slideY(begin: -0.02, end: 0, curve: Curves.easeOut),
                 const SizedBox(height: 10),
                 _StatisticsSection(stats: controller.statistics.value),
                 const SizedBox(height: 20),
-                _SectionLabel(label: 'top_services'.tr),
+
+                _SectionLabel(label: 'top_services'.tr)
+                    .animate(delay: 400.ms)
+                    .fadeIn(duration: 400.ms)
+                    .slideY(begin: -0.02, end: 0, curve: Curves.easeOut),
                 const SizedBox(height: 10),
                 _TopServicesSection(services: controller.topServices),
               ],
@@ -106,68 +120,75 @@ class _RevenueHeroCard extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      width: double.infinity,
-      padding: const EdgeInsets.all(20),
-      decoration: BoxDecoration(
-        gradient: LinearGradient(
-          colors: [
-            context.fTheme.colors.primary,
-            context.fTheme.colors.primary.withValues(alpha: 0.7),
-          ],
-          begin: Alignment.topLeft,
-          end: Alignment.bottomRight,
-        ),
-        borderRadius: BorderRadius.circular(20),
-      ),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          Text(
-            'revenue'.tr,
-            style: TextStyle(
-              fontSize: 13,
-              color: context.fTheme.colors.primaryForeground.withValues(alpha: 0.8),
+          width: double.infinity,
+          padding: const EdgeInsets.all(20),
+          decoration: BoxDecoration(
+            gradient: LinearGradient(
+              colors: [
+                context.fTheme.colors.primary,
+                context.fTheme.colors.primary.withValues(alpha: 0.7),
+              ],
+              begin: Alignment.topLeft,
+              end: Alignment.bottomRight,
             ),
+            borderRadius: BorderRadius.circular(20),
           ),
-          const SizedBox(height: 4),
-          Text(
-            _fmt(stats?.revenue ?? 0),
-            style: TextStyle(
-              fontSize: 32,
-              fontWeight: FontWeight.bold,
-              color: context.fTheme.colors.primaryForeground,
-              letterSpacing: -0.5,
-            ),
-          ),
-          const SizedBox(height: 16),
-          Row(
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              _HeroStat(
-                icon: Icons.people_outline_rounded,
-                label: 'number_of_customers'.tr,
-                value: '${stats?.numberOfCustomers ?? 0}',
+              Text(
+                'revenue'.tr,
+                style: TextStyle(
+                  fontSize: 13,
+                  color: context.fTheme.colors.primaryForeground.withValues(
+                    alpha: 0.8,
+                  ),
+                ),
               ),
-              _HeroDivider(),
-              _HeroStat(
-                icon: Icons.receipt_long_outlined,
-                label: 'orders_placed'.tr,
-                value: '${stats?.ordersPlaced ?? 0}',
+              const SizedBox(height: 4),
+              Text(
+                _fmt(stats?.revenue ?? 0),
+                style: TextStyle(
+                  fontSize: 32,
+                  fontWeight: FontWeight.bold,
+                  color: context.fTheme.colors.primaryForeground,
+                  letterSpacing: -0.5,
+                ),
               ),
-              _HeroDivider(),
-              _HeroStat(
-                icon: Icons.check_circle_outline_rounded,
-                label: 'completed_orders'.tr,
-                value: '${stats?.completedOrders ?? 0}',
+              const SizedBox(height: 16),
+              Row(
+                children: [
+                  _HeroStat(
+                    icon: Icons.people_outline_rounded,
+                    label: 'number_of_customers'.tr,
+                    value: '${stats?.numberOfCustomers ?? 0}',
+                  ),
+                  _HeroDivider(),
+                  _HeroStat(
+                    icon: Icons.receipt_long_outlined,
+                    label: 'orders_placed'.tr,
+                    value: '${stats?.ordersPlaced ?? 0}',
+                  ),
+                  _HeroDivider(),
+                  _HeroStat(
+                    icon: Icons.check_circle_outline_rounded,
+                    label: 'completed_orders'.tr,
+                    value: '${stats?.completedOrders ?? 0}',
+                  ),
+                ],
               ),
             ],
           ),
-        ],
-      ),
-    );
+        )
+        .animate(delay: 100.ms)
+        .fadeIn(duration: 400.ms)
+        .slideY(begin: -0.02, end: 0, curve: Curves.easeOut);
   }
 
   String _fmt(double value) {
-    if (value >= 1000000000) return '${(value / 1000000000).toStringAsFixed(1)}B đ';
+    if (value >= 1000000000) {
+      return '${(value / 1000000000).toStringAsFixed(1)}B đ';
+    }
     if (value >= 1000000) return '${(value / 1000000).toStringAsFixed(1)}M đ';
     if (value >= 1000) return '${(value / 1000).toStringAsFixed(0)}K đ';
     return '${value.toStringAsFixed(0)} đ';
@@ -206,7 +227,9 @@ class _HeroStat extends StatelessWidget {
           Icon(
             icon,
             size: 13,
-            color: context.fTheme.colors.primaryForeground.withValues(alpha: 0.75),
+            color: context.fTheme.colors.primaryForeground.withValues(
+              alpha: 0.75,
+            ),
           ),
           const SizedBox(height: 3),
           Text(
@@ -221,7 +244,9 @@ class _HeroStat extends StatelessWidget {
             label,
             style: TextStyle(
               fontSize: 10,
-              color: context.fTheme.colors.primaryForeground.withValues(alpha: 0.7),
+              color: context.fTheme.colors.primaryForeground.withValues(
+                alpha: 0.7,
+              ),
             ),
             maxLines: 1,
             overflow: TextOverflow.ellipsis,
@@ -242,26 +267,29 @@ class _RevenueChartSection extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      padding: const EdgeInsets.fromLTRB(8, 14, 8, 8),
-      decoration: BoxDecoration(
-        color: context.fTheme.colors.background,
-        borderRadius: BorderRadius.circular(16),
-        border: Border.all(color: context.fTheme.colors.border),
-      ),
-      child: SizedBox(
-        height: 180,
-        child: entries.isEmpty
-            ? Center(
-                child: Text(
-                  'no_data'.tr,
-                  style: TextStyle(
-                    color: context.fTheme.colors.mutedForeground,
-                  ),
-                ),
-              )
-            : _buildChart(context),
-      ),
-    );
+          padding: const EdgeInsets.fromLTRB(8, 14, 8, 8),
+          decoration: BoxDecoration(
+            color: context.fTheme.colors.background,
+            borderRadius: BorderRadius.circular(16),
+            border: Border.all(color: context.fTheme.colors.border),
+          ),
+          child: SizedBox(
+            height: 180,
+            child: entries.isEmpty
+                ? Center(
+                    child: Text(
+                      'no_data'.tr,
+                      style: TextStyle(
+                        color: context.fTheme.colors.mutedForeground,
+                      ),
+                    ),
+                  )
+                : _buildChart(context),
+          ),
+        )
+        .animate(delay: 200.ms)
+        .fadeIn(duration: 400.ms)
+        .slideY(begin: -0.02, end: 0, curve: Curves.easeOut);
   }
 
   Widget _buildChart(BuildContext context) {
@@ -291,9 +319,15 @@ class _RevenueChartSection extends StatelessWidget {
         ),
         titlesData: FlTitlesData(
           show: true,
-          topTitles: const AxisTitles(sideTitles: SideTitles(showTitles: false)),
-          rightTitles: const AxisTitles(sideTitles: SideTitles(showTitles: false)),
-          leftTitles: const AxisTitles(sideTitles: SideTitles(showTitles: false)),
+          topTitles: const AxisTitles(
+            sideTitles: SideTitles(showTitles: false),
+          ),
+          rightTitles: const AxisTitles(
+            sideTitles: SideTitles(showTitles: false),
+          ),
+          leftTitles: const AxisTitles(
+            sideTitles: SideTitles(showTitles: false),
+          ),
           bottomTitles: AxisTitles(
             sideTitles: SideTitles(
               showTitles: true,
@@ -359,7 +393,8 @@ class _RevenueChartSection extends StatelessWidget {
   }
 
   String _formatRevenue(double value) {
-    if (value >= 1000000000) return '${(value / 1000000000).toStringAsFixed(1)}B';
+    if (value >= 1000000000)
+      return '${(value / 1000000000).toStringAsFixed(1)}B';
     if (value >= 1000000) return '${(value / 1000000).toStringAsFixed(1)}M';
     if (value >= 1000) return '${(value / 1000).toStringAsFixed(0)}K';
     return value.toStringAsFixed(0);
@@ -391,25 +426,28 @@ class _StatisticsSection extends StatelessWidget {
     ];
 
     return Container(
-      decoration: BoxDecoration(
-        color: context.fTheme.colors.background,
-        borderRadius: BorderRadius.circular(16),
-        border: Border.all(color: context.fTheme.colors.border),
-      ),
-      child: IntrinsicHeight(
-        child: Row(
-          children: [
-            Expanded(child: _StatPanelCell(data: cells[0])),
-            VerticalDivider(
-              width: 1,
-              thickness: 1,
-              color: context.fTheme.colors.border,
+          decoration: BoxDecoration(
+            color: context.fTheme.colors.background,
+            borderRadius: BorderRadius.circular(16),
+            border: Border.all(color: context.fTheme.colors.border),
+          ),
+          child: IntrinsicHeight(
+            child: Row(
+              children: [
+                Expanded(child: _StatPanelCell(data: cells[0])),
+                VerticalDivider(
+                  width: 1,
+                  thickness: 1,
+                  color: context.fTheme.colors.border,
+                ),
+                Expanded(child: _StatPanelCell(data: cells[1])),
+              ],
             ),
-            Expanded(child: _StatPanelCell(data: cells[1])),
-          ],
-        ),
-      ),
-    );
+          ),
+        )
+        .animate(delay: 300.ms)
+        .fadeIn(duration: 400.ms)
+        .slideY(begin: -0.02, end: 0, curve: Curves.easeOut);
   }
 }
 
@@ -483,20 +521,23 @@ class _TopServicesSection extends StatelessWidget {
   Widget build(BuildContext context) {
     if (services.isEmpty) {
       return Container(
-        padding: const EdgeInsets.all(32),
-        width: double.infinity,
-        decoration: BoxDecoration(
-          color: context.fTheme.colors.background,
-          borderRadius: BorderRadius.circular(16),
-          border: Border.all(color: context.fTheme.colors.border),
-        ),
-        child: Center(
-          child: Text(
-            'no_data'.tr,
-            style: TextStyle(color: context.fTheme.colors.mutedForeground),
-          ),
-        ),
-      );
+            padding: const EdgeInsets.all(32),
+            width: double.infinity,
+            decoration: BoxDecoration(
+              color: context.fTheme.colors.background,
+              borderRadius: BorderRadius.circular(16),
+              border: Border.all(color: context.fTheme.colors.border),
+            ),
+            child: Center(
+              child: Text(
+                'no_data'.tr,
+                style: TextStyle(color: context.fTheme.colors.mutedForeground),
+              ),
+            ),
+          )
+          .animate(delay: 400.ms)
+          .fadeIn(duration: 400.ms)
+          .slideY(begin: -0.02, end: 0, curve: Curves.easeOut);
     }
 
     final maxCount = services.fold<int>(
@@ -641,7 +682,8 @@ class _ServiceTile extends StatelessWidget {
   }
 
   String _fmt(double value) {
-    if (value >= 1000000000) return '${(value / 1000000000).toStringAsFixed(1)}B đ';
+    if (value >= 1000000000)
+      return '${(value / 1000000000).toStringAsFixed(1)}B đ';
     if (value >= 1000000) return '${(value / 1000000).toStringAsFixed(1)}M đ';
     if (value >= 1000) return '${(value / 1000).toStringAsFixed(0)}K đ';
     return '${value.toStringAsFixed(0)} đ';
