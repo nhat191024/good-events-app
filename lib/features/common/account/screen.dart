@@ -148,7 +148,7 @@ class AccountScreen extends GetView<AccountController> {
                                     'my_services'.tr,
                                     FIcons.briefcase,
                                     () {
-                                      // Get.toNamed(Routes.profileScreen);
+                                      Get.toNamed(Routes.partnerMyServices);
                                     },
                                   ),
                                   _buildListItem(
