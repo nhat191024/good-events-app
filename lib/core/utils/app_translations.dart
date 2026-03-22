@@ -311,9 +311,6 @@ class AppTranslations extends Translations {
 
       // Asset Orders - Tabs
       'all_orders': 'Tất cả',
-      'pending_status': 'Chờ xử lý',
-      'paid_status': 'Đã thanh toán',
-      'cancelled_status': 'Đã hủy',
 
       // Asset Orders - Content
       'purchased_designs': 'File - Tài liệu đã mua',
@@ -413,7 +410,6 @@ class AppTranslations extends Translations {
       'in_job': 'Đang thực hiện',
       'cancelled': 'Đã hủy',
       'new_show': 'Show mới',
-      'pending': 'Đang chờ',
       'pending_order': 'Đơn đang chờ',
       'confirmed_order': 'Đơn đã xác nhận',
       'new_applicant': '@count nhân sự mới',
@@ -499,7 +495,6 @@ class AppTranslations extends Translations {
 
       'my_profile': 'Hồ sơ của tôi',
       'show_calendar': 'Lịch show',
-      'my_services': 'Dịch vụ của tôi',
       'revenue_statistics': 'Thống kê doanh thu',
       'change_password': 'Đổi mật khẩu',
       'current_password': 'Mật khẩu hiện tại',
@@ -552,11 +547,46 @@ class AppTranslations extends Translations {
 
       'profile_updated': 'Hồ sơ đã được cập nhật!',
 
+      ///my services
+      'my_services': 'Dịch vụ của tôi',
+      'add_service': 'Thêm dịch vụ',
+      'no_services': 'Bạn chưa có dịch vụ nào',
+      'manage_media': 'Quản lý media',
+      'service_media_info': 'Giới thiệu dịch vụ',
+      'select_category': 'Chọn danh mục',
+      'service_created': 'Dịch vụ đã được tạo thành công!',
+      'add_media': 'Thêm media',
+      'no_media_yet': 'Chưa có media nào',
+      'media_required': 'Vui lòng thêm ít nhất 1 media.',
+      'media_item': 'Media',
+      'media_url': 'Đường dẫn video',
+      'media_name': 'Tên video',
+      'media_description': 'Mô tả',
+      'media_name_hint': 'VD: Giới thiệu dịch vụ',
+      'media_description_hint': 'Mô tả ngắn về video...',
+      'manage_service_images': 'Ảnh dịch vụ',
+      'no_images_yet': 'Chưa có ảnh nào',
+      'add_images': 'Thêm ảnh',
+      'uploading_images': 'Đang tải ảnh lên...',
+      'images_limit_reached': 'Đã đạt giới hạn 10 ảnh',
+      'image_too_large': 'Ảnh vượt quá 5MB, vui lòng chọn ảnh khác',
+      'delete_image_confirm_title': 'Xóa ảnh?',
+      'delete_image_confirm_desc': 'Ảnh sẽ bị xóa vĩnh viễn và không thể khôi phục.',
+      'delete': 'Xóa',
+
       ///Statuses
       'success': 'Thành công',
       'failed': 'Thất bại',
       'error': 'Lỗi',
       'info': 'Thông tin',
+
+      'approved': 'Đã duyệt',
+      'rejected': 'Đã từ chối',
+      'pending': 'Đang chờ',
+
+      'pending_status': 'Chờ xử lý',
+      'paid_status': 'Đã thanh toán',
+      'cancelled_status': 'Đã hủy',
 
       'forbidden': 'Không có quyền',
       'not_found': 'Không tìm thấy',
@@ -579,6 +609,7 @@ class AppTranslations extends Translations {
       'complete': 'Hoàn thành',
       'edit_profile': 'Chỉnh sửa hồ sơ',
       'save': 'Lưu',
+      'edit': 'Chỉnh sửa',
 
       //dev
       'in_dev': 'Tính năng đang phát triển',
@@ -868,9 +899,6 @@ class AppTranslations extends Translations {
 
       // Asset Orders - Tabs
       'all_orders': 'All',
-      'pending_status': 'Pending',
-      'paid_status': 'Paid',
-      'cancelled_status': 'Cancelled',
 
       // Asset Orders - Content
       'purchased_designs': 'Purchased Designs',
@@ -961,7 +989,6 @@ class AppTranslations extends Translations {
       'notification': 'Notification',
       'login_successful': 'Login successful! Welcome, @name.',
 
-      'pending': 'Pending',
       'pending_order': 'Pending order',
       'confirmed_order': 'Confirmed order',
       'new_applicant': '@count New applicants',
@@ -1018,7 +1045,6 @@ class AppTranslations extends Translations {
 
       'my_profile': 'My Profile',
       'show_calendar': 'Show Calendar',
-      'my_services': 'My Services',
       'revenue_statistics': 'Revenue Statistics',
       'change_password': 'Change Password',
       'current_password': 'Current Password',
@@ -1070,11 +1096,46 @@ class AppTranslations extends Translations {
 
       'profile_updated': 'Profile has been updated!',
 
+      ///my services
+      'my_services': 'My Services',
+      'add_service': 'Add Service',
+      'no_services': 'You have no services yet',
+      'manage_media': 'Manage media',
+      'service_media_info': 'Service media info',
+      'select_category': 'Select category',
+      'service_created': 'Service created successfully!',
+      'add_media': 'Add media',
+      'no_media_yet': 'No media yet',
+      'media_required': 'Please add at least 1 media.',
+      'media_item': 'Media',
+      'media_url': 'Video URL',
+      'media_name': 'Video name',
+      'media_description': 'Description',
+      'media_name_hint': 'e.g. Service introduction',
+      'media_description_hint': 'Brief description of the video...',
+      'manage_service_images': 'Service Images',
+      'no_images_yet': 'No images yet',
+      'add_images': 'Add Images',
+      'uploading_images': 'Uploading images...',
+      'images_limit_reached': 'Limit of 10 images reached',
+      'image_too_large': 'Image exceeds 5MB, please choose another',
+      'delete_image_confirm_title': 'Delete image?',
+      'delete_image_confirm_desc': 'This image will be permanently deleted and cannot be recovered.',
+      'delete': 'Delete',
+
       ///Statuses
       'success': 'Success',
       'failed': 'Failed',
       'error': 'Error',
       'info': 'Information',
+
+      'approved': 'Approved',
+      'rejected': 'Rejected',
+      'pending': 'Pending',
+
+      'pending_status': 'Chờ xử lý',
+      'paid_status': 'Đã thanh toán',
+      'cancelled_status': 'Đã hủy',
 
       'forbidden': 'Forbidden',
       'not_found': 'Not Found',
@@ -1110,6 +1171,7 @@ class AppTranslations extends Translations {
       'complete': 'Complete',
       'edit_profile': 'Edit Profile',
       'save': 'Save',
+      'edit': 'Edit',
 
       /// Asset Order Detail
       'asset_order_detail_title': 'Design Order Detail',
