@@ -1,10 +1,10 @@
 import 'package:flutter_html/flutter_html.dart';
 import 'package:sukientotapp/core/utils/import/global.dart';
+import 'package:sukientotapp/data/models/common/profile_model.dart';
 
 import 'controller.dart';
 
 import 'package:sukientotapp/features/components/button/plus.dart';
-import 'package:sukientotapp/features/components/widget/badge.dart';
 
 class MyProfileScreen extends GetView<MyProfileController> {
   const MyProfileScreen({super.key});
@@ -14,43 +14,9 @@ class MyProfileScreen extends GetView<MyProfileController> {
     return FScaffold(
       childPad: false,
       resizeToAvoidBottomInset: false,
-      header: Container(
-        padding: EdgeInsets.only(
-          top: context.statusBarHeight + 8,
-          left: 16,
-          right: 16,
-        ),
-        child: Row(
-          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-          children: [
-            GestureDetector(
-              onTap: () {
-                Get.back();
-              },
-              child: Container(
-                width: 40,
-                height: 40,
-                decoration: const BoxDecoration(
-                  shape: BoxShape.circle,
-                  color: Colors.white,
-                ),
-                child: const Center(
-                  child: Icon(
-                    Icons.arrow_back,
-                    color: AppColors.lightForeground,
-                    size: 24,
-                  ),
-                ),
-              ),
-            ),
-            Text(
-              'my_profile'.tr,
-              style: Get.textTheme.headlineSmall?.copyWith(
-                fontWeight: FontWeight.bold,
-              ),
-            ),
-          ],
-        ),
+      header: FHeader.nested(
+        title: Text('my_profile'.tr),
+        prefixes: [FHeaderAction.back(onPress: () => Get.back())],
       ),
       child: Obx(() {
         if (controller.isLoading.value) {
@@ -58,7 +24,7 @@ class MyProfileScreen extends GetView<MyProfileController> {
         }
 
         final profile = controller.profile.value;
-        if (profile == null) {
+      if (profile == null) {
           return Center(
             child: Column(
               mainAxisSize: MainAxisSize.min,
@@ -68,13 +34,13 @@ class MyProfileScreen extends GetView<MyProfileController> {
                 Text('failed_to_load_profile'.tr),
                 const SizedBox(height: 12),
                 CustomButtonPlus(
-                  onTap: () => controller.fetchProfile,
+                  onTap: () => controller.fetchProfile(),
                   width: double.infinity,
                   btnText: 'retry'.tr,
                   textSize: 14,
                   fontWeight: FontWeight.w600,
-                  height: 34,
-                  borderRadius: 8,
+                  height: 44,
+                  borderRadius: 12,
                   borderColor: Colors.transparent,
                 ),
               ],
@@ -89,259 +55,554 @@ class MyProfileScreen extends GetView<MyProfileController> {
             : '-';
 
         return SingleChildScrollView(
-          child: Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 16.0),
-            child: Column(
-              children: [
-                const SizedBox(height: 24),
-                FAvatar(
-                  image: CachedNetworkImageProvider(
-                    controller.profile.value!.avatarUrl,
-                  ),
-                  size: 100.0,
-                  semanticsLabel: 'User avatar',
-                  fallback: Text(
-                    profile.name.isNotEmpty
-                        ? profile.name[0].toUpperCase()
-                        : '?',
-                  ),
-                ),
-                const SizedBox(height: 12),
-                Text(
-                  profile.name,
-                  style: Get.textTheme.titleMedium?.copyWith(
-                    fontWeight: FontWeight.bold,
-                  ),
-                ),
-                if (profile.partnerName != null)
-                  RichText(
-                    text: TextSpan(
-                      text: '${'stage_name'.tr}: ',
-                      style: Get.textTheme.bodyMedium?.copyWith(
-                        color: context.fTheme.colors.mutedForeground,
-                      ),
-                      children: [
-                        TextSpan(
-                          text: profile.partnerName,
-                          style: Get.textTheme.bodyMedium?.copyWith(
-                            color: context.fTheme.colors.primary,
-                            fontWeight: FontWeight.w500,
-                          ),
-                        ),
-                      ],
-                    ),
-                  ),
-                const SizedBox(height: 8),
+          padding: const EdgeInsets.fromLTRB(16, 8, 16, 32),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              // ── Hero Card ──────────────────────────────────────────
+              _ProfileHeroCard(profile: profile)
+                  .animate(delay: 100.ms)
+                  .fadeIn(duration: 400.ms)
+                  .slideY(begin: -0.02, end: 0, curve: Curves.easeOut),
+              const SizedBox(height: 20),
 
-                /// --- Role - Verification ---
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    CustomBadge(
-                      text: profile.partnerName != null
-                          ? 'partner'.tr
-                          : 'customer'.tr,
-                      backgroundColor: context.fTheme.colors.primary.withAlpha(
-                        20,
-                      ),
-                      textColor: context.fTheme.colors.primary,
-                    ),
-                    const SizedBox(width: 8),
-                    CustomBadge(
-                      text: profile.isLegit ? 'verified'.tr : 'unverified'.tr,
-                      backgroundColor: profile.isLegit
-                          ? context.fTheme.colors.primary.withAlpha(20)
-                          : context.fTheme.colors.mutedForeground.withAlpha(20),
-                      textColor: profile.isLegit
-                          ? context.fTheme.colors.primary
-                          : context.fTheme.colors.mutedForeground,
-                    ),
-                  ],
-                ),
-                const SizedBox(height: 16),
-
-                /// --- Stats ---
-                Container(
-                  padding: const EdgeInsets.symmetric(
-                    horizontal: 50,
-                    vertical: 16,
-                  ),
-                  decoration: BoxDecoration(
-                    color: context.fTheme.colors.primaryForeground,
-                    borderRadius: BorderRadius.circular(24),
-                  ),
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              // ── Basic Info ─────────────────────────────────────────
+              _SectionLabel(label: 'basic_info'.tr)
+                  .animate(delay: 200.ms)
+                  .fadeIn(duration: 400.ms)
+                  .slideY(begin: -0.02, end: 0, curve: Curves.easeOut),
+              const SizedBox(height: 10),
+              _InfoCard(
                     children: [
-                      _buildItem(
-                        context,
-                        FIcons.ticketCheck,
-                        'completed_orders'.tr,
-                        '${profile.stats.completedOrders}',
-                        flip: true,
-                        center: true,
+                      _InfoRow(
+                        icon: FIcons.phone,
+                        label: 'phone_number'.tr,
+                        value: profile.phone,
                       ),
-                      const SizedBox(width: 12),
-                      _buildItem(
-                        context,
-                        FIcons.ticketX,
-                        'cancellation_rate'.tr,
-                        '${profile.stats.cancelledOrdersPct}%',
-                        flip: true,
-                        center: true,
+                      _InfoRow(
+                        icon: FIcons.mail,
+                        label: 'email_address'.tr,
+                        value: profile.email,
                       ),
+                      _InfoRow(
+                        icon: FIcons.clock,
+                        label: 'joined'.tr,
+                        value: joinedDate,
+                      ),
+                      _InfoRow(
+                        icon: FIcons.building,
+                        label: 'location'.tr,
+                        value: profile.location,
+                      ),
+                      if (profile.bio.isNotEmpty && profile.bio != '<p></p>')
+                        _InfoHtmlRow(
+                          icon: FIcons.info,
+                          label: 'bio'.tr,
+                          html: profile.bio,
+                        ),
                     ],
-                  ),
-                ),
-                const SizedBox(height: 16),
+                  )
+                  .animate(delay: 200.ms)
+                  .fadeIn(duration: 400.ms)
+                  .slideY(begin: -0.02, end: 0, curve: Curves.easeOut),
+              const SizedBox(height: 20),
 
-                /// --- Basic Info ---
-                Container(
-                  padding: const EdgeInsets.all(16),
-                  decoration: BoxDecoration(
-                    color: context.fTheme.colors.primaryForeground,
-                    borderRadius: BorderRadius.circular(20),
-                  ),
-                  child: Column(
-                    children: [
-                      _buildItem(context, FIcons.phone, 'Phone', profile.phone),
-                      const SizedBox(height: 12),
-                      _buildItem(context, FIcons.mail, 'Email', profile.email),
-                      const SizedBox(height: 12),
-                      _buildItem(
-                        context,
-                        FIcons.clock,
-                        'joined'.tr,
-                        joinedDate,
-                      ),
-                      if (profile.bio.isNotEmpty &&
-                          profile.bio != '<p></p>') ...[
-                        const SizedBox(height: 12),
-                        _buildItem(
-                          context,
-                          FIcons.info,
-                          'About',
-                          profile.bio,
-                          isHtml: true,
-                        ),
-                      ],
-                    ],
-                  ),
-                ),
-                const SizedBox(height: 16),
-
-                /// --- Identity Info ---
-                Container(
-                  padding: const EdgeInsets.all(16),
-                  decoration: BoxDecoration(
-                    color: context.fTheme.colors.primaryForeground,
-                    borderRadius: BorderRadius.circular(20),
-                  ),
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      _buildItem(
-                        context,
-                        FIcons.building,
-                        'location'.tr,
-                        profile.location,
-                      ),
-                      if (profile.identityCardNumber != null) ...[
-                        const SizedBox(height: 12),
-                        _buildItem(
-                          context,
-                          FIcons.banknote,
-                          'id_number'.tr,
-                          profile.identityCardNumber!,
-                        ),
-                      ],
-                      if (profile.frontIdentityCardImage != null ||
-                          profile.backIdentityCardImage != null) ...[
-                        const SizedBox(height: 12),
-                        Row(
-                          children: [
-                            Icon(
-                              FIcons.idCard,
-                              color: context.fTheme.colors.primary,
-                              size: 12,
-                            ),
-                            const SizedBox(width: 4),
-                            Text(
-                              'id_card'.tr,
-                              style: context.typography.xs.copyWith(
-                                fontWeight: FontWeight.w400,
-                              ),
-                            ),
-                          ],
-                        ),
-                        const SizedBox(height: 8),
-                        Row(
-                          children: [
-                            if (profile.frontIdentityCardImage != null)
-                              Expanded(
-                                child: _buildIdCardImage(
-                                  context,
-                                  profile.frontIdentityCardImage!,
-                                  'front'.tr,
-                                ),
-                              ),
-                            if (profile.frontIdentityCardImage != null &&
-                                profile.backIdentityCardImage != null)
-                              const SizedBox(width: 8),
-                            if (profile.backIdentityCardImage != null)
-                              Expanded(
-                                child: _buildIdCardImage(
-                                  context,
-                                  profile.backIdentityCardImage!,
-                                  'back'.tr,
-                                ),
-                              ),
-                          ],
-                        ),
-                        if (profile.selfieImage != null)
-                          _buildIdCardImage(
-                            context,
-                            profile.selfieImage!,
-                            'selfie_image'.tr,
-                          ),
-                      ],
-                    ],
-                  ),
-                ),
-                const SizedBox(height: 24),
-
-                /// --- Button ---
-                CustomButtonPlus(
-                  onTap: () => Get.toNamed(
-                    Routes.editProfile,
-                    arguments: controller.profile.value,
-                  ),
-                  width: double.infinity,
-                  btnText: 'edit_profile'.tr,
-                  textSize: 14,
-                  fontWeight: FontWeight.w600,
-                  height: 34,
-                  borderRadius: 8,
-                  borderColor: Colors.transparent,
-                ),
+              // ── Identity ───────────────────────────────────────────
+              if (profile.identityCardNumber != null ||
+                  profile.frontIdentityCardImage != null ||
+                  profile.backIdentityCardImage != null) ...[
+                _SectionLabel(label: 'id_verification'.tr)
+                    .animate(delay: 300.ms)
+                    .fadeIn(duration: 400.ms)
+                    .slideY(begin: -0.02, end: 0, curve: Curves.easeOut),
+                const SizedBox(height: 10),
+                _IdentityCard(profile: profile)
+                    .animate(delay: 300.ms)
+                    .fadeIn(duration: 400.ms)
+                    .slideY(begin: -0.02, end: 0, curve: Curves.easeOut),
+                const SizedBox(height: 20),
               ],
-            ),
+
+              // ── Edit Button ────────────────────────────────────────
+              CustomButtonPlus(
+                    onTap: () => Get.toNamed(
+                      Routes.editProfile,
+                      arguments: controller.profile.value,
+                    ),
+                    width: double.infinity,
+                    btnText: 'edit_profile'.tr,
+                    textSize: 14,
+                    fontWeight: FontWeight.w600,
+                    height: 44,
+                    borderRadius: 12,
+                    borderColor: Colors.transparent,
+                  )
+                  .animate(delay: 400.ms)
+                  .fadeIn(duration: 400.ms)
+                  .slideY(begin: 0.05, end: 0, curve: Curves.easeOut),
+            ],
           ),
         );
       }),
     );
   }
+}
 
-  Widget _buildIdCardImage(
-    BuildContext context,
-    String imageUrl,
-    String label,
-  ) {
+// ─── Profile Hero Card ────────────────────────────────────────────────────────
+
+class _ProfileHeroCard extends StatelessWidget {
+  final ProfileModel profile;
+
+  const _ProfileHeroCard({required this.profile});
+
+  @override
+  Widget build(BuildContext context) {
+    final isPartner = profile.partnerName != null;
+
+    return Container(
+      width: double.infinity,
+      padding: const EdgeInsets.all(20),
+      decoration: BoxDecoration(
+        gradient: LinearGradient(
+          colors: [
+            context.fTheme.colors.primary,
+            context.fTheme.colors.primary.withValues(alpha: 0.7),
+          ],
+          begin: Alignment.topLeft,
+          end: Alignment.bottomRight,
+        ),
+        borderRadius: BorderRadius.circular(20),
+      ),
+      child: Column(
+        children: [
+          FAvatar(
+            image: CachedNetworkImageProvider(profile.avatarUrl),
+            size: 80.0,
+            semanticsLabel: 'User avatar',
+            fallback: Text(
+              profile.name.isNotEmpty ? profile.name[0].toUpperCase() : '?',
+            ),
+          ),
+          const SizedBox(height: 12),
+          Text(
+            profile.name,
+            style: TextStyle(
+              fontSize: 20,
+              fontWeight: FontWeight.bold,
+              color: context.fTheme.colors.primaryForeground,
+              letterSpacing: -0.3,
+            ),
+          ),
+          if (profile.partnerName != null) ...[
+            const SizedBox(height: 4),
+            Text(
+              profile.partnerName!,
+              style: TextStyle(
+                fontSize: 13,
+                color: context.fTheme.colors.primaryForeground.withValues(
+                  alpha: 0.8,
+                ),
+              ),
+            ),
+          ],
+          const SizedBox(height: 12),
+          Row(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              _HeroBadge(
+                text: isPartner ? 'partner'.tr : 'customer'.tr,
+                icon: isPartner
+                    ? Icons.storefront_outlined
+                    : Icons.person_outline_rounded,
+              ),
+              const SizedBox(width: 8),
+              _HeroBadge(
+                text: profile.isLegit ? 'verified'.tr : 'unverified'.tr,
+                icon: profile.isLegit
+                    ? Icons.verified_rounded
+                    : Icons.shield_outlined,
+              ),
+            ],
+          ),
+          const SizedBox(height: 16),
+          Container(
+            width: double.infinity,
+            height: 1,
+            color: context.fTheme.colors.primaryForeground.withValues(
+              alpha: 0.2,
+            ),
+          ),
+          const SizedBox(height: 16),
+          Row(
+            children: [
+              _HeroStat(
+                icon: Icons.check_circle_outline_rounded,
+                label: 'completed_orders'.tr,
+                value: '${profile.stats.completedOrders}',
+              ),
+              Container(
+                width: 1,
+                height: 36,
+                color: context.fTheme.colors.primaryForeground.withValues(
+                  alpha: 0.25,
+                ),
+              ),
+              _HeroStat(
+                icon: Icons.cancel_outlined,
+                label: 'cancellation_rate'.tr,
+                value: '${profile.stats.cancelledOrdersPct}%',
+              ),
+            ],
+          ),
+        ],
+      ),
+    );
+  }
+}
+
+class _HeroBadge extends StatelessWidget {
+  final String text;
+  final IconData icon;
+
+  const _HeroBadge({required this.text, required this.icon});
+
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 5),
+      decoration: BoxDecoration(
+        color: context.fTheme.colors.primaryForeground.withValues(alpha: 0.2),
+        borderRadius: BorderRadius.circular(20),
+        border: Border.all(
+          color: context.fTheme.colors.primaryForeground.withValues(alpha: 0.3),
+        ),
+      ),
+      child: Row(
+        mainAxisSize: MainAxisSize.min,
+        children: [
+          Icon(icon, size: 11, color: context.fTheme.colors.primaryForeground),
+          const SizedBox(width: 4),
+          Text(
+            text,
+            style: TextStyle(
+              fontSize: 11,
+              fontWeight: FontWeight.w600,
+              color: context.fTheme.colors.primaryForeground,
+            ),
+          ),
+        ],
+      ),
+    );
+  }
+}
+
+class _HeroStat extends StatelessWidget {
+  final IconData icon;
+  final String label;
+  final String value;
+
+  const _HeroStat({
+    required this.icon,
+    required this.label,
+    required this.value,
+  });
+
+  @override
+  Widget build(BuildContext context) {
+    return Expanded(
+      child: Column(
+        children: [
+          Icon(
+            icon,
+            size: 14,
+            color: context.fTheme.colors.primaryForeground.withValues(
+              alpha: 0.75,
+            ),
+          ),
+          const SizedBox(height: 4),
+          Text(
+            value,
+            style: TextStyle(
+              fontSize: 22,
+              fontWeight: FontWeight.bold,
+              color: context.fTheme.colors.primaryForeground,
+            ),
+          ),
+          Text(
+            label,
+            style: TextStyle(
+              fontSize: 10,
+              color: context.fTheme.colors.primaryForeground.withValues(
+                alpha: 0.7,
+              ),
+            ),
+            textAlign: TextAlign.center,
+            maxLines: 1,
+            overflow: TextOverflow.ellipsis,
+          ),
+        ],
+      ),
+    );
+  }
+}
+
+// ─── Section Label ────────────────────────────────────────────────────────────
+
+class _SectionLabel extends StatelessWidget {
+  final String label;
+  final String? sub;
+
+  const _SectionLabel({required this.label, this.sub});
+
+  @override
+  Widget build(BuildContext context) {
+    return Row(
+      crossAxisAlignment: CrossAxisAlignment.center,
+      children: [
+        Container(
+          width: 3,
+          height: 16,
+          decoration: BoxDecoration(
+            color: context.fTheme.colors.primary,
+            borderRadius: BorderRadius.circular(2),
+          ),
+        ),
+        const SizedBox(width: 8),
+        Text(
+          label,
+          style: TextStyle(
+            fontSize: 15,
+            fontWeight: FontWeight.bold,
+            color: context.fTheme.colors.foreground,
+          ),
+        ),
+        if (sub != null) ...[
+          const SizedBox(width: 8),
+          Text(
+            sub!,
+            style: TextStyle(
+              fontSize: 11,
+              color: context.fTheme.colors.mutedForeground,
+            ),
+          ),
+        ],
+      ],
+    );
+  }
+}
+
+// ─── Info Card ────────────────────────────────────────────────────────────────
+
+class _InfoCard extends StatelessWidget {
+  final List<Widget> children;
+
+  const _InfoCard({required this.children});
+
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      padding: const EdgeInsets.all(16),
+      decoration: BoxDecoration(
+        color: context.fTheme.colors.background,
+        borderRadius: BorderRadius.circular(16),
+        border: Border.all(color: context.fTheme.colors.border),
+      ),
+      child: Column(
+        children: [
+          for (int i = 0; i < children.length; i++) ...[
+            children[i],
+            if (i < children.length - 1) ...[
+              const SizedBox(height: 4),
+              Divider(color: context.fTheme.colors.border, height: 16),
+            ],
+          ],
+        ],
+      ),
+    );
+  }
+}
+
+class _InfoRow extends StatelessWidget {
+  final IconData icon;
+  final String label;
+  final String value;
+
+  const _InfoRow({
+    required this.icon,
+    required this.label,
+    required this.value,
+  });
+
+  @override
+  Widget build(BuildContext context) {
+    return Row(
+      children: [
+        Container(
+          width: 34,
+          height: 34,
+          decoration: BoxDecoration(
+            color: context.fTheme.colors.primary.withValues(alpha: 0.08),
+            borderRadius: BorderRadius.circular(10),
+          ),
+          child: Icon(icon, color: context.fTheme.colors.primary, size: 16),
+        ),
+        const SizedBox(width: 12),
+        Expanded(
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Text(
+                label,
+                style: TextStyle(
+                  fontSize: 11,
+                  color: context.fTheme.colors.mutedForeground,
+                ),
+              ),
+              const SizedBox(height: 2),
+              Text(
+                value,
+                style: TextStyle(
+                  fontSize: 14,
+                  fontWeight: FontWeight.w500,
+                  color: context.fTheme.colors.foreground,
+                ),
+              ),
+            ],
+          ),
+        ),
+      ],
+    );
+  }
+}
+
+class _InfoHtmlRow extends StatelessWidget {
+  final IconData icon;
+  final String label;
+  final String html;
+
+  const _InfoHtmlRow({
+    required this.icon,
+    required this.label,
+    required this.html,
+  });
+
+  @override
+  Widget build(BuildContext context) {
+    return Row(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        Container(
+          width: 34,
+          height: 34,
+          decoration: BoxDecoration(
+            color: context.fTheme.colors.primary.withValues(alpha: 0.08),
+            borderRadius: BorderRadius.circular(10),
+          ),
+          child: Icon(icon, color: context.fTheme.colors.primary, size: 16),
+        ),
+        const SizedBox(width: 12),
+        Expanded(
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Text(
+                label,
+                style: TextStyle(
+                  fontSize: 11,
+                  color: context.fTheme.colors.mutedForeground,
+                ),
+              ),
+              Html(data: html),
+            ],
+          ),
+        ),
+      ],
+    );
+  }
+}
+
+// ─── Identity Card ────────────────────────────────────────────────────────────
+
+class _IdentityCard extends StatelessWidget {
+  final ProfileModel profile;
+
+  const _IdentityCard({required this.profile});
+
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      padding: const EdgeInsets.all(16),
+      decoration: BoxDecoration(
+        color: context.fTheme.colors.background,
+        borderRadius: BorderRadius.circular(16),
+        border: Border.all(color: context.fTheme.colors.border),
+      ),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          if (profile.identityCardNumber != null) ...[
+            _InfoRow(
+              icon: FIcons.banknote,
+              label: 'id_number'.tr,
+              value: profile.identityCardNumber!,
+            ),
+          ],
+          if (profile.identityCardNumber != null &&
+              (profile.frontIdentityCardImage != null ||
+                  profile.backIdentityCardImage != null)) ...[
+            const SizedBox(height: 4),
+            Divider(color: context.fTheme.colors.border, height: 16),
+          ],
+          if (profile.frontIdentityCardImage != null ||
+              profile.backIdentityCardImage != null) ...[
+            Row(
+              children: [
+                if (profile.frontIdentityCardImage != null)
+                  Expanded(
+                    child: _IdCardImage(
+                      imageUrl: profile.frontIdentityCardImage!,
+                      label: 'front'.tr,
+                    ),
+                  ),
+                if (profile.frontIdentityCardImage != null &&
+                    profile.backIdentityCardImage != null)
+                  const SizedBox(width: 8),
+                if (profile.backIdentityCardImage != null)
+                  Expanded(
+                    child: _IdCardImage(
+                      imageUrl: profile.backIdentityCardImage!,
+                      label: 'back'.tr,
+                    ),
+                  ),
+              ],
+            ),
+          ],
+          if (profile.selfieImage != null) ...[
+            const SizedBox(height: 8),
+            _IdCardImage(
+              imageUrl: profile.selfieImage!,
+              label: 'selfie_image'.tr,
+            ),
+          ],
+        ],
+      ),
+    );
+  }
+}
+
+class _IdCardImage extends StatelessWidget {
+  final String imageUrl;
+  final String label;
+
+  const _IdCardImage({required this.imageUrl, required this.label});
+
+  @override
+  Widget build(BuildContext context) {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         ClipRRect(
-          borderRadius: BorderRadius.circular(8),
+          borderRadius: BorderRadius.circular(10),
           child: CachedNetworkImage(
             imageUrl: imageUrl,
             height: 110,
@@ -367,75 +628,11 @@ class MyProfileScreen extends GetView<MyProfileController> {
         const SizedBox(height: 4),
         Text(
           label,
-          style: context.typography.xs.copyWith(
+          style: TextStyle(
+            fontSize: 11,
             color: context.fTheme.colors.mutedForeground,
           ),
         ),
-      ],
-    );
-  }
-
-  Widget _buildItem(
-    BuildContext context,
-    IconData icon,
-    String title,
-    String content, {
-    bool isHtml = false,
-    bool flip = false,
-    bool useIcon = true,
-    bool center = false,
-  }) {
-    return Column(
-      crossAxisAlignment: center
-          ? CrossAxisAlignment.center
-          : CrossAxisAlignment.start,
-      children: [
-        if (flip) ...[
-          isHtml
-              ? Html(data: content)
-              : Text(
-                  content,
-                  style: context.typography.base.copyWith(
-                    fontWeight: FontWeight.w500,
-                  ),
-                ),
-          Row(
-            children: [
-              if (useIcon)
-                Icon(icon, color: context.fTheme.colors.primary, size: 12),
-              if (useIcon) const SizedBox(width: 4),
-              Text(
-                title,
-                style: context.typography.xs.copyWith(
-                  fontWeight: FontWeight.w400,
-                ),
-              ),
-            ],
-          ),
-        ] else ...[
-          Row(
-            children: [
-              if (useIcon)
-                Icon(icon, color: context.fTheme.colors.primary, size: 12),
-              if (useIcon) const SizedBox(width: 4),
-              Text(
-                title,
-                style: context.typography.xs.copyWith(
-                  fontWeight: FontWeight.w400,
-                ),
-              ),
-            ],
-          ),
-          const SizedBox(height: 4),
-          isHtml
-              ? Html(data: content)
-              : Text(
-                  content,
-                  style: context.typography.sm.copyWith(
-                    fontWeight: FontWeight.w400,
-                  ),
-                ),
-        ],
       ],
     );
   }
