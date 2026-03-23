@@ -49,7 +49,7 @@ class AccountController extends GetxController {
         0,
   );
   final filterDate = DateTime.now().obs;
-  final RxInt selectedBank = 1.obs; ///currently we only support PayOs, so default to 1
+  final RxInt selectedBank = 1.obs; //currently we only support PayOs, so default to 1
   final RxBool isRechargeAmountError = false.obs;
   final TextEditingController rechargeAmount = TextEditingController();
   final RxList<WalletTransactionModel> walletTransactions =
@@ -110,6 +110,16 @@ class AccountController extends GetxController {
             .toString();
   }
 
+  void syncBalance() {
+    balance.value =
+        (StorageService.readMapData(
+                  key: LocalStorageKeys.user,
+                  mapKey: 'wallet_balance',
+                ) ??
+                0)
+            .toInt();
+  }
+
   //============================================================================
   // CARD VALIDATION METHODS
   //============================================================================
@@ -160,6 +170,42 @@ class AccountController extends GetxController {
   String formatPrice(int price) {
     final formatted = NumberFormat('#,##0', 'en_US').format(price);
     return '$formatted ${"currency".tr}';
+  }
+
+  //============================================================================
+  // WALLET RECHARGE
+  //============================================================================
+  final RxBool isRechargeLoading = false.obs;
+
+  Future<void> rechargeWallet() async {
+    final rawText = rechargeAmount.text;
+    final digits = rawText.replaceAll(RegExp(r'[^0-9]'), '');
+    final amount = int.tryParse(digits);
+
+    if (amount == null || amount <= 0) {
+      isRechargeAmountError.value = true;
+      return;
+    }
+    isRechargeAmountError.value = false;
+
+    try {
+      isRechargeLoading.value = true;
+      final checkoutUrl = await _repository.regenerateAddFundsLink(
+        amount.toInt(),
+      );
+      rechargeAmount.clear();
+      Get.back();
+      await Future.delayed(const Duration(milliseconds: 100));
+      Get.toNamed(
+        Routes.webView,
+        arguments: {'url': checkoutUrl, 'title': 'add_balance'.tr},
+      );
+    } catch (e) {
+      logger.e('[AccountController] [rechargeWallet] error: $e');
+      AppSnackbar.showError(title: 'error'.tr, message: e.toString());
+    } finally {
+      isRechargeLoading.value = false;
+    }
   }
 
   //============================================================================
