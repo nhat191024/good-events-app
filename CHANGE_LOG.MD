@@ -2,6 +2,24 @@
 
 All notable changes to this project will be documented in this file.
 
+## [v1.26.0+29]
+
+- Update my account screen
+- Update walltet UI
+
+## [v1.25.0+28]
+
+- Update home screen
+
+## [v1.24.0+27]
+
+- Update message screen
+- Update chat screen
+
+## [v1.23.0+26]
+
+- Update my show screen UI
+
 ## [v1.22.0+25]
 
 - Add change password screen
