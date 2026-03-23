@@ -1,6 +1,7 @@
 import 'package:get/get.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_animate/flutter_animate.dart';
+import 'package:sukientotapp/core/routes/pages.dart';
 import 'package:sukientotapp/data/models/client/blog_home_model.dart';
 import 'package:sukientotapp/features/components/common/blog_card.dart';
 
@@ -35,7 +36,13 @@ class ClientBlogPanel extends StatelessWidget {
                     .type, // TODO: backend payload has no tag mapped currently, so we will temporary use type as tag
                 date: DateTime.now(), // Use publishedHuman for date later if needed, or parse
                 onTap: () {
-                  Get.snackbar('notification'.tr, 'in_dev'.tr);
+                  Get.toNamed(
+                    Routes.webView,
+                    arguments: {
+                      'url': blog.blogUrl,
+                      'title': blog.title,
+                    },
+                  );
                 },
               ),
             );
