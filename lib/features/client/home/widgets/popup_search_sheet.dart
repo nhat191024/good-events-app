@@ -213,6 +213,7 @@ class PartnerItem extends StatelessWidget {
     return GestureDetector(
       behavior: HitTestBehavior.opaque,
       onTap: () {
+        Get.back();
         Get.toNamed(
           Routes.partnerDetail,
           arguments: {

@@ -154,5 +154,15 @@ class Pages {
       transitionDuration: const Duration(milliseconds: 300),
       curve: Curves.easeOut,
     ),
+
+    GetPage(
+      name: Routes.webView,
+      page: () => CommonWebviewScreen(
+        url: Get.arguments['url'] ?? '',
+        title: Get.arguments['title'],
+      ),
+      transition: Transition.cupertino,
+      transitionDuration: const Duration(milliseconds: 300),
+    ),
   ];
 }

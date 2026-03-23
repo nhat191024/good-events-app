@@ -17,6 +17,7 @@ class PartnerDetailController extends GetxController {
   final RxString priceRange = ''.obs;
   final RxString updateTime = ''.obs;
   final RxString description = ''.obs;
+  final RxString videoUrl = ''.obs;
 
   final RxBool isLoading = true.obs;
 
@@ -49,6 +50,7 @@ class PartnerDetailController extends GetxController {
       category.value = detail.category.name;
       subCategory.value = detail.item.name; // Based on fake data structure
       serviceType.value = detail.item.name;
+      videoUrl.value = detail.item.videoUrl;
 
       // Format prices
       final minP = _formatPrice(detail.item.minPrice);
@@ -71,5 +73,80 @@ class PartnerDetailController extends GetxController {
       RegExp(r'(\d{1,3})(?=(\d{3})+(?!\d))'),
       (Match m) => '${m[1]}.',
     );
+  }
+
+  /// returns normal youtube link from iframe
+  String getVideoUrl() {
+    final res = _extractEmbedYT(videoUrl.value);
+    final List<String> urls = res['urls'];
+    if (urls.isNotEmpty) {
+      final videoId = _extractVideoId(urls.first);
+      if (videoId != null) {
+        return 'https://www.youtube.com/watch?v=$videoId';
+      }
+      return urls.first;
+    }
+    return videoUrl.value;
+  }
+
+  /// get thumbnail by id
+  String getThumbnail() {
+    final videoId = _extractVideoId(videoUrl.value);
+    if (videoId != null) {
+      return 'https://img.youtube.com/vi/$videoId/hqdefault.jpg';
+    }
+    return '';
+  }
+
+  Map<String, dynamic> _extractEmbedYT(String str) {
+    /// https://stackoverflow.com/a/52316545
+    final urlRegExp = RegExp(
+      r'((?:\bhttps?:)?\/\/[^,\s()<>]+(?:\(\w+\)|(?:[a-zA-Z0-9]|\/)))',
+      dotAll: true,
+    );
+
+    final matches = urlRegExp.allMatches(str).map((m) => m.group(0) ?? '').toList();
+
+    // Remove all iframes from str
+    String result = str.replaceAll(
+      RegExp(r'<iframe.*?</iframe>', caseSensitive: false, dotAll: true),
+      '',
+    );
+
+    result = _stripEmptyTags(result);
+
+    return {
+      'cleaned': result,
+      'urls': matches,
+    };
+  }
+
+  String _stripEmptyTags(String html) {
+    String result = html;
+    String prev;
+    final regexps = [
+      RegExp(r'<(\w+)\b[^>]*>([\s]|&nbsp;)*</\1>', caseSensitive: false),
+      RegExp(r'<\w+\s*/>', caseSensitive: false),
+    ];
+
+    do {
+      prev = result;
+      for (final re in regexps) {
+        result = result.replaceAll(re, '');
+      }
+    } while (result != prev);
+
+    return result;
+  }
+
+  String? _extractVideoId(String url) {
+    if (url.isEmpty) return null;
+
+    final regExp = RegExp(
+      r'(?:youtube\.com\/(?:[^\/]+\/.+\/|(?:v|e(?:mbed)?)\/|.*[?&]v=)|youtu\.be\/|embed\/)([^"&?\/\s]{11})',
+      caseSensitive: false,
+    );
+    final match = regExp.firstMatch(url);
+    return match?.group(1);
   }
 }
