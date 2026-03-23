@@ -27,7 +27,8 @@ class HistoryWidget extends GetView<ShowController> {
               : context.fTheme.colors.muted,
           borderRadius: BorderRadius.circular(10),
           border: Border.all(
-            color: color?.withValues(alpha: 0.35) ?? context.fTheme.colors.border,
+            color:
+                color?.withValues(alpha: 0.35) ?? context.fTheme.colors.border,
           ),
         ),
         child: Icon(
@@ -85,20 +86,23 @@ class HistoryWidget extends GetView<ShowController> {
                 }
                 final bill = controller.historyBills[index];
                 return Show(
-                  billId: bill.id,
-                  code: bill.code,
-                  timestamp: bill.updatedAt,
-                  price: bill.finalTotal,
-                  clientName: bill.clientName,
-                  category: bill.category,
-                  event: bill.event,
-                  date: bill.date,
-                  startTime: bill.startTime,
-                  endTime: bill.endTime,
-                  address: bill.address,
-                  note: bill.note ?? '',
-                  currentStatus: bill.status,
-                );
+                      billId: bill.id,
+                      code: bill.code,
+                      timestamp: bill.updatedAt,
+                      price: bill.finalTotal,
+                      clientName: bill.clientName,
+                      category: bill.category,
+                      event: bill.event,
+                      date: bill.date,
+                      startTime: bill.startTime,
+                      endTime: bill.endTime,
+                      address: bill.address,
+                      note: bill.note ?? '',
+                      currentStatus: bill.status,
+                    )
+                    .animate(delay: (100 * index).ms)
+                    .fadeIn(duration: 500.ms)
+                    .slideY(begin: -0.02, end: 0, curve: Curves.easeOut);
               },
             );
           }),
