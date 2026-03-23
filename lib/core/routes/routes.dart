@@ -31,4 +31,5 @@ abstract class Routes {
   static const clientOrderDetail = '/client/order-detail';
   static const clientAssetOrderDetail = '/client/asset-order-detail';
   static const webView = '/webview';
+  static const paymentResult = '/payment-result';
 }
