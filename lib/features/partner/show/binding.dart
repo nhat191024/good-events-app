@@ -13,14 +13,17 @@ class ShowBinding extends Bindings {
 
     Get.lazyPut<ShowProvider>(
       () => ShowProvider(Get.find<ApiService>()),
+      fenix: true,
     );
 
     Get.lazyPut<ShowRepository>(
       () => ShowRepositoryImpl(Get.find<ShowProvider>()),
+      fenix: true,
     );
 
     Get.lazyPut<ShowController>(
       () => ShowController(Get.find<ShowRepository>()),
+      fenix: true,
     );
   }
 }
