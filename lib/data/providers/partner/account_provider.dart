@@ -29,10 +29,26 @@ class AccountProvider {
           e.response?.data['message'] ?? 'Failed to load wallet transactions',
         );
       }
-      throw Exception('Cannot connect to server. Please check your connection.');
-    } catch (e) {
-      logger.e('[AccountProvider] [getWalletTransactions] Unknown error: $e');
-      rethrow;
+      throw Exception(
+        'Cannot connect to server. Please check your connection.',
+      );
+    }
+  }
+
+  Future<void> logout() async {
+    try {
+      final response = await _apiService.dio.get(AppUrl.logout);
+      if (response.statusCode != 200) {
+        throw Exception('Logout failed: ${response.statusCode}');
+      }
+    } on DioException catch (e) {
+      logger.e('[AccountProvider] [logout] DioException: ${e.message}');
+      if (e.response?.statusCode == 401) {
+        throw Exception('unauthorized');
+      }
+      throw Exception(
+        e.response?.data['message'] ?? 'Cannot connect to server.',
+      );
     }
   }
 }

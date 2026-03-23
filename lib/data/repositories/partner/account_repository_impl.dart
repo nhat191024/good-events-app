@@ -12,4 +12,9 @@ class AccountRepositoryImpl implements AccountRepository {
     final response = await _provider.getWalletTransactions();
     return response.map((e) => WalletTransactionModel.fromMap(e)).toList();
   }
+
+  @override
+  Future<void> logout() async {
+    await _provider.logout();
+  }
 }
