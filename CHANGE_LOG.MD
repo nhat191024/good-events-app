@@ -2,6 +2,11 @@
 
 All notable changes to this project will be documented in this file.
 
+## [v1.30.0+33]
+
+- Intergation API to top up wallet
+- Add top up result screen
+
 ## [v1.29.0+32]
 
 - Update client home screen for better UI/UX
