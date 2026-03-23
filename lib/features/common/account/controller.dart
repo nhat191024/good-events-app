@@ -49,7 +49,7 @@ class AccountController extends GetxController {
         0,
   );
   final filterDate = DateTime.now().obs;
-  final RxInt selectedBank = 0.obs;
+  final RxInt selectedBank = 1.obs; ///currently we only support PayOs, so default to 1
   final RxBool isRechargeAmountError = false.obs;
   final TextEditingController rechargeAmount = TextEditingController();
   final RxList<WalletTransactionModel> walletTransactions =

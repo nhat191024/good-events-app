@@ -84,7 +84,11 @@ class AddBalanceSheet extends StatelessWidget {
                         ),
                         borderRadius: BorderRadius.circular(12),
                       ),
-                      child: const Icon(FIcons.wallet, color: Colors.white, size: 18),
+                      child: const Icon(
+                        FIcons.wallet,
+                        color: Colors.white,
+                        size: 18,
+                      ),
                     ),
                     const SizedBox(width: 12),
                     Text(
@@ -115,87 +119,50 @@ class AddBalanceSheet extends StatelessWidget {
                         ),
                       ),
                       const SizedBox(height: 8),
-                      Obx(() => Container(
-                        decoration: BoxDecoration(
-                          color: const Color(0xFFF3F4F6),
-                          borderRadius: BorderRadius.circular(14),
-                          border: Border.all(
-                            color: controller.isRechargeAmountError.value
-                                ? context.fTheme.colors.error
-                                : Colors.transparent,
-                          ),
-                        ),
-                        child: TextField(
-                          controller: controller.rechargeAmount,
-                          keyboardType: TextInputType.number,
-                          style: TextStyle(
-                            color: context.fTheme.colors.foreground,
-                            fontSize: 16,
-                            fontWeight: FontWeight.w600,
-                          ),
-                          decoration: InputDecoration(
-                            hintText: 'enter'.tr,
-                            hintStyle: TextStyle(
-                              color: context.fTheme.colors.mutedForeground,
-                              fontWeight: FontWeight.normal,
-                            ),
-                            prefixIcon: Icon(
-                              FIcons.banknote,
-                              color: controller.isRechargeAmountError.value
-                                  ? context.fTheme.colors.error
-                                  : AppColors.primary,
-                              size: 18,
-                            ),
-                            border: InputBorder.none,
-                            contentPadding: const EdgeInsets.symmetric(
-                              horizontal: 16,
-                              vertical: 14,
-                            ),
-                          ),
-                        ),
-                      )),
-                      const SizedBox(height: 20),
-                      _buildBankSelectBox(context),
-                      const SizedBox(height: 16),
-                      // Add new bank (outlined button)
-                      GestureDetector(
-                        onTap: () => AddBankAccountSheet.show(context, controller),
-                        child: Container(
-                          width: double.infinity,
-                          height: 52,
+                      Obx(
+                        () => Container(
                           decoration: BoxDecoration(
-                            color: Colors.white,
+                            color: const Color(0xFFF3F4F6),
                             borderRadius: BorderRadius.circular(14),
                             border: Border.all(
-                              color: Colors.black.withValues(alpha: 0.12),
+                              color: controller.isRechargeAmountError.value
+                                  ? context.fTheme.colors.error
+                                  : Colors.transparent,
                             ),
-                            boxShadow: [
-                              BoxShadow(
-                                color: Colors.black.withValues(alpha: 0.03),
-                                blurRadius: 8,
-                                offset: const Offset(0, 2),
-                              ),
-                            ],
                           ),
-                          child: Row(
-                            mainAxisAlignment: MainAxisAlignment.center,
-                            children: [
-                              Icon(FIcons.plus, size: 16, color: context.fTheme.colors.foreground),
-                              const SizedBox(width: 8),
-                              Text(
-                                'add_new_bank'.tr,
-                                style: TextStyle(
-                                  color: context.fTheme.colors.foreground,
-                                  fontSize: 15,
-                                  fontWeight: FontWeight.w600,
-                                ),
+                          child: TextField(
+                            controller: controller.rechargeAmount,
+                            keyboardType: TextInputType.number,
+                            style: TextStyle(
+                              color: context.fTheme.colors.foreground,
+                              fontSize: 16,
+                              fontWeight: FontWeight.w600,
+                            ),
+                            decoration: InputDecoration(
+                              hintText: 'enter'.tr,
+                              hintStyle: TextStyle(
+                                color: context.fTheme.colors.mutedForeground,
+                                fontWeight: FontWeight.normal,
                               ),
-                            ],
+                              prefixIcon: Icon(
+                                FIcons.banknote,
+                                color: controller.isRechargeAmountError.value
+                                    ? context.fTheme.colors.error
+                                    : AppColors.primary,
+                                size: 18,
+                              ),
+                              border: InputBorder.none,
+                              contentPadding: const EdgeInsets.symmetric(
+                                horizontal: 16,
+                                vertical: 14,
+                              ),
+                            ),
                           ),
                         ),
                       ),
+                      const SizedBox(height: 20),
+                      _buildBankSelectBox(context),
                       const SizedBox(height: 12),
-                      // Confirm button (gradient)
                       GestureDetector(
                         onTap: () {
                           // controller.rechargeWallet();
@@ -215,7 +182,9 @@ class AddBalanceSheet extends StatelessWidget {
                             borderRadius: BorderRadius.circular(14),
                             boxShadow: [
                               BoxShadow(
-                                color: AppColors.primary.withValues(alpha: 0.35),
+                                color: AppColors.primary.withValues(
+                                  alpha: 0.35,
+                                ),
                                 blurRadius: 12,
                                 offset: const Offset(0, 4),
                               ),
@@ -248,13 +217,62 @@ class AddBalanceSheet extends StatelessWidget {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        Text(
-          "from".tr,
-          style: TextStyle(
-            color: context.fTheme.colors.foreground,
-            fontSize: 16,
-            fontWeight: FontWeight.bold,
-          ),
+        Row(
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          children: [
+            Text(
+              "from".tr,
+              style: TextStyle(
+                color: context.fTheme.colors.foreground,
+                fontSize: 16,
+                fontWeight: FontWeight.bold,
+              ),
+            ),
+            GestureDetector(
+              onTap: () => {
+                AppSnackbar.showInfo(
+                  title: 'info'.tr,
+                  message: 'add_bank_not_supported'.tr,
+                ),
+
+                // Get.back(),
+                // Future.delayed(const Duration(microseconds: 300)),
+                // AddBankAccountSheet.show(context, controller),
+              },
+              child: Container(
+                padding: const EdgeInsets.symmetric(
+                  horizontal: 10,
+                  vertical: 6,
+                ),
+                decoration: BoxDecoration(
+                  color: Colors.white,
+                  borderRadius: BorderRadius.circular(8),
+                  border: Border.all(
+                    color: Colors.black.withValues(alpha: 0.12),
+                  ),
+                ),
+                child: Row(
+                  mainAxisSize: MainAxisSize.min,
+                  children: [
+                    Icon(
+                      FIcons.plus,
+                      size: 13,
+                      color: context.fTheme.colors.foreground,
+                    ),
+                    const SizedBox(width: 4),
+                    Text(
+                      'add_source'.tr,
+                      style: TextStyle(
+                        color: context.fTheme.colors.foreground,
+                        fontSize: 12,
+                        fontWeight: FontWeight.w600,
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+            ),
+          ],
         ),
         ListView.builder(
           padding: const EdgeInsets.only(top: 0),
@@ -263,7 +281,6 @@ class AddBalanceSheet extends StatelessWidget {
           itemCount: controller.bankAccounts.length,
           itemBuilder: (context, index) {
             final bank = controller.bankAccounts[index];
-            if (bank['id'] == 1) return SizedBox.shrink();
             return Obx(
               () => GestureDetector(
                 onTap: () {
@@ -308,36 +325,17 @@ class AddBalanceSheet extends StatelessWidget {
                         ],
                       ),
                       const Spacer(),
-                      // Assuming RadioGroup is defined or available globally.
-                      // If not, standard Radio might need groupValue and onChanged which are present in the wrapper in original code.
-                      // Replicating the wrapper structure:
-                      // Original code had RadioGroup wrapping Radio.
-                      // I'll assume RadioGroup is a widget that injects value/onChanged or handles layout.
-                      // But standard Radio needs groupValue.
-                      // Looking at original code:
-                      /*
-                       RadioGroup<int>(
+                      Transform.scale(
+                        scale: 1.3,
+                        child: RadioGroup<int>(
                           groupValue: controller.selectedBank.value,
                           onChanged: (value) {
                             controller.selectedBank.value = value!;
                           },
                           child: Radio<int>(
                             value: bank['id'],
-                            activeColor: context.fTheme.colors.error,
+                            activeColor: AppColors.primary,
                           ),
-                        ),
-                        */
-                      // If I get an error about RadioGroup needing to be imported, I'll fix it.
-                      // For now I copy it.
-                      Transform.scale(
-                        scale: 1.3,
-                        child: Radio<int>(
-                          value: bank['id'],
-                          groupValue: controller.selectedBank.value,
-                          onChanged: (value) {
-                            controller.selectedBank.value = value!;
-                          },
-                          activeColor: AppColors.primary,
                         ),
                       ),
                     ],
