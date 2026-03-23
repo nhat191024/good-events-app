@@ -2,11 +2,14 @@
 
 All notable changes to this project will be documented in this file.
 
-## [v1.27.0+30]
+## [v1.28.0+31]
 
 - Added webview for openning external urls
 - Fixed price tag too big
 - Added video preview on details screen
+
+## [v1.27.0+30]
+
 - Intergetion API for fetch transaction history
 - Add transaction detail view
 
