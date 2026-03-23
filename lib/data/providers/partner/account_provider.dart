@@ -35,6 +35,58 @@ class AccountProvider {
     }
   }
 
+  Future<Map<String, dynamic>> confirmAddFunds({
+    required String orderCode,
+    required String status,
+  }) async {
+    try {
+      final response = await _apiService.dio.post(
+        AppUrl.partnerWalletConfirmAddFunds,
+        data: {'orderCode': orderCode, 'status': status},
+      );
+      if (response.statusCode == 200) {
+        return Map<String, dynamic>.from(response.data);
+      }
+      throw Exception('Confirmation failed: ${response.statusCode}');
+    } on DioException catch (e) {
+      logger.e(
+        '[AccountProvider] [confirmAddFunds] DioException: ${e.message}',
+      );
+      throw Exception(
+        e.response?.data['message'] ?? 'Cannot connect to server.',
+      );
+    }
+  }
+
+  Future<String> regenerateAddFundsLink(int amount) async {
+    try {
+      final response = await _apiService.dio.post(
+        AppUrl.partnerWalletRegenerateAddFundsLink,
+        data: {'amount': amount},
+      );
+      if (response.statusCode == 200) {
+        final checkoutUrl = response.data['checkoutUrl'] as String?;
+        if (checkoutUrl == null || checkoutUrl.isEmpty) {
+          throw Exception('Invalid payment URL received.');
+        }
+        return checkoutUrl;
+      }
+      throw Exception('Failed to create payment link: ${response.statusCode}');
+    } on DioException catch (e) {
+      logger.e(
+        '[AccountProvider] [regenerateAddFundsLink] DioException: ${e.message}',
+      );
+      if (e.response != null) {
+        throw Exception(
+          e.response?.data['message'] ?? 'Failed to initiate payment.',
+        );
+      }
+      throw Exception(
+        'Cannot connect to server. Please check your connection.',
+      );
+    }
+  }
+
   Future<void> logout() async {
     try {
       final response = await _apiService.dio.get(AppUrl.logout);

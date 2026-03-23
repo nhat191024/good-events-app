@@ -14,6 +14,19 @@ class AccountRepositoryImpl implements AccountRepository {
   }
 
   @override
+  Future<String> regenerateAddFundsLink(int amount) async {
+    return _provider.regenerateAddFundsLink(amount);
+  }
+
+  @override
+  Future<Map<String, dynamic>> confirmAddFunds({
+    required String orderCode,
+    required String status,
+  }) async {
+    return _provider.confirmAddFunds(orderCode: orderCode, status: status);
+  }
+
+  @override
   Future<void> logout() async {
     await _provider.logout();
   }

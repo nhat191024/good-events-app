@@ -71,6 +71,8 @@ class AppUrl {
 
   // Partner Wallet
   static const String partnerWalletTransactions = '/partner/wallet/transactions';
+  static const String partnerWalletRegenerateAddFundsLink = '/partner/wallet/regenerate-add-funds-link';
+  static const String partnerWalletConfirmAddFunds = '/partner/wallet/confirm-add-funds';
 
   // Partner Analytics
   static const String partnerAnalyticsStatistics = '/partner/analytics/statistics';
