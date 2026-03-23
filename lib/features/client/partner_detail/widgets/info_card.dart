@@ -71,6 +71,7 @@ class PartnerInfoCard extends StatelessWidget {
 
           // Price Box
           Container(
+            width: double.infinity,
             padding: const EdgeInsets.all(20),
             decoration: BoxDecoration(
               color: const Color(0xFFF0F9FF).withValues(alpha: 0.6), // Primary-50/60
@@ -93,7 +94,7 @@ class PartnerInfoCard extends StatelessWidget {
                   () => Text(
                     controller.priceRange.value,
                     style: const TextStyle(
-                      fontSize: 30,
+                      fontSize: 24,
                       fontWeight: FontWeight.w600,
                       color: Color(0xFF1E3A8A), // Primary-900
                     ),
@@ -114,6 +115,7 @@ class PartnerInfoCard extends StatelessWidget {
 
           // Commitments
           Container(
+            width: double.infinity,
             padding: const EdgeInsets.all(20),
             decoration: BoxDecoration(
               color: const Color(0xFFF9FAFB), // Gray-50
