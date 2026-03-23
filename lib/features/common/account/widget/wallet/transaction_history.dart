@@ -8,28 +8,59 @@ class TransactionHistorySection extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Column(
-      children: [
-        _buildTransactionHistoryHeader(context),
-        // const DashedDivider(color: AppColors.dividers, height: 2),
-        _buildTransactionList(),
-      ],
+    return Container(
+      margin: const EdgeInsets.fromLTRB(16, 0, 16, 16),
+      decoration: BoxDecoration(
+        color: Colors.white,
+        borderRadius: BorderRadius.circular(20),
+        boxShadow: [
+          BoxShadow(
+            color: Colors.black.withValues(alpha: 0.05),
+            blurRadius: 12,
+            offset: const Offset(0, 2),
+          ),
+        ],
+      ),
+      child: Column(
+        children: [
+          _buildHeader(context),
+          _buildTransactionList(context),
+        ],
+      ),
     );
   }
 
-  Widget _buildTransactionHistoryHeader(BuildContext context) {
+  Widget _buildHeader(BuildContext context) {
     return Padding(
-      padding: const EdgeInsets.fromLTRB(25, 0, 25, 25),
+      padding: const EdgeInsets.fromLTRB(20, 18, 20, 16),
       child: Row(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
-          Text(
-            "transaction_history".tr,
-            style: TextStyle(
-              color: context.fTheme.colors.foreground,
-              fontWeight: FontWeight.bold,
-              fontSize: 16,
-            ),
+          Row(
+            children: [
+              Container(
+                width: 34,
+                height: 34,
+                decoration: BoxDecoration(
+                  color: AppColors.primary.withValues(alpha: 0.1),
+                  borderRadius: BorderRadius.circular(10),
+                ),
+                child: Icon(
+                  FIcons.arrowLeftRight,
+                  color: AppColors.primary,
+                  size: 16,
+                ),
+              ),
+              const SizedBox(width: 10),
+              Text(
+                "transaction_history".tr,
+                style: TextStyle(
+                  color: context.fTheme.colors.foreground,
+                  fontWeight: FontWeight.bold,
+                  fontSize: 16,
+                ),
+              ),
+            ],
           ),
           _buildDateFilterButton(context),
         ],
@@ -41,26 +72,22 @@ class TransactionHistorySection extends StatelessWidget {
     return GestureDetector(
       onTap: _showDatePicker,
       child: Container(
-        padding: const EdgeInsets.fromLTRB(10, 5, 10, 5),
+        padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 6),
         decoration: BoxDecoration(
-          color: context.fTheme.colors.background,
-          borderRadius: const BorderRadius.all(Radius.circular(50)),
+          color: AppColors.primary.withValues(alpha: 0.08),
+          borderRadius: BorderRadius.circular(50),
         ),
         child: Row(
           children: [
-            Icon(
-              FIcons.calendar,
-              color: context.fTheme.colors.foreground,
-              size: 14,
-            ),
+            Icon(FIcons.calendar, color: AppColors.primary, size: 13),
             const SizedBox(width: 5),
             Obx(
               () => Text(
-                DateFormat('MMMM yyyy').format(controller.filterDate.value),
+                DateFormat('MMM yyyy').format(controller.filterDate.value),
                 style: TextStyle(
-                  color: context.fTheme.colors.foreground,
-                  fontSize: 14,
-                  fontWeight: FontWeight.normal,
+                  color: AppColors.primary,
+                  fontSize: 13,
+                  fontWeight: FontWeight.w600,
                 ),
               ),
             ),
@@ -70,78 +97,121 @@ class TransactionHistorySection extends StatelessWidget {
     );
   }
 
-  Widget _buildTransactionList() {
-    return ListView.builder(
+  Widget _buildTransactionList(BuildContext context) {
+    // Use controller.transactionHistories.length when ready
+    const int itemCount = 0; // Temporary for testing
+    if (itemCount == 0) return _buildEmptyState(context);
+    return ListView.separated(
       shrinkWrap: true,
       physics: const NeverScrollableScrollPhysics(),
-      // itemCount: controller.transactionHistories.length,
-      itemCount: 1, // Temporary for testing
-      itemBuilder: (context, index) {
+      padding: const EdgeInsets.only(bottom: 12),
+      itemCount: itemCount,
+      separatorBuilder: (_, _) => Divider(
+        color: Colors.black.withValues(alpha: 0.06),
+        height: 1,
+        indent: 20,
+        endIndent: 20,
+      ),
+      itemBuilder: (ctx, index) {
         return null;
-
         // final transaction = controller.transactionHistories[index];
-        // return _buildTransactionItem(transaction);
+        // return _buildTransactionItem(ctx, transaction);
       },
     );
   }
 
-  Widget _buildTransactionItem(BuildContext context, dynamic transaction) {
+  Widget _buildEmptyState(BuildContext context) {
     return Padding(
-      padding: const EdgeInsets.fromLTRB(20, 10, 20, 10),
+      padding: const EdgeInsets.symmetric(vertical: 32),
+      child: Column(
+        children: [
+          Container(
+            width: 56,
+            height: 56,
+            decoration: BoxDecoration(
+              color: AppColors.primary.withValues(alpha: 0.08),
+              shape: BoxShape.circle,
+            ),
+            child: Icon(FIcons.receipt, color: AppColors.primary, size: 24),
+          ),
+          const SizedBox(height: 12),
+          Text(
+            "no_transaction_history".tr,
+            style: TextStyle(
+              color: context.fTheme.colors.foreground,
+              fontWeight: FontWeight.w600,
+              fontSize: 14,
+            ),
+          ),
+          const SizedBox(height: 4),
+          Obx(() => Text(
+            DateFormat('MMMM yyyy').format(controller.filterDate.value),
+            style: TextStyle(
+              color: context.fTheme.colors.mutedForeground,
+              fontSize: 13,
+            ),
+          )),
+        ],
+      ),
+    );
+  }
+
+  Widget _buildTransactionItem(BuildContext context, dynamic transaction) {
+    final bool isDebit = transaction.type == 2;
+    return Padding(
+      padding: const EdgeInsets.fromLTRB(20, 14, 20, 14),
       child: Row(
         crossAxisAlignment: CrossAxisAlignment.center,
         children: [
           Container(
-            padding: const EdgeInsets.all(10),
+            width: 42,
+            height: 42,
             decoration: BoxDecoration(
-              color: transaction.type == 2
-                  ? AppColors.red50
-                  : AppColors.infoLight,
+              color: isDebit
+                  ? AppColors.primary.withValues(alpha: 0.1)
+                  : const Color(0xFF10B981).withValues(alpha: 0.1),
               shape: BoxShape.circle,
             ),
             child: Icon(
-              transaction.type == 2
-                  ? FIcons.banknoteArrowUp
-                  : FIcons.banknoteArrowDown,
-              color: transaction.type == 2
-                  ? AppColors.primary
-                  : AppColors.infoMain,
-              size: 16,
+              isDebit ? FIcons.banknoteArrowUp : FIcons.banknoteArrowDown,
+              color: isDebit ? AppColors.primary : const Color(0xFF10B981),
+              size: 18,
             ),
           ),
-          const SizedBox(width: 10),
-          Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              Text(
-                transaction.description,
-                style: TextStyle(
-                  color: context.fTheme.colors.foreground,
-                  fontSize: 14,
-                  fontWeight: FontWeight.w600,
+          const SizedBox(width: 12),
+          Expanded(
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Text(
+                  transaction.description,
+                  style: TextStyle(
+                    color: context.fTheme.colors.foreground,
+                    fontSize: 14,
+                    fontWeight: FontWeight.w600,
+                  ),
+                  maxLines: 1,
+                  overflow: TextOverflow.ellipsis,
                 ),
-              ),
-              Text(
-                transaction.type == 2
-                    ? '-${controller.formatPrice(transaction.amount)}'
-                    : '+${controller.formatPrice(transaction.amount)}',
-                style: TextStyle(
-                  color: transaction.type == 2
-                      ? AppColors.primary
-                      : AppColors.infoMain,
-                  fontSize: 14,
-                  fontWeight: FontWeight.w600,
+                const SizedBox(height: 2),
+                Text(
+                  transaction.date,
+                  style: TextStyle(
+                    color: context.fTheme.colors.mutedForeground,
+                    fontSize: 12,
+                  ),
                 ),
-              ),
-            ],
+              ],
+            ),
           ),
-          const Spacer(),
           Text(
-            transaction.date,
+            isDebit
+                ? '-${controller.formatPrice(transaction.amount)}'
+                : '+${controller.formatPrice(transaction.amount)}',
             style: TextStyle(
-              color: context.fTheme.colors.mutedForeground,
-              fontSize: 13,
-              fontWeight: FontWeight.normal,
+              color: isDebit ? AppColors.primary : const Color(0xFF10B981),
+              fontSize: 14,
+              fontWeight: FontWeight.w700,
             ),
           ),
         ],

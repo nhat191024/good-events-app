@@ -3,7 +3,6 @@ import 'package:flutter/services.dart';
 import 'package:mask_text_input_formatter/mask_text_input_formatter.dart';
 
 import 'package:sukientotapp/core/utils/import/global.dart';
-import 'package:sukientotapp/features/components/button/plus.dart';
 import '../../controller.dart';
 
 class AddBankAccountSheet extends StatelessWidget {
@@ -63,17 +62,52 @@ class AddBankAccountSheet extends StatelessWidget {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 mainAxisSize: MainAxisSize.min,
                 children: [
-                  Padding(
-                    padding: const EdgeInsets.fromLTRB(20, 15, 20, 10),
-                    child: Text(
-                      "add_new_bank".tr,
-                      style: const TextStyle(
-                        fontSize: 20,
-                        fontWeight: FontWeight.bold,
+                  // Drag handle
+                  Center(
+                    child: Container(
+                      margin: const EdgeInsets.only(top: 12, bottom: 6),
+                      width: 40,
+                      height: 4,
+                      decoration: BoxDecoration(
+                        color: Colors.black.withValues(alpha: 0.12),
+                        borderRadius: BorderRadius.circular(2),
                       ),
                     ),
                   ),
-                  const Divider(color: AppColors.dividers, thickness: 1),
+                  // Header
+                  Padding(
+                    padding: const EdgeInsets.fromLTRB(20, 10, 20, 14),
+                    child: Row(
+                      children: [
+                        Container(
+                          width: 40,
+                          height: 40,
+                          decoration: BoxDecoration(
+                            gradient: LinearGradient(
+                              colors: [
+                                AppColors.primary,
+                                AppColors.primary.withValues(alpha: 0.75),
+                              ],
+                              begin: Alignment.topLeft,
+                              end: Alignment.bottomRight,
+                            ),
+                            borderRadius: BorderRadius.circular(12),
+                          ),
+                          child: const Icon(FIcons.creditCard, color: Colors.white, size: 18),
+                        ),
+                        const SizedBox(width: 12),
+                        Text(
+                          "add_new_bank".tr,
+                          style: TextStyle(
+                            fontSize: 18,
+                            fontWeight: FontWeight.bold,
+                            color: context.fTheme.colors.foreground,
+                          ),
+                        ),
+                      ],
+                    ),
+                  ),
+                  Divider(color: Colors.black.withValues(alpha: 0.07), height: 1),
                   Padding(
                     padding: const EdgeInsets.fromLTRB(20, 10, 20, 20),
                     child: Column(
@@ -209,7 +243,7 @@ class AddBankAccountSheet extends StatelessWidget {
                                     padding: const EdgeInsets.all(2),
                                     decoration: BoxDecoration(
                                       color: controller.saveBankInfo.value
-                                          ? Colors.red
+                                          ? AppColors.primary
                                           : Colors.grey.withValues(alpha: 0.5),
                                       borderRadius: BorderRadius.circular(100),
                                     ),
@@ -244,19 +278,43 @@ class AddBankAccountSheet extends StatelessWidget {
                             ],
                           ),
                         ),
-                        CustomButtonPlus(
+                        const SizedBox(height: 20),
+                        GestureDetector(
                           onTap: () {
                             controller.checkCardInfo();
                           },
-                          btnText: "add".tr,
-                          color: context.fTheme.colors.foreground,
-                          textColor: AppColors.white,
-                          height: 55,
-                          topPadding: 20,
-                          bottomPadding: 0,
-                          leftPadding: 0,
-                          rightPadding: 0,
-                          width: double.infinity,
+                          child: Container(
+                            width: double.infinity,
+                            height: 52,
+                            decoration: BoxDecoration(
+                              gradient: LinearGradient(
+                                colors: [
+                                  AppColors.primary,
+                                  AppColors.primary.withValues(alpha: 0.75),
+                                ],
+                                begin: Alignment.centerLeft,
+                                end: Alignment.centerRight,
+                              ),
+                              borderRadius: BorderRadius.circular(14),
+                              boxShadow: [
+                                BoxShadow(
+                                  color: AppColors.primary.withValues(alpha: 0.35),
+                                  blurRadius: 12,
+                                  offset: const Offset(0, 4),
+                                ),
+                              ],
+                            ),
+                            child: Center(
+                              child: Text(
+                                'add'.tr,
+                                style: const TextStyle(
+                                  color: Colors.white,
+                                  fontSize: 15,
+                                  fontWeight: FontWeight.w700,
+                                ),
+                              ),
+                            ),
+                          ),
                         ),
                       ],
                     ),

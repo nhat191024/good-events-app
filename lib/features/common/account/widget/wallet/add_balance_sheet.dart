@@ -1,8 +1,7 @@
 import 'dart:ui';
 import 'package:sukientotapp/core/utils/import/global.dart';
 import '../../controller.dart';
-import 'package:sukientotapp/features/components/button/plus.dart';
-import 'package:sukientotapp/features/components/text/custom_text_field.dart';
+
 import 'add_bank_account_sheet.dart';
 
 class AddBalanceSheet extends StatelessWidget {
@@ -45,82 +44,200 @@ class AddBalanceSheet extends StatelessWidget {
       filter: ImageFilter.blur(sigmaX: 5, sigmaY: 5),
       child: Material(
         color: Colors.transparent,
-        child: FractionallySizedBox(
-          heightFactor: 1.2,
-          child: Container(
-            decoration: const BoxDecoration(
-              color: Colors.white,
-              borderRadius: BorderRadius.vertical(top: Radius.circular(24.0)),
-            ),
-            child: Column(
-              mainAxisSize: MainAxisSize.min,
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Padding(
-                  padding: const EdgeInsets.fromLTRB(20, 15, 20, 10),
-                  child: Text(
-                    label,
-                    style: const TextStyle(
-                      fontSize: 20,
-                      fontWeight: FontWeight.bold,
-                    ),
+        child: Container(
+          decoration: const BoxDecoration(
+            color: Colors.white,
+            borderRadius: BorderRadius.vertical(top: Radius.circular(24.0)),
+          ),
+          child: Column(
+            mainAxisSize: MainAxisSize.min,
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              // Drag handle
+              Center(
+                child: Container(
+                  margin: const EdgeInsets.only(top: 12, bottom: 6),
+                  width: 40,
+                  height: 4,
+                  decoration: BoxDecoration(
+                    color: Colors.black.withValues(alpha: 0.12),
+                    borderRadius: BorderRadius.circular(2),
                   ),
                 ),
-                const Divider(color: AppColors.dividers, thickness: 1),
-                Padding(
-                  padding: const EdgeInsets.fromLTRB(20, 10, 20, 0),
+              ),
+              // Header
+              Padding(
+                padding: const EdgeInsets.fromLTRB(20, 10, 20, 16),
+                child: Row(
+                  children: [
+                    Container(
+                      width: 40,
+                      height: 40,
+                      decoration: BoxDecoration(
+                        gradient: LinearGradient(
+                          colors: [
+                            AppColors.primary,
+                            AppColors.primary.withValues(alpha: 0.75),
+                          ],
+                          begin: Alignment.topLeft,
+                          end: Alignment.bottomRight,
+                        ),
+                        borderRadius: BorderRadius.circular(12),
+                      ),
+                      child: const Icon(FIcons.wallet, color: Colors.white, size: 18),
+                    ),
+                    const SizedBox(width: 12),
+                    Text(
+                      label,
+                      style: TextStyle(
+                        fontSize: 18,
+                        fontWeight: FontWeight.bold,
+                        color: context.fTheme.colors.foreground,
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+              Divider(color: Colors.black.withValues(alpha: 0.07), height: 1),
+              // Body
+              Flexible(
+                child: SingleChildScrollView(
+                  padding: const EdgeInsets.fromLTRB(20, 16, 20, 24),
                   child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      CustomTextField(
-                        labelText: 'enter_amount'.tr,
-                        hintText: 'enter'.tr,
-                        errorText: "",
-                        isError: controller.isRechargeAmountError,
-                        obscureText: false.obs,
-                        keyboardType: TextInputType.number,
-                        controller: controller.rechargeAmount,
-                        onChanged: (value) {},
-                        rightPadding: 0,
-                        leftPadding: 0,
-                        isRequire: false,
+                      Text(
+                        'enter_amount'.tr,
+                        style: TextStyle(
+                          color: context.fTheme.colors.foreground,
+                          fontSize: 14,
+                          fontWeight: FontWeight.w600,
+                        ),
                       ),
-                      const SizedBox(height: 15),
+                      const SizedBox(height: 8),
+                      Obx(() => Container(
+                        decoration: BoxDecoration(
+                          color: const Color(0xFFF3F4F6),
+                          borderRadius: BorderRadius.circular(14),
+                          border: Border.all(
+                            color: controller.isRechargeAmountError.value
+                                ? context.fTheme.colors.error
+                                : Colors.transparent,
+                          ),
+                        ),
+                        child: TextField(
+                          controller: controller.rechargeAmount,
+                          keyboardType: TextInputType.number,
+                          style: TextStyle(
+                            color: context.fTheme.colors.foreground,
+                            fontSize: 16,
+                            fontWeight: FontWeight.w600,
+                          ),
+                          decoration: InputDecoration(
+                            hintText: 'enter'.tr,
+                            hintStyle: TextStyle(
+                              color: context.fTheme.colors.mutedForeground,
+                              fontWeight: FontWeight.normal,
+                            ),
+                            prefixIcon: Icon(
+                              FIcons.banknote,
+                              color: controller.isRechargeAmountError.value
+                                  ? context.fTheme.colors.error
+                                  : AppColors.primary,
+                              size: 18,
+                            ),
+                            border: InputBorder.none,
+                            contentPadding: const EdgeInsets.symmetric(
+                              horizontal: 16,
+                              vertical: 14,
+                            ),
+                          ),
+                        ),
+                      )),
+                      const SizedBox(height: 20),
                       _buildBankSelectBox(context),
-                      CustomButtonPlus(
-                        onTap: () {
-                          AddBankAccountSheet.show(context, controller);
-                        },
-                        btnText: 'add_new_bank'.tr,
-                        color: AppColors.white,
-                        textColor: context.fTheme.colors.foreground,
-                        borderColor: context.fTheme.colors.border,
-                        borderRadius: 16,
-                        height: 55,
-                        topPadding: 20,
-                        bottomPadding: 0,
-                        leftPadding: 0,
-                        rightPadding: 0,
-                        width: double.infinity,
+                      const SizedBox(height: 16),
+                      // Add new bank (outlined button)
+                      GestureDetector(
+                        onTap: () => AddBankAccountSheet.show(context, controller),
+                        child: Container(
+                          width: double.infinity,
+                          height: 52,
+                          decoration: BoxDecoration(
+                            color: Colors.white,
+                            borderRadius: BorderRadius.circular(14),
+                            border: Border.all(
+                              color: Colors.black.withValues(alpha: 0.12),
+                            ),
+                            boxShadow: [
+                              BoxShadow(
+                                color: Colors.black.withValues(alpha: 0.03),
+                                blurRadius: 8,
+                                offset: const Offset(0, 2),
+                              ),
+                            ],
+                          ),
+                          child: Row(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            children: [
+                              Icon(FIcons.plus, size: 16, color: context.fTheme.colors.foreground),
+                              const SizedBox(width: 8),
+                              Text(
+                                'add_new_bank'.tr,
+                                style: TextStyle(
+                                  color: context.fTheme.colors.foreground,
+                                  fontSize: 15,
+                                  fontWeight: FontWeight.w600,
+                                ),
+                              ),
+                            ],
+                          ),
+                        ),
                       ),
-                      CustomButtonPlus(
+                      const SizedBox(height: 12),
+                      // Confirm button (gradient)
+                      GestureDetector(
                         onTap: () {
                           // controller.rechargeWallet();
                         },
-                        btnText: "add".tr,
-                        color: context.fTheme.colors.foreground,
-                        textColor: AppColors.white,
-                        height: 55,
-                        topPadding: 20,
-                        bottomPadding: 0,
-                        leftPadding: 0,
-                        rightPadding: 0,
-                        width: double.infinity,
+                        child: Container(
+                          width: double.infinity,
+                          height: 52,
+                          decoration: BoxDecoration(
+                            gradient: LinearGradient(
+                              colors: [
+                                AppColors.primary,
+                                AppColors.primary.withValues(alpha: 0.75),
+                              ],
+                              begin: Alignment.centerLeft,
+                              end: Alignment.centerRight,
+                            ),
+                            borderRadius: BorderRadius.circular(14),
+                            boxShadow: [
+                              BoxShadow(
+                                color: AppColors.primary.withValues(alpha: 0.35),
+                                blurRadius: 12,
+                                offset: const Offset(0, 4),
+                              ),
+                            ],
+                          ),
+                          child: Center(
+                            child: Text(
+                              'add'.tr,
+                              style: const TextStyle(
+                                color: Colors.white,
+                                fontSize: 15,
+                                fontWeight: FontWeight.w700,
+                              ),
+                            ),
+                          ),
+                        ),
                       ),
                     ],
                   ),
                 ),
-              ],
-            ),
+              ),
+            ],
           ),
         ),
       ),
@@ -157,13 +274,13 @@ class AddBalanceSheet extends StatelessWidget {
                   padding: const EdgeInsets.fromLTRB(20, 10, 20, 10),
                   decoration: BoxDecoration(
                     color: controller.selectedBank.value == bank['id']
-                        ? AppColors.red100
+                        ? AppColors.primary.withValues(alpha: 0.08)
                         : Colors.transparent,
                     border: Border.all(
                       color: controller.selectedBank.value == bank['id']
-                          ? context.fTheme.colors.error
-                          : AppColors.dividers,
-                      width: 1,
+                          ? AppColors.primary
+                          : Colors.black.withValues(alpha: 0.1),
+                      width: 1.5,
                     ),
                     borderRadius: BorderRadius.circular(16),
                   ),
@@ -220,7 +337,7 @@ class AddBalanceSheet extends StatelessWidget {
                           onChanged: (value) {
                             controller.selectedBank.value = value!;
                           },
-                          activeColor: context.fTheme.colors.error,
+                          activeColor: AppColors.primary,
                         ),
                       ),
                     ],

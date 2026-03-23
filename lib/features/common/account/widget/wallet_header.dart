@@ -19,82 +19,116 @@ class WalletHeader extends StatelessWidget {
       margin: const EdgeInsets.only(top: 10),
       height: Get.height,
       decoration: BoxDecoration(
-        color: context.fTheme.colors.primary,
+        gradient: LinearGradient(
+          colors: [
+            AppColors.primary,
+            AppColors.primary.withValues(alpha: 0.78),
+          ],
+          begin: Alignment.topLeft,
+          end: Alignment.bottomRight,
+        ),
         borderRadius: const BorderRadius.only(
           topLeft: Radius.circular(32),
           topRight: Radius.circular(32),
         ),
+      ),
+      child: Stack(
+        children: [
+          Positioned(
+            right: -20,
+            top: 10,
+            child: Container(
+              width: 100,
+              height: 100,
+              decoration: BoxDecoration(
+                shape: BoxShape.circle,
+                color: Colors.white.withValues(alpha: 0.07),
+              ),
+            ),
+          ),
+          Positioned(
+            left: -10,
+            top: 40,
+            child: Container(
+              width: 70,
+              height: 70,
+              decoration: BoxDecoration(
+                shape: BoxShape.circle,
+                color: Colors.white.withValues(alpha: 0.05),
+              ),
+            ),
+          ),
+        ],
       ),
     );
   }
 
   Widget _buildHeaderContent(BuildContext context) {
     return Positioned(
-      top: 30,
+      top: 22,
       left: 0,
       right: 0,
       child: Padding(
-        padding: const EdgeInsets.fromLTRB(20, 0, 30, 0),
+        padding: const EdgeInsets.fromLTRB(20, 0, 20, 0),
         child: Row(
           crossAxisAlignment: CrossAxisAlignment.center,
-          mainAxisAlignment: MainAxisAlignment.start,
           children: [
-            _buildWalletIcon(context),
-            _buildBalanceInfo(),
-            const Spacer(),
-            _buildExpandButton(context),
+            Container(
+              padding: const EdgeInsets.all(11),
+              decoration: BoxDecoration(
+                color: Colors.white.withValues(alpha: 0.2),
+                shape: BoxShape.circle,
+                border: Border.all(
+                  color: Colors.white.withValues(alpha: 0.35),
+                ),
+              ),
+              child: const Icon(FIcons.wallet, color: Colors.white, size: 22),
+            ),
+            const SizedBox(width: 12),
+            Expanded(
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Text(
+                    'my_balance_wallet'.tr,
+                    style: TextStyle(
+                      color: Colors.white.withValues(alpha: 0.8),
+                      fontSize: 12,
+                      fontWeight: FontWeight.w500,
+                    ),
+                  ),
+                  const SizedBox(height: 2),
+                  Obx(
+                    () => Text(
+                      controller.formatPrice(controller.balance.value),
+                      style: const TextStyle(
+                        color: Colors.white,
+                        fontSize: 20,
+                        fontWeight: FontWeight.bold,
+                      ),
+                    ),
+                  ),
+                ],
+              ),
+            ),
+            GestureDetector(
+              onTap: () => WalletBottomSheet.show(context, controller),
+              child: Container(
+                width: 36,
+                height: 36,
+                decoration: BoxDecoration(
+                  color: Colors.white.withValues(alpha: 0.2),
+                  shape: BoxShape.circle,
+                  border: Border.all(
+                    color: Colors.white.withValues(alpha: 0.35),
+                  ),
+                ),
+                child: const Icon(FIcons.chevronRight, color: Colors.white, size: 18),
+              ),
+            ),
           ],
         ),
       ),
-    );
-  }
-
-  Widget _buildWalletIcon(BuildContext context) {
-    return Container(
-      margin: const EdgeInsets.only(right: 10),
-      decoration: const BoxDecoration(
-        color: Colors.white,
-        shape: BoxShape.circle,
-      ),
-      padding: const EdgeInsets.all(12),
-      child: Icon(
-        FIcons.wallet,
-        color: context.fTheme.colors.primary,
-        size: 28,
-      ),
-    );
-  }
-
-  Widget _buildBalanceInfo() {
-    return Column(
-      mainAxisAlignment: MainAxisAlignment.start,
-      crossAxisAlignment: CrossAxisAlignment.start,
-      children: [
-        Text(
-          'my_balance_wallet'.tr,
-          style: TextStyle(
-            color: AppColors.white.withValues(alpha: 0.7),
-            fontSize: 14,
-            fontWeight: FontWeight.normal,
-          ),
-        ),
-        const SizedBox(height: 4),
-        Text(
-          controller.formatPrice(controller.balance.value),
-          style: const TextStyle(
-            color: AppColors.white,
-            fontSize: 18,
-            fontWeight: FontWeight.bold,
-          ),
-        ),
-      ],
-    );
-  }
-
-  Widget _buildExpandButton(BuildContext context) {
-    return IconButton(
-      onPressed: () => WalletBottomSheet.show(context, controller),
-      icon: const Icon(Icons.arrow_forward_sharp, color: AppColors.white),
     );
   }
 }

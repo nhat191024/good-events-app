@@ -1,7 +1,5 @@
 import 'package:sukientotapp/core/utils/import/global.dart';
-import 'package:sukientotapp/features/components/button/plus.dart';
 import '../../controller.dart';
-import 'add_balance_sheet.dart';
 
 class WalletEmptyState extends StatelessWidget {
   const WalletEmptyState({super.key, required this.controller});
@@ -15,9 +13,17 @@ class WalletEmptyState extends StatelessWidget {
         padding: const EdgeInsets.only(top: 100),
         child: Column(
           children: [
-            Icon(FIcons.wallet, color: AppColors.white, size: 64),
+            // Wallet icon
+            Container(
+              padding: const EdgeInsets.all(14),
+              decoration: BoxDecoration(
+                color: Colors.white.withValues(alpha: 0.2),
+                shape: BoxShape.circle,
+                border: Border.all(color: context.primary.withValues(alpha: 0.4)),
+              ),
+              child: Icon(FIcons.wallet, color: context.primary, size: 28),
+            ),
             const SizedBox(height: 20),
-            // if (controller.balance.value > 0)
             Text(
               'no_transaction_history'.tr,
               style: TextStyle(
@@ -26,15 +32,6 @@ class WalletEmptyState extends StatelessWidget {
                 fontWeight: FontWeight.bold,
               ),
             ),
-            // else
-            //   Text(
-            //     'no_balance'.tr,
-            //     style: const TextStyle(
-            //       color: AppColors.primaryText,
-            //       fontSize: 20,
-            //       fontFamily: AppFontStyleTextStrings.bold,
-            //     ),
-            //   ),
             const SizedBox(height: 10),
             Text(
               "${"no_balance_description_1".tr} ${controller.formatPrice(controller.balance.value)}\n${"no_balance_description_2".tr}",
@@ -43,17 +40,6 @@ class WalletEmptyState extends StatelessWidget {
                 fontSize: 14,
               ),
               textAlign: TextAlign.center,
-            ),
-            const SizedBox(height: 20),
-            CustomButtonPlus(
-              onTap: () =>
-                  AddBalanceSheet.show(context, controller, 'add_balance'.tr),
-              icon: FIcons.plus,
-              btnText: "add_balance".tr,
-              fontWeight: FontWeight.w600,
-              textSize: 14,
-              width: Get.width * 0.4,
-              borderColor: Colors.transparent,
             ),
           ],
         ),
