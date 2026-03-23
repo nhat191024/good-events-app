@@ -1,4 +1,6 @@
 import 'package:sukientotapp/core/utils/import/global.dart';
+import 'package:sukientotapp/data/models/partner/wallet_transaction_model.dart';
+import 'transaction_detail_sheet.dart';
 import '../../controller.dart';
 
 class TransactionHistorySection extends StatelessWidget {
@@ -22,10 +24,7 @@ class TransactionHistorySection extends StatelessWidget {
         ],
       ),
       child: Column(
-        children: [
-          _buildHeader(context),
-          _buildTransactionList(context),
-        ],
+        children: [_buildHeader(context), _buildTransactionList(context)],
       ),
     );
   }
@@ -98,26 +97,29 @@ class TransactionHistorySection extends StatelessWidget {
   }
 
   Widget _buildTransactionList(BuildContext context) {
-    // Use controller.transactionHistories.length when ready
-    const int itemCount = 0; // Temporary for testing
-    if (itemCount == 0) return _buildEmptyState(context);
-    return ListView.separated(
-      shrinkWrap: true,
-      physics: const NeverScrollableScrollPhysics(),
-      padding: const EdgeInsets.only(bottom: 12),
-      itemCount: itemCount,
-      separatorBuilder: (_, _) => Divider(
-        color: Colors.black.withValues(alpha: 0.06),
-        height: 1,
-        indent: 20,
-        endIndent: 20,
-      ),
-      itemBuilder: (ctx, index) {
-        return null;
-        // final transaction = controller.transactionHistories[index];
-        // return _buildTransactionItem(ctx, transaction);
-      },
-    );
+    return Obx(() {
+      if (controller.isTransactionsLoading.value) {
+        return const Padding(
+          padding: EdgeInsets.symmetric(vertical: 32),
+          child: Center(child: CircularProgressIndicator()),
+        );
+      }
+      final items = controller.walletTransactions;
+      if (items.isEmpty) return _buildEmptyState(context);
+      return ListView.separated(
+        shrinkWrap: true,
+        physics: const NeverScrollableScrollPhysics(),
+        padding: const EdgeInsets.only(bottom: 12),
+        itemCount: items.length,
+        separatorBuilder: (_, _) => Divider(
+          color: Colors.black.withValues(alpha: 0.06),
+          height: 1,
+          indent: 20,
+          endIndent: 20,
+        ),
+        itemBuilder: (ctx, index) => _buildTransactionItem(ctx, items[index]),
+      );
+    });
   }
 
   Widget _buildEmptyState(BuildContext context) {
@@ -144,77 +146,96 @@ class TransactionHistorySection extends StatelessWidget {
             ),
           ),
           const SizedBox(height: 4),
-          Obx(() => Text(
-            DateFormat('MMMM yyyy').format(controller.filterDate.value),
-            style: TextStyle(
-              color: context.fTheme.colors.mutedForeground,
-              fontSize: 13,
+          Obx(
+            () => Text(
+              DateFormat('MMMM yyyy').format(controller.filterDate.value),
+              style: TextStyle(
+                color: context.fTheme.colors.mutedForeground,
+                fontSize: 13,
+              ),
             ),
-          )),
+          ),
         ],
       ),
     );
   }
 
-  Widget _buildTransactionItem(BuildContext context, dynamic transaction) {
-    final bool isDebit = transaction.type == 2;
-    return Padding(
-      padding: const EdgeInsets.fromLTRB(20, 14, 20, 14),
-      child: Row(
-        crossAxisAlignment: CrossAxisAlignment.center,
-        children: [
-          Container(
-            width: 42,
-            height: 42,
-            decoration: BoxDecoration(
-              color: isDebit
-                  ? AppColors.primary.withValues(alpha: 0.1)
-                  : const Color(0xFF10B981).withValues(alpha: 0.1),
-              shape: BoxShape.circle,
-            ),
-            child: Icon(
-              isDebit ? FIcons.banknoteArrowUp : FIcons.banknoteArrowDown,
-              color: isDebit ? AppColors.primary : const Color(0xFF10B981),
-              size: 18,
-            ),
-          ),
-          const SizedBox(width: 12),
-          Expanded(
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
+  Widget _buildTransactionItem(
+    BuildContext context,
+    WalletTransactionModel transaction,
+  ) {
+    final bool isDebit = transaction.isDebit;
+    return GestureDetector(
+      onTap: () => TransactionDetailSheet.show(
+        context,
+        transaction,
+        controller.formatPrice,
+      ),
+      child: Padding(
+        padding: const EdgeInsets.fromLTRB(20, 14, 20, 14),
+        child: Row(
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          children: [
+            Row(
               children: [
-                Text(
-                  transaction.description,
-                  style: TextStyle(
-                    color: context.fTheme.colors.foreground,
-                    fontSize: 14,
-                    fontWeight: FontWeight.w600,
+                Container(
+                  width: 42,
+                  height: 42,
+                  decoration: BoxDecoration(
+                    color: isDebit
+                        ? AppColors.primary.withValues(alpha: 0.1)
+                        : const Color(0xFF10B981).withValues(alpha: 0.1),
+                    shape: BoxShape.circle,
                   ),
-                  maxLines: 1,
-                  overflow: TextOverflow.ellipsis,
+                  child: Icon(
+                    isDebit ? FIcons.banknoteArrowUp : FIcons.banknoteArrowDown,
+                    color: isDebit
+                        ? AppColors.primary
+                        : const Color(0xFF10B981),
+                    size: 18,
+                  ),
                 ),
-                const SizedBox(height: 2),
-                Text(
-                  transaction.date,
-                  style: TextStyle(
-                    color: context.fTheme.colors.mutedForeground,
-                    fontSize: 12,
+                const SizedBox(width: 12),
+                ConstrainedBox(
+                  constraints: BoxConstraints(maxWidth: Get.width / 100 * 25),
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Text(
+                        transaction.reason,
+                        style: TextStyle(
+                          color: context.fTheme.colors.foreground,
+                          fontSize: 14,
+                          fontWeight: FontWeight.w600,
+                        ),
+                        maxLines: 1,
+                        overflow: TextOverflow.ellipsis,
+                      ),
+                      const SizedBox(height: 2),
+                      Text(
+                        transaction.createdAt,
+                        style: TextStyle(
+                          color: context.fTheme.colors.mutedForeground,
+                          fontSize: 12,
+                        ),
+                      ),
+                    ],
                   ),
                 ),
               ],
             ),
-          ),
-          Text(
-            isDebit
-                ? '-${controller.formatPrice(transaction.amount)}'
-                : '+${controller.formatPrice(transaction.amount)}',
-            style: TextStyle(
-              color: isDebit ? AppColors.primary : const Color(0xFF10B981),
-              fontSize: 14,
-              fontWeight: FontWeight.w700,
+            Text(
+              isDebit
+                  ? '-${controller.formatPrice(transaction.amountDouble.toInt())}'
+                  : '+${controller.formatPrice(transaction.amountDouble.toInt())}',
+              style: TextStyle(
+                color: isDebit ? AppColors.primary : const Color(0xFF10B981),
+                fontSize: 14,
+                fontWeight: FontWeight.w700,
+              ),
             ),
-          ),
-        ],
+          ],
+        ),
       ),
     );
   }

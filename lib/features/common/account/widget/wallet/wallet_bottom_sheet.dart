@@ -2,6 +2,7 @@ import 'package:sukientotapp/core/utils/import/global.dart';
 import '../../controller.dart';
 import 'wallet_empty_state.dart';
 import 'add_balance_sheet.dart';
+import 'transaction_history.dart';
 
 class WalletBottomSheet extends StatelessWidget {
   const WalletBottomSheet({super.key, required this.controller});
@@ -180,13 +181,18 @@ class WalletBottomSheet extends StatelessWidget {
     return SingleChildScrollView(
       child: Padding(
         padding: const EdgeInsets.fromLTRB(0, 20, 0, 20),
-        child:
-            // Obx(() {
-            // if (controller.transactionHistories.isEmpty) {
-            WalletEmptyState(controller: controller),
-        // }
-        // return TransactionHistorySection(controller: controller);
-        // }),
+        child: Obx(() {
+          if (controller.isTransactionsLoading.value) {
+            return const Padding(
+              padding: EdgeInsets.symmetric(vertical: 48),
+              child: Center(child: CircularProgressIndicator()),
+            );
+          }
+          if (controller.walletTransactions.isEmpty) {
+            return WalletEmptyState(controller: controller);
+          }
+          return TransactionHistorySection(controller: controller);
+        }),
       ),
     );
   }
