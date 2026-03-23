@@ -2,6 +2,11 @@
 
 All notable changes to this project will be documented in this file.
 
+## [v1.29.0+32]
+
+- Update client home screen for better UI/UX
+- Update client order detail (voucher)
+
 ## [v1.28.0+31]
 
 - Added webview for openning external urls

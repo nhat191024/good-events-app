@@ -72,11 +72,11 @@ class _BillItemState extends State<_BillItem> with SingleTickerProviderStateMixi
                 width: widget.width,
                 decoration: BoxDecoration(
                   color: Colors.white,
-                  borderRadius: BorderRadius.circular(32),
+                  borderRadius: BorderRadius.circular(20),
                   boxShadow: [
                     BoxShadow(
-                      color: Colors.black.withValues(alpha: 0.05),
-                      blurRadius: 10,
+                      color: Colors.black.withValues(alpha: 0.06),
+                      blurRadius: 12,
                       offset: const Offset(0, 4),
                     ),
                   ],
@@ -85,42 +85,37 @@ class _BillItemState extends State<_BillItem> with SingleTickerProviderStateMixi
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     Container(
-                      margin: const EdgeInsets.fromLTRB(15, 15, 16, 0),
-                      padding: const EdgeInsets.all(15),
+                      margin: const EdgeInsets.fromLTRB(14, 14, 14, 0),
+                      padding: const EdgeInsets.all(12),
                       decoration: BoxDecoration(
-                        color: widget.iconBgColor,
-                        shape: BoxShape.circle,
+                        color: widget.iconBgColor.withValues(alpha: 0.12),
+                        borderRadius: BorderRadius.circular(14),
                       ),
                       child: Icon(
                         widget.iconData,
-                        color: Colors.white,
-                        size: 24,
+                        color: widget.iconBgColor,
+                        size: 22,
                       ),
                     ),
                     Padding(
-                      padding: const EdgeInsets.only(
-                        left: 15,
-                        right: 15,
-                        top: 6,
-                        bottom: 15,
-                      ),
+                      padding: const EdgeInsets.fromLTRB(14, 10, 14, 16),
                       child: Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
                           Text(
                             widget.title.tr,
-                            style: const TextStyle(
-                              color: Colors.black,
-                              fontSize: 16,
-                              fontWeight: FontWeight.normal,
+                            style: context.typography.xs.copyWith(
+                              color: context.fTheme.colors.mutedForeground,
                             ),
                           ),
+                          const SizedBox(height: 2),
                           Text(
                             widget.count,
-                            style: TextStyle(
-                              color: AppColors.primary,
-                              fontSize: 24,
+                            style: const TextStyle(
+                              color: Color(0xFF1F2937),
+                              fontSize: 28,
                               fontWeight: FontWeight.bold,
+                              height: 1.1,
                             ),
                           ),
                         ],
