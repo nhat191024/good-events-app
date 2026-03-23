@@ -533,6 +533,24 @@ class AppTranslations extends Translations {
       'reason': 'Lý do',
       'balance_change': 'Thay đổi số dư',
 
+      // Payment Result Screen
+      'payment_order_code': 'Mã đơn hàng',
+      'back_to_home': 'Về trang chủ',
+      'payment_success_title': 'Thanh toán thành công!',
+      'payment_success_subtitle':
+          'Giao dịch của bạn đã được xử lý thành công. Số dư ví sẽ được cập nhật ngay.',
+      'payment_pending_title': 'Đang chờ xác nhận',
+      'payment_pending_subtitle':
+          'Giao dịch đang chờ được xác nhận. Vui lòng kiểm tra lại sau ít phút.',
+      'payment_processing_title': 'Đang xử lý...',
+      'payment_processing_subtitle':
+          'Hệ thống đang xử lý giao dịch của bạn. Vui lòng không đóng ứng dụng.',
+      'payment_cancelled_title': 'Giao dịch đã huỷ',
+      'payment_cancelled_subtitle':
+          'Giao dịch đã bị huỷ hoặc thanh toán không thành công. Vui lòng thử lại.',
+      'payment_confirming': 'Đang xác nhận thanh toán...',
+      'payment_new_balance': 'Số dư mới:',
+
       'stage_name': 'Nghệ danh',
       'stage_name_hint': 'Nhập nghệ danh của bạn',
 
@@ -1145,6 +1163,24 @@ class AppTranslations extends Translations {
       'transaction_id': 'Transaction ID',
       'reason': 'Reason',
       'balance_change': 'Balance change',
+
+      // Payment Result Screen
+      'payment_order_code': 'Order Code',
+      'back_to_home': 'Back to Home',
+      'payment_success_title': 'Payment Successful!',
+      'payment_success_subtitle':
+          'Your transaction was processed successfully. Your wallet balance will be updated shortly.',
+      'payment_pending_title': 'Awaiting Confirmation',
+      'payment_pending_subtitle':
+          'Your transaction is pending confirmation. Please check back in a few minutes.',
+      'payment_processing_title': 'Processing...',
+      'payment_processing_subtitle':
+          'The system is processing your transaction. Please do not close the app.',
+      'payment_cancelled_title': 'Transaction Cancelled',
+      'payment_cancelled_subtitle':
+          'The transaction was cancelled or payment was unsuccessful. Please try again.',
+      'payment_confirming': 'Confirming payment...',
+      'payment_new_balance': 'New balance:',
 
       'stage_name': 'Stage name',
       'stage_name_hint': 'Enter your stage name',
