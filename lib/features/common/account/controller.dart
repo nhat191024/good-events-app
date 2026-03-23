@@ -1,5 +1,8 @@
 import 'package:sukientotapp/core/utils/import/global.dart';
 
+import 'package:sukientotapp/domain/api_url.dart';
+import 'package:sukientotapp/core/services/api_service.dart';
+import 'package:dio/dio.dart';
 import 'package:sukientotapp/data/models/partner/wallet_transaction_model.dart';
 import 'package:sukientotapp/domain/repositories/partner/account_repository.dart';
 
@@ -153,5 +156,56 @@ class AccountController extends GetxController {
   String formatPrice(int price) {
     final formatted = NumberFormat('#,##0', 'en_US').format(price);
     return '$formatted ${"currency".tr}';
+  }
+
+  //============================================================================
+  // AUTHENTICATION
+  //============================================================================
+  Future<void> logout() async {
+    isLoading.value = true;
+    try {
+      if (!Get.isRegistered<ApiService>()) {
+        Get.lazyPut<ApiService>(() => ApiService(), fenix: true);
+      }
+
+      if (StorageService.readData(key: LocalStorageKeys.token) == null) {
+        StorageService.clearAllData();
+        Get.offAllNamed(Routes.loginScreen);
+        return;
+      }
+
+      final api = Get.find<ApiService>();
+
+      final response = await api.dio.get(AppUrl.logout);
+
+      if (response.statusCode == 200) {
+        StorageService.clearAllData();
+        Get.offAllNamed(Routes.loginScreen);
+      } else {
+        AppSnackbar.showError(
+          title: 'error'.tr,
+          message: 'logout_failed'.tr,
+        );
+      }
+    } on DioException catch (e) {
+      logger.e('[AccountController] [logout] DioException: ${e.message}');
+      if (e.response?.statusCode == 401) {
+        StorageService.clearAllData();
+        Get.offAllNamed(Routes.loginScreen);
+        return;
+      }
+      AppSnackbar.showError(
+        title: 'error'.tr,
+        message: 'cannot_logout'.tr,
+      );
+    } catch (e) {
+      logger.e('[AccountController] [logout] Unknown error: $e');
+      AppSnackbar.showError(
+        title: 'error'.tr,
+        message: 'logout_unknown_error'.tr,
+      );
+    } finally {
+      isLoading.value = false;
+    }
   }
 }

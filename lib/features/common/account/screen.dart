@@ -241,7 +241,7 @@ class AccountScreen extends GetView<AccountController> {
                                     icon: FIcons.logOut,
                                     iconColor: context.primary,
                                     confirmColor: context.primary,
-                                    onConfirm: () {},
+                                    onConfirm: controller.logout,
                                   );
                                 },
                                 color: context.fTheme.colors.error,
