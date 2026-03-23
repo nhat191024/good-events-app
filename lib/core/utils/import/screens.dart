@@ -27,3 +27,4 @@ export 'package:sukientotapp/features/client/booking/screen.dart';
 export 'package:sukientotapp/features/client/order/screen.dart';
 export 'package:sukientotapp/features/client/order_detail/screen.dart';
 export 'package:sukientotapp/features/client/asset_order_detail/screen.dart';
+export 'package:sukientotapp/features/common/webview/screen.dart';
