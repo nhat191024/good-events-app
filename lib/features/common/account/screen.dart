@@ -224,6 +224,7 @@ class AccountScreen extends GetView<AccountController> {
                                 color: context.fTheme.colors.error,
                               ),
                             ]),
+                            const SizedBox(height: 20),
                           ],
                         ),
                       ),
@@ -345,47 +346,6 @@ class AccountScreen extends GetView<AccountController> {
             ],
           );
         }),
-      ),
-    );
-  }
-
-  // kept for compatibility — no longer used internally
-  Widget _buildListItem(
-    BuildContext context,
-    String title,
-    IconData icon,
-    VoidCallback onTap, {
-    bool isDisabled = false,
-    Color? iconColor,
-  }) {
-    return GestureDetector(
-      behavior: HitTestBehavior.translucent,
-      onTap: isDisabled ? null : onTap,
-      child: Container(
-        padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 12),
-        width: double.infinity,
-        child: Row(
-          children: [
-            Icon(
-              icon,
-              color: isDisabled
-                  ? context.fTheme.colors.muted
-                  : (iconColor ?? context.fTheme.colors.foreground),
-              size: 20,
-            ),
-            const SizedBox(width: 12),
-            Text(
-              title,
-              style: TextStyle(
-                color: isDisabled
-                    ? context.fTheme.colors.muted
-                    : context.fTheme.colors.foreground,
-                fontSize: 16,
-                fontWeight: FontWeight.normal,
-              ),
-            ),
-          ],
-        ),
       ),
     );
   }
