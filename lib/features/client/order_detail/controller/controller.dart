@@ -36,6 +36,20 @@ class ClientOrderDetailController extends GetxController with ClientOrderDetailS
       fetchOrderDetails();
       _startPeriodicRefresh();
     }
+
+    // Restore saved voucher text if available
+    final savedVoucher = ClientOrderDetailState.savedVouchers[orderId];
+    if (savedVoucher != null) {
+      voucherController.text = savedVoucher.code;
+    }
+
+    // Clear saved voucher if user modifies the code to something else
+    voucherController.addListener(() {
+      final savedCode = ClientOrderDetailState.savedVouchers[orderId]?.code;
+      if (savedCode != null && voucherController.text.trim() != savedCode) {
+        ClientOrderDetailState.savedVouchers.remove(orderId);
+      }
+    });
   }
 
   void _startPeriodicRefresh() {
