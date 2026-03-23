@@ -7,6 +7,7 @@ class UserModel {
   final String countryCode;
   final String avatarUrl;
   final String bio;
+  final int walletBalance;
 
   UserModel({
     required this.role,
@@ -17,6 +18,7 @@ class UserModel {
     required this.countryCode,
     required this.avatarUrl,
     this.bio = '',
+    required this.walletBalance,
   });
 
   factory UserModel.fromJson(Map<String, dynamic> json) {
@@ -29,6 +31,7 @@ class UserModel {
       countryCode: json['user']['country_code'] as String,
       avatarUrl: json['user']['avatar'] as String,
       bio: json['user']['bio'] as String? ?? '',
+      walletBalance: json['user']['wallet_balance'] as int? ?? 0,
     );
   }
 
@@ -42,6 +45,7 @@ class UserModel {
       'country_code': countryCode,
       'avatar_url': avatarUrl,
       'bio': bio,
+      'wallet_balance': walletBalance,
     };
   }
 }

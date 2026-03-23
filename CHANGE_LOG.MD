@@ -7,6 +7,8 @@ All notable changes to this project will be documented in this file.
 - Added webview for openning external urls
 - Fixed price tag too big
 - Added video preview on details screen
+- Intergetion API for fetch transaction history
+- Add transaction detail view
 
 ## [v1.26.0+29]
 

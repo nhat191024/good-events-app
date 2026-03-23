@@ -1,8 +1,6 @@
 import 'package:sukientotapp/core/utils/import/global.dart';
 
-import 'package:sukientotapp/domain/api_url.dart';
-import 'package:sukientotapp/core/services/api_service.dart';
-import 'package:dio/dio.dart';
+import 'package:sukientotapp/data/models/partner/wallet_transaction_model.dart';
 import 'package:sukientotapp/domain/repositories/partner/account_repository.dart';
 
 class AccountController extends GetxController {
@@ -42,11 +40,21 @@ class AccountController extends GetxController {
   //============================================================================
   // WALLET & TRANSACTIONS
   //============================================================================
-  final RxInt balance = 100000.obs;
+  RxInt balance = RxInt(
+    (StorageService.readMapData(
+              key: LocalStorageKeys.user,
+              mapKey: 'wallet_balance',
+            )
+            as int?) ??
+        0,
+  );
   final filterDate = DateTime.now().obs;
   final RxInt selectedBank = 0.obs;
   final RxBool isRechargeAmountError = false.obs;
   final TextEditingController rechargeAmount = TextEditingController();
+  final RxList<WalletTransactionModel> walletTransactions =
+      <WalletTransactionModel>[].obs;
+  final RxBool isTransactionsLoading = false.obs;
 
   //============================================================================
   // CARD INFORMATION
@@ -73,13 +81,11 @@ class AccountController extends GetxController {
   @override
   void onInit() {
     super.onInit();
-
-    logger.d(
-      '[AccountController] avatar: ${avatar.value}, name: ${name.value}, role: ${role.value}',
-    );
+    fetchWalletTransactions();
   }
 
   void onRefresh() async {
+    await fetchWalletTransactions();
     refreshController.refreshCompleted();
   }
 
@@ -133,6 +139,19 @@ class AccountController extends GetxController {
   //============================================================================
   // HELPER METHODS
   //============================================================================
+  Future<void> fetchWalletTransactions() async {
+    try {
+      isTransactionsLoading.value = true;
+      final transactions = await _repository.getWalletTransactions();
+      walletTransactions.value = transactions;
+    } catch (e) {
+      logger.e('[AccountController] fetchWalletTransactions: $e');
+      AppSnackbar.showError(title: 'Error', message: e.toString());
+    } finally {
+      isTransactionsLoading.value = false;
+    }
+  }
+
   void filterTransactionsByDate(DateTime date) {
     filterDate.value = date;
     // Add logic to filter transactions by date
@@ -149,46 +168,23 @@ class AccountController extends GetxController {
   Future<void> logout() async {
     isLoading.value = true;
     try {
-      if (!Get.isRegistered<ApiService>()) {
-        Get.lazyPut<ApiService>(() => ApiService(), fenix: true);
-      }
-
       if (StorageService.readData(key: LocalStorageKeys.token) == null) {
         StorageService.clearAllData();
         Get.offAllNamed(Routes.loginScreen);
         return;
       }
 
-      final api = Get.find<ApiService>();
-
-      final response = await api.dio.get(AppUrl.logout);
-
-      if (response.statusCode == 200) {
-        StorageService.clearAllData();
-        Get.offAllNamed(Routes.loginScreen);
-      } else {
-        AppSnackbar.showError(
-          title: 'error'.tr,
-          message: 'logout_failed'.tr,
-        );
-      }
-    } on DioException catch (e) {
-      logger.e('[AccountController] [logout] DioException: ${e.message}');
-      if (e.response?.statusCode == 401) {
+      await _repository.logout();
+      StorageService.clearAllData();
+      Get.offAllNamed(Routes.loginScreen);
+    } catch (e) {
+      logger.e('[AccountController] [logout] error: $e');
+      if (e.toString().contains('unauthorized')) {
         StorageService.clearAllData();
         Get.offAllNamed(Routes.loginScreen);
         return;
       }
-      AppSnackbar.showError(
-        title: 'error'.tr,
-        message: 'cannot_logout'.tr,
-      );
-    } catch (e) {
-      logger.e('[AccountController] [logout] Unknown error: $e');
-      AppSnackbar.showError(
-        title: 'error'.tr,
-        message: 'logout_unknown_error'.tr,
-      );
+      AppSnackbar.showError(title: 'error'.tr, message: 'cannot_logout'.tr);
     } finally {
       isLoading.value = false;
     }

@@ -514,10 +514,18 @@ class AppTranslations extends Translations {
       'cvv': 'CVV',
       'cvv_hint': '123',
 
+      'transaction_history': 'Lịch sử giao dịch',
       'no_transaction_history': 'Chưa có lịch sử giao dịch',
       'no_balance': 'Chưa có số dư',
       'no_balance_description_1': 'Số dư của bạn hiện là',
       "no_balance_description_2": "vui lòng nạp tiền vào ví.",
+
+      'deposit': 'Nạp tiền',
+      'withdraw': 'Rút tiền',
+
+      'transaction_id': 'Mã giao dịch',
+      'reason': 'Lý do',
+      'balance_change': 'Thay đổi số dư',
 
       'stage_name': 'Nghệ danh',
       'stage_name_hint': 'Nhập nghệ danh của bạn',
@@ -1114,10 +1122,17 @@ class AppTranslations extends Translations {
       'cvv': 'CVV',
       'cvv_hint': '123',
 
+      'transaction_history': 'Transaction History',
       'no_transaction_history': 'No Transaction History',
       'no_balance': 'No Balance',
       'no_balance_description_1': 'Your current balance is',
       "no_balance_description_2": "please add balance to your wallet.",
+
+      'deposit': 'Deposit',
+      'withdraw': 'Withdraw',
+      'transaction_id': 'Transaction ID',
+      'reason': 'Reason',
+      'balance_change': 'Balance change',
 
       'stage_name': 'Stage name',
       'stage_name_hint': 'Enter your stage name',
