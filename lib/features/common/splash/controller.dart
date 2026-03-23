@@ -111,6 +111,12 @@ class SplashController extends GetxController {
       StorageService.removeData(key: LocalStorageKeys.token);
       StorageService.removeData(key: LocalStorageKeys.user);
       Get.offAllNamed(Routes.chooseYoSideScreen);
+
+      logger.e('[SplashController] [_checkToken] Error checking token: $e');
+      AppSnackbar.showError(
+        title: 'error'.tr,
+        message: 'Đã xảy ra lỗi khi kiểm tra đăng nhập. Vui lòng thử lại.',
+      );
     }
   }
 }
