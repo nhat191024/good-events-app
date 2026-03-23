@@ -25,8 +25,19 @@ class _NewOrderPanelState extends State<NewOrderPanel> with SingleTickerProvider
           Container(
                 padding: const EdgeInsets.fromLTRB(12, 15, 12, 15),
                 decoration: BoxDecoration(
-                  color: Colors.white,
-                  borderRadius: BorderRadius.circular(24),
+                  gradient: const LinearGradient(
+                    colors: [Color(0xFFF59E0B), Color(0xFFD97706)],
+                    begin: Alignment.topLeft,
+                    end: Alignment.bottomRight,
+                  ),
+                  borderRadius: BorderRadius.circular(20),
+                  boxShadow: [
+                    BoxShadow(
+                      color: const Color(0xFFF59E0B).withValues(alpha: 0.35),
+                      blurRadius: 16,
+                      offset: const Offset(0, 6),
+                    ),
+                  ],
                 ),
                 child: Obx(() {
                   final summary = widget.controller.summary.value;
@@ -36,15 +47,15 @@ class _NewOrderPanelState extends State<NewOrderPanel> with SingleTickerProvider
                   return Row(
                     children: [
                       Container(
-                        decoration: const BoxDecoration(
-                          color: Color(0xFFE48729),
+                        decoration: BoxDecoration(
+                          color: Colors.white.withValues(alpha: 0.25),
                           shape: BoxShape.circle,
                         ),
-                        padding: const EdgeInsets.all(8),
+                        padding: const EdgeInsets.all(10),
                         child: const Icon(
-                          Icons.star,
+                          FIcons.star,
                           color: Colors.white,
-                          size: 36,
+                          size: 30,
                         ),
                       ),
                       const SizedBox(width: 6),
@@ -54,18 +65,18 @@ class _NewOrderPanelState extends State<NewOrderPanel> with SingleTickerProvider
                           Text(
                             'new_applicant'.trParams({'count': countStr}),
                             style: const TextStyle(
-                              color: Colors.black,
+                              color: Colors.white,
                               fontSize: 15,
-                              fontWeight: FontWeight.w500,
+                              fontWeight: FontWeight.w600,
                             ),
                           ),
                           const SizedBox(height: 4),
                           Text(
                             'waiting_for_response'.tr,
-                            style: const TextStyle(
-                              color: Colors.black,
+                            style: TextStyle(
+                              color: Colors.white.withValues(alpha: 0.85),
                               fontSize: 12,
-                              fontWeight: FontWeight.w300,
+                              fontWeight: FontWeight.w400,
                             ),
                           ),
                         ],

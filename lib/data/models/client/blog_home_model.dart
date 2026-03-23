@@ -6,6 +6,7 @@ class BlogItemModel {
   final int? maxPeople;
   final String? address;
   final String? thumbnail;
+  final String? blogUrl;
 
   const BlogItemModel({
     required this.title,
@@ -15,6 +16,7 @@ class BlogItemModel {
     this.maxPeople,
     this.address,
     this.thumbnail,
+    this.blogUrl,
   });
 
   factory BlogItemModel.fromJson(Map<String, dynamic> json) {
@@ -26,6 +28,7 @@ class BlogItemModel {
       maxPeople: _parseIntOrNull(json['max_people']),
       address: json['address'],
       thumbnail: json['thumbnail'],
+      blogUrl: json['blog_url'],
     );
   }
 
