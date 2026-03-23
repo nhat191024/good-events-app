@@ -1,7 +1,6 @@
 import 'package:flutter/services.dart';
 import 'package:sukientotapp/core/utils/import/global.dart';
 
-import 'package:sukientotapp/features/components/button/plus.dart';
 import '../controller.dart';
 
 class _CurrencyInputFormatter extends TextInputFormatter {
@@ -83,69 +82,228 @@ class _AcceptState extends State<Accept> {
   Widget build(BuildContext context) {
     return Container(
       width: double.infinity,
-      padding: const EdgeInsets.all(16),
       decoration: BoxDecoration(
         color: FTheme.of(context).colors.background,
-        borderRadius: const BorderRadius.vertical(top: Radius.circular(16)),
+        borderRadius: const BorderRadius.vertical(top: Radius.circular(24)),
       ),
       child: ConstrainedBox(
         constraints: BoxConstraints(
           maxHeight: MediaQuery.of(context).size.height * 0.75,
         ),
-        child: SingleChildScrollView(
-          physics: const BouncingScrollPhysics(),
-          child: Column(
-            mainAxisSize: MainAxisSize.min,
-            crossAxisAlignment: CrossAxisAlignment.center,
-            children: [
-              Text(
-                'price_quote'.tr,
-                style: FTheme.of(
-                  context,
-                ).typography.xl.copyWith(fontWeight: FontWeight.bold),
+        child: Column(
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            // Drag handle
+            Padding(
+              padding: const EdgeInsets.only(top: 12, bottom: 4),
+              child: Container(
+                width: 36,
+                height: 4,
+                decoration: BoxDecoration(
+                  color: FTheme.of(context).colors.border,
+                  borderRadius: BorderRadius.circular(2),
+                ),
               ),
-              Text(
-                'price_quote_for_show'.trParams({'code': widget.code}),
-                style: FTheme.of(
-                  context,
-                ).typography.base.copyWith(fontWeight: FontWeight.w500),
-              ),
-              Column(
+            ),
+
+            // Header
+            Padding(
+              padding: const EdgeInsets.fromLTRB(20, 12, 20, 0),
+              child: Row(
                 children: [
-                  const SizedBox(height: 16),
-                  TextField(
-                    controller: _priceController,
-                    inputFormatters: [_currencyFormatter],
-                    decoration: InputDecoration(
-                      border: OutlineInputBorder(
-                        borderRadius: BorderRadius.circular(10),
-                      ),
-                      hintText: 'input_price_quote'.tr,
-                      suffixText: 'VND',
+                  Container(
+                    width: 38,
+                    height: 38,
+                    decoration: BoxDecoration(
+                      color: const Color(0xFF6366F1).withValues(alpha: 0.1),
+                      borderRadius: BorderRadius.circular(11),
                     ),
-                    keyboardType: TextInputType.number,
+                    child: const Icon(
+                      FIcons.badgeCheck,
+                      size: 18,
+                      color: Color(0xFF6366F1),
+                    ),
                   ),
-                  const SizedBox(height: 16),
-                  Obx(() {
-                    final ctrl = Get.find<NewShowController>();
-                    final accepting = ctrl.isAccepting.value;
-                    return CustomButtonPlus(
-                      onTap: () {
-                        if (!accepting) _onSubmit();
-                      },
-                      btnText: accepting ? 'loading'.tr : 'apply_for_show'.tr,
-                      textSize: 14,
-                      fontWeight: FontWeight.w600,
-                      width: double.infinity,
-                      height: 38,
-                      borderRadius: 10,
-                      borderColor: Colors.transparent,
-                    );
-                  }),
+                  const SizedBox(width: 12),
+                  Expanded(
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Text(
+                          'price_quote'.tr,
+                          style: FTheme.of(context).typography.base.copyWith(
+                            fontWeight: FontWeight.w700,
+                            color: FTheme.of(context).colors.foreground,
+                          ),
+                        ),
+                        Text(
+                          'price_quote_for_show'
+                              .trParams({'code': widget.code}),
+                          style: FTheme.of(context).typography.xs.copyWith(
+                            color: FTheme.of(context).colors.mutedForeground,
+                            fontWeight: FontWeight.w400,
+                          ),
+                        ),
+                      ],
+                    ),
+                  ),
                 ],
               ),
-            ],
-          ),
+            ),
+
+            const SizedBox(height: 16),
+            Divider(
+              height: 1,
+              color: FTheme.of(context).colors.border,
+            ),
+
+            // Input + button
+            Flexible(
+              child: SingleChildScrollView(
+                physics: const BouncingScrollPhysics(),
+                padding: const EdgeInsets.fromLTRB(20, 20, 20, 8),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    // Price label
+                    Text(
+                      'input_price_quote'.tr,
+                      style: FTheme.of(context).typography.xs.copyWith(
+                        color: FTheme.of(context).colors.mutedForeground,
+                        fontWeight: FontWeight.w500,
+                      ),
+                    ),
+                    const SizedBox(height: 8),
+                    TextField(
+                      controller: _priceController,
+                      inputFormatters: [_currencyFormatter],
+                      decoration: InputDecoration(
+                        filled: true,
+                        fillColor: FTheme.of(context).colors.muted,
+                        border: OutlineInputBorder(
+                          borderRadius: BorderRadius.circular(12),
+                          borderSide: BorderSide(
+                            color: FTheme.of(context).colors.border,
+                          ),
+                        ),
+                        enabledBorder: OutlineInputBorder(
+                          borderRadius: BorderRadius.circular(12),
+                          borderSide: BorderSide(
+                            color: FTheme.of(context).colors.border,
+                          ),
+                        ),
+                        focusedBorder: OutlineInputBorder(
+                          borderRadius: BorderRadius.circular(12),
+                          borderSide: const BorderSide(
+                            color: Color(0xFF6366F1),
+                            width: 1.5,
+                          ),
+                        ),
+                        hintText: '0',
+                        hintStyle: FTheme.of(context).typography.base.copyWith(
+                          color: FTheme.of(context).colors.mutedForeground,
+                        ),
+                        suffixText: 'VND',
+                        suffixStyle:
+                            FTheme.of(context).typography.sm.copyWith(
+                          color: FTheme.of(context).colors.mutedForeground,
+                          fontWeight: FontWeight.w600,
+                        ),
+                        contentPadding: const EdgeInsets.symmetric(
+                          horizontal: 16,
+                          vertical: 14,
+                        ),
+                      ),
+                      style: FTheme.of(context).typography.base.copyWith(
+                        fontWeight: FontWeight.w700,
+                        color: const Color(0xFF6366F1),
+                      ),
+                      keyboardType: TextInputType.number,
+                    ),
+                    const SizedBox(height: 24),
+                  ],
+                ),
+              ),
+            ),
+
+            // CTA
+            Padding(
+              padding: EdgeInsets.fromLTRB(
+                20,
+                0,
+                20,
+                MediaQuery.of(context).padding.bottom + 16,
+              ),
+              child: Obx(() {
+                final ctrl = Get.find<NewShowController>();
+                final accepting = ctrl.isAccepting.value;
+                return GestureDetector(
+                  onTap: () {
+                    if (!accepting) _onSubmit();
+                  },
+                  child: Container(
+                    height: 46,
+                    width: double.infinity,
+                    decoration: BoxDecoration(
+                      gradient: accepting
+                          ? null
+                          : const LinearGradient(
+                              colors: [Color(0xFF6366F1), Color(0xFF8B5CF6)],
+                              begin: Alignment.centerLeft,
+                              end: Alignment.centerRight,
+                            ),
+                      color: accepting
+                          ? FTheme.of(context).colors.muted
+                          : null,
+                      borderRadius: BorderRadius.circular(12),
+                      boxShadow: accepting
+                          ? null
+                          : [
+                              BoxShadow(
+                                color: const Color(0xFF6366F1).withValues(
+                                  alpha: 0.35,
+                                ),
+                                blurRadius: 10,
+                                offset: const Offset(0, 4),
+                              ),
+                            ],
+                    ),
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        if (accepting)
+                          SizedBox(
+                            width: 16,
+                            height: 16,
+                            child: CircularProgressIndicator(
+                              strokeWidth: 2,
+                              color:
+                                  FTheme.of(context).colors.mutedForeground,
+                            ),
+                          )
+                        else
+                          const Icon(
+                            FIcons.badgeCheck,
+                            size: 16,
+                            color: Colors.white,
+                          ),
+                        const SizedBox(width: 8),
+                        Text(
+                          accepting ? 'loading'.tr : 'apply_for_show'.tr,
+                          style: FTheme.of(context).typography.sm.copyWith(
+                            fontWeight: FontWeight.w700,
+                            color: accepting
+                                ? FTheme.of(context).colors.mutedForeground
+                                : Colors.white,
+                          ),
+                        ),
+                      ],
+                    ),
+                  ),
+                );
+              }),
+            ),
+          ],
         ),
       ),
     );

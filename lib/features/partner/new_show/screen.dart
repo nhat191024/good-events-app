@@ -3,7 +3,6 @@ import 'controller.dart';
 
 import './widgets/show.dart';
 
-import 'package:sukientotapp/features/components/button/plus.dart';
 import 'package:sukientotapp/features/components/button/circle.dart';
 
 class NewShowScreen extends GetView<NewShowController> {
@@ -56,15 +55,39 @@ class NewShowScreen extends GetView<NewShowController> {
                       color: context.fTheme.colors.mutedForeground,
                     ),
                   ),
-                  CustomButtonPlus(
+                  GestureDetector(
                     onTap: () => controller.fetchRealtimeBills(),
-                    btnText: 'refresh'.tr,
-                    textSize: 12,
-                    fontWeight: FontWeight.w600,
-                    height: 34,
-                    borderRadius: 10,
-                    borderColor: Colors.transparent,
-                    color: AppColors.red600,
+                    child: Container(
+                      padding: const EdgeInsets.symmetric(
+                        horizontal: 10,
+                        vertical: 6,
+                      ),
+                      decoration: BoxDecoration(
+                        color: AppColors.red600.withValues(alpha: 0.12),
+                        borderRadius: BorderRadius.circular(8),
+                        border: Border.all(
+                          color: AppColors.red600.withValues(alpha: 0.35),
+                        ),
+                      ),
+                      child: Row(
+                        mainAxisSize: MainAxisSize.min,
+                        children: [
+                          Icon(
+                            FIcons.refreshCw,
+                            size: 13,
+                            color: AppColors.red600,
+                          ),
+                          const SizedBox(width: 5),
+                          Text(
+                            'refresh'.tr,
+                            style: context.typography.xs.copyWith(
+                              color: AppColors.red600,
+                              fontWeight: FontWeight.w600,
+                            ),
+                          ),
+                        ],
+                      ),
+                    ),
                   ),
                 ],
               ),
