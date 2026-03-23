@@ -40,7 +40,14 @@ class AccountController extends GetxController {
   //============================================================================
   // WALLET & TRANSACTIONS
   //============================================================================
-  final RxInt balance = 100000.obs;
+  RxInt balance = RxInt(
+    (StorageService.readMapData(
+              key: LocalStorageKeys.user,
+              mapKey: 'wallet_balance',
+            )
+            as int?) ??
+        0,
+  );
   final filterDate = DateTime.now().obs;
   final RxInt selectedBank = 0.obs;
   final RxBool isRechargeAmountError = false.obs;
