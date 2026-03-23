@@ -5,11 +5,39 @@ import 'package:sukientotapp/core/utils/import/global.dart';
 
 import './show.dart';
 
-import 'package:sukientotapp/features/components/button/plus.dart';
 import 'package:sukientotapp/features/partner/show/controller.dart';
 
 class HistoryWidget extends GetView<ShowController> {
   const HistoryWidget({super.key});
+
+  Widget _buildToolbarBtn(
+    BuildContext context, {
+    required IconData icon,
+    required VoidCallback onTap,
+    Color? color,
+  }) {
+    return GestureDetector(
+      onTap: onTap,
+      child: Container(
+        width: 34,
+        height: 34,
+        decoration: BoxDecoration(
+          color: color != null
+              ? color.withValues(alpha: 0.12)
+              : context.fTheme.colors.muted,
+          borderRadius: BorderRadius.circular(10),
+          border: Border.all(
+            color: color?.withValues(alpha: 0.35) ?? context.fTheme.colors.border,
+          ),
+        ),
+        child: Icon(
+          icon,
+          size: 16,
+          color: color ?? context.fTheme.colors.foreground,
+        ),
+      ),
+    );
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -81,33 +109,56 @@ class HistoryWidget extends GetView<ShowController> {
           right: 0,
           child: ClipRRect(
             child: BackdropFilter(
-              filter: ImageFilter.blur(sigmaX: 10.0, sigmaY: 10.0),
+              filter: ImageFilter.blur(sigmaX: 14.0, sigmaY: 14.0),
               child: Container(
-                padding: const EdgeInsets.symmetric(horizontal: 16),
-                color: context.fTheme.colors.background.withAlpha(100),
+                padding: const EdgeInsets.symmetric(
+                  horizontal: 16,
+                  vertical: 8,
+                ),
+                decoration: BoxDecoration(
+                  color: context.fTheme.colors.background.withAlpha(210),
+                  border: Border(
+                    bottom: BorderSide(
+                      color: context.fTheme.colors.border.withAlpha(80),
+                    ),
+                  ),
+                ),
                 child: Row(
-                  mainAxisAlignment: MainAxisAlignment.end,
                   children: [
-                    CustomButtonPlus(
+                    Obx(
+                      () => Container(
+                        padding: const EdgeInsets.symmetric(
+                          horizontal: 10,
+                          vertical: 5,
+                        ),
+                        decoration: BoxDecoration(
+                          color: context.fTheme.colors.muted,
+                          borderRadius: BorderRadius.circular(8),
+                          border: Border.all(
+                            color: context.fTheme.colors.border,
+                          ),
+                        ),
+                        child: Text(
+                          '${controller.historyBills.length}',
+                          style: context.typography.xs.copyWith(
+                            fontWeight: FontWeight.w700,
+                            color: context.fTheme.colors.mutedForeground,
+                          ),
+                        ),
+                      ),
+                    ),
+                    const Spacer(),
+                    _buildToolbarBtn(
+                      context,
+                      icon: FIcons.refreshCw,
                       onTap: () => controller.refreshData(),
-                      btnText: 'refresh'.tr,
-                      textSize: 12,
-                      fontWeight: FontWeight.w600,
-                      height: 34,
-                      borderRadius: 10,
-                      borderColor: Colors.transparent,
                       color: AppColors.red600,
                     ),
                     const SizedBox(width: 6),
-                    CustomButtonPlus(
-                      onTap: () => Get.snackbar('info'.tr, 'in_dev'.tr),
+                    _buildToolbarBtn(
+                      context,
                       icon: FIcons.listFilterPlus,
-                      iconSize: 16,
-                      textSize: 14,
-                      fontWeight: FontWeight.w600,
-                      height: 34,
-                      borderRadius: 10,
-                      borderColor: Colors.transparent,
+                      onTap: () => Get.snackbar('info'.tr, 'in_dev'.tr),
                     ),
                   ],
                 ),

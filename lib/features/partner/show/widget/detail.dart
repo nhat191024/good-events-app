@@ -1,7 +1,6 @@
 import 'package:sukientotapp/core/utils/import/global.dart';
 
 import 'package:sukientotapp/features/components/widget/badge.dart';
-import 'package:sukientotapp/features/components/button/plus.dart';
 
 class Detail extends StatelessWidget {
   const Detail({
@@ -37,135 +36,325 @@ class Detail extends StatelessWidget {
   Widget build(BuildContext context) {
     return Container(
       constraints: BoxConstraints(
-        maxHeight: MediaQuery.of(context).size.height * 0.8,
+        maxHeight: MediaQuery.of(context).size.height * 0.85,
       ),
-      padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 16),
       decoration: BoxDecoration(
         color: context.fTheme.colors.background,
-        borderRadius: const BorderRadius.vertical(top: Radius.circular(20)),
+        borderRadius: const BorderRadius.vertical(top: Radius.circular(24)),
       ),
       child: Column(
         mainAxisSize: MainAxisSize.min,
-        crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            children: [
-              Text(
-                'detail_info'.tr,
-                style: context.typography.xl2.copyWith(
-                  fontWeight: FontWeight.bold,
-                  color: context.fTheme.colors.foreground,
-                ),
+          // Drag handle
+          Padding(
+            padding: const EdgeInsets.only(top: 12, bottom: 4),
+            child: Container(
+              width: 36,
+              height: 4,
+              decoration: BoxDecoration(
+                color: context.fTheme.colors.border,
+                borderRadius: BorderRadius.circular(2),
               ),
-              CustomBadge(
-                text: status,
-                backgroundColor: statusColor,
-                textColor: statusTextColor,
-              ),
-            ],
+            ),
           ),
-          const SizedBox(height: 20),
-          Expanded(
+
+          // Header
+          Padding(
+            padding: const EdgeInsets.fromLTRB(20, 12, 16, 0),
+            child: Row(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Expanded(
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Text(
+                        'detail_info'.tr,
+                        style: context.typography.xl.copyWith(
+                          fontWeight: FontWeight.w700,
+                          color: context.fTheme.colors.foreground,
+                        ),
+                      ),
+                      const SizedBox(height: 4),
+                      Text(
+                        code,
+                        style: context.typography.sm.copyWith(
+                          color: context.fTheme.colors.mutedForeground,
+                          fontWeight: FontWeight.w500,
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
+                const SizedBox(width: 12),
+                Column(
+                  crossAxisAlignment: CrossAxisAlignment.end,
+                  children: [
+                    CustomBadge(
+                      text: status,
+                      backgroundColor: statusColor,
+                      textColor: statusTextColor,
+                    ),
+                    const SizedBox(height: 8),
+                    GestureDetector(
+                      onTap: () => Get.back(),
+                      child: Container(
+                        width: 30,
+                        height: 30,
+                        decoration: BoxDecoration(
+                          color: context.fTheme.colors.muted,
+                          borderRadius: BorderRadius.circular(8),
+                        ),
+                        child: Icon(
+                          FIcons.x,
+                          size: 14,
+                          color: context.fTheme.colors.mutedForeground,
+                        ),
+                      ),
+                    ),
+                  ],
+                ),
+              ],
+            ),
+          ),
+
+          const SizedBox(height: 16),
+          Divider(height: 1, color: context.fTheme.colors.border),
+
+          // Scrollable content
+          Flexible(
             child: SingleChildScrollView(
+              padding: const EdgeInsets.fromLTRB(20, 20, 20, 8),
               child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  _buildPlaceholderItem(context, "code".tr, code),
-                  _buildPlaceholderItem(context, "customer".tr, clientName),
-                  _buildPlaceholderItem(context, "event".tr, event),
-                  _buildPlaceholderItem(
-                    context,
-                    "time".tr,
-                    '$startTime - $endTime, $date',
-                  ),
-                  _buildPlaceholderItem(context, "location".tr, address),
-                  _buildPlaceholderItem(
-                    context,
-                    "note".tr,
-                    note.isEmpty ? 'no_note'.tr : note,
-                  ),
-                  const SizedBox(height: 20),
+                  // Info grid section
                   Container(
-                    padding: const EdgeInsets.all(12),
+                    padding: const EdgeInsets.all(16),
                     decoration: BoxDecoration(
                       color: context.fTheme.colors.muted,
-                      borderRadius: BorderRadius.circular(12),
+                      borderRadius: BorderRadius.circular(14),
                     ),
-                    child: Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    child: Column(
                       children: [
-                        Text(
-                          'total_price'.tr,
-                          style: context.typography.base.copyWith(
-                            fontWeight: FontWeight.w500,
-                            color: context.fTheme.colors.mutedForeground,
-                          ),
+                        _buildRow(
+                          context,
+                          FIcons.userRound,
+                          'customer'.tr,
+                          clientName,
                         ),
+                        _buildDivider(context),
+                        _buildRow(
+                          context,
+                          FIcons.ticket,
+                          'event'.tr,
+                          event,
+                        ),
+                        _buildDivider(context),
+                        _buildRow(
+                          context,
+                          FIcons.calendarDays,
+                          'date'.tr,
+                          date,
+                        ),
+                        _buildDivider(context),
+                        _buildRow(
+                          context,
+                          FIcons.clock,
+                          'time'.tr,
+                          '$startTime – $endTime',
+                        ),
+                        _buildDivider(context),
+                        _buildRow(
+                          context,
+                          FIcons.mapPin,
+                          'location'.tr,
+                          address,
+                        ),
+                      ],
+                    ),
+                  ),
+
+                  const SizedBox(height: 12),
+
+                  // Note section
+                  Container(
+                    width: double.infinity,
+                    padding: const EdgeInsets.all(14),
+                    decoration: BoxDecoration(
+                      color: context.fTheme.colors.muted,
+                      borderRadius: BorderRadius.circular(14),
+                    ),
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Row(
+                          children: [
+                            Icon(
+                              FIcons.notepadText,
+                              size: 13,
+                              color: context.fTheme.colors.mutedForeground,
+                            ),
+                            const SizedBox(width: 6),
+                            Text(
+                              'note'.tr,
+                              style: context.typography.xs.copyWith(
+                                color: context.fTheme.colors.mutedForeground,
+                                fontWeight: FontWeight.w600,
+                                letterSpacing: 0.4,
+                              ),
+                            ),
+                          ],
+                        ),
+                        const SizedBox(height: 8),
                         Text(
-                          FormatUtils.formatCurrencyToDoule(total),
-                          style: context.typography.lg.copyWith(
-                            fontWeight: FontWeight.bold,
-                            color: context.fTheme.colors.primary,
+                          note.isEmpty ? 'no_note'.tr : note,
+                          style: context.typography.sm.copyWith(
+                            color: note.isEmpty
+                                ? context.fTheme.colors.mutedForeground
+                                : context.fTheme.colors.foreground,
+                            fontWeight: FontWeight.w400,
+                            fontStyle: note.isEmpty
+                                ? FontStyle.italic
+                                : FontStyle.normal,
                           ),
                         ),
                       ],
                     ),
                   ),
+
+                  const SizedBox(height: 12),
+
+                  // Total price highlight
+                  Container(
+                    padding: const EdgeInsets.symmetric(
+                      horizontal: 16,
+                      vertical: 14,
+                    ),
+                    decoration: BoxDecoration(
+                      gradient: LinearGradient(
+                        colors: [
+                          statusTextColor.withValues(alpha: 0.12),
+                          statusTextColor.withValues(alpha: 0.04),
+                        ],
+                        begin: Alignment.centerLeft,
+                        end: Alignment.centerRight,
+                      ),
+                      borderRadius: BorderRadius.circular(14),
+                      border: Border.all(
+                        color: statusTextColor.withValues(alpha: 0.2),
+                      ),
+                    ),
+                    child: Row(
+                      children: [
+                        Icon(
+                          FIcons.dollarSign,
+                          size: 16,
+                          color: statusTextColor,
+                        ),
+                        const SizedBox(width: 8),
+                        Text(
+                          'total_price'.tr,
+                          style: context.typography.sm.copyWith(
+                            fontWeight: FontWeight.w500,
+                            color: context.fTheme.colors.mutedForeground,
+                          ),
+                        ),
+                        const Spacer(),
+                        Text(
+                          FormatUtils.formatCurrencyToDoule(total),
+                          style: context.typography.lg.copyWith(
+                            fontWeight: FontWeight.w700,
+                            color: statusTextColor,
+                          ),
+                        ),
+                      ],
+                    ),
+                  ),
+
+                  const SizedBox(height: 20),
                 ],
               ),
             ),
           ),
-          const SizedBox(height: 20),
-          Row(
-            children: [
-              Expanded(
-                child: CustomButtonPlus(
-                  onTap: () => Get.back(),
-                  btnText: 'close'.tr,
-                  textSize: 14,
-                  fontWeight: FontWeight.w600,
-                  height: 34,
-                  borderRadius: 10,
-                  borderColor: Colors.transparent,
+
+          // Close button
+          Padding(
+            padding: EdgeInsets.fromLTRB(
+              20,
+              0,
+              20,
+              MediaQuery.of(context).padding.bottom + 16,
+            ),
+            child: GestureDetector(
+              onTap: () => Get.back(),
+              child: Container(
+                height: 46,
+                width: double.infinity,
+                decoration: BoxDecoration(
+                  color: context.fTheme.colors.muted,
+                  borderRadius: BorderRadius.circular(12),
+                  border: Border.all(color: context.fTheme.colors.border),
+                ),
+                child: Center(
+                  child: Text(
+                    'close'.tr,
+                    style: context.typography.sm.copyWith(
+                      fontWeight: FontWeight.w600,
+                      color: context.fTheme.colors.foreground,
+                    ),
+                  ),
                 ),
               ),
-            ],
+            ),
           ),
         ],
       ),
     );
   }
 
-  Widget _buildPlaceholderItem(
+  Widget _buildRow(
     BuildContext context,
+    IconData icon,
     String label,
     String value,
   ) {
     return Padding(
-      padding: const EdgeInsets.only(bottom: 16),
-      child: Column(
+      padding: const EdgeInsets.symmetric(vertical: 6),
+      child: Row(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          Text(
-            label,
-            style: context.typography.xs.copyWith(
-              color: context.fTheme.colors.mutedForeground,
-              fontWeight: FontWeight.w500,
+          Icon(icon, size: 14, color: context.fTheme.colors.mutedForeground),
+          const SizedBox(width: 10),
+          SizedBox(
+            width: 80,
+            child: Text(
+              label,
+              style: context.typography.xs.copyWith(
+                color: context.fTheme.colors.mutedForeground,
+                fontWeight: FontWeight.w500,
+              ),
             ),
           ),
-          const SizedBox(height: 4),
-          Text(
-            value,
-            style: context.typography.base.copyWith(
-              color: context.fTheme.colors.foreground,
-              fontWeight: FontWeight.w500,
+          Expanded(
+            child: Text(
+              value,
+              style: context.typography.sm.copyWith(
+                color: context.fTheme.colors.foreground,
+                fontWeight: FontWeight.w600,
+              ),
+              textAlign: TextAlign.end,
             ),
           ),
-          const SizedBox(height: 8),
-          Divider(color: context.fTheme.colors.border, height: 1),
         ],
       ),
+    );
+  }
+
+  Widget _buildDivider(BuildContext context) {
+    return Divider(
+      height: 1,
+      thickness: 1,
+      color: context.fTheme.colors.border.withValues(alpha: 0.6),
     );
   }
 }
