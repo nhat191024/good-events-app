@@ -15,42 +15,82 @@ class IncomeChart extends StatelessWidget {
 
   NumberFormat get _numberFmt => NumberFormat.decimalPattern();
 
-  List<Color> get _gradientColors => [AppColors.red800, AppColors.red400];
+  List<Color> get _gradientColors => [
+    AppColors.primary,
+    AppColors.primary.withValues(alpha: 0.55),
+  ];
+  Color get _lineColor => AppColors.primary;
 
   @override
   Widget build(BuildContext context) {
-    return Card(
-      elevation: 2,
-      color: Colors.white,
-      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
-      child: Padding(
-        padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 10),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          mainAxisSize: MainAxisSize.min,
-          children: [
-            Text(
-              'income'.tr,
-              style: const TextStyle(
-                fontSize: 16,
-                fontWeight: FontWeight.w600,
-                color: Colors.black87,
+    return Container(
+      decoration: BoxDecoration(
+        color: Colors.white,
+        borderRadius: BorderRadius.circular(20),
+        boxShadow: [
+          BoxShadow(
+            color: Colors.black.withValues(alpha: 0.05),
+            blurRadius: 12,
+            offset: const Offset(0, 4),
+          ),
+        ],
+      ),
+      padding: const EdgeInsets.fromLTRB(16, 16, 16, 8),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        mainAxisSize: MainAxisSize.min,
+        children: [
+          Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: [
+              Row(
+                children: [
+                  Icon(
+                    FIcons.chartColumnIncreasing,
+                    size: 13,
+                    color: AppColors.primary,
+                  ),
+                  const SizedBox(width: 5),
+                  Text(
+                    'income'.tr,
+                    style: const TextStyle(
+                      fontSize: 14,
+                      fontWeight: FontWeight.w700,
+                      color: Color(0xFF1F2937),
+                    ),
+                  ),
+                ],
               ),
-            ),
-            const SizedBox(height: 12),
-            Stack(
-              children: [
-                AspectRatio(
-                  aspectRatio: aspectRatio,
-                  child: Padding(
-                    padding: const EdgeInsets.symmetric(horizontal: 12),
-                    child: LineChart(_mainData()),
+              Container(
+                padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 3),
+                decoration: BoxDecoration(
+                  color: AppColors.primary.withValues(alpha: 0.1),
+                  borderRadius: BorderRadius.circular(8),
+                ),
+                child: Text(
+                  'Q1 – Q4',
+                  style: TextStyle(
+                    fontSize: 10,
+                    fontWeight: FontWeight.w600,
+                    color: AppColors.primary,
                   ),
                 ),
-              ],
-            ),
-          ],
-        ),
+              ),
+            ],
+          ),
+          const SizedBox(height: 16),
+          Stack(
+            children: [
+              AspectRatio(
+                aspectRatio: aspectRatio,
+                child: Padding(
+                  padding: const EdgeInsets.symmetric(horizontal: 12),
+                  child: LineChart(_mainData()),
+                ),
+              ),
+            ],
+          ),
+        ],
       ),
     );
   }
@@ -59,7 +99,7 @@ class IncomeChart extends StatelessWidget {
     final style = TextStyle(
       fontWeight: FontWeight.w600,
       fontSize: 10,
-      color: Colors.black,
+      color: const Color(0xFF6B7280),
     );
     final label = _defaultBottomLabel(value.toInt());
 
@@ -87,20 +127,20 @@ class IncomeChart extends StatelessWidget {
         getTouchedSpotIndicator: (barData, spots) {
           return spots.map((spot) {
             return TouchedSpotIndicatorData(
-              FlLine(color: AppColors.red800, strokeWidth: 2),
+              FlLine(color: _lineColor, strokeWidth: 2),
               FlDotData(
                 show: true,
                 getDotPainter: (_, _, _, _) =>
-                    FlDotCirclePainter(radius: 4, color: AppColors.red800),
+                    FlDotCirclePainter(radius: 4, color: _lineColor),
               ),
             );
           }).toList();
         },
         touchTooltipData: LineTouchTooltipData(
-          getTooltipColor: (spots) => Colors.black.withValues(alpha: 0.8),
-          tooltipBorderRadius: BorderRadius.circular(8),
+          getTooltipColor: (spots) => const Color(0xFF1F2937),
+          tooltipBorderRadius: BorderRadius.circular(10),
           tooltipPadding: const EdgeInsets.symmetric(
-            horizontal: 8,
+            horizontal: 10,
             vertical: 6,
           ),
           getTooltipItems: (spots) {
@@ -108,10 +148,10 @@ class IncomeChart extends StatelessWidget {
               final y = spot.y;
               return LineTooltipItem(
                 '${_numberFmt.format(y)}${unit ?? ''}',
-                TextStyle(
+                const TextStyle(
                   color: Colors.white,
-                  fontWeight: FontWeight.w500,
-                  fontSize: 10,
+                  fontWeight: FontWeight.w600,
+                  fontSize: 11,
                 ),
               );
             }).toList();
@@ -122,6 +162,9 @@ class IncomeChart extends StatelessWidget {
         show: true,
         drawVerticalLine: false,
         drawHorizontalLine: true,
+        horizontalInterval: null,
+        getDrawingHorizontalLine: (_) =>
+            FlLine(color: const Color(0xFFF3F4F6), strokeWidth: 1),
       ),
       titlesData: FlTitlesData(
         show: true,
@@ -132,17 +175,14 @@ class IncomeChart extends StatelessWidget {
         bottomTitles: AxisTitles(
           sideTitles: SideTitles(
             showTitles: true,
-            reservedSize: 30,
+            reservedSize: 28,
             interval: 1,
             getTitlesWidget: _bottomTitleWidgets,
           ),
         ),
-        leftTitles: AxisTitles(sideTitles: SideTitles(showTitles: false)),
+        leftTitles: const AxisTitles(sideTitles: SideTitles(showTitles: false)),
       ),
-      borderData: FlBorderData(
-        show: true,
-        border: Border.all(color: const Color(0xff37434d)),
-      ),
+      borderData: FlBorderData(show: false),
       minX: spots
           .map((s) => s.x)
           .fold<double>(double.infinity, (p, n) => n < p ? n : p),
@@ -167,15 +207,26 @@ class IncomeChart extends StatelessWidget {
           isCurved: true,
           preventCurveOverShooting: true,
           gradient: LinearGradient(colors: _gradientColors),
-          barWidth: 4,
+          barWidth: 3,
           isStrokeCapRound: true,
-          dotData: FlDotData(show: true),
+          dotData: FlDotData(
+            show: true,
+            getDotPainter: (spot, percent, bar, index) => FlDotCirclePainter(
+              radius: 3,
+              color: Colors.white,
+              strokeColor: _lineColor,
+              strokeWidth: 2,
+            ),
+          ),
           belowBarData: BarAreaData(
             show: true,
             gradient: LinearGradient(
-              colors: _gradientColors
-                  .map((c) => c.withValues(alpha: 0.25))
-                  .toList(),
+              colors: [
+                AppColors.primary.withValues(alpha: 0.18),
+                AppColors.primary.withValues(alpha: 0.01),
+              ],
+              begin: Alignment.topCenter,
+              end: Alignment.bottomCenter,
             ),
           ),
         ),

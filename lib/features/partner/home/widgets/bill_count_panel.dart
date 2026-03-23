@@ -48,38 +48,47 @@ class BillCountPanel extends StatelessWidget {
     return Container(
       width: itemWidth,
       decoration: BoxDecoration(
-        color: context.fTheme.colors.muted,
-        borderRadius: BorderRadius.circular(32),
+        color: Colors.white,
+        borderRadius: BorderRadius.circular(20),
+        boxShadow: [
+          BoxShadow(
+            color: Colors.black.withValues(alpha: 0.06),
+            blurRadius: 12,
+            offset: const Offset(0, 4),
+          ),
+        ],
       ),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           Container(
-            margin: const EdgeInsets.fromLTRB(5, 5, 16, 0),
-            padding: const EdgeInsets.all(15),
+            margin: const EdgeInsets.fromLTRB(14, 14, 14, 0),
+            padding: const EdgeInsets.all(12),
             decoration: BoxDecoration(
-              color: iconBgColor,
-              shape: BoxShape.circle,
+              color: iconBgColor.withValues(alpha: 0.12),
+              borderRadius: BorderRadius.circular(14),
             ),
-            child: Icon(iconData, color: Colors.white, size: 24),
+            child: Icon(iconData, color: iconBgColor, size: 22),
           ),
           Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
+            padding: const EdgeInsets.fromLTRB(14, 10, 14, 16),
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 Text(
                   title.tr,
-                  style: context.typography.sm.copyWith(
-                    color: context.fTheme.colors.foreground,
+                  style: context.typography.xs.copyWith(
+                    color: context.fTheme.colors.mutedForeground,
                   ),
                 ),
+                const SizedBox(height: 2),
                 Text(
                   count,
-                  style: TextStyle(
-                    color: AppColors.primary,
-                    fontSize: 24,
+                  style: const TextStyle(
+                    color: Color(0xFF1F2937),
+                    fontSize: 28,
                     fontWeight: FontWeight.bold,
+                    height: 1.1,
                   ),
                 ),
               ],

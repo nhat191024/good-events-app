@@ -21,19 +21,32 @@ class HomeScreen extends GetView<HomeController> {
 
     return FScaffold(
       header: Container(
-        padding: EdgeInsets.only(top: statusBarHeight, left: 16, right: 16),
+        padding: EdgeInsets.only(top: statusBarHeight + 4, left: 16, right: 16, bottom: 20),
+        decoration: BoxDecoration(
+          gradient: LinearGradient(
+            colors: [AppColors.primary, AppColors.primary.withValues(alpha: 0.78)],
+            begin: Alignment.topLeft,
+            end: Alignment.bottomRight,
+          ),
+        ),
         child: Row(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
             Expanded(
               child: Row(
-                mainAxisAlignment: MainAxisAlignment.start,
                 children: [
-                  FAvatar(
-                    image: CachedNetworkImageProvider(controller.avatar.value),
-                    size: 46.0,
-                    semanticsLabel: 'User avatar',
-                    fallback: const Text('ST'),
+                  Container(
+                    padding: const EdgeInsets.all(2.5),
+                    decoration: BoxDecoration(
+                      shape: BoxShape.circle,
+                      border: Border.all(color: Colors.white.withValues(alpha: 0.6), width: 2),
+                    ),
+                    child: FAvatar(
+                      image: CachedNetworkImageProvider(controller.avatar.value),
+                      size: 44.0,
+                      semanticsLabel: 'User avatar',
+                      fallback: const Text('ST'),
+                    ),
                   ),
                   const SizedBox(width: 10),
                   Expanded(
@@ -45,16 +58,32 @@ class HomeScreen extends GetView<HomeController> {
                           maxLines: 1,
                           overflow: TextOverflow.ellipsis,
                           style: const TextStyle(
-                            fontSize: 20,
+                            fontSize: 18,
                             fontWeight: FontWeight.bold,
+                            color: Colors.white,
                           ),
                         ),
-                        FBadge(
-                          child: Text(
-                            'verified'.tr,
-                            style: context.typography.xs.copyWith(
-                              color: context.fTheme.colors.primaryForeground,
-                            ),
+                        const SizedBox(height: 4),
+                        Container(
+                          padding: const EdgeInsets.symmetric(horizontal: 7, vertical: 2),
+                          decoration: BoxDecoration(
+                            color: Colors.white.withValues(alpha: 0.2),
+                            borderRadius: BorderRadius.circular(8),
+                            border: Border.all(color: Colors.white.withValues(alpha: 0.35)),
+                          ),
+                          child: Row(
+                            mainAxisSize: MainAxisSize.min,
+                            children: [
+                              const Icon(FIcons.badgeCheck, size: 10, color: Colors.white),
+                              const SizedBox(width: 3),
+                              Text(
+                                'verified'.tr,
+                                style: context.typography.xs.copyWith(
+                                  color: Colors.white,
+                                  fontWeight: FontWeight.w600,
+                                ),
+                              ),
+                            ],
                           ),
                         ),
                       ],
@@ -95,61 +124,52 @@ class HomeScreen extends GetView<HomeController> {
           return FlSpot(e.key.toDouble(), e.value.toDouble());
         }).toList();
 
-        return CustomScrollView(
-          slivers: [
-            SliverFillRemaining(
-              hasScrollBody: false,
-              child: Padding(
-                padding: const EdgeInsets.symmetric(
-                  horizontal: 10,
-                  vertical: 12,
-                ),
-                child: Column(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: [
-                    IncomePanel(balance: data.balance, revenue: data.revenue)
-                        .animate()
-                        .fadeIn(duration: 400.ms)
-                        .slideY(begin: 0.1, end: 0),
-                    QickActionsPanel()
-                        .animate(delay: 100.ms)
-                        .fadeIn(duration: 400.ms)
-                        .slideY(begin: 0.1, end: 0),
-                    BillCountPanel(
-                          newShows: data.showData.newShows,
-                          waitingConfirmation:
-                              data.showData.waitingConfirmation,
-                        )
-                        .animate(delay: 200.ms)
-                        .fadeIn(duration: 400.ms)
-                        .slideY(begin: 0.1, end: 0),
-                    NewReviewPanel(
-                          recentReviewsCount: data.recentReviewsCount,
-                          recentReviewsAvatars: data.recentReviewsAvatars,
-                        )
-                        .animate(delay: 300.ms)
-                        .fadeIn(duration: 400.ms)
-                        .slideY(begin: 0.1, end: 0),
-                    IncomeChart(
-                          spots: revenueSpots.isNotEmpty
-                              ? revenueSpots
-                              : [
-                                  FlSpot(0, 0),
-                                  FlSpot(1, 0),
-                                  FlSpot(2, 0),
-                                  FlSpot(3, 0),
-                                ],
-                          unit: '₫',
-                        )
-                        .animate(delay: 400.ms)
-                        .fadeIn(duration: 400.ms)
-                        .slideY(begin: 0.1, end: 0),
-                    const SizedBox(height: 60),
-                  ],
-                ),
-              ),
-            ),
-          ],
+        return SingleChildScrollView(
+          padding: const EdgeInsets.fromLTRB(14, 16, 14, 80),
+          child: Column(
+            children: [
+              IncomePanel(balance: data.balance, revenue: data.revenue)
+                  .animate()
+                  .fadeIn(duration: 400.ms)
+                  .slideY(begin: 0.1, end: 0),
+              const SizedBox(height: 14),
+              QickActionsPanel()
+                  .animate(delay: 100.ms)
+                  .fadeIn(duration: 400.ms)
+                  .slideY(begin: 0.1, end: 0),
+              const SizedBox(height: 14),
+              BillCountPanel(
+                    newShows: data.showData.newShows,
+                    waitingConfirmation: data.showData.waitingConfirmation,
+                  )
+                  .animate(delay: 200.ms)
+                  .fadeIn(duration: 400.ms)
+                  .slideY(begin: 0.1, end: 0),
+              const SizedBox(height: 14),
+              NewReviewPanel(
+                    recentReviewsCount: data.recentReviewsCount,
+                    recentReviewsAvatars: data.recentReviewsAvatars,
+                  )
+                  .animate(delay: 300.ms)
+                  .fadeIn(duration: 400.ms)
+                  .slideY(begin: 0.1, end: 0),
+              const SizedBox(height: 14),
+              IncomeChart(
+                    spots: revenueSpots.isNotEmpty
+                        ? revenueSpots
+                        : [
+                            FlSpot(0, 0),
+                            FlSpot(1, 0),
+                            FlSpot(2, 0),
+                            FlSpot(3, 0),
+                          ],
+                    unit: '₫',
+                  )
+                  .animate(delay: 400.ms)
+                  .fadeIn(duration: 400.ms)
+                  .slideY(begin: 0.1, end: 0),
+            ],
+          ),
         );
       }),
     );
