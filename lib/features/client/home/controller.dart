@@ -19,17 +19,45 @@ class HomeController extends GetxController {
   final isLoadingBlogs = false.obs;
   final isLoadingPartners = false.obs;
 
-  // Faked user data for now since we don't have profile API wired yet
-  RxString avatar = 'https://i.pravatar.cc/150?img=12'.obs;
-  RxString name = 'John Doe'.obs;
+  // User data
+  RxString name = (StorageService.readMapData(key: LocalStorageKeys.user, mapKey: 'name') ?? '')
+      .toString()
+      .obs;
+
+  RxString avatar =
+      (StorageService.readMapData(
+                key: LocalStorageKeys.user,
+                mapKey: 'avatar_url',
+              ) ??
+              '')
+          .toString()
+          .obs;
 
   @override
   void onInit() {
     super.onInit();
+    syncFromStorage();
     // Load all data on mount
     fetchSummary();
     fetchBlogs();
     fetchPartners();
+  }
+
+  void syncFromStorage() {
+    name.value =
+        (StorageService.readMapData(
+                  key: LocalStorageKeys.user,
+                  mapKey: 'name',
+                ) ??
+                '')
+            .toString();
+    avatar.value =
+        (StorageService.readMapData(
+                  key: LocalStorageKeys.user,
+                  mapKey: 'avatar_url',
+                ) ??
+                '')
+            .toString();
   }
 
   Future<void> fetchSummary() async {
