@@ -503,7 +503,9 @@ class AppTranslations extends Translations {
 
       'my_balance_wallet': 'Số dư ví',
       'add_balance': 'Nạp tiền',
-
+      'enter_amount': 'Nhập số tiền',
+      'add_new_bank': 'Thêm tài khoản ngân hàng mới',
+      'save_card': 'Lưu thẻ',
       'cardholder_name': 'Tên chủ thẻ',
       'cardholder_hint': 'Nguyễn Văn A',
       'card_number': 'Số thẻ',
@@ -623,7 +625,7 @@ class AppTranslations extends Translations {
       'year_ago': '@count năm trước',
       'years_ago': '@count năm trước',
 
-      //buttons
+      ///buttons
       'next': 'Tiếp theo',
       'register': 'Đăng ký',
       'login': 'Đăng nhập',
@@ -640,6 +642,8 @@ class AppTranslations extends Translations {
       'save': 'Lưu',
       'edit': 'Chỉnh sửa',
       'delete': 'Xóa',
+      'enter': 'Nhập',
+      'add': 'Thêm',
 
       //dev
       'in_dev': 'Tính năng đang phát triển',
@@ -1096,6 +1100,9 @@ class AppTranslations extends Translations {
 
       'my_balance_wallet': 'My Wallet Balance',
       'add_balance': 'Add Balance',
+      'enter_amount': 'Enter amount to add',
+      'add_new_bank': 'Add new bank account',
+      'save_card': 'Save card',
       'cardholder_name': 'Cardholder Name',
       'cardholder_hint': 'Nguyen Van A',
       'card_number': 'Card Number',
@@ -1232,6 +1239,8 @@ class AppTranslations extends Translations {
       'save': 'Save',
       'edit': 'Edit',
       'delete': 'Delete',
+      'enter': 'Enter',
+      'add': 'Add',
 
       /// Asset Order Detail
       'asset_order_detail_title': 'Design Order Detail',
