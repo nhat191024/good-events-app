@@ -225,7 +225,16 @@ class AccountScreen extends GetView<AccountController> {
                               _MenuItem(
                                 'privacy_policy'.tr,
                                 FIcons.shieldCheck,
-                                () {},
+                                () {
+                                  // open webview route
+                                  Get.toNamed(
+                                    Routes.webView,
+                                    arguments: {
+                                      'url': 'https://sukientot.com/privacy-policy',
+                                      'title': 'privacy_policy'.tr,
+                                    },
+                                  );
+                                },
                               ),
                             ]),
                             const SizedBox(height: 16),
