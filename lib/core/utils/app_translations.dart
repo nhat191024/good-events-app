@@ -439,6 +439,7 @@ class AppTranslations extends Translations {
       'start_time': 'Giờ bắt đầu',
       'end_time': 'Giờ kết thúc',
       'note': 'Ghi chú',
+      'no_note': 'Không có ghi chú',
       'price': 'Giá',
       'your_price': 'Giá của bạn',
 
@@ -1012,6 +1013,7 @@ class AppTranslations extends Translations {
       'start_time': 'Start Time',
       'end_time': 'End Time',
       'note': 'Note',
+      'no_note': 'No note',
       'price': 'Price',
       'your_price': 'Your Price',
 
