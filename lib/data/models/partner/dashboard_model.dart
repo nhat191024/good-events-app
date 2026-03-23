@@ -3,7 +3,6 @@ import 'dart:convert';
 
 class DashboardModel {
   final bool hasNotification;
-  final int balance;
   final int revenue;
   final ShowData showData;
   final int recentReviewsCount;
@@ -12,7 +11,6 @@ class DashboardModel {
 
   DashboardModel({
     required this.hasNotification,
-    required this.balance,
     required this.revenue,
     required this.showData,
     required this.recentReviewsCount,
@@ -23,7 +21,6 @@ class DashboardModel {
   Map<String, dynamic> toMap() {
     return <String, dynamic>{
       'has_notification': hasNotification,
-      'balance': balance,
       'revenue': revenue,
       'show_data': showData.toMap(),
       'recent_reviews_count': recentReviewsCount,
@@ -36,7 +33,6 @@ class DashboardModel {
     return DashboardModel(
       hasNotification:
           map['has_notification'] == true || map['has_notification'] == 'true',
-      balance: map['balance'],
       revenue: map['revenue'],
       showData: ShowData.fromMap(
         map['show_data'] as Map<String, dynamic>? ?? {},
