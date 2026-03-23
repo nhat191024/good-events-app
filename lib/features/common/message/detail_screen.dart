@@ -50,9 +50,17 @@ class MessageDetailScreen extends GetView<MessageController> {
                       itemBuilder: (context, index) {
                         final message = controller.messagesDetail[index];
                         return ChatBubble(
-                          message: message,
-                          isFirst: index == controller.messagesDetail.length - 1,
-                        );
+                              message: message,
+                              isFirst:
+                                  index == controller.messagesDetail.length - 1,
+                            )
+                            .animate(delay: (50 * index).ms)
+                            .fadeIn(duration: 500.ms)
+                            .slideY(
+                              begin: -0.02,
+                              end: 0,
+                              curve: Curves.easeOut,
+                            );
                       },
                     ),
                   ),
