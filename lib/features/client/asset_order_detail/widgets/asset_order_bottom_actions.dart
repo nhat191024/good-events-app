@@ -35,30 +35,6 @@ class AssetOrderBottomActions extends GetView<ClientAssetOrderDetailController> 
                   ),
                 ),
               ),
-            if (controller.canRepay) const SizedBox(width: 12),
-            if (controller.canDownload)
-              Expanded(
-                child: ElevatedButton.icon(
-                  onPressed: () {
-                    // TODO: trigger ZIP download via URL launcher
-                    Get.snackbar(
-                      'download'.tr,
-                      'download_starting'.tr,
-                    );
-                  },
-                  icon: const Icon(Icons.download, color: Colors.white),
-                  label: Text(
-                    'download_zip'.tr,
-                    style: const TextStyle(fontWeight: FontWeight.bold),
-                  ),
-                  style: ElevatedButton.styleFrom(
-                    backgroundColor: FTheme.of(context).colors.primary,
-                    foregroundColor: Colors.white,
-                    padding: const EdgeInsets.symmetric(vertical: 14),
-                    shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
-                  ),
-                ),
-              ),
             if (!controller.canDownload && !controller.canRepay)
               Expanded(
                 child: ElevatedButton(
