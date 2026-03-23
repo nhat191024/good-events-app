@@ -2,6 +2,11 @@
 
 All notable changes to this project will be documented in this file.
 
+## [v1.27.0+30]
+
+- Intergetion API for fetch transaction history
+- Add transaction detail view
+
 ## [v1.26.0+29]
 
 - Update my account screen
