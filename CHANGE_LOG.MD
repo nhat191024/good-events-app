@@ -2,6 +2,11 @@
 
 All notable changes to this project will be documented in this file.
 
+## [v2.0.1+35]
+
+- Fix release version can't run
+- Fix app can't load img from web
+
 ## [v2.0.0+34]
 
 - Massive update in UI/UX
