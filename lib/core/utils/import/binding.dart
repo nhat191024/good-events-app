@@ -27,3 +27,4 @@ export 'package:sukientotapp/features/client/booking/binding.dart';
 export 'package:sukientotapp/features/client/order/binding.dart';
 export 'package:sukientotapp/features/client/order_detail/binding.dart';
 export 'package:sukientotapp/features/client/asset_order_detail/binding.dart';
+export 'package:sukientotapp/features/common/payment_result/binding.dart';
