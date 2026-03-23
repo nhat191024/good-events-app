@@ -22,18 +22,20 @@ class HomeScreen extends GetView<HomeController> {
 
     return FScaffold(
       header: Container(
-        padding: EdgeInsets.only(
-          top: statusBarHeight,
-          left: 16,
-          right: 16,
-          bottom: 5,
+        padding: EdgeInsets.only(top: statusBarHeight + 4, left: 16, right: 16, bottom: 20),
+        decoration: BoxDecoration(
+          gradient: LinearGradient(
+            colors: [AppColors.primary, AppColors.primary.withValues(alpha: 0.78)],
+            begin: Alignment.topLeft,
+            end: Alignment.bottomRight,
+          ),
         ),
         child: Column(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             ClientHomeHeader(controller: controller),
-            const SizedBox(height: 6),
+            const SizedBox(height: 14),
             FakeSearchBar(
               onTap: () {
                 searchController.clear();
@@ -53,23 +55,25 @@ class HomeScreen extends GetView<HomeController> {
       ),
 
       child: SingleChildScrollView(
+        padding: const EdgeInsets.fromLTRB(4, 16, 4, 10),
         child: Column(
           mainAxisAlignment: MainAxisAlignment.start,
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            const SizedBox(height: 10),
-            Text(
-              'quick_actions'.tr,
-              style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
-            ).animate(delay: 150.ms).fadeIn(duration: 200.ms),
+            const ClientQuickActionPanel()
+                .animate(delay: 100.ms)
+                .fadeIn(duration: 400.ms)
+                .slideY(begin: 0.1, end: 0),
 
-            const ClientQuickActionPanel(),
+            const SizedBox(height: 14),
+            ClientBillCountPanel(
+              controller: controller,
+            ).animate(delay: 200.ms).fadeIn(duration: 400.ms).slideY(begin: 0.1, end: 0),
 
-            const SizedBox(height: 4),
-            ClientBillCountPanel(controller: controller),
-
-            const SizedBox(height: 8),
-            NewOrderPanel(controller: controller),
+            const SizedBox(height: 14),
+            NewOrderPanel(
+              controller: controller,
+            ).animate(delay: 300.ms).fadeIn(duration: 400.ms).slideY(begin: 0.1, end: 0),
 
             const SizedBox(height: 14),
 
@@ -82,13 +86,13 @@ class HomeScreen extends GetView<HomeController> {
                 ),
                 GestureDetector(
                   onTap: () {
-                    Get.snackbar('notification'.tr, 'in_dev'.tr);
-                    // launchUrl(
-                    //   Uri.parse(
-                    //     'https://sukientot.com/dia-diem-to-chuc-su-kien',
-                    //   ),
-                    //   mode: LaunchMode.externalApplication,
-                    // );
+                    Get.toNamed(
+                      Routes.webView,
+                      arguments: {
+                        'url': 'https://sukientot.com/dia-diem-to-chuc-su-kien',
+                        'title': 'news_and_blogs'.tr,
+                      },
+                    );
                   },
                   child: Text(
                     'see_more'.tr,

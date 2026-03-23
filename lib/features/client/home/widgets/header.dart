@@ -10,47 +10,59 @@ class ClientHomeHeader extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Row(
-      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-      children: [
-        Row(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            FAvatar(
-              image: NetworkImage(controller.avatar.value),
-              size: 46.0,
-              semanticsLabel: 'User avatar',
-              fallback: const Text('ST'),
-            ),
-            const SizedBox(width: 10),
-            Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
+    return Obx(
+      () => Row(
+        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+        children: [
+          Expanded(
+            child: Row(
               children: [
-                Text(
-                  controller.name.value,
-                  style: TextStyle(
-                    fontSize: 20,
-                    fontWeight: FontWeight.bold,
+                Container(
+                  padding: const EdgeInsets.all(2.5),
+                  decoration: BoxDecoration(
+                    shape: BoxShape.circle,
+                    border: Border.all(color: Colors.white.withValues(alpha: 0.6), width: 2),
+                  ),
+                  child: FAvatar(
+                    image: NetworkImage(controller.avatar.value),
+                    size: 44.0,
+                    semanticsLabel: 'User avatar',
+                    fallback: const Text('ST'),
                   ),
                 ),
-                FBadge(child: Text('verified'.tr)),
+                const SizedBox(width: 10),
+                Expanded(
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Text(
+                        controller.name.value,
+                        maxLines: 1,
+                        overflow: TextOverflow.ellipsis,
+                        style: const TextStyle(
+                          fontSize: 18,
+                          fontWeight: FontWeight.bold,
+                          color: Colors.white,
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
               ],
-            ),
-          ],
-        ),
-        Row(
-          children: [
-            LanguageSwitch(),
-            const SizedBox(width: 10),
-            NotificationButton(
-              onTap: () {
-                Get.toNamed(Routes.notification);
-              },
-              hasNotification: true,
-            ),
-          ],
-        ),
-      ],
-    ).animate(delay: 50.ms).slideY(begin: -1, end: 0, duration: 500.ms, curve: Curves.elasticOut);
+            ).animate().fadeIn(duration: 400.ms).slideX(begin: -0.1, end: 0),
+          ),
+          Row(
+            children: [
+              LanguageSwitch(),
+              const SizedBox(width: 10),
+              NotificationButton(
+                hasNotification: controller.summary.value?.isHasNewNoti ?? false,
+                onTap: () => Get.toNamed(Routes.notification),
+              ),
+            ],
+          ).animate().fadeIn(duration: 400.ms).slideX(begin: 0.1, end: 0),
+        ],
+      ),
+    );
   }
 }

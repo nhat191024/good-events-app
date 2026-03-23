@@ -5,36 +5,37 @@ class ClientQuickActionPanel extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Padding(
-      padding: const EdgeInsets.symmetric(horizontal: 24),
-      child: _QuickActionPanel(
-        items: [
-          _QuickActionItem(
-            icon: FIcons.accessibility,
-            label: 'partner'.tr,
-            animationDelayMs: 200,
-            onPress: () {},
-          ),
-          _QuickActionItem(
-            icon: FIcons.speaker,
-            label: 'rent_product'.tr,
-            animationDelayMs: 220,
-            onPress: () {},
-          ),
-          _QuickActionItem(
-            icon: FIcons.bookImage,
-            label: 'file_product'.tr,
-            animationDelayMs: 240,
-            onPress: () {},
-          ),
-          _QuickActionItem(
-            icon: FIcons.bookOpenText,
-            label: 'news_and_blogs'.tr,
-            animationDelayMs: 260,
-            onPress: () {},
-          ),
-        ],
-      ),
+    return _QuickActionPanel(
+      items: [
+        _QuickActionItem(
+          icon: FIcons.accessibility,
+          label: 'partner'.tr,
+          animationDelayMs: 200,
+          onPress: () {},
+          color: const Color(0xFF3B82F6),
+        ),
+        _QuickActionItem(
+          icon: FIcons.speaker,
+          label: 'rent_product'.tr,
+          animationDelayMs: 220,
+          onPress: () {},
+          color: const Color(0xFF10B981),
+        ),
+        _QuickActionItem(
+          icon: FIcons.bookImage,
+          label: 'file_product'.tr,
+          animationDelayMs: 240,
+          onPress: () {},
+          color: const Color(0xFFF59E0B),
+        ),
+        _QuickActionItem(
+          icon: FIcons.bookOpenText,
+          label: 'news_and_blogs'.tr,
+          animationDelayMs: 260,
+          onPress: () {},
+          color: const Color(0xFF8B5CF6),
+        ),
+      ],
     );
   }
 }
@@ -47,13 +48,37 @@ class _QuickActionPanel extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      padding: const EdgeInsets.symmetric(vertical: 12, horizontal: 4),
+      padding: const EdgeInsets.all(16),
+      decoration: BoxDecoration(
+        color: Colors.white,
+        borderRadius: BorderRadius.circular(20),
+        boxShadow: [
+          BoxShadow(
+            color: Colors.black.withValues(alpha: 0.05),
+            blurRadius: 12,
+            offset: const Offset(0, 4),
+          ),
+        ],
+      ),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           Row(
+            children: [
+              Icon(FIcons.zap, size: 13, color: AppColors.primary),
+              const SizedBox(width: 5),
+              Text(
+                'quick_actions'.tr,
+                style: context.typography.sm.copyWith(
+                  fontWeight: FontWeight.w700,
+                  color: context.fTheme.colors.foreground,
+                ),
+              ),
+            ],
+          ),
+          const SizedBox(height: 14),
+          Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            crossAxisAlignment: CrossAxisAlignment.start,
             children: items
                 .map(
                   (item) => _buildButtonItem(
@@ -61,6 +86,7 @@ class _QuickActionPanel extends StatelessWidget {
                     item.icon,
                     item.label,
                     item.onPress,
+                    item.color,
                     item.animationDelayMs,
                   ),
                 )
@@ -71,49 +97,37 @@ class _QuickActionPanel extends StatelessWidget {
     );
   }
 
-  FTappable _buildButtonItem(
+  Widget _buildButtonItem(
     BuildContext context,
     IconData icon,
     String label,
     VoidCallback onPress,
+    Color color,
     int animationDelayMs,
   ) {
-    return FTappable(
-      onPress: () => onPress(),
+    return GestureDetector(
+      onTap: onPress,
       child: SizedBox(
-        width: 60,
+        width: 62,
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.center,
           children: [
             Container(
-              padding: const EdgeInsets.all(8),
+              padding: const EdgeInsets.all(12),
               decoration: BoxDecoration(
-                color: Colors.white,
-                borderRadius: BorderRadius.circular(12),
-                boxShadow: [
-                  BoxShadow(
-                    color: Colors.grey.withValues(alpha: 0.3),
-                    spreadRadius: 2,
-                    blurRadius: 5,
-                    offset: const Offset(0, 3),
-                  ),
-                ],
+                color: color.withValues(alpha: 0.12),
+                borderRadius: BorderRadius.circular(14),
               ),
-              child: Icon(
-                icon,
-                color: FTheme.of(context).colors.primary,
-                size: 24,
-              ),
+              child: Icon(icon, color: color, size: 22),
             ),
-            SizedBox(height: 4),
+            const SizedBox(height: 6),
             Text(
               label.tr,
               maxLines: 2,
               textAlign: TextAlign.center,
-              style: TextStyle(
-                color: Colors.black54,
-                fontSize: 14,
-                fontWeight: FontWeight.bold,
+              style: context.typography.xs.copyWith(
+                color: context.fTheme.colors.foreground,
+                fontWeight: FontWeight.w600,
               ),
             ),
           ],
@@ -128,11 +142,13 @@ class _QuickActionItem {
   final String label;
   final VoidCallback onPress;
   final int animationDelayMs;
+  final Color color;
 
   _QuickActionItem({
     required this.icon,
     required this.label,
     required this.onPress,
     required this.animationDelayMs,
+    required this.color,
   });
 }
