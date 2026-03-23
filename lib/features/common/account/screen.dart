@@ -5,6 +5,7 @@ import 'widget/wallet_header.dart';
 
 import 'package:sukientotapp/features/components/common/language_switch/language_switch.dart';
 import 'package:sukientotapp/features/components/common/notification_button/notification_button.dart';
+import 'package:sukientotapp/features/components/widget/confirm_dialog.dart';
 
 class AccountScreen extends GetView<AccountController> {
   const AccountScreen({super.key});
@@ -192,12 +193,24 @@ class AccountScreen extends GetView<AccountController> {
                               _MenuItem(
                                 'notification_setting'.tr,
                                 FIcons.bell,
-                                () {},
+                                () {
+                                  AppSnackbar.showInfo(
+                                    title: 'in_dev'.tr,
+                                    message:
+                                        'This feature is under development.',
+                                  );
+                                },
                               ),
                               _MenuItem(
                                 'message_setting'.tr,
                                 FIcons.messagesSquare,
-                                () {},
+                                () {
+                                  AppSnackbar.showInfo(
+                                    title: 'in_dev'.tr,
+                                    message:
+                                        'This feature is under development.',
+                                  );
+                                },
                               ),
                               _MenuItem(
                                 'support'.tr,
@@ -220,7 +233,17 @@ class AccountScreen extends GetView<AccountController> {
                               _MenuItem(
                                 'logout'.tr,
                                 FIcons.logOut,
-                                () {},
+                                () {
+                                  ConfirmDialog.show(
+                                    title: 'logout_title'.tr,
+                                    message: 'logout_message'.tr,
+                                    confirmText: 'confirm'.tr,
+                                    icon: FIcons.logOut,
+                                    iconColor: context.primary,
+                                    confirmColor: context.primary,
+                                    onConfirm: () {},
+                                  );
+                                },
                                 color: context.fTheme.colors.error,
                               ),
                             ]),
