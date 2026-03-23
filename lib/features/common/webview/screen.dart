@@ -5,11 +5,7 @@ class CommonWebviewScreen extends StatefulWidget {
   final String url;
   final String? title;
 
-  const CommonWebviewScreen({
-    super.key,
-    required this.url,
-    this.title,
-  });
+  const CommonWebviewScreen({super.key, required this.url, this.title});
 
   @override
   State<CommonWebviewScreen> createState() => _CommonWebviewScreenState();
@@ -43,6 +39,22 @@ class _CommonWebviewScreenState extends State<CommonWebviewScreen> {
           onWebResourceError: (WebResourceError error) {
             logger.e('WebView Error: ${error.description}');
           },
+          onNavigationRequest: (NavigationRequest request) {
+            final uri = Uri.tryParse(request.url);
+            logger.i('WebView Navigation Request: $uri');
+            if (uri != null && uri.scheme == 'sukientot') {
+              final basePath = uri.host.isNotEmpty
+                  ? '/${uri.host}${uri.path}'
+                  : uri.path;
+              final fullPath = uri.query.isNotEmpty
+                  ? '$basePath?${uri.query}'
+                  : basePath;
+              logger.i('Deep link detected, navigating to: $fullPath');
+              Get.toNamed(fullPath);
+              return NavigationDecision.prevent;
+            }
+            return NavigationDecision.navigate;
+          },
         ),
       )
       ..loadRequest(Uri.parse(widget.url));
@@ -58,10 +70,7 @@ class _CommonWebviewScreenState extends State<CommonWebviewScreen> {
       child: Stack(
         children: [
           WebViewWidget(controller: _controller),
-          if (_isLoading)
-            const Center(
-              child: CircularProgressIndicator(),
-            ),
+          if (_isLoading) const Center(child: CircularProgressIndicator()),
         ],
       ),
     );
