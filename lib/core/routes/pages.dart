@@ -164,5 +164,13 @@ class Pages {
       transition: Transition.cupertino,
       transitionDuration: const Duration(milliseconds: 300),
     ),
+
+    GetPage(
+      name: Routes.paymentResult,
+      page: () => const PaymentResultScreen(),
+      binding: PaymentResultBinding(),
+      transition: Transition.fadeIn,
+      transitionDuration: const Duration(milliseconds: 350),
+    ),
   ];
 }
