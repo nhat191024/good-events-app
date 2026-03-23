@@ -102,11 +102,6 @@ class Show extends StatelessWidget {
         color: context.fTheme.colors.muted,
         borderRadius: BorderRadius.circular(18),
         boxShadow: [
-          // BoxShadow(
-          //   color: statusAccent.withValues(alpha: 0.10),
-          //   blurRadius: 18,
-          //   offset: const Offset(0, 4),
-          // ),
           BoxShadow(
             color: context.fTheme.colors.foreground.withValues(alpha: 0.04),
             blurRadius: 6,
