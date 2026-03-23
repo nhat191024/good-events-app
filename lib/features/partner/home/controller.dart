@@ -21,6 +21,15 @@ class HomeController extends GetxController {
           .toString()
           .obs;
 
+  RxInt balance = RxInt(
+    (StorageService.readMapData(
+              key: LocalStorageKeys.user,
+              mapKey: 'wallet_balance',
+            )
+            as int?) ??
+        0,
+  );
+
   RxBool isLoading = true.obs;
   Rxn<DashboardModel> dashboardData = Rxn<DashboardModel>();
 

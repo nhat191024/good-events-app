@@ -128,7 +128,7 @@ class HomeScreen extends GetView<HomeController> {
           padding: const EdgeInsets.fromLTRB(14, 16, 14, 80),
           child: Column(
             children: [
-              IncomePanel(balance: data.balance, revenue: data.revenue)
+              IncomePanel(balance: controller.balance.value, revenue: data.revenue)
                   .animate()
                   .fadeIn(duration: 400.ms)
                   .slideY(begin: 0.1, end: 0),
