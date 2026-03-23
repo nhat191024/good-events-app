@@ -60,7 +60,9 @@ class HomeScreen extends GetView<HomeController> {
           mainAxisAlignment: MainAxisAlignment.start,
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            const ClientQuickActionPanel()
+            ClientQuickActionPanel(
+              controller: controller,
+            )
                 .animate(delay: 100.ms)
                 .fadeIn(duration: 400.ms)
                 .slideY(begin: 0.1, end: 0),

@@ -1,7 +1,11 @@
 import 'package:sukientotapp/core/utils/import/global.dart';
+import 'package:sukientotapp/features/client/home/controller.dart';
+import 'package:sukientotapp/features/client/home/widgets/popup_search_sheet.dart';
 
 class ClientQuickActionPanel extends StatelessWidget {
-  const ClientQuickActionPanel({super.key});
+  const ClientQuickActionPanel({super.key, required this.controller});
+
+  final HomeController controller;
 
   @override
   Widget build(BuildContext context) {
@@ -11,28 +15,62 @@ class ClientQuickActionPanel extends StatelessWidget {
           icon: FIcons.accessibility,
           label: 'partner'.tr,
           animationDelayMs: 200,
-          onPress: () {},
+          onPress: () {
+            controller.ensurePartnersLoaded();
+            showModalBottomSheet(
+              context: context,
+              builder: (context) => PopupPartnerSearchSheet(
+                partnerCategories: controller.partnerList,
+                isLoadingPartners: controller.isLoadingPartners,
+              ),
+              isScrollControlled: true,
+            );
+          },
           color: const Color(0xFF3B82F6),
         ),
         _QuickActionItem(
           icon: FIcons.speaker,
           label: 'rent_product'.tr,
           animationDelayMs: 220,
-          onPress: () {},
+          onPress: () {
+            Get.toNamed(
+              Routes.webView,
+              arguments: {
+                'url': 'https://sukientot.com/thue-vat-tu',
+                'title': 'rent_product'.tr,
+              },
+            );
+          },
           color: const Color(0xFF10B981),
         ),
         _QuickActionItem(
           icon: FIcons.bookImage,
           label: 'file_product'.tr,
           animationDelayMs: 240,
-          onPress: () {},
+          onPress: () {
+            Get.toNamed(
+              Routes.webView,
+              arguments: {
+                'url': 'https://sukientot.com/tai-lieu',
+                'title': 'file_product'.tr,
+              },
+            );
+          },
           color: const Color(0xFFF59E0B),
         ),
         _QuickActionItem(
           icon: FIcons.bookOpenText,
           label: 'news_and_blogs'.tr,
           animationDelayMs: 260,
-          onPress: () {},
+          onPress: () {
+            Get.toNamed(
+              Routes.webView,
+              arguments: {
+                'url': 'https://sukientot.com/dia-diem-to-chuc-su-kien',
+                'title': 'news_and_blogs'.tr,
+              },
+            );
+          },
           color: const Color(0xFF8B5CF6),
         ),
       ],
