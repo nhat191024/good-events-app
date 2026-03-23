@@ -10,5 +10,18 @@
 -keep class io.flutter.embedding.engine.deferredcomponents.** { *; }
 -dontwarn io.flutter.embedding.engine.deferredcomponents.**
 
+# Fix: PlatformException channel-error cho path_provider_android (Pigeon)
+# R8/ProGuard xóa các Pigeon-generated class trong release mode
+-keep class dev.flutter.pigeon.** { *; }
+-keep class io.flutter.plugins.pathprovider.** { *; }
+-dontwarn io.flutter.plugins.pathprovider.**
+
+# Giữ tất cả Flutter plugin channels khỏi bị obfuscate
+-keep class io.flutter.plugin.** { *; }
+-keep class io.flutter.util.** { *; }
+-keep class io.flutter.view.** { *; }
+-keep class io.flutter.** { *; }
+-dontwarn io.flutter.**
+
 # Nếu vẫn báo thiếu các class cụ thể trong log, dùng thêm dòng này:
 -ignorewarnings
