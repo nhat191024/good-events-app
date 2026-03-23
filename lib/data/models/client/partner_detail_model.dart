@@ -24,6 +24,7 @@ class DetailItemModel {
   final String description;
   final String updatedHuman;
   final String image;
+  final String videoUrl;
 
   const DetailItemModel({
     required this.id,
@@ -34,6 +35,7 @@ class DetailItemModel {
     required this.description,
     required this.updatedHuman,
     required this.image,
+    required this.videoUrl,
   });
 
   factory DetailItemModel.fromJson(Map<String, dynamic> json) {
@@ -46,6 +48,7 @@ class DetailItemModel {
       description: json['description'] ?? '',
       updatedHuman: json['updated_human'] ?? '',
       image: json['image'] ?? '',
+      videoUrl: json['video_url'] ?? '',
     );
   }
 
