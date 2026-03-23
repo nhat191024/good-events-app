@@ -56,6 +56,16 @@ class HomeController extends GetxController {
             .toString();
   }
 
+  void syncBalance() {
+    balance.value =
+        (StorageService.readMapData(
+                  key: LocalStorageKeys.user,
+                  mapKey: 'wallet_balance',
+                ) ??
+                0)
+            .toInt();
+  }
+
   Future<void> fetchDashboardData() async {
     try {
       isLoading.value = true;
