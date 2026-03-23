@@ -2,6 +2,10 @@
 
 All notable changes to this project will be documented in this file.
 
+## [v2.0.0+34]
+
+- Massive update in UI/UX
+
 ## [v1.30.0+33]
 
 - Intergation API to top up wallet
