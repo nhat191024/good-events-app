@@ -10,7 +10,7 @@ class MessageDetailScreen extends GetView<MessageController> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: AppColors.white,
+      backgroundColor: const Color(0xFFF0F2F5),
       appBar: const ChatAppBar(),
       body: Column(
         children: [
@@ -18,7 +18,12 @@ class MessageDetailScreen extends GetView<MessageController> {
             child: Obx(() {
               if (controller.isLoadingMessages.value &&
                   controller.messagesDetail.isEmpty) {
-                return const Center(child: CircularProgressIndicator());
+                return Center(
+                  child: CircularProgressIndicator(
+                    color: AppColors.primary,
+                    strokeWidth: 2,
+                  ),
+                );
               }
               return Column(
                 children: [
@@ -26,10 +31,13 @@ class MessageDetailScreen extends GetView<MessageController> {
                     if (!controller.isLoadingOlderMessages.value) {
                       return const SizedBox.shrink();
                     }
-                    return const Padding(
-                      padding: EdgeInsets.symmetric(vertical: 8),
+                    return Padding(
+                      padding: const EdgeInsets.symmetric(vertical: 10),
                       child: Center(
-                        child: CircularProgressIndicator(strokeWidth: 2),
+                        child: CircularProgressIndicator(
+                          color: AppColors.primary,
+                          strokeWidth: 2,
+                        ),
                       ),
                     );
                   }),
@@ -37,6 +45,7 @@ class MessageDetailScreen extends GetView<MessageController> {
                     child: ListView.builder(
                       controller: controller.scrollController,
                       reverse: true,
+                      padding: const EdgeInsets.symmetric(vertical: 8),
                       itemCount: controller.messagesDetail.length,
                       itemBuilder: (context, index) {
                         final message = controller.messagesDetail[index];

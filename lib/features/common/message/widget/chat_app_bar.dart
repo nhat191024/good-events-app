@@ -5,98 +5,104 @@ class ChatAppBar extends StatelessWidget implements PreferredSizeWidget {
   const ChatAppBar({super.key});
 
   @override
-  Size get preferredSize => const Size.fromHeight(100);
+  Size get preferredSize => const Size.fromHeight(76);
 
   @override
   Widget build(BuildContext context) {
+    final colors = context.fTheme.colors;
     return AppBar(
-      backgroundColor: AppColors.white.withAlpha(128),
+      backgroundColor: colors.background,
       automaticallyImplyLeading: false,
-      toolbarHeight: 100,
+      toolbarHeight: 76,
       elevation: 0,
+      surfaceTintColor: Colors.transparent,
+      shape: Border(
+        bottom: BorderSide(color: colors.border.withValues(alpha: 0.6), width: 0.5),
+      ),
+      titleSpacing: 12,
       title: Row(
-        mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
-          Row(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              GestureDetector(
-                onTap: () {
-                  Get.back();
-                },
-                child: Container(
-                  width: 25,
-                  height: 25,
-                  decoration: const BoxDecoration(
-                    shape: BoxShape.circle,
-                    color: Colors.transparent,
-                  ),
-                  child: const Center(
-                    child: Icon(
-                      Icons.arrow_back,
-                      color: AppColors.lightForeground,
-                    ),
-                  ),
-                ),
+          // Back button
+          GestureDetector(
+            onTap: Get.back,
+            child: Container(
+              width: 36,
+              height: 36,
+              decoration: const BoxDecoration(
+                shape: BoxShape.circle,
+                color: Color(0xFFF3F4F6),
               ),
-              const SizedBox(width: 16),
-              Obx(() {
-                final thread =
-                    Get.find<MessageController>().selectedThread.value;
-                return Column(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Text(
-                      thread!.subject,
-                      style: const TextStyle(
-                        color: AppColors.lightForeground,
-                        fontSize: 16,
-                        fontWeight: FontWeight.bold,
-                      ),
+              child: Center(
+                child: Icon(FIcons.arrowLeft, size: 18, color: colors.foreground),
+              ),
+            ),
+          ),
+          const SizedBox(width: 10),
+          // Avatar icon
+          Container(
+            width: 40,
+            height: 40,
+            decoration: BoxDecoration(
+              shape: BoxShape.circle,
+              color: AppColors.primary.withValues(alpha: 0.12),
+            ),
+            child: Center(
+              child: Icon(FIcons.messageCircleMore, size: 20, color: AppColors.primary),
+            ),
+          ),
+          const SizedBox(width: 10),
+          // Thread info
+          Expanded(
+            child: Obx(() {
+              final thread = Get.find<MessageController>().selectedThread.value;
+              if (thread == null) return const SizedBox.shrink();
+              return Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Text(
+                    thread.subject,
+                    style: TextStyle(
+                      fontWeight: FontWeight.w700,
+                      color: colors.foreground,
+                      fontSize: 15,
                     ),
-                    const SizedBox(height: 6),
-                    Text(
-                      '${'bill_info'.tr}: ',
-                      style: const TextStyle(
-                        color: AppColors.lightMutedForeground,
-                        fontSize: 12,
-                        fontWeight: FontWeight.w600,
-                      ),
-                    ),
-                    Text(
-                      '${'event'.tr}: ${thread.bill.eventName}',
-                      style: const TextStyle(
-                        color: AppColors.lightMutedForeground,
-                        fontSize: 12,
-                        fontWeight: FontWeight.w600,
-                      ),
-                    ),
-                    Text(
-                      '${'time'.tr}: ${thread.bill.datetime}',
-                      style: const TextStyle(
-                        color: AppColors.lightMutedForeground,
-                        fontSize: 12,
-                        fontWeight: FontWeight.w600,
-                      ),
-                    ),
-                    SizedBox(
-                      width: MediaQuery.of(context).size.width * 0.8,
-                      child: Text(
-                        '${'address'.tr}: ${thread.bill.address}',
-                        style: const TextStyle(
-                          color: AppColors.lightMutedForeground,
-                          fontSize: 12,
-                          fontWeight: FontWeight.w600,
+                    maxLines: 1,
+                    overflow: TextOverflow.ellipsis,
+                  ),
+                  const SizedBox(height: 3),
+                  Row(
+                    children: [
+                      Icon(FIcons.calendarDays, size: 11, color: colors.mutedForeground),
+                      const SizedBox(width: 4),
+                      Expanded(
+                        child: Text(
+                          '${thread.bill.eventName} · ${thread.bill.datetime}',
+                          style: TextStyle(fontSize: 11, color: colors.mutedForeground),
+                          maxLines: 1,
+                          overflow: TextOverflow.ellipsis,
                         ),
-                        maxLines: 2,
-                        overflow: TextOverflow.ellipsis,
                       ),
-                    ),
-                  ],
-                );
-              }),
-            ],
+                    ],
+                  ),
+                  const SizedBox(height: 1),
+                  Row(
+                    children: [
+                      Icon(FIcons.mapPin, size: 11, color: colors.mutedForeground),
+                      const SizedBox(width: 4),
+                      Expanded(
+                        child: Text(
+                          thread.bill.address,
+                          style: TextStyle(fontSize: 11, color: colors.mutedForeground),
+                          maxLines: 1,
+                          overflow: TextOverflow.ellipsis,
+                        ),
+                      ),
+                    ],
+                  ),
+                ],
+              );
+            }),
           ),
         ],
       ),
