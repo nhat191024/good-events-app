@@ -197,7 +197,7 @@ class TransactionHistorySection extends StatelessWidget {
                 ),
                 const SizedBox(width: 12),
                 ConstrainedBox(
-                  constraints: BoxConstraints(maxWidth: Get.width / 100 * 25),
+                  constraints: BoxConstraints(maxWidth: Get.width / 100 * 35),
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
@@ -226,8 +226,8 @@ class TransactionHistorySection extends StatelessWidget {
             ),
             Text(
               isDebit
-                  ? '-${controller.formatPrice(transaction.amountDouble.toInt())}'
-                  : '+${controller.formatPrice(transaction.amountDouble.toInt())}',
+                  ? '-${FormatUtils.formatCurrency(transaction.amountDouble.toInt())}'
+                  : '+${FormatUtils.formatCurrency(transaction.amountDouble.toInt())}',
               style: TextStyle(
                 color: isDebit ? AppColors.primary : const Color(0xFF10B981),
                 fontSize: 14,
