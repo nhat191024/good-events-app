@@ -545,6 +545,9 @@ class AppTranslations extends Translations {
 
       'profile_updated': 'Hồ sơ đã được cập nhật!',
 
+      'logout_title': 'Đăng xuất',
+      'logout_message': 'Bạn có chắc chắn muốn đăng xuất?',
+
       ///my services
       'my_services': 'Dịch vụ của tôi',
       'add_service': 'Thêm dịch vụ',
@@ -1141,6 +1144,9 @@ class AppTranslations extends Translations {
       'identity_card_image_back': 'Identity Card Image Back',
 
       'profile_updated': 'Profile has been updated!',
+
+      'logout_title': 'Logout',
+      'logout_message': 'Are you sure you want to logout?',
 
       ///my services
       'my_services': 'My Services',
