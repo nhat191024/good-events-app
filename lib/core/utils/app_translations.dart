@@ -359,7 +359,7 @@ class AppTranslations extends Translations {
 
       'detail_info': 'Thông tin chi tiết',
 
-      //common
+      ///'common
       'login_required': 'Bạn phải đăng nhập trước!',
       'home': 'Trang chủ',
       'bills': 'Đơn',
@@ -399,6 +399,8 @@ class AppTranslations extends Translations {
       'back': 'Mặt sau',
 
       'no_data': 'Không có dữ liệu',
+
+      'from': 'Từ',
 
       ///Show
       'take_order': 'Nhận show',
@@ -501,10 +503,14 @@ class AppTranslations extends Translations {
       'privacy_policy': 'Chính sách bảo mật',
       'logout': 'Đăng xuất',
 
+      'add_bank_not_supported':
+          'Thêm thẻ ngân hàng hiện chưa được hỗ trợ. Chúng tôi hiện chỉ hỗ trợ PayOS để nạp tiền vào ví!',
+
       'my_balance_wallet': 'Số dư ví',
       'add_balance': 'Nạp tiền',
       'enter_amount': 'Nhập số tiền',
-      'add_new_bank': 'Thêm tài khoản ngân hàng mới',
+      'add_source': 'Thêm nguồn',
+      'add_new_bank': 'Thêm thẻ ngân hàng mới',
       'save_card': 'Lưu thẻ',
       'cardholder_name': 'Tên chủ thẻ',
       'cardholder_hint': 'Nguyễn Văn A',
@@ -967,7 +973,7 @@ class AppTranslations extends Translations {
 
       'detail_info': 'Detail info',
 
-      //common
+      ///common
       'login_required': 'You must login first!',
       'home': 'Home',
       'bills': 'Bills',
@@ -1006,6 +1012,8 @@ class AppTranslations extends Translations {
       'back': 'Back',
 
       'no_data': 'No data',
+
+      'from': 'From',
 
       ///Show
       'take_order': 'Take show',
@@ -1109,10 +1117,14 @@ class AppTranslations extends Translations {
       'privacy_policy': 'Privacy Policy',
       'logout': 'Logout',
 
+      'add_bank_not_supported':
+          'Adding bank card is currently not supported. We only support PayOS to Top up for now!',
+
       'my_balance_wallet': 'My Wallet Balance',
       'add_balance': 'Add Balance',
       'enter_amount': 'Enter amount to add',
-      'add_new_bank': 'Add new bank account',
+      'add_source': 'Add Source',
+      'add_new_bank': 'Add new bank card',
       'save_card': 'Save card',
       'cardholder_name': 'Cardholder Name',
       'cardholder_hint': 'Nguyen Van A',

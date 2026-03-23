@@ -6,12 +6,14 @@ class AppSnackbar {
   AppSnackbar._();
 
   static const SnackPosition _defaultPosition = SnackPosition.TOP;
+  static const Duration _defaultDuration = Duration(seconds: 3);
 
   /// success - with green background
   static void showSuccess({
     required String message,
     String? title,
     SnackPosition position = _defaultPosition,
+    Duration duration = _defaultDuration,
   }) {
     final String resolvedTitle = title ?? 'success'.tr;
 
@@ -22,6 +24,7 @@ class AppSnackbar {
       isDismissible: true,
       margin: const EdgeInsets.all(16.0),
       borderRadius: 12.0,
+      duration: duration,
     );
   }
 
@@ -30,6 +33,7 @@ class AppSnackbar {
     required String message,
     String? title,
     SnackPosition position = _defaultPosition,
+    Duration duration = _defaultDuration,
   }) {
     final String resolvedTitle = title ?? 'error'.tr;
 
@@ -40,6 +44,7 @@ class AppSnackbar {
       isDismissible: true,
       margin: const EdgeInsets.all(16.0),
       borderRadius: 12.0,
+      duration: duration,
     );
   }
 
@@ -48,6 +53,7 @@ class AppSnackbar {
     required String message,
     String? title,
     SnackPosition position = _defaultPosition,
+    Duration duration = _defaultDuration,
   }) {
     final String resolvedTitle = title ?? 'warning'.tr;
 
@@ -58,6 +64,7 @@ class AppSnackbar {
       isDismissible: true,
       margin: const EdgeInsets.all(16.0),
       borderRadius: 12.0,
+      duration: duration,
     );
   }
 
@@ -66,6 +73,7 @@ class AppSnackbar {
     required String message,
     String? title,
     SnackPosition position = _defaultPosition,
+    Duration duration = _defaultDuration,
   }) {
     final String resolvedTitle = title ?? 'info'.tr;
 
@@ -76,6 +84,7 @@ class AppSnackbar {
       isDismissible: true,
       margin: const EdgeInsets.all(16.0),
       borderRadius: 12.0,
+      duration: duration,
     );
   }
 }
