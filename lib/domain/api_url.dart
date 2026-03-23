@@ -69,6 +69,9 @@ class AppUrl {
   static const String updateProfile = '/profile/update';
   static const String updatePassword = '/profile/password';
 
+  // Partner Wallet
+  static const String partnerWalletTransactions = '/partner/wallet/transactions';
+
   // Partner Analytics
   static const String partnerAnalyticsStatistics = '/partner/analytics/statistics';
   static const String partnerAnalyticsRevenueChart = '/partner/analytics/revenue-chart';

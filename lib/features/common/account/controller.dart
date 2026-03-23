@@ -3,6 +3,7 @@ import 'package:sukientotapp/core/utils/import/global.dart';
 import 'package:sukientotapp/domain/api_url.dart';
 import 'package:sukientotapp/core/services/api_service.dart';
 import 'package:dio/dio.dart';
+import 'package:sukientotapp/data/models/partner/wallet_transaction_model.dart';
 import 'package:sukientotapp/domain/repositories/partner/account_repository.dart';
 
 class AccountController extends GetxController {
@@ -47,6 +48,9 @@ class AccountController extends GetxController {
   final RxInt selectedBank = 0.obs;
   final RxBool isRechargeAmountError = false.obs;
   final TextEditingController rechargeAmount = TextEditingController();
+  final RxList<WalletTransactionModel> walletTransactions =
+      <WalletTransactionModel>[].obs;
+  final RxBool isTransactionsLoading = false.obs;
 
   //============================================================================
   // CARD INFORMATION
@@ -73,13 +77,11 @@ class AccountController extends GetxController {
   @override
   void onInit() {
     super.onInit();
-
-    logger.d(
-      '[AccountController] avatar: ${avatar.value}, name: ${name.value}, role: ${role.value}',
-    );
+    fetchWalletTransactions();
   }
 
   void onRefresh() async {
+    await fetchWalletTransactions();
     refreshController.refreshCompleted();
   }
 
@@ -133,6 +135,19 @@ class AccountController extends GetxController {
   //============================================================================
   // HELPER METHODS
   //============================================================================
+  Future<void> fetchWalletTransactions() async {
+    try {
+      isTransactionsLoading.value = true;
+      final transactions = await _repository.getWalletTransactions();
+      walletTransactions.value = transactions;
+    } catch (e) {
+      logger.e('[AccountController] fetchWalletTransactions: $e');
+      AppSnackbar.showError(title: 'Error', message: e.toString());
+    } finally {
+      isTransactionsLoading.value = false;
+    }
+  }
+
   void filterTransactionsByDate(DateTime date) {
     filterDate.value = date;
     // Add logic to filter transactions by date
