@@ -11,245 +11,231 @@ class AccountScreen extends GetView<AccountController> {
 
   @override
   Widget build(BuildContext context) {
-    return Obx(
-      () => Stack(
-        children: [
-          FScaffold(
-            childPad: false,
-            resizeToAvoidBottomInset: false,
-            header: Container(
-              padding: EdgeInsets.only(
-                top: context.statusBarHeight,
-                left: 16,
-                right: 16,
-              ),
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [
-                  Expanded(
-                    child: Row(
-                      mainAxisAlignment: MainAxisAlignment.start,
-                      children: [
-                        FAvatar(
-                          image: CachedNetworkImageProvider(
-                            controller.avatar.value,
-                          ),
-                          size: 46.0,
-                          semanticsLabel: 'User avatar',
-                          fallback: const Text('ST'),
+    return FScaffold(
+      childPad: false,
+      resizeToAvoidBottomInset: false,
+      header: Obx(
+        () => Container(
+          padding: EdgeInsets.only(
+            top: context.statusBarHeight + 4,
+            left: 16,
+            right: 16,
+            bottom: 20,
+          ),
+          decoration: BoxDecoration(
+            gradient: LinearGradient(
+              colors: [
+                AppColors.primary,
+                AppColors.primary.withValues(alpha: 0.78),
+              ],
+              begin: Alignment.topLeft,
+              end: Alignment.bottomRight,
+            ),
+          ),
+          child: Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: [
+              Expanded(
+                child: Row(
+                  children: [
+                    Container(
+                      padding: const EdgeInsets.all(2.5),
+                      decoration: BoxDecoration(
+                        shape: BoxShape.circle,
+                        border: Border.all(
+                          color: Colors.white.withValues(alpha: 0.6),
+                          width: 2,
                         ),
-                        const SizedBox(width: 10),
-                        Expanded(
-                          child: Column(
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: [
-                              Text(
-                                controller.name.value,
-                                maxLines: 1,
-                                overflow: TextOverflow.ellipsis,
-                                style: const TextStyle(
-                                  fontSize: 20,
-                                  fontWeight: FontWeight.bold,
-                                ),
+                      ),
+                      child: FAvatar(
+                        image: CachedNetworkImageProvider(
+                          controller.avatar.value,
+                        ),
+                        size: 44.0,
+                        semanticsLabel: 'User avatar',
+                        fallback: const Text('ST'),
+                      ),
+                    ),
+                    const SizedBox(width: 10),
+                    Expanded(
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Text(
+                            controller.name.value,
+                            maxLines: 1,
+                            overflow: TextOverflow.ellipsis,
+                            style: const TextStyle(
+                              fontSize: 18,
+                              fontWeight: FontWeight.bold,
+                              color: Colors.white,
+                            ),
+                          ),
+                          const SizedBox(height: 4),
+                          Container(
+                            padding: const EdgeInsets.symmetric(
+                              horizontal: 7,
+                              vertical: 2,
+                            ),
+                            decoration: BoxDecoration(
+                              color: Colors.white.withValues(alpha: 0.2),
+                              borderRadius: BorderRadius.circular(8),
+                              border: Border.all(
+                                color: Colors.white.withValues(alpha: 0.35),
                               ),
-                              FBadge(
-                                child: Text(
+                            ),
+                            child: Row(
+                              mainAxisSize: MainAxisSize.min,
+                              children: [
+                                const Icon(
+                                  FIcons.badgeCheck,
+                                  size: 10,
+                                  color: Colors.white,
+                                ),
+                                const SizedBox(width: 3),
+                                Text(
                                   'verified'.tr,
                                   style: context.typography.xs.copyWith(
-                                    color:
-                                        context.fTheme.colors.primaryForeground,
+                                    color: Colors.white,
+                                    fontWeight: FontWeight.w600,
                                   ),
                                 ),
-                              ),
-                            ],
+                              ],
+                            ),
                           ),
-                        ),
-                      ],
+                        ],
+                      ),
                     ),
-                  ),
-                  Row(
-                    children: [
-                      LanguageSwitch(),
-                      const SizedBox(width: 10),
-                      const NotificationButton(hasNotification: true),
-                    ],
+                  ],
+                ),
+              ),
+              Row(
+                children: [
+                  LanguageSwitch(),
+                  const SizedBox(width: 10),
+                  NotificationButton(
+                    hasNotification: true,
+                    onTap: () => Get.toNamed(Routes.notification),
                   ),
                 ],
               ),
+            ],
+          ),
+        ),
+      ),
+      child: SmartRefresher(
+        controller: controller.refreshController,
+        enablePullDown: true,
+        enablePullUp: false,
+        header: const ClassicHeader(),
+        onRefresh: controller.onRefresh,
+        onLoading: controller.onLoadMore,
+        child: Stack(
+          children: [
+            Obx(
+              () => controller.role.value == 'partner'
+                  ? WalletHeader(controller: controller)
+                  : const SizedBox.shrink(),
             ),
-            child: SmartRefresher(
-              controller: controller.refreshController,
-              enablePullDown: true,
-              enablePullUp: false,
-              header: const ClassicHeader(),
-              onRefresh: controller.onRefresh,
-              onLoading: controller.onLoadMore,
-              child: Stack(
-                children: [
-                  if (controller.role.value == 'partner')
-                    WalletHeader(controller: controller),
-                  Column(
-                    children: [
-                      Expanded(
-                        child: Container(
-                          width: Get.width,
-                          margin: EdgeInsets.only(top: 100),
-                          decoration: const BoxDecoration(
-                            color: Colors.white,
-                            borderRadius: BorderRadius.only(
-                              topLeft: Radius.circular(32),
-                              topRight: Radius.circular(32),
-                            ),
-                          ),
-                          child: Padding(
-                            padding: const EdgeInsets.fromLTRB(0, 25, 0, 60),
-                            child: SingleChildScrollView(
-                              child: Column(
-                                mainAxisAlignment: MainAxisAlignment.start,
-                                crossAxisAlignment: CrossAxisAlignment.start,
-                                children: [
-                                  Padding(
-                                    padding: const EdgeInsets.fromLTRB(
-                                      20,
-                                      0,
-                                      20,
-                                      0,
-                                    ),
-                                    child: Text(
-                                      'general_setting'.tr,
-                                      style: TextStyle(
-                                        color: context
-                                            .fTheme
-                                            .colors
-                                            .mutedForeground,
-                                        fontWeight: FontWeight.bold,
-                                        fontSize: 16,
-                                      ),
-                                    ),
-                                  ),
-                                  _buildListItem(
-                                    context,
-                                    'my_profile'.tr,
-                                    FIcons.user,
-                                    () {
-                                      Get.toNamed(Routes.myProfile);
-                                    },
-                                  ),
-                                  _buildListItem(
-                                    context,
-                                    'show_calendar'.tr,
-                                    FIcons.calendar1,
-                                    () {
-                                      Get.toNamed(Routes.partnerShowCalendar);
-                                    },
-                                  ),
-                                  _buildListItem(
-                                    context,
-                                    'my_services'.tr,
-                                    FIcons.briefcase,
-                                    () {
-                                      Get.toNamed(Routes.partnerMyServices);
-                                    },
-                                  ),
-                                  _buildListItem(
-                                    context,
-                                    'revenue_statistics'.tr,
-                                    FIcons.chartArea,
-                                    () {
-                                      Get.toNamed(Routes.partnerAnalytics);
-                                    },
-                                  ),
-                                  _buildListItem(
-                                    context,
-                                    'change_password'.tr,
-                                    FIcons.lockKeyholeOpen,
-                                    () {
-                                      Get.toNamed(Routes.changePassword);
-                                    },
-                                  ),
-                                  const Divider(
-                                    color: AppColors.dividers,
-                                    thickness: 1,
-                                  ),
-                                  Padding(
-                                    padding: const EdgeInsets.fromLTRB(
-                                      20,
-                                      0,
-                                      20,
-                                      0,
-                                    ),
-                                    child: Text(
-                                      'more_setting'.tr,
-                                      style: TextStyle(
-                                        color: context
-                                            .fTheme
-                                            .colors
-                                            .mutedForeground,
-                                        fontWeight: FontWeight.bold,
-                                        fontSize: 16,
-                                      ),
-                                    ),
-                                  ),
-                                  _buildListItem(
-                                    context,
-                                    'notification_setting'.tr,
-                                    FIcons.bell,
-                                    () {
-                                      // Get.toNamed(Routes.notificationsSettingScreen);
-                                    },
-                                  ),
-                                  _buildListItem(
-                                    context,
-                                    'message_setting'.tr,
-                                    FIcons.messagesSquare,
-                                    () {
-                                      // Get.toNamed(Routes.messageSettingScreen);
-                                    },
-                                  ),
-                                  _buildListItem(
-                                    context,
-                                    'support'.tr,
-                                    FIcons.circleQuestionMark,
-                                    () {
-                                      // Get.toNamed(Routes.supportScreen);
-                                    },
-                                  ),
-                                  _buildListItem(
-                                    context,
-                                    'report_problem'.tr,
-                                    FIcons.flag,
-                                    () {},
-                                  ),
-                                  _buildListItem(
-                                    context,
-                                    'privacy_policy'.tr,
-                                    FIcons.shieldCheck,
-                                    () {},
-                                  ),
-                                  const Divider(
-                                    color: AppColors.dividers,
-                                    thickness: 1,
-                                  ),
-                                  _buildListItem(
-                                    context,
-                                    'logout'.tr,
-                                    FIcons.logOut,
-                                    iconColor: context.fTheme.colors.error,
-                                    () {
-                                      // Get.toNamed(Routes.logoutScreen);
-                                    },
-                                  ),
-                                ],
+            Column(
+              children: [
+                Expanded(
+                  child: Container(
+                    width: Get.width,
+                    margin: const EdgeInsets.only(top: 100),
+                    decoration: const BoxDecoration(
+                      color: Color(0xFFF3F4F6),
+                      borderRadius: BorderRadius.only(
+                        topLeft: Radius.circular(32),
+                        topRight: Radius.circular(32),
+                      ),
+                    ),
+                    child: Padding(
+                      padding: const EdgeInsets.fromLTRB(14, 20, 14, 60),
+                      child: SingleChildScrollView(
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            _buildSectionLabel(context, 'general_setting'.tr),
+                            const SizedBox(height: 8),
+                            _buildMenuCard(context, [
+                              _MenuItem(
+                                'my_profile'.tr,
+                                FIcons.user,
+                                () => Get.toNamed(Routes.myProfile),
                               ),
-                            ),
-                          ),
+                              _MenuItem(
+                                'show_calendar'.tr,
+                                FIcons.calendar1,
+                                () => Get.toNamed(Routes.partnerShowCalendar),
+                              ),
+                              _MenuItem(
+                                'my_services'.tr,
+                                FIcons.briefcase,
+                                () => Get.toNamed(Routes.partnerMyServices),
+                              ),
+                              _MenuItem(
+                                'revenue_statistics'.tr,
+                                FIcons.chartArea,
+                                () => Get.toNamed(Routes.partnerAnalytics),
+                              ),
+                              _MenuItem(
+                                'change_password'.tr,
+                                FIcons.lockKeyholeOpen,
+                                () => Get.toNamed(Routes.changePassword),
+                              ),
+                            ]),
+                            const SizedBox(height: 16),
+                            _buildSectionLabel(context, 'more_setting'.tr),
+                            const SizedBox(height: 8),
+                            _buildMenuCard(context, [
+                              _MenuItem(
+                                'notification_setting'.tr,
+                                FIcons.bell,
+                                () {},
+                              ),
+                              _MenuItem(
+                                'message_setting'.tr,
+                                FIcons.messagesSquare,
+                                () {},
+                              ),
+                              _MenuItem(
+                                'support'.tr,
+                                FIcons.circleQuestionMark,
+                                () {},
+                              ),
+                              _MenuItem(
+                                'report_problem'.tr,
+                                FIcons.flag,
+                                () {},
+                              ),
+                              _MenuItem(
+                                'privacy_policy'.tr,
+                                FIcons.shieldCheck,
+                                () {},
+                              ),
+                            ]),
+                            const SizedBox(height: 16),
+                            _buildMenuCard(context, [
+                              _MenuItem(
+                                'logout'.tr,
+                                FIcons.logOut,
+                                () {},
+                                color: context.fTheme.colors.error,
+                              ),
+                            ]),
+                          ],
                         ),
                       ),
-                    ],
+                    ),
                   ),
-                  // Loading overlay
-                  if (controller.isLoading.value)
-                    Container(
+                ),
+              ],
+            ),
+            // Loading overlay
+            Obx(
+              () => controller.isLoading.value
+                  ? Container(
                       color: Colors.black.withValues(alpha: 0.5),
                       child: Center(
                         child: CircularProgressIndicator(
@@ -258,16 +244,112 @@ class AccountScreen extends GetView<AccountController> {
                           ),
                         ),
                       ),
-                    ),
-                ],
-              ),
+                    )
+                  : const SizedBox.shrink(),
             ),
-          ),
-        ],
+          ],
+        ),
       ),
     );
   }
 
+  Widget _buildSectionLabel(BuildContext context, String label) {
+    return Padding(
+      padding: const EdgeInsets.only(left: 4),
+      child: Text(
+        label,
+        style: TextStyle(
+          color: context.fTheme.colors.mutedForeground,
+          fontWeight: FontWeight.w600,
+          fontSize: 12,
+          letterSpacing: 0.4,
+        ),
+      ),
+    );
+  }
+
+  Widget _buildMenuCard(BuildContext context, List<_MenuItem> items) {
+    return Container(
+      decoration: BoxDecoration(
+        color: Colors.white,
+        borderRadius: BorderRadius.circular(16),
+        boxShadow: [
+          BoxShadow(
+            color: Colors.black.withValues(alpha: 0.05),
+            blurRadius: 10,
+            offset: const Offset(0, 3),
+          ),
+        ],
+      ),
+      child: Column(
+        children: List.generate(items.length, (i) {
+          final item = items[i];
+          final isLast = i == items.length - 1;
+          return Column(
+            children: [
+              GestureDetector(
+                behavior: HitTestBehavior.translucent,
+                onTap: item.onTap,
+                child: Padding(
+                  padding: const EdgeInsets.symmetric(
+                    horizontal: 16,
+                    vertical: 13,
+                  ),
+                  child: Row(
+                    children: [
+                      Container(
+                        width: 34,
+                        height: 34,
+                        decoration: BoxDecoration(
+                          color: (item.color ?? AppColors.primary).withValues(
+                            alpha: 0.1,
+                          ),
+                          borderRadius: BorderRadius.circular(10),
+                        ),
+                        child: Center(
+                          child: Icon(
+                            item.icon,
+                            color: item.color ?? AppColors.primary,
+                            size: 17,
+                          ),
+                        ),
+                      ),
+                      const SizedBox(width: 12),
+                      Expanded(
+                        child: Text(
+                          item.title,
+                          style: TextStyle(
+                            color:
+                                item.color ?? context.fTheme.colors.foreground,
+                            fontSize: 15,
+                            fontWeight: FontWeight.w500,
+                          ),
+                        ),
+                      ),
+                      Icon(
+                        FIcons.chevronRight,
+                        size: 16,
+                        color: context.fTheme.colors.mutedForeground,
+                      ),
+                    ],
+                  ),
+                ),
+              ),
+              if (!isLast)
+                Divider(
+                  height: 1,
+                  indent: 62,
+                  endIndent: 16,
+                  color: context.fTheme.colors.border.withValues(alpha: 0.5),
+                ),
+            ],
+          );
+        }),
+      ),
+    );
+  }
+
+  // kept for compatibility — no longer used internally
   Widget _buildListItem(
     BuildContext context,
     String title,
@@ -307,4 +389,13 @@ class AccountScreen extends GetView<AccountController> {
       ),
     );
   }
+}
+
+class _MenuItem {
+  final String title;
+  final IconData icon;
+  final VoidCallback onTap;
+  final Color? color;
+
+  const _MenuItem(this.title, this.icon, this.onTap, {this.color});
 }
