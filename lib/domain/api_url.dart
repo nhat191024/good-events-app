@@ -78,4 +78,9 @@ class AppUrl {
   static const String partnerAnalyticsStatistics = '/partner/analytics/statistics';
   static const String partnerAnalyticsRevenueChart = '/partner/analytics/revenue-chart';
   static const String partnerAnalyticsTopServices = '/partner/analytics/top-services';
+
+  // Notifications
+  static const String notifications = '/notifications';
+  static String notificationRead(String id) => '/notifications/$id/read';
+  static const String notificationsReadAll = '/notifications/read-all';
 }
