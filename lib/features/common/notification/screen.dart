@@ -1,6 +1,5 @@
 import 'package:sukientotapp/core/utils/import/global.dart';
 import 'package:sukientotapp/features/common/notification/controller.dart';
-import 'package:pull_to_refresh/pull_to_refresh.dart';
 
 class NotificationScreen extends GetView<NotificationController> {
   const NotificationScreen({super.key});
