@@ -1,91 +1,110 @@
 import 'package:sukientotapp/core/utils/import/global.dart';
+import 'package:sukientotapp/data/models/common/notification_model.dart';
+import 'package:sukientotapp/domain/repositories/common/notification_repository.dart';
 
-/// Notification model for placeholder and UI structure
-class NotificationItem {
-  final String title;
-  final String message;
-  final String time;
-  final IconData icon;
+class NotificationController extends GetxController {
+  final NotificationRepository _repository;
 
-  NotificationItem({
-    required this.title,
-    required this.message,
-    required this.time,
-    required this.icon,
-  });
-}
+  NotificationController(this._repository);
 
-class NotificationController extends GetxController with GetSingleTickerProviderStateMixin {
   final isLoading = false.obs;
-  late TabController tabController;
+  final RefreshController refreshController = RefreshController(initialRefresh: false);
 
-  // Notification Lists
-  final conversations = <NotificationItem>[].obs;
-  final orders = <NotificationItem>[].obs;
+  final notifications = <NotificationModel>[].obs;
+  int _currentPage = 1;
+  int _lastPage = 1;
 
   @override
   void onInit() {
     super.onInit();
-    tabController = TabController(length: 2, vsync: this);
-    _loadMockData();
+    fetchNotifications(isRefresh: true);
   }
 
   @override
   void onClose() {
-    tabController.dispose();
+    refreshController.dispose();
     super.onClose();
   }
 
-  /// TODO: API INTEGRATION
-  /// 1. Create a NotificationRepository in lib/data/repositories/
-  /// 2. Inject it into NotificationBinding
-  /// 3. Call repository method here to fetch data
-  /// 4. Update the [conversations] and [orders] lists with response data
-  Future<void> fetchNotifications() async {
-    isLoading.value = true;
+  Future<void> fetchNotifications({bool isRefresh = false}) async {
+    if (isRefresh) {
+      _currentPage = 1;
+    } else {
+      if (_currentPage >= _lastPage) {
+        refreshController.loadNoData();
+        return;
+      }
+      _currentPage++;
+    }
+
+    if (notifications.isEmpty) {
+      isLoading.value = true;
+    }
+
     try {
-      // Example call:
-      // final result = await _repository.getNotifications();
-      // conversations.assignAll(result.where((i) => i.type == 'conversation'));
-      // orders.assignAll(result.where((i) => i.type == 'order'));
+      final result = await _repository.getNotifications(page: _currentPage);
+      final List<NotificationModel> newItems = result['data'] as List<NotificationModel>;
+      final meta = result['meta'] as Map<String, dynamic>?;
+
+      if (meta != null) {
+        _lastPage = meta['last_page'] as int? ?? 1;
+      }
+
+      if (isRefresh) {
+        notifications.assignAll(newItems);
+        refreshController.refreshCompleted();
+        refreshController.resetNoData();
+      } else {
+        notifications.addAll(newItems);
+        if (_currentPage >= _lastPage) {
+          refreshController.loadNoData();
+        } else {
+          refreshController.loadComplete();
+        }
+      }
     } catch (e) {
       logger.e("Error fetching notifications: $e");
+      if (isRefresh) {
+        refreshController.refreshFailed();
+      } else {
+        refreshController.loadFailed();
+      }
     } finally {
       isLoading.value = false;
     }
   }
 
-  void _loadMockData() {
-    // Example conversations items
-    conversations.assignAll([
-      NotificationItem(
-        title: "Dương Công Đạt",
-        message: "Chào bạn, mình đã nhận được yêu cầu...",
-        time: "10:30 AM",
-        icon: Icons.chat_bubble_outline,
-      ),
-      NotificationItem(
-        title: "Tùng Bách",
-        message: "Cho mình hỏi về thời gian tổ chức nhé!",
-        time: "9:15 AM",
-        icon: Icons.chat_bubble_outline,
-      ),
-    ]);
+  Future<void> readNotification(NotificationModel notification) async {
+    if (!notification.unread) return;
 
-    // Example orders items
-    orders.assignAll([
-      NotificationItem(
-        title: "Đơn hàng #PB0123",
-        message: "Đối tác đã xác nhận đơn hàng của bạn.",
-        time: "Hôm qua",
-        icon: Icons.assignment_turned_in_outlined,
-      ),
-      NotificationItem(
-        title: "Đơn hàng #PB0124",
-        message: "Bạn có 5 ứng viên mới cho sự kiện cưới.",
-        time: "2 ngày trước",
-        icon: Icons.people_outline,
-      ),
-    ]);
+    // Optimistic UI update
+    notification.unread = false;
+    notifications.refresh();
+
+    try {
+      await _repository.readNotification(notification.id);
+    } catch (e) {
+      // Ignoring errors
+      logger.e("Error reading notification: $e");
+    }
+  }
+
+  Future<void> readAll() async {
+    // Optimistic UI update
+    bool changed = false;
+    for (var n in notifications) {
+      if (n.unread) {
+        n.unread = false;
+        changed = true;
+      }
+    }
+    if (changed) notifications.refresh();
+
+    try {
+      await _repository.readAllNotifications();
+    } catch (e) {
+      // Ignoring errors
+      logger.e("Error reading all notifications: $e");
+    }
   }
 }
