@@ -76,79 +76,81 @@ class NotificationScreen extends GetView<NotificationController> {
           ),
           itemBuilder: (context, index) {
             final item = controller.notifications[index];
-            return GestureDetector(
-              onTap: () => controller.readNotification(item),
-              child: Container(
-                color: item.unread ? context.primary.withAlpha(10) : Colors.transparent,
-                padding: const EdgeInsets.all(8.0),
-                child: Row(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Container(
-                      width: 48,
-                      height: 48,
-                      decoration: BoxDecoration(
-                        color: context.primary.withAlpha(25),
-                        shape: BoxShape.circle,
-                      ),
-                      child: Icon(
-                        Icons.notifications,
-                        color: context.primary,
-                      ),
-                    ),
-                    const SizedBox(width: 16),
-                    Expanded(
-                      child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          Row(
-                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                            children: [
-                              Expanded(
-                                child: Text(
-                                  item.title,
-                                  style: context.typography.base.copyWith(
-                                    fontWeight: item.unread ? FontWeight.w900 : FontWeight.bold,
-                                  ),
-                                  overflow: TextOverflow.ellipsis,
-                                ),
-                              ),
-                              const SizedBox(width: 8),
-                              Text(
-                                _formatDate(item.createdAt),
-                                style: context.typography.xs.copyWith(
-                                  color: context.fTheme.colors.mutedForeground,
-                                  fontWeight: item.unread ? FontWeight.bold : FontWeight.normal,
-                                ),
-                              ),
-                            ],
-                          ),
-                          const SizedBox(height: 4),
-                          Text(
-                            item.message,
-                            style: context.typography.sm.copyWith(
-                              color: item.unread
-                                  ? context.fTheme.colors.foreground
-                                  : context.fTheme.colors.mutedForeground,
-                              fontWeight: item.unread ? FontWeight.w500 : FontWeight.normal,
-                            ),
-                          ),
-                        ],
-                      ),
-                    ),
-                    if (item.unread) ...[
-                      const SizedBox(width: 8),
+            return Material(
+              color: item.unread ? context.primary.withAlpha(10) : Colors.transparent,
+              child: InkWell(
+                onTap: () => controller.readNotification(item),
+                child: Padding(
+                  padding: const EdgeInsets.all(8.0),
+                  child: Row(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
                       Container(
-                        width: 8,
-                        height: 8,
-                        margin: const EdgeInsets.only(top: 6),
+                        width: 48,
+                        height: 48,
                         decoration: BoxDecoration(
+                          color: context.primary.withAlpha(25),
                           shape: BoxShape.circle,
+                        ),
+                        child: Icon(
+                          Icons.notifications,
                           color: context.primary,
                         ),
                       ),
+                      const SizedBox(width: 16),
+                      Expanded(
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            Row(
+                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                              children: [
+                                Expanded(
+                                  child: Text(
+                                    item.title,
+                                    style: context.typography.base.copyWith(
+                                      fontWeight: item.unread ? FontWeight.w900 : FontWeight.bold,
+                                    ),
+                                    overflow: TextOverflow.ellipsis,
+                                  ),
+                                ),
+                                const SizedBox(width: 8),
+                                Text(
+                                  _formatDate(item.createdAt),
+                                  style: context.typography.xs.copyWith(
+                                    color: context.fTheme.colors.mutedForeground,
+                                    fontWeight: item.unread ? FontWeight.bold : FontWeight.normal,
+                                  ),
+                                ),
+                              ],
+                            ),
+                            const SizedBox(height: 4),
+                            Text(
+                              item.message,
+                              style: context.typography.sm.copyWith(
+                                color: item.unread
+                                    ? context.fTheme.colors.foreground
+                                    : context.fTheme.colors.mutedForeground,
+                                fontWeight: item.unread ? FontWeight.w500 : FontWeight.normal,
+                              ),
+                            ),
+                          ],
+                        ),
+                      ),
+                      if (item.unread) ...[
+                        const SizedBox(width: 8),
+                        Container(
+                          width: 8,
+                          height: 8,
+                          margin: const EdgeInsets.only(top: 6),
+                          decoration: BoxDecoration(
+                            shape: BoxShape.circle,
+                            color: context.primary,
+                          ),
+                        ),
+                      ],
                     ],
-                  ],
+                  ),
                 ),
               ),
             );
