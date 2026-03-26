@@ -11,116 +11,45 @@ class NotificationScreen extends GetView<NotificationController> {
         title: Text('notifications'.tr),
         suffixes: [
           FHeaderAction(
+            icon: const Icon(Icons.done_all),
+            onPress: () => controller.readAll(),
+          ),
+          FHeaderAction(
             icon: const Icon(Icons.close),
             onPress: () => Get.back(),
           ),
         ],
       ),
-      child: Column(
-        children: [
-          TabBar(
-            controller: controller.tabController,
-            labelColor: context.primary,
-            unselectedLabelColor: context.fTheme.colors.mutedForeground,
-            labelStyle: context.typography.base.copyWith(
-              fontWeight: FontWeight.bold,
-            ),
-            unselectedLabelStyle: context.typography.sm,
-            indicatorSize: TabBarIndicatorSize.tab,
-            dividerColor: Colors.transparent,
-            tabs: [
-              Tab(text: 'conversations'.tr),
-              Tab(text: 'orders'.tr),
-            ],
-          ),
-          Expanded(
-            child: TabBarView(
-              controller: controller.tabController,
-              children: [
-                _buildTabContent(context, controller.conversations),
-                _buildTabContent(context, controller.orders),
-              ],
-            ),
-          ),
-        ],
-      ),
+      child: _buildTabContent(context),
     );
   }
 
-  Widget _buildTabContent(BuildContext context, RxList<NotificationItem> items) {
+  Widget _buildTabContent(BuildContext context) {
     return Obx(() {
-      if (items.isEmpty) {
-        return Center(
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-              Icon(
-                Icons.notifications_none,
-                size: 64,
-                color: context.fTheme.colors.mutedForeground,
-              ),
-              const SizedBox(height: 16),
-              Text(
-                'no_notifications'.tr,
-                style: context.typography.lg.copyWith(
-                  color: context.fTheme.colors.mutedForeground,
-                ),
-              ),
-            ],
-          ),
-        );
+      if (controller.isLoading.value && controller.notifications.isEmpty) {
+        return const Center(child: CircularProgressIndicator());
       }
 
-      return ListView.separated(
-        padding: const EdgeInsets.all(16),
-        itemCount: items.length,
-        separatorBuilder: (context, index) => const Divider(
-          height: 20,
-          color: Colors.transparent,
-        ),
-        itemBuilder: (context, index) {
-          final item = items[index];
-          return Row(
-            crossAxisAlignment: CrossAxisAlignment.start,
+      if (controller.notifications.isEmpty) {
+        return SmartRefresher(
+          controller: controller.refreshController,
+          onRefresh: () => controller.fetchNotifications(isRefresh: true),
+          child: ListView(
             children: [
-              Container(
-                width: 48,
-                height: 48,
-                decoration: BoxDecoration(
-                  color: context.primary.withAlpha(25),
-                  shape: BoxShape.circle,
-                ),
-                child: Icon(
-                  item.icon,
-                  color: context.primary,
-                ),
-              ),
-              const SizedBox(width: 16),
-              Expanded(
+              SizedBox(height: MediaQuery.of(context).size.height * 0.3),
+              Center(
                 child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
+                  mainAxisAlignment: MainAxisAlignment.center,
                   children: [
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      children: [
-                        Text(
-                          item.title,
-                          style: context.typography.base.copyWith(
-                            fontWeight: FontWeight.bold,
-                          ),
-                        ),
-                        Text(
-                          item.time,
-                          style: context.typography.xs.copyWith(
-                            color: context.fTheme.colors.mutedForeground,
-                          ),
-                        ),
-                      ],
+                    Icon(
+                      Icons.notifications_none,
+                      size: 64,
+                      color: context.fTheme.colors.mutedForeground,
                     ),
-                    const SizedBox(height: 4),
+                    const SizedBox(height: 16),
                     Text(
-                      item.message,
-                      style: context.typography.sm.copyWith(
+                      'no_notifications'.tr,
+                      style: context.typography.lg.copyWith(
                         color: context.fTheme.colors.mutedForeground,
                       ),
                     ),
@@ -128,9 +57,123 @@ class NotificationScreen extends GetView<NotificationController> {
                 ),
               ),
             ],
-          );
-        },
+          ),
+        );
+      }
+
+      return SmartRefresher(
+        controller: controller.refreshController,
+        onRefresh: () => controller.fetchNotifications(isRefresh: true),
+        onLoading: () => controller.fetchNotifications(),
+        enablePullUp: true,
+        child: ListView.separated(
+          padding: const EdgeInsets.all(16),
+          itemCount: controller.notifications.length,
+          separatorBuilder: (context, index) => const Divider(
+            height: 20,
+            color: Colors.transparent,
+          ),
+          itemBuilder: (context, index) {
+            final item = controller.notifications[index];
+            return Material(
+              color: item.unread ? context.primary.withAlpha(10) : Colors.transparent,
+              child: InkWell(
+                onTap: () => controller.readNotification(item),
+                child: Padding(
+                  padding: const EdgeInsets.all(8.0),
+                  child: Row(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Container(
+                        width: 48,
+                        height: 48,
+                        decoration: BoxDecoration(
+                          color: context.primary.withAlpha(25),
+                          shape: BoxShape.circle,
+                        ),
+                        child: Icon(
+                          Icons.notifications,
+                          color: context.primary,
+                        ),
+                      ),
+                      const SizedBox(width: 16),
+                      Expanded(
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            Row(
+                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                              children: [
+                                Expanded(
+                                  child: Text(
+                                    item.title,
+                                    style: context.typography.base.copyWith(
+                                      fontWeight: item.unread ? FontWeight.w900 : FontWeight.bold,
+                                    ),
+                                    overflow: TextOverflow.ellipsis,
+                                  ),
+                                ),
+                                const SizedBox(width: 8),
+                                Text(
+                                  _formatDate(item.createdAt),
+                                  style: context.typography.xs.copyWith(
+                                    color: context.fTheme.colors.mutedForeground,
+                                    fontWeight: item.unread ? FontWeight.bold : FontWeight.normal,
+                                  ),
+                                ),
+                              ],
+                            ),
+                            const SizedBox(height: 4),
+                            Text(
+                              item.message,
+                              style: context.typography.sm.copyWith(
+                                color: item.unread
+                                    ? context.fTheme.colors.foreground
+                                    : context.fTheme.colors.mutedForeground,
+                                fontWeight: item.unread ? FontWeight.w500 : FontWeight.normal,
+                              ),
+                            ),
+                          ],
+                        ),
+                      ),
+                      if (item.unread) ...[
+                        const SizedBox(width: 8),
+                        Container(
+                          width: 8,
+                          height: 8,
+                          margin: const EdgeInsets.only(top: 6),
+                          decoration: BoxDecoration(
+                            shape: BoxShape.circle,
+                            color: context.primary,
+                          ),
+                        ),
+                      ],
+                    ],
+                  ),
+                ),
+              ),
+            );
+          },
+        ),
       );
     });
+  }
+
+  String _formatDate(DateTime date) {
+    final now = DateTime.now();
+    final difference = now.difference(date);
+
+    if (difference.inDays == 0) {
+      if (difference.inHours == 0) {
+        if (difference.inMinutes <= 1)
+          return 'vừa_xong'.tr; // fallback for localization or plain text
+        return '${difference.inMinutes} ${'minute_ago'.tr}';
+      }
+      return '${difference.inHours} ${'hour_ago'.tr}';
+    } else if (difference.inDays < 7) {
+      return '${difference.inDays} ${'day_ago'.tr}';
+    }
+
+    return '${date.day.toString().padLeft(2, '0')}/${date.month.toString().padLeft(2, '0')}';
   }
 }
