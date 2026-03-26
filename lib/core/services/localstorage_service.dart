@@ -60,6 +60,9 @@ class LocalStorageKeys {
 
   static const String user = "user";
 
+  // Firebase Cloud Messaging
+  static const String fcmToken = "fcm_token";
+
   // App settings
   static const String locale = "locale";
 }
