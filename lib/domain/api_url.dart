@@ -6,6 +6,9 @@ class AppUrl {
   static const String checkToken = '/check-token';
   static const String logout = '/logout';
 
+  // Firebase Cloud Messaging
+  static const String updateFcmToken = '/fcm/update-token';
+
   // Location APIs
   static const String locations = '/locations';
   static String wards(int provinceId) => '/locations/$provinceId/wards';
