@@ -49,3 +49,6 @@ app.*.map.json
 /dumb
 
 /.mason
+/firebase.json
+/android/app/google-services.json
+/lib/firebase_options.dart
