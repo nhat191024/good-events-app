@@ -18,6 +18,7 @@ export 'package:sukientotapp/core/utils/app_images.dart';
 export 'package:sukientotapp/core/utils/app_colors.dart';
 export 'package:sukientotapp/core/services/localstorage_service.dart';
 export 'package:sukientotapp/core/services/pusher_service.dart';
+export 'package:sukientotapp/core/services/notification_service.dart';
 
 // Exporting context extensions
 export 'package:sukientotapp/core/utils/context_extensions.dart';
