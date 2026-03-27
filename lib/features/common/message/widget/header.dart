@@ -38,7 +38,7 @@ class Header extends StatelessWidget {
                   child: SearchBarAnimation(
                     searchBoxWidth: context.width - 32,
                     hintText: 'search_with_dot'.tr,
-                    textEditingController: TextEditingController(),
+                    textEditingController: controller.searchTextController,
                     isOriginalAnimation: true,
 
                     buttonBorderColour: Colors.transparent,
@@ -58,11 +58,12 @@ class Header extends StatelessWidget {
                     isSearchBoxOnRightSide: true,
 
                     onCollapseComplete: () {
-                      // controller.searchController.clear();
+                      controller.searchTextController.clear();
+                      controller.searchMessages('');
                     },
 
                     onChanged: (String value) {
-                      // controller.searchController.text = value;
+                      controller.searchMessages(value);
                     },
                   ),
                 ),
