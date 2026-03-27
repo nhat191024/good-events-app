@@ -42,6 +42,36 @@ class AuthRepositoryImpl implements AuthRepository {
   }
 
   @override
+  Future<UserModel> loginWithGoogle(String accessToken) async {
+    try {
+      final response = await _authProvider.loginWithGoogle(accessToken);
+
+      final token = response['token'] as String?;
+      if (token != null) {
+        StorageService.writeStringData(
+          key: LocalStorageKeys.token,
+          value: token,
+        );
+        logger.i('[AuthRepositoryImpl] [loginWithGoogle] Token saved to storage');
+      }
+
+      final user = UserModel.fromJson(response);
+      StorageService.writeMapData(
+        key: LocalStorageKeys.user,
+        value: user.toJson(),
+      );
+
+      logger.i(
+        '[AuthRepositoryImpl] [loginWithGoogle] Login successful for: \${user.email}',
+      );
+      return user;
+    } catch (e) {
+      logger.e('[AuthRepositoryImpl] [loginWithGoogle] Failed: $e');
+      rethrow;
+    }
+  }
+
+  @override
   Future<UserModel> registerClient(Map<String, dynamic> data) async {
     try {
       final response = await _authProvider.registerClient(data);

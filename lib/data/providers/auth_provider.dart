@@ -39,6 +39,37 @@ class AuthProvider {
     }
   }
 
+  /// Google Login API call
+  /// POST /login/google
+  Future<Map<String, dynamic>> loginWithGoogle(String accessToken) async {
+    try {
+      final response = await _apiService.dio.post(
+        AppUrl.loginGoogle,
+        data: {'access_token': accessToken},
+      );
+
+      if (response.statusCode == 200) {
+        return response.data as Map<String, dynamic>;
+      } else {
+        throw Exception('Google login failed with status: \${response.statusCode}');
+      }
+    } on DioException catch (e) {
+      logger.e('[AuthProvider] [loginWithGoogle] DioException: \${e.message}');
+
+      if (e.response != null) {
+        final errorMessage = e.response?.data['message'] ?? 'Google login failed';
+        throw Exception(errorMessage);
+      } else {
+        throw Exception(
+          'Không thể kết nối đến server. Vui lòng kiểm tra mạng.',
+        );
+      }
+    } catch (e) {
+      logger.e('[AuthProvider] [loginWithGoogle] Unknown error: $e');
+      throw Exception('Đã xảy ra lỗi: $e');
+    }
+  }
+
   /// Client Registration API call
   /// POST /register
   Future<Map<String, dynamic>> registerClient(Map<String, dynamic> data) async {

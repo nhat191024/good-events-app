@@ -70,12 +70,14 @@ class LoginScreen extends GetView<LoginController> {
               ),
             ),
             const SizedBox(height: 20),
-            FButton(
-              onPress: null,
-              prefix: FaIcon(FontAwesomeIcons.google),
-              child: controller.isLoading.value
-                  ? Text('logging_loading'.tr)
-                  : Text('google_login'.tr),
+            Obx(
+              () => FButton(
+                onPress: controller.isGoogleLoading.value ? null : controller.loginWithGoogle,
+                prefix: FaIcon(FontAwesomeIcons.google),
+                child: controller.isGoogleLoading.value
+                    ? Text('logging_loading'.tr)
+                    : Text('google_login'.tr),
+              ),
             ),
           ],
         ),

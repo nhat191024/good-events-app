@@ -1,6 +1,7 @@
 class AppUrl {
   // Authentication
   static const String login = '/login';
+  static const String loginGoogle = '/login/google';
   static const String registerClient = '/register';
   static const String registerPartner = '/register/partner';
   static const String checkToken = '/check-token';
