@@ -183,4 +183,31 @@ class AuthProvider {
       throw Exception('Đã xảy ra lỗi khi đăng xuất: $e');
     }
   }
+
+  /// Forgot Password API call
+  /// POST /forgot
+  Future<Map<String, dynamic>> forgotPassword(String emailOrPhone) async {
+    try {
+      final response = await _apiService.dio.post(
+        AppUrl.forgot,
+        data: {'email': emailOrPhone},
+      );
+      if (response.statusCode == 200) {
+        return response.data as Map<String, dynamic>;
+      } else {
+        throw Exception('Request failed with status: ${response.statusCode}');
+      }
+    } on DioException catch (e) {
+      logger.e('[AuthProvider] [forgotPassword] DioException: ${e.message}');
+      if (e.response != null) {
+        final errorMessage = e.response?.data['message'] ?? 'Request failed';
+        throw Exception(errorMessage);
+      } else {
+        throw Exception('Không thể kết nối đến server. Vui lòng kiểm tra mạng.');
+      }
+    } catch (e) {
+      logger.e('[AuthProvider] [forgotPassword] Unknown error: $e');
+      throw Exception('Đã xảy ra lỗi: $e');
+    }
+  }
 }

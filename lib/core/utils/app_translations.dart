@@ -30,6 +30,17 @@ class AppTranslations extends Translations {
       'google_login': 'Đăng nhập với Google',
       'logging_loading': 'Đang đăng nhập...',
 
+      //forgot password screen
+      'forgot_password': 'Quên mật khẩu',
+      'forgot_password_subtitle': 'Nhập email hoặc số điện thoại đã đăng ký. Chúng tôi sẽ gửi liên kết đặt lại mật khẩu cho bạn.',
+      'email_or_phone': 'Email hoặc số điện thoại',
+      'email_or_phone_hint': 'email@example.com hoặc 0987654321',
+      'email_or_phone_required': 'Vui lòng nhập email hoặc số điện thoại.',
+      'sending': 'Đang gửi...',
+      'send_reset_link': 'Gửi liên kết đặt lại',
+      'forgot_password_success_message': 'Đã gửi liên kết đặt lại mật khẩu. Vui lòng kiểm tra email hoặc tin nhắn của bạn.',
+      'forgot_password_send_failed': 'Gửi liên kết thất bại, vui lòng thử lại sau.',
+
       //register screen
       'create_account': 'Tạo tài khoản',
       'full_name': 'Họ và tên',
@@ -725,6 +736,17 @@ class AppTranslations extends Translations {
 
       'google_login': 'Login with Google',
       'logging_loading': 'Logging in...',
+
+      //forgot password screen
+      'forgot_password': 'Forgot Password',
+      'forgot_password_subtitle': 'Enter your registered email or phone number. We will send you a password reset link.',
+      'email_or_phone': 'Email or Phone Number',
+      'email_or_phone_hint': 'email@example.com or 0987654321',
+      'email_or_phone_required': 'Please enter your email or phone number.',
+      'sending': 'Sending...',
+      'send_reset_link': 'Send Reset Link',
+      'forgot_password_success_message': 'Password reset link sent. Please check your email or messages.',
+      'forgot_password_send_failed': 'Failed to send reset link, please try again.',
 
       //register screen
       'create_account': 'Create Account',

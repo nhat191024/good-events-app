@@ -41,7 +41,8 @@ class LoginScreen extends GetView<LoginController> {
                   label: Text('username'.tr),
                   hint: 'username_hint'.tr,
                   autovalidateMode: AutovalidateMode.onUserInteraction,
-                  validator: (value) => value != null ? null : 'username_invalid'.tr,
+                  validator: (value) =>
+                      value != null ? null : 'username_invalid'.tr,
                 ),
               ],
             ),
@@ -57,7 +58,8 @@ class LoginScreen extends GetView<LoginController> {
                   label: Text('password'.tr),
                   hint: 'password_hint'.tr,
                   autovalidateMode: AutovalidateMode.onUserInteraction,
-                  validator: (value) => 8 <= (value?.length ?? 0) ? null : 'password_invalid'.tr,
+                  validator: (value) =>
+                      8 <= (value?.length ?? 0) ? null : 'password_invalid'.tr,
                 ),
               ],
             ),
@@ -66,17 +68,34 @@ class LoginScreen extends GetView<LoginController> {
             Obx(
               () => FButton(
                 onPress: controller.isLoading.value ? null : controller.login,
-                child: controller.isLoading.value ? Text('logging_loading'.tr) : Text('login'.tr),
+                child: controller.isLoading.value
+                    ? Text('logging_loading'.tr)
+                    : Text('login'.tr),
               ),
             ),
             const SizedBox(height: 20),
             Obx(
               () => FButton(
-                onPress: controller.isGoogleLoading.value ? null : controller.loginWithGoogle,
+                onPress: controller.isGoogleLoading.value
+                    ? null
+                    : controller.loginWithGoogle,
                 prefix: FaIcon(FontAwesomeIcons.google),
                 child: controller.isGoogleLoading.value
                     ? Text('logging_loading'.tr)
                     : Text('google_login'.tr),
+              ),
+            ),
+            const SizedBox(height: 16),
+            Center(
+              child: GestureDetector(
+                onTap: () => Get.toNamed(Routes.forgotPasswordScreen),
+                child: Text(
+                  'forgot_password'.tr,
+                  style: TextStyle(
+                    decoration: TextDecoration.underline,
+                    color: context.fTheme.colors.primary,
+                  ),
+                ),
               ),
             ),
           ],
