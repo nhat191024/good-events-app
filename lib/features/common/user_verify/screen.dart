@@ -1,7 +1,6 @@
 import 'package:sukientotapp/core/utils/import/global.dart';
 import 'package:sukientotapp/features/common/user_verify/controller.dart';
-import 'package:sukientotapp/features/common/user_verify/widgets/verify_header.dart';
-import 'package:sukientotapp/features/common/user_verify/widgets/verify_method_card.dart';
+import 'widgets/verify_method_card.dart';
 
 class UserVerifyScreen extends GetView<UserVerifyController> {
   const UserVerifyScreen({super.key});
@@ -9,21 +8,144 @@ class UserVerifyScreen extends GetView<UserVerifyController> {
   @override
   Widget build(BuildContext context) {
     return FScaffold(
-      child: SafeArea(
-        child: SingleChildScrollView(
-          padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 32),
-          child: Obx(
-            () => controller.step.value == 1
-                ? _MethodSelectionStep(controller: controller)
-                : _OtpStep(controller: controller),
+      childPad: false,
+      child: Column(
+        children: [
+          // ── HERO SECTION ──────────────────────────────────────────
+          Obx(() {
+            final isOtpStep = controller.step.value == 2;
+            final isEmail =
+                controller.selectedMethod.value == VerifyMethod.email;
+            return Container(
+              width: double.infinity,
+              padding: EdgeInsets.fromLTRB(
+                24,
+                MediaQuery.of(context).padding.top + 16,
+                24,
+                36,
+              ),
+              decoration: const BoxDecoration(
+                gradient: LinearGradient(
+                  colors: [AppColors.red800, AppColors.red600],
+                  begin: Alignment.topLeft,
+                  end: Alignment.bottomRight,
+                ),
+              ),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  // Back / step indicator
+                  if (isOtpStep)
+                    GestureDetector(
+                      onTap: controller.goBackToMethodStep,
+                      child: Container(
+                        width: 40,
+                        height: 40,
+                        decoration: BoxDecoration(
+                          color: Colors.white.withValues(alpha: 0.2),
+                          borderRadius: BorderRadius.circular(12),
+                        ),
+                        child: const Icon(
+                          Icons.arrow_back_ios_new_rounded,
+                          color: Colors.white,
+                          size: 18,
+                        ),
+                      ),
+                    ).animate().fadeIn(duration: 200.ms)
+                  else
+                    const SizedBox(height: 40),
+                  const SizedBox(height: 20),
+                  Container(
+                        width: 52,
+                        height: 52,
+                        decoration: BoxDecoration(
+                          color: Colors.white.withValues(alpha: 0.2),
+                          borderRadius: BorderRadius.circular(16),
+                        ),
+                        child: Icon(
+                          isOtpStep
+                              ? (isEmail
+                                    ? Icons.mark_email_read_rounded
+                                    : Icons.sms_rounded)
+                              : Icons.verified_user_rounded,
+                          color: Colors.white,
+                          size: 28,
+                        ),
+                      )
+                      .animate(key: ValueKey(isOtpStep))
+                      .fadeIn(duration: 350.ms)
+                      .slideY(begin: -0.1, curve: Curves.easeOut),
+                  const SizedBox(height: 16),
+                  Text(
+                        isOtpStep
+                            ? (isEmail
+                                  ? 'verify_email_title'.tr
+                                  : 'verify_phone_title'.tr)
+                            : 'verify_account_title'.tr,
+                        style: const TextStyle(
+                          fontSize: 28,
+                          fontWeight: FontWeight.bold,
+                          color: Colors.white,
+                          letterSpacing: -0.5,
+                        ),
+                      )
+                      .animate(key: ValueKey('title_$isOtpStep'))
+                      .fadeIn(delay: 80.ms, duration: 350.ms)
+                      .slideX(begin: -0.1),
+                  const SizedBox(height: 4),
+                  Text(
+                        isOtpStep
+                            ? (isEmail
+                                  ? 'verify_email_otp_subtitle'.tr
+                                  : 'verify_phone_otp_subtitle'.tr)
+                            : 'verify_account_subtitle'.tr,
+                        style: TextStyle(
+                          fontSize: 14,
+                          color: Colors.white.withValues(alpha: 0.75),
+                        ),
+                      )
+                      .animate(key: ValueKey('sub_$isOtpStep'))
+                      .fadeIn(delay: 140.ms, duration: 350.ms),
+                ],
+              ),
+            );
+          }),
+
+          // ── CONTENT SECTION ───────────────────────────────────────
+          Expanded(
+            child: Container(
+              width: double.infinity,
+              decoration: BoxDecoration(
+                color: context.fTheme.colors.background,
+                borderRadius: const BorderRadius.only(
+                  topLeft: Radius.circular(28),
+                  topRight: Radius.circular(28),
+                ),
+                boxShadow: [
+                  BoxShadow(
+                    color: Colors.black.withValues(alpha: 0.08),
+                    blurRadius: 20,
+                    offset: const Offset(0, -4),
+                  ),
+                ],
+              ),
+              child: SingleChildScrollView(
+                padding: const EdgeInsets.fromLTRB(24, 32, 24, 32),
+                child: Obx(
+                  () => controller.step.value == 1
+                      ? _MethodSelectionStep(controller: controller)
+                      : _OtpStep(controller: controller),
+                ),
+              ),
+            ),
           ),
-        ),
+        ],
       ),
     );
   }
 }
 
-/// step 1 - choose method
+// ── STEP 1: Choose method ─────────────────────────────────────────
 class _MethodSelectionStep extends StatelessWidget {
   final UserVerifyController controller;
   const _MethodSelectionStep({required this.controller});
@@ -31,53 +153,48 @@ class _MethodSelectionStep extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Column(
-      crossAxisAlignment: CrossAxisAlignment.start,
+      crossAxisAlignment: CrossAxisAlignment.stretch,
       children: [
-        VerifyHeader(
-          title: 'verify_account_title'.tr,
-          subtitle: 'verify_account_subtitle'.tr,
-        ),
-        const SizedBox(height: 32),
-
-        // method options
         Obx(
-          () => Column(
-            children: [
-              VerifyMethodCard(
-                method: VerifyMethod.email,
-                selected: controller.selectedMethod.value == VerifyMethod.email,
-                icon: Icons.mail_outline_rounded,
-                title: 'verify_via_email'.tr,
-                subtitle: controller.maskedEmail,
-                onTap: () => controller.selectMethod(VerifyMethod.email),
+              () => Column(
+                children: [
+                  VerifyMethodCard(
+                    method: VerifyMethod.email,
+                    selected:
+                        controller.selectedMethod.value == VerifyMethod.email,
+                    icon: Icons.mail_outline_rounded,
+                    title: 'verify_via_email'.tr,
+                    subtitle: controller.maskedEmail,
+                    onTap: () => controller.selectMethod(VerifyMethod.email),
+                  ),
+                  const SizedBox(height: 12),
+                  VerifyMethodCard(
+                    method: VerifyMethod.zalo,
+                    selected:
+                        controller.selectedMethod.value == VerifyMethod.zalo,
+                    icon: Icons.message_rounded,
+                    title: 'verify_via_zalo'.tr,
+                    subtitle: 'verify_zalo_subtitle'.trParams({
+                      'phone': controller.maskedPhone,
+                    }),
+                    onTap: () => controller.selectMethod(VerifyMethod.zalo),
+                  ),
+                ],
               ),
-              const SizedBox(height: 12),
-              VerifyMethodCard(
-                method: VerifyMethod.zalo,
-                selected: controller.selectedMethod.value == VerifyMethod.zalo,
-                icon: Icons.message_rounded,
-                title: 'verify_via_zalo'.tr,
-                subtitle: 'verify_zalo_subtitle'.trParams({
-                  'phone': controller.maskedPhone,
-                }),
-                onTap: () => controller.selectMethod(VerifyMethod.zalo),
-              ),
-            ],
-          ),
-        ),
-        const SizedBox(height: 32),
-
-        FButton(
-          onPress: controller.goToOtpStep,
-          child: Text('continue_btn'.tr),
-        ),
-        const SizedBox(height: 16),
-
-        // logout link
+            )
+            .animate()
+            .fadeIn(delay: 200.ms, duration: 400.ms)
+            .slideY(begin: 0.15, curve: Curves.easeOut),
+        const SizedBox(height: 28),
+        FButton(onPress: controller.goToOtpStep, child: Text('continue_btn'.tr))
+            .animate()
+            .fadeIn(delay: 320.ms, duration: 400.ms)
+            .slideY(begin: 0.2, curve: Curves.easeOut),
+        const SizedBox(height: 20),
         Center(
           child: TextButton.icon(
             onPressed: controller.logout,
-            icon: const Icon(Icons.arrow_back, size: 14),
+            icon: const Icon(Icons.logout_rounded, size: 14),
             label: Text(
               'logout'.tr,
               style: TextStyle(
@@ -86,13 +203,13 @@ class _MethodSelectionStep extends StatelessWidget {
               ),
             ),
           ),
-        ),
+        ).animate().fadeIn(delay: 400.ms, duration: 400.ms),
       ],
     );
   }
 }
 
-/// step 2 - enter otp
+// ── STEP 2: Enter OTP ─────────────────────────────────────────────
 class _OtpStep extends StatelessWidget {
   final UserVerifyController controller;
   const _OtpStep({required this.controller});
@@ -100,88 +217,87 @@ class _OtpStep extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Column(
-      crossAxisAlignment: CrossAxisAlignment.start,
+      crossAxisAlignment: CrossAxisAlignment.stretch,
       children: [
-        Obx(() {
-          final isEmail = controller.selectedMethod.value == VerifyMethod.email;
-          return VerifyHeader(
-            title: isEmail ? 'verify_email_title'.tr : 'verify_phone_title'.tr,
-            subtitle: isEmail
-                ? 'verify_email_otp_subtitle'.tr
-                : 'verify_phone_otp_subtitle'.tr,
-          );
-        }),
-        const SizedBox(height: 32),
-
-        Center(
-          child: Text(
-            'enter_otp'.tr,
-            style: context.typography.sm.copyWith(fontWeight: FontWeight.w600),
-          ),
-        ),
-        const SizedBox(height: 8),
-
         Material(
-          color: Colors.transparent,
-          child: TextField(
-            controller: controller.otpController,
-            textAlign: TextAlign.center,
-            keyboardType: TextInputType.number,
-            maxLength: 6,
-            autofocus: true,
-            autocorrect: false,
-            style: const TextStyle(
-              fontSize: 28,
-              fontWeight: FontWeight.bold,
-              letterSpacing: 12,
-              fontFamily: 'monospace',
-            ),
-            decoration: InputDecoration(
-              hintText: '------',
-              hintStyle: TextStyle(
-                fontSize: 24,
-                letterSpacing: 10,
-                color: context.fTheme.colors.mutedForeground,
-              ),
-              counterText: '',
-              border: OutlineInputBorder(
-                borderRadius: BorderRadius.circular(12),
-                borderSide: BorderSide(color: context.fTheme.colors.border),
-              ),
-              focusedBorder: OutlineInputBorder(
-                borderRadius: BorderRadius.circular(12),
-                borderSide: BorderSide(
-                  color: context.fTheme.colors.primary,
-                  width: 2,
+              color: Colors.transparent,
+              child: TextField(
+                controller: controller.otpController,
+                textAlign: TextAlign.center,
+                keyboardType: TextInputType.number,
+                maxLength: 6,
+                autofocus: true,
+                autocorrect: false,
+                style: const TextStyle(
+                  fontSize: 32,
+                  fontWeight: FontWeight.bold,
+                  letterSpacing: 14,
+                ),
+                decoration: InputDecoration(
+                  hintText: '------',
+                  hintStyle: TextStyle(
+                    fontSize: 28,
+                    letterSpacing: 10,
+                    color: context.fTheme.colors.mutedForeground,
+                  ),
+                  counterText: '',
+                  border: OutlineInputBorder(
+                    borderRadius: BorderRadius.circular(16),
+                    borderSide: BorderSide(color: context.fTheme.colors.border),
+                  ),
+                  focusedBorder: OutlineInputBorder(
+                    borderRadius: BorderRadius.circular(16),
+                    borderSide: BorderSide(
+                      color: context.fTheme.colors.primary,
+                      width: 2,
+                    ),
+                  ),
+                  contentPadding: const EdgeInsets.symmetric(vertical: 22),
                 ),
               ),
-              contentPadding: const EdgeInsets.symmetric(vertical: 18),
-            ),
-          ),
-        ),
+            )
+            .animate()
+            .fadeIn(delay: 200.ms, duration: 400.ms)
+            .slideY(begin: 0.15, curve: Curves.easeOut),
         const SizedBox(height: 24),
-
         Obx(
-          () => FButton(
-            onPress: controller.isLoading.value ? null : controller.verify,
-            child: controller.isLoading.value
-                ? Text('verifying'.tr)
-                : Text('verify_btn'.tr),
-          ),
-        ),
+              () => FButton(
+                onPress: controller.isLoading.value ? null : controller.verify,
+                child: controller.isLoading.value
+                    ? Row(
+                        mainAxisSize: MainAxisSize.min,
+                        children: [
+                          const SizedBox(
+                            width: 16,
+                            height: 16,
+                            child: CircularProgressIndicator(
+                              strokeWidth: 2,
+                              color: Colors.white,
+                            ),
+                          ),
+                          const SizedBox(width: 8),
+                          Text('verifying'.tr),
+                        ],
+                      )
+                    : Text('verify_btn'.tr),
+              ),
+            )
+            .animate()
+            .fadeIn(delay: 300.ms, duration: 400.ms)
+            .slideY(begin: 0.2, curve: Curves.easeOut),
         const SizedBox(height: 20),
-
         Row(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
             TextButton.icon(
               onPressed: controller.resendOtp,
-              icon: const Icon(Icons.send_rounded, size: 14),
+              icon: const Icon(Icons.refresh_rounded, size: 14),
               label: Text(
                 'resend_otp'.tr,
                 style: TextStyle(
                   color: context.fTheme.colors.primary,
                   fontSize: 13,
+                  fontWeight: FontWeight.w600,
                 ),
               ),
             ),
@@ -191,28 +307,26 @@ class _OtpStep extends StatelessWidget {
                 'back_to_method'.tr,
                 style: TextStyle(
                   fontSize: 13,
-                  decoration: TextDecoration.underline,
                   color: context.fTheme.colors.mutedForeground,
                 ),
               ),
             ),
           ],
-        ),
+        ).animate().fadeIn(delay: 380.ms, duration: 400.ms),
         const Divider(height: 32),
-
         Center(
-          child: TextButton(
+          child: TextButton.icon(
             onPressed: controller.logout,
-            child: Text(
+            icon: const Icon(Icons.logout_rounded, size: 14),
+            label: Text(
               'logout'.tr,
               style: TextStyle(
                 fontSize: 13,
-                decoration: TextDecoration.underline,
                 color: context.fTheme.colors.mutedForeground,
               ),
             ),
           ),
-        ),
+        ).animate().fadeIn(delay: 440.ms, duration: 400.ms),
       ],
     );
   }
