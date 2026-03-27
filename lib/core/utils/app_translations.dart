@@ -18,6 +18,8 @@ class AppTranslations extends Translations {
 
       //login screen
       'welcome_back': 'Chào mừng trở lại!',
+      'login_subtitle': 'Đăng nhập để tiếp tục hành trình của bạn.',
+      'or': 'Hoặc',
 
       'username': 'Tên đăng nhập',
       'username_hint': 'Gmail hoặc số điện thoại',
@@ -43,6 +45,7 @@ class AppTranslations extends Translations {
 
       //register screen
       'create_account': 'Tạo tài khoản',
+      'register_subtitle': 'Điền thông tin để bắt đầu hành trình cùng chúng tôi.',
       'full_name': 'Họ và tên',
       'name_hint': 'Nhập họ và tên đầy đủ',
       'name_required': 'Vui lòng nhập họ và tên.',
@@ -726,6 +729,8 @@ class AppTranslations extends Translations {
 
       //login screen
       'welcome_back': 'Welcome Back!',
+      'login_subtitle': 'Sign in to continue your journey.',
+      'or': 'Or',
 
       'username': 'Username',
       'username_hint': 'Gmail or phone number',
@@ -750,6 +755,7 @@ class AppTranslations extends Translations {
 
       //register screen
       'create_account': 'Create Account',
+      'register_subtitle': 'Fill in your details to start your journey with us.',
       'full_name': 'Full Name',
       'name_hint': 'Enter your full name',
       'name_required': 'Please enter your full name.',
