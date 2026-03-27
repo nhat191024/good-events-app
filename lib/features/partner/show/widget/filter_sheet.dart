@@ -1,9 +1,25 @@
 import 'package:flutter/cupertino.dart';
 import 'package:sukientotapp/core/utils/import/global.dart';
-import 'package:sukientotapp/features/partner/show/controller.dart';
 
 class FilterSheetWidget extends StatefulWidget {
-  const FilterSheetWidget({super.key});
+  const FilterSheetWidget({
+    super.key,
+    required this.initialSearch,
+    required this.initialDate,
+    required this.initialSort,
+    required this.onApply,
+    required this.onClear,
+  });
+
+  final String initialSearch;
+  final String initialDate;
+  final String initialSort;
+  final void Function({
+    required String search,
+    required String dateFilter,
+    required String sort,
+  }) onApply;
+  final VoidCallback onClear;
 
   @override
   State<FilterSheetWidget> createState() => _FilterSheetWidgetState();
@@ -14,17 +30,15 @@ class _FilterSheetWidgetState extends State<FilterSheetWidget> {
   late String _sort;
   late TextEditingController _searchCtrl;
 
-  final _controller = Get.find<ShowController>();
-
   static const _dateOptions = ['all', 'today', 'this_week', 'this_month'];
   static const _sortOptions = ['date_asc', 'date_desc', 'price_asc', 'price_desc'];
 
   @override
   void initState() {
     super.initState();
-    _dateFilter = _controller.filterDate.value;
-    _sort = _controller.filterSort.value;
-    _searchCtrl = TextEditingController(text: _controller.filterSearch.value);
+    _dateFilter = widget.initialDate;
+    _sort = widget.initialSort;
+    _searchCtrl = TextEditingController(text: widget.initialSearch);
   }
 
   @override
@@ -203,7 +217,7 @@ class _FilterSheetWidgetState extends State<FilterSheetWidget> {
                 Expanded(
                   child: GestureDetector(
                     onTap: () {
-                      _controller.clearFilter();
+                      widget.onClear();
                       Get.back();
                     },
                     child: Container(
@@ -231,7 +245,7 @@ class _FilterSheetWidgetState extends State<FilterSheetWidget> {
                   flex: 2,
                   child: GestureDetector(
                     onTap: () {
-                      _controller.applyFilter(
+                      widget.onApply(
                         search: _searchCtrl.text.trim(),
                         dateFilter: _dateFilter,
                         sort: _sort,

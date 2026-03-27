@@ -217,7 +217,20 @@ class UpcomingWidget extends GetView<ShowController> {
                         context,
                         icon: FIcons.listFilterPlus,
                         onTap: () => Get.bottomSheet(
-                          const FilterSheetWidget(),
+                          FilterSheetWidget(
+                            initialSearch: controller.filterSearch.value,
+                            initialDate: controller.filterDate.value,
+                            initialSort: controller.filterSort.value,
+                            onApply: (
+                              {required search,
+                              required dateFilter,
+                              required sort}) => controller.applyFilter(
+                              search: search,
+                              dateFilter: dateFilter,
+                              sort: sort,
+                            ),
+                            onClear: controller.clearFilter,
+                          ),
                           isScrollControlled: true,
                           enterBottomSheetDuration:
                               const Duration(milliseconds: 300),

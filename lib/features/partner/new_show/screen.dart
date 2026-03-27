@@ -1,9 +1,11 @@
+import 'package:flutter/cupertino.dart';
 import 'package:sukientotapp/core/utils/import/global.dart';
 import 'controller.dart';
 
 import './widgets/show.dart';
 
 import 'package:sukientotapp/features/components/button/circle.dart';
+import 'package:sukientotapp/features/partner/show/widget/filter_sheet.dart';
 
 class NewShowScreen extends GetView<NewShowController> {
   const NewShowScreen({super.key});
@@ -32,11 +34,42 @@ class NewShowScreen extends GetView<NewShowController> {
                   ),
                 ),
                 const Spacer(),
-                CircleButton(
-                  icon: FIcons.listFilter,
-                  onPressed: () => {},
-                  size: 34,
-                  backgroundColor: context.primary,
+                Obx(
+                  () => CircleButton(
+                    icon: FIcons.listFilter,
+                    iconColor: controller.isFilterActive
+                        ? context.fTheme.colors.primaryForeground
+                        : context.fTheme.colors.primary,
+                    onPressed: () => Get.bottomSheet(
+                      FilterSheetWidget(
+                        initialSearch: controller.filterSearch.value,
+                        initialDate: controller.filterDate.value,
+                        initialSort: controller.filterSort.value,
+                        onApply:
+                            ({
+                              required search,
+                              required dateFilter,
+                              required sort,
+                            }) => controller.applyFilter(
+                              search: search,
+                              dateFilter: dateFilter,
+                              sort: sort,
+                            ),
+                        onClear: controller.clearFilter,
+                      ),
+                      isScrollControlled: true,
+                      enterBottomSheetDuration: const Duration(
+                        milliseconds: 300,
+                      ),
+                      exitBottomSheetDuration: const Duration(
+                        milliseconds: 250,
+                      ),
+                    ),
+                    size: 34,
+                    backgroundColor: controller.isFilterActive
+                        ? context.fTheme.colors.primary
+                        : context.fTheme.colors.muted,
+                  ),
                 ),
               ],
             ),
@@ -99,19 +132,67 @@ class NewShowScreen extends GetView<NewShowController> {
         if (controller.isLoading.value && controller.bills.isEmpty) {
           return const Center(child: CircularProgressIndicator());
         }
+
+        final bills = controller.isFilterActive
+            ? controller.filteredBills
+            : controller.bills;
+
+        if (bills.isEmpty) {
+          return Center(
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                Icon(
+                  controller.isFilterActive
+                      ? CupertinoIcons.search
+                      : CupertinoIcons.tray,
+                  size: 56,
+                  color: context.fTheme.colors.mutedForeground,
+                ),
+                const SizedBox(height: 12),
+                Text(
+                  controller.isFilterActive
+                      ? 'no_filter_results'.tr
+                      : 'no_bills'.tr,
+                  style: context.typography.sm.copyWith(
+                    color: context.fTheme.colors.mutedForeground,
+                  ),
+                ),
+                if (controller.isFilterActive) ...[
+                  const SizedBox(height: 10),
+                  GestureDetector(
+                    onTap: controller.clearFilter,
+                    child: Text(
+                      'clear_filter'.tr,
+                      style: context.typography.xs.copyWith(
+                        color: context.fTheme.colors.primary,
+                        fontWeight: FontWeight.w600,
+                        decoration: TextDecoration.underline,
+                      ),
+                    ),
+                  ),
+                ],
+              ],
+            ),
+          );
+        }
+
         return ListView.builder(
           controller: controller.scrollController,
           padding: const EdgeInsets.only(top: 12, bottom: 100),
           itemCount:
-              controller.bills.length + (controller.isLoading.value ? 1 : 0),
+              bills.length +
+              (!controller.isFilterActive && controller.isLoading.value
+                  ? 1
+                  : 0),
           itemBuilder: (context, index) {
-            if (index == controller.bills.length) {
+            if (index == bills.length) {
               return const Padding(
                 padding: EdgeInsets.all(16.0),
                 child: Center(child: CircularProgressIndicator()),
               );
             }
-            final bill = controller.bills[index];
+            final bill = bills[index];
             return Show(
               billId: bill.id,
               code: bill.code,

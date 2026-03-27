@@ -17,6 +17,17 @@ class NewShowController extends GetxController {
   final availableCategories = <AvailableCategory>[].obs;
   final lastUpdated = ''.obs;
 
+  // ─── Filter State ────────────────────────────────────────────────────────────
+  final filterSearch = ''.obs;
+  final filterDate = 'all'.obs;
+  final filterSort = 'date_asc'.obs;
+  final filteredBills = <PartnerBill>[].obs;
+
+  bool get isFilterActive =>
+      filterSearch.value.isNotEmpty ||
+      filterDate.value != 'all' ||
+      filterSort.value != 'date_asc';
+
   int _currentPage = 1;
   int _lastPage = 1;
   final _subscribedChannels = <String>[];
@@ -38,6 +49,92 @@ class NewShowController extends GetxController {
       fetchRealtimeBills();
     }
   }
+
+  // ─── Filter Logic ────────────────────────────────────────────────────────────
+
+  void applyFilter({
+    required String search,
+    required String dateFilter,
+    required String sort,
+  }) {
+    filterSearch.value = search;
+    filterDate.value = dateFilter;
+    filterSort.value = sort;
+    _applyLocalFilter();
+  }
+
+  void clearFilter() {
+    filterSearch.value = '';
+    filterDate.value = 'all';
+    filterSort.value = 'date_asc';
+    filteredBills.clear();
+  }
+
+  void _applyLocalFilter() {
+    var result = List<PartnerBill>.from(bills);
+
+    final q = filterSearch.value.toLowerCase().trim();
+    if (q.isNotEmpty) {
+      result = result
+          .where(
+            (b) =>
+                b.code.toLowerCase().contains(q) ||
+                b.clientName.toLowerCase().contains(q) ||
+                b.eventName.toLowerCase().contains(q) ||
+                b.categoryName.toLowerCase().contains(q) ||
+                b.address.toLowerCase().contains(q),
+          )
+          .toList();
+    }
+
+    if (filterDate.value != 'all') {
+      final now = DateTime.now();
+      result = result.where((b) {
+        final date = DateTime.tryParse(b.date);
+        if (date == null) return false;
+        switch (filterDate.value) {
+          case 'today':
+            return date.year == now.year &&
+                date.month == now.month &&
+                date.day == now.day;
+          case 'this_week':
+            final start = now.subtract(Duration(days: now.weekday - 1));
+            final end = start.add(const Duration(days: 6));
+            return !date.isBefore(
+                  DateTime(start.year, start.month, start.day),
+                ) &&
+                !date.isAfter(DateTime(end.year, end.month, end.day, 23, 59));
+          case 'this_month':
+            return date.year == now.year && date.month == now.month;
+          default:
+            return true;
+        }
+      }).toList();
+    }
+
+    switch (filterSort.value) {
+      case 'date_desc':
+        result.sort((a, b) => b.date.compareTo(a.date));
+        break;
+      case 'price_asc':
+        result.sort(
+          (a, b) => (a.finalTotal ?? 0).compareTo(b.finalTotal ?? 0),
+        );
+        break;
+      case 'price_desc':
+        result.sort(
+          (a, b) => (b.finalTotal ?? 0).compareTo(a.finalTotal ?? 0),
+        );
+        break;
+      default: // date_asc
+        result.sort((a, b) => a.date.compareTo(b.date));
+        break;
+    }
+
+    filteredBills.value = result;
+  }
+
+  // ─────────────────────────────────────────────────────────────────────────────
 
   Future<void> fetchRealtimeBills() async {
     if (isLoading.value || !hasMorePages.value) return;
