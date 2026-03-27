@@ -12,7 +12,10 @@ class IncomePanel extends StatelessWidget {
       decoration: BoxDecoration(
         borderRadius: BorderRadius.circular(20),
         gradient: LinearGradient(
-          colors: [AppColors.primary, AppColors.primary.withValues(alpha: 0.75)],
+          colors: [
+            AppColors.primary,
+            AppColors.primary.withValues(alpha: 0.75),
+          ],
           begin: Alignment.topLeft,
           end: Alignment.bottomRight,
         ),
@@ -67,7 +70,11 @@ class IncomePanel extends StatelessWidget {
                             color: Colors.white.withValues(alpha: 0.18),
                             shape: BoxShape.circle,
                           ),
-                          child: const Icon(FIcons.wallet, color: Colors.white, size: 22),
+                          child: const Icon(
+                            FIcons.wallet,
+                            color: Colors.white,
+                            size: 22,
+                          ),
                         ),
                         const SizedBox(width: 8),
                         Column(
@@ -91,7 +98,11 @@ class IncomePanel extends StatelessWidget {
                         ),
                       ],
                     ),
-                    Container(width: 1, height: 40, color: Colors.white.withValues(alpha: 0.25)),
+                    Container(
+                      width: 1,
+                      height: 40,
+                      color: Colors.white.withValues(alpha: 0.25),
+                    ),
                     Row(
                       children: [
                         Column(
@@ -120,7 +131,11 @@ class IncomePanel extends StatelessWidget {
                             color: Colors.white.withValues(alpha: 0.18),
                             shape: BoxShape.circle,
                           ),
-                          child: const Icon(FIcons.chartColumnIncreasing, color: Colors.white, size: 22),
+                          child: const Icon(
+                            FIcons.chartColumnIncreasing,
+                            color: Colors.white,
+                            size: 22,
+                          ),
                         ),
                       ],
                     ),
@@ -128,16 +143,23 @@ class IncomePanel extends StatelessWidget {
                 ),
               ),
               FTappable(
-                onPress: () {},
+                onPress: () {
+                  Get.toNamed(Routes.partnerAnalytics);
+                },
                 child: Container(
                   width: double.infinity,
                   height: 38,
                   margin: const EdgeInsets.only(top: 16),
-                  padding: const EdgeInsets.symmetric(vertical: 4, horizontal: 16),
+                  padding: const EdgeInsets.symmetric(
+                    vertical: 4,
+                    horizontal: 16,
+                  ),
                   decoration: BoxDecoration(
                     color: Colors.white.withValues(alpha: 0.12),
                     border: Border(
-                      top: BorderSide(color: Colors.white.withValues(alpha: 0.15)),
+                      top: BorderSide(
+                        color: Colors.white.withValues(alpha: 0.15),
+                      ),
                     ),
                   ),
                   child: Row(
@@ -150,7 +172,11 @@ class IncomePanel extends StatelessWidget {
                           fontWeight: FontWeight.w600,
                         ),
                       ),
-                      const Icon(FIcons.arrowRight, color: Colors.white, size: 16),
+                      const Icon(
+                        FIcons.arrowRight,
+                        color: Colors.white,
+                        size: 16,
+                      ),
                     ],
                   ),
                 ),
