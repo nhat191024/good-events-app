@@ -7,99 +7,249 @@ class LoginScreen extends GetView<LoginController> {
   @override
   Widget build(BuildContext context) {
     return FScaffold(
-      header: Container(
-        alignment: Alignment.centerLeft,
-        padding: const EdgeInsets.only(top: 22),
-        child: BackButton(
-          onPressed: () {
-            Get.offAllNamed(Routes.guestHomeScreen);
-          },
-        ),
-      ),
-      child: Form(
-        key: controller.loginFormKey,
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          crossAxisAlignment: CrossAxisAlignment.center,
-          children: [
-            Image.asset('assets/images/logo.png', width: 100, height: 100),
-            Text(
-              'welcome_back'.tr,
-              style: TextStyle(fontSize: 24, fontWeight: FontWeight.bold),
-              textAlign: TextAlign.center,
+      childPad: false,
+      child: Column(
+        children: [
+          // ── HERO SECTION ──────────────────────────────────────────
+          Container(
+            width: double.infinity,
+            padding: EdgeInsets.fromLTRB(
+              24,
+              MediaQuery.of(context).padding.top + 16,
+              24,
+              36,
             ),
-            const SizedBox(height: 30),
-            Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                const SizedBox(height: 8),
-                FTextFormField(
-                  enabled: true,
-                  control: FTextFieldControl.managed(
-                    controller: controller.usernameController,
-                  ),
-                  label: Text('username'.tr),
-                  hint: 'username_hint'.tr,
-                  autovalidateMode: AutovalidateMode.onUserInteraction,
-                  validator: (value) =>
-                      value != null ? null : 'username_invalid'.tr,
-                ),
-              ],
-            ),
-            const SizedBox(height: 16),
-            Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                const SizedBox(height: 8),
-                FTextFormField.password(
-                  control: FTextFieldControl.managed(
-                    controller: controller.passwordController,
-                  ),
-                  label: Text('password'.tr),
-                  hint: 'password_hint'.tr,
-                  autovalidateMode: AutovalidateMode.onUserInteraction,
-                  validator: (value) =>
-                      8 <= (value?.length ?? 0) ? null : 'password_invalid'.tr,
-                ),
-              ],
-            ),
-            const SizedBox(height: 30),
-
-            Obx(
-              () => FButton(
-                onPress: controller.isLoading.value ? null : controller.login,
-                child: controller.isLoading.value
-                    ? Text('logging_loading'.tr)
-                    : Text('login'.tr),
+            decoration: const BoxDecoration(
+              gradient: LinearGradient(
+                colors: [AppColors.red800, AppColors.red600],
+                begin: Alignment.topLeft,
+                end: Alignment.bottomRight,
               ),
             ),
-            const SizedBox(height: 20),
-            Obx(
-              () => FButton(
-                onPress: controller.isGoogleLoading.value
-                    ? null
-                    : controller.loginWithGoogle,
-                prefix: FaIcon(FontAwesomeIcons.google),
-                child: controller.isGoogleLoading.value
-                    ? Text('logging_loading'.tr)
-                    : Text('google_login'.tr),
-              ),
-            ),
-            const SizedBox(height: 16),
-            Center(
-              child: GestureDetector(
-                onTap: () => Get.toNamed(Routes.forgotPasswordScreen),
-                child: Text(
-                  'forgot_password'.tr,
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    GestureDetector(
+                      onTap: () => Get.offAllNamed(Routes.guestHomeScreen),
+                      child: Container(
+                        width: 40,
+                        height: 40,
+                        decoration: BoxDecoration(
+                          color: Colors.white.withValues(alpha: 0.2),
+                          borderRadius: BorderRadius.circular(12),
+                        ),
+                        child: const Icon(
+                          Icons.arrow_back_ios_new_rounded,
+                          color: Colors.white,
+                          size: 18,
+                        ),
+                      ),
+                    ).animate().fadeIn(duration: 300.ms),
+                Image.asset(AppImages.logo, width: 64, height: 64)
+                    .animate()
+                    .fadeIn(delay: 100.ms, duration: 400.ms)
+                    .slideY(begin: -0.15, curve: Curves.easeOut),
+                  ],
+                ),
+                const SizedBox(height: 28),
+                Text(
+                      'welcome_back'.tr,
+                      style: const TextStyle(
+                        fontSize: 28,
+                        fontWeight: FontWeight.bold,
+                        color: Colors.white,
+                        letterSpacing: -0.5,
+                      ),
+                    )
+                    .animate()
+                    .fadeIn(delay: 180.ms, duration: 400.ms)
+                    .slideX(begin: -0.1),
+                const SizedBox(height: 4),
+                Text(
+                  'login_subtitle'.tr,
                   style: TextStyle(
-                    decoration: TextDecoration.underline,
-                    color: context.fTheme.colors.primary,
+                    fontSize: 14,
+                    color: Colors.white.withValues(alpha: 0.75),
+                  ),
+                ).animate().fadeIn(delay: 250.ms, duration: 400.ms),
+              ],
+            ),
+          ),
+
+          // ── FORM SECTION ──────────────────────────────────────────
+          Expanded(
+            child: Container(
+              width: double.infinity,
+              decoration: BoxDecoration(
+                color: context.fTheme.colors.background,
+                borderRadius: const BorderRadius.only(
+                  topLeft: Radius.circular(28),
+                  topRight: Radius.circular(28),
+                ),
+                boxShadow: [
+                  BoxShadow(
+                    color: Colors.black.withValues(alpha: 0.08),
+                    blurRadius: 20,
+                    offset: const Offset(0, -4),
+                  ),
+                ],
+              ),
+              child: SingleChildScrollView(
+                padding: const EdgeInsets.fromLTRB(24, 32, 24, 32),
+                child: Form(
+                  key: controller.loginFormKey,
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.stretch,
+                    children: [
+                      // Username field
+                      FTextFormField(
+                            enabled: true,
+                            control: FTextFieldControl.managed(
+                              controller: controller.usernameController,
+                            ),
+                            label: Text('username'.tr),
+                            hint: 'username_hint'.tr,
+                            autovalidateMode:
+                                AutovalidateMode.onUserInteraction,
+                            validator: (value) =>
+                                (value != null && value.isNotEmpty)
+                                ? null
+                                : 'username_invalid'.tr,
+                          )
+                          .animate()
+                          .fadeIn(delay: 300.ms, duration: 400.ms)
+                          .slideY(begin: 0.2, curve: Curves.easeOut),
+                      const SizedBox(height: 16),
+
+                      // Password field
+                      FTextFormField.password(
+                            control: FTextFieldControl.managed(
+                              controller: controller.passwordController,
+                            ),
+                            label: Text('password'.tr),
+                            hint: 'password_hint'.tr,
+                            autovalidateMode:
+                                AutovalidateMode.onUserInteraction,
+                            validator: (value) => 8 <= (value?.length ?? 0)
+                                ? null
+                                : 'password_invalid'.tr,
+                          )
+                          .animate()
+                          .fadeIn(delay: 360.ms, duration: 400.ms)
+                          .slideY(begin: 0.2, curve: Curves.easeOut),
+
+                      // Forgot password – right-aligned
+                      Align(
+                        alignment: Alignment.centerRight,
+                        child: GestureDetector(
+                          onTap: () => Get.toNamed(Routes.forgotPasswordScreen),
+                          child: Padding(
+                            padding: const EdgeInsets.symmetric(vertical: 12),
+                            child: Text(
+                              'forgot_password'.tr,
+                              style: TextStyle(
+                                fontSize: 13,
+                                fontWeight: FontWeight.w600,
+                                color: context.fTheme.colors.primary,
+                              ),
+                            ),
+                          ),
+                        ),
+                      ).animate().fadeIn(delay: 420.ms, duration: 400.ms),
+
+                      const SizedBox(height: 4),
+
+                      // Login button
+                      Obx(
+                            () => FButton(
+                              onPress: controller.isLoading.value
+                                  ? null
+                                  : controller.login,
+                              child: controller.isLoading.value
+                                  ? Row(
+                                      mainAxisSize: MainAxisSize.min,
+                                      children: [
+                                        const SizedBox(
+                                          width: 16,
+                                          height: 16,
+                                          child: CircularProgressIndicator(
+                                            strokeWidth: 2,
+                                            color: Colors.white,
+                                          ),
+                                        ),
+                                        const SizedBox(width: 8),
+                                        Text('logging_loading'.tr),
+                                      ],
+                                    )
+                                  : Text('login'.tr),
+                            ),
+                          )
+                          .animate()
+                          .fadeIn(delay: 480.ms, duration: 400.ms)
+                          .slideY(begin: 0.2, curve: Curves.easeOut),
+
+                      const SizedBox(height: 24),
+
+                      // ── OR divider ──
+                      Row(
+                        children: [
+                          const Expanded(child: Divider()),
+                          Padding(
+                            padding: const EdgeInsets.symmetric(horizontal: 16),
+                            child: Text(
+                              'or'.tr,
+                              style: TextStyle(
+                                fontSize: 12,
+                                color: AppColors.lightMutedForeground,
+                                fontWeight: FontWeight.w500,
+                              ),
+                            ),
+                          ),
+                          const Expanded(child: Divider()),
+                        ],
+                      ).animate().fadeIn(delay: 540.ms, duration: 400.ms),
+
+                      const SizedBox(height: 24),
+
+                      // Google button (outlined)
+                      Obx(
+                            () => FButton(
+                              style: FButtonStyle.outline(),
+                              onPress: controller.isGoogleLoading.value
+                                  ? null
+                                  : controller.loginWithGoogle,
+                              prefix: controller.isGoogleLoading.value
+                                  ? const SizedBox(
+                                      width: 16,
+                                      height: 16,
+                                      child: CircularProgressIndicator(
+                                        strokeWidth: 2,
+                                      ),
+                                    )
+                                  : const FaIcon(
+                                      FontAwesomeIcons.google,
+                                      size: 16,
+                                    ),
+                              child: Text(
+                                controller.isGoogleLoading.value
+                                    ? 'logging_loading'.tr
+                                    : 'google_login'.tr,
+                              ),
+                            ),
+                          )
+                          .animate()
+                          .fadeIn(delay: 600.ms, duration: 400.ms)
+                          .slideY(begin: 0.2, curve: Curves.easeOut),
+                    ],
                   ),
                 ),
               ),
             ),
-          ],
-        ),
+          ),
+        ],
       ),
     );
   }
