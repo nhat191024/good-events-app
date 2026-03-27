@@ -49,7 +49,8 @@ class AccountController extends GetxController {
         0,
   );
   final filterDate = DateTime.now().obs;
-  final RxInt selectedBank = 1.obs; //currently we only support PayOs, so default to 1
+  final RxInt selectedBank =
+      1.obs; //currently we only support PayOs, so default to 1
   final RxBool isRechargeAmountError = false.obs;
   final TextEditingController rechargeAmount = TextEditingController();
   final RxList<WalletTransactionModel> walletTransactions =
@@ -81,11 +82,15 @@ class AccountController extends GetxController {
   @override
   void onInit() {
     super.onInit();
-    fetchWalletTransactions();
+    if (role.value == 'partner') {
+      fetchWalletTransactions();
+    }
   }
 
   void onRefresh() async {
-    await fetchWalletTransactions();
+    if (role.value == 'partner') {
+      fetchWalletTransactions();
+    }
     refreshController.refreshCompleted();
   }
 

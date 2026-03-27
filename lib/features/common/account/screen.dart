@@ -143,7 +143,9 @@ class AccountScreen extends GetView<AccountController> {
                 Expanded(
                   child: Container(
                     width: Get.width,
-                    margin: const EdgeInsets.only(top: 100),
+                    margin: EdgeInsets.only(
+                      top: controller.role.value == 'partner' ? 100 : 0,
+                    ),
                     decoration: const BoxDecoration(
                       color: Color(0xFFF3F4F6),
                       borderRadius: BorderRadius.only(
@@ -165,21 +167,24 @@ class AccountScreen extends GetView<AccountController> {
                                 FIcons.user,
                                 () => Get.toNamed(Routes.myProfile),
                               ),
-                              _MenuItem(
-                                'show_calendar'.tr,
-                                FIcons.calendar1,
-                                () => Get.toNamed(Routes.partnerShowCalendar),
-                              ),
-                              _MenuItem(
-                                'my_services'.tr,
-                                FIcons.briefcase,
-                                () => Get.toNamed(Routes.partnerMyServices),
-                              ),
-                              _MenuItem(
-                                'revenue_statistics'.tr,
-                                FIcons.chartArea,
-                                () => Get.toNamed(Routes.partnerAnalytics),
-                              ),
+                              if (controller.role.value == 'partner')
+                                _MenuItem(
+                                  'show_calendar'.tr,
+                                  FIcons.calendar1,
+                                  () => Get.toNamed(Routes.partnerShowCalendar),
+                                ),
+                              if (controller.role.value == 'partner')
+                                _MenuItem(
+                                  'my_services'.tr,
+                                  FIcons.briefcase,
+                                  () => Get.toNamed(Routes.partnerMyServices),
+                                ),
+                              if (controller.role.value == 'partner')
+                                _MenuItem(
+                                  'revenue_statistics'.tr,
+                                  FIcons.chartArea,
+                                  () => Get.toNamed(Routes.partnerAnalytics),
+                                ),
                               _MenuItem(
                                 'change_password'.tr,
                                 FIcons.lockKeyholeOpen,
@@ -190,28 +195,28 @@ class AccountScreen extends GetView<AccountController> {
                             _buildSectionLabel(context, 'more_setting'.tr),
                             const SizedBox(height: 8),
                             _buildMenuCard(context, [
-                              _MenuItem(
-                                'notification_setting'.tr,
-                                FIcons.bell,
-                                () {
-                                  AppSnackbar.showInfo(
-                                    title: 'in_dev'.tr,
-                                    message:
-                                        'This feature is under development.',
-                                  );
-                                },
-                              ),
-                              _MenuItem(
-                                'message_setting'.tr,
-                                FIcons.messagesSquare,
-                                () {
-                                  AppSnackbar.showInfo(
-                                    title: 'in_dev'.tr,
-                                    message:
-                                        'This feature is under development.',
-                                  );
-                                },
-                              ),
+                              // _MenuItem(
+                              //   'notification_setting'.tr,
+                              //   FIcons.bell,
+                              //   () {
+                              //     AppSnackbar.showInfo(
+                              //       title: 'in_dev'.tr,
+                              //       message:
+                              //           'This feature is under development.',
+                              //     );
+                              //   },
+                              // ),
+                              // _MenuItem(
+                              //   'message_setting'.tr,
+                              //   FIcons.messagesSquare,
+                              //   () {
+                              //     AppSnackbar.showInfo(
+                              //       title: 'in_dev'.tr,
+                              //       message:
+                              //           'This feature is under development.',
+                              //     );
+                              //   },
+                              // ),
                               _MenuItem(
                                 'support'.tr,
                                 FIcons.circleQuestionMark,
@@ -230,7 +235,8 @@ class AccountScreen extends GetView<AccountController> {
                                   Get.toNamed(
                                     Routes.webView,
                                     arguments: {
-                                      'url': 'https://sukientot.com/privacy-policy',
+                                      'url':
+                                          'https://sukientot.com/privacy-policy',
                                       'title': 'privacy_policy'.tr,
                                     },
                                   );
