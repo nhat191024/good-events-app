@@ -2,6 +2,18 @@
 
 All notable changes to this project will be documented in this file.
 
+## [v2.3.0+38]
+
+- Update login, register, user verfiy screen UI
+
+## [v2.2.0+37]
+
+- Add filter for show, new show
+
+## [v2.1.0+36]
+
+- Add forgot password screen
+
 ## [v2.0.1+35]
 
 - Fix release version can't run
