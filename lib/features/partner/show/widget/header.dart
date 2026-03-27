@@ -1,5 +1,3 @@
-import 'package:searchbar_animation/searchbar_animation.dart';
-
 import 'package:sukientotapp/core/utils/import/global.dart';
 import '../controller.dart';
 
@@ -29,40 +27,6 @@ class Header extends StatelessWidget {
                   'my_shows'.tr,
                   style: context.typography.xl.copyWith(
                     fontWeight: FontWeight.bold,
-                  ),
-                ),
-                Positioned(
-                  right: 0,
-                  top: 0,
-                  child: SearchBarAnimation(
-                    searchBoxWidth: context.width - 32,
-                    hintText: 'search_with_dot'.tr,
-                    textEditingController: TextEditingController(),
-                    isOriginalAnimation: true,
-
-                    buttonBorderColour: Colors.transparent,
-                    buttonWidget: const Icon(
-                      FIcons.search,
-                      color: Colors.black,
-                    ),
-                    trailingWidget: const Icon(
-                      FIcons.search,
-                      color: Colors.black,
-                    ),
-                    secondaryButtonWidget: const Icon(
-                      FIcons.x,
-                      color: Colors.black,
-                    ),
-
-                    isSearchBoxOnRightSide: true,
-
-                    onCollapseComplete: () {
-                      controller.searchController.clear();
-                    },
-
-                    onChanged: (String value) {
-                      controller.searchController.text = value;
-                    },
                   ),
                 ),
               ],

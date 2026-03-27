@@ -4,6 +4,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:sukientotapp/core/utils/import/global.dart';
 
 import './show.dart';
+import './filter_sheet.dart';
 
 import 'package:sukientotapp/features/partner/show/controller.dart';
 
@@ -27,7 +28,8 @@ class NewWidget extends GetView<ShowController> {
               : context.fTheme.colors.muted,
           borderRadius: BorderRadius.circular(10),
           border: Border.all(
-            color: color?.withValues(alpha: 0.35) ?? context.fTheme.colors.border,
+            color:
+                color?.withValues(alpha: 0.35) ?? context.fTheme.colors.border,
           ),
         ),
         child: Icon(
@@ -49,41 +51,62 @@ class NewWidget extends GetView<ShowController> {
             if (controller.isLoading.value) {
               return const Center(child: CircularProgressIndicator());
             }
-            if (controller.newBills.isEmpty) {
+            final bills = controller.isFilterActive
+                ? controller.filteredNewBills
+                : controller.newBills;
+            if (bills.isEmpty) {
               return Center(
                 child: Column(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
                     Icon(
-                      CupertinoIcons.tray,
+                      controller.isFilterActive
+                          ? CupertinoIcons.search
+                          : CupertinoIcons.tray,
                       size: 56,
                       color: context.fTheme.colors.mutedForeground,
                     ),
                     const SizedBox(height: 12),
                     Text(
-                      'no_bills'.tr,
+                      controller.isFilterActive
+                          ? 'no_filter_results'.tr
+                          : 'no_bills'.tr,
                       style: context.typography.sm.copyWith(
                         color: context.fTheme.colors.mutedForeground,
                       ),
                     ),
+                    if (controller.isFilterActive) ...[
+                      const SizedBox(height: 10),
+                      GestureDetector(
+                        onTap: () => controller.clearFilter(),
+                        child: Text(
+                          'clear_filter'.tr,
+                          style: context.typography.xs.copyWith(
+                            color: context.fTheme.colors.primary,
+                            fontWeight: FontWeight.w600,
+                            decoration: TextDecoration.underline,
+                          ),
+                        ),
+                      ),
+                    ],
                   ],
                 ),
               );
             }
+            final showLoadMore =
+                !controller.isFilterActive && controller.isLoadMore.value;
             return ListView.builder(
               controller: controller.scrollController,
               padding: const EdgeInsets.only(top: 60, bottom: 100),
-              itemCount:
-                  controller.newBills.length +
-                  (controller.isLoadMore.value ? 1 : 0),
+              itemCount: bills.length + (showLoadMore ? 1 : 0),
               itemBuilder: (context, index) {
-                if (index == controller.newBills.length) {
+                if (index == bills.length) {
                   return const Padding(
                     padding: EdgeInsets.all(16.0),
                     child: Center(child: CircularProgressIndicator()),
                   );
                 }
-                final bill = controller.newBills[index];
+                final bill = bills[index];
                 return Show(
                       billId: bill.id,
                       code: bill.code,
@@ -146,7 +169,9 @@ class NewWidget extends GetView<ShowController> {
                           ),
                         ),
                         child: Text(
-                          '${controller.newBills.length}',
+                          controller.isFilterActive
+                              ? '${controller.filteredNewBills.length}'
+                              : '${controller.newBills.length}',
                           style: context.typography.xs.copyWith(
                             fontWeight: FontWeight.w700,
                             color: context.fTheme.colors.primary,
@@ -154,6 +179,33 @@ class NewWidget extends GetView<ShowController> {
                         ),
                       ),
                     ),
+                    const SizedBox(width: 6),
+                    Obx(() {
+                      if (!controller.isFilterActive)
+                        return const SizedBox.shrink();
+                      return GestureDetector(
+                        onTap: () => controller.clearFilter(),
+                        child: Container(
+                          height: 28,
+                          padding: const EdgeInsets.symmetric(horizontal: 10),
+                          decoration: BoxDecoration(
+                            color: AppColors.red600.withValues(alpha: 0.1),
+                            borderRadius: BorderRadius.circular(8),
+                            border: Border.all(
+                              color: AppColors.red600.withValues(alpha: 0.3),
+                            ),
+                          ),
+                          alignment: Alignment.center,
+                          child: Text(
+                            'clear_filter'.tr,
+                            style: context.typography.xs.copyWith(
+                              fontWeight: FontWeight.w600,
+                              color: AppColors.red600,
+                            ),
+                          ),
+                        ),
+                      );
+                    }),
                     const Spacer(),
                     _buildToolbarBtn(
                       context,
@@ -162,16 +214,24 @@ class NewWidget extends GetView<ShowController> {
                       color: AppColors.red600,
                     ),
                     const SizedBox(width: 6),
-                    _buildToolbarBtn(
-                      context,
-                      icon: FIcons.calendarDays,
-                      onTap: () => Get.snackbar('info'.tr, 'in_dev'.tr),
-                    ),
-                    const SizedBox(width: 6),
-                    _buildToolbarBtn(
-                      context,
-                      icon: FIcons.listFilterPlus,
-                      onTap: () => Get.snackbar('info'.tr, 'in_dev'.tr),
+                    Obx(
+                      () => _buildToolbarBtn(
+                        context,
+                        icon: FIcons.listFilterPlus,
+                        onTap: () => Get.bottomSheet(
+                          const FilterSheetWidget(),
+                          isScrollControlled: true,
+                          enterBottomSheetDuration: const Duration(
+                            milliseconds: 300,
+                          ),
+                          exitBottomSheetDuration: const Duration(
+                            milliseconds: 250,
+                          ),
+                        ),
+                        color: controller.isFilterActive
+                            ? context.fTheme.colors.primary
+                            : null,
+                      ),
                     ),
                   ],
                 ),

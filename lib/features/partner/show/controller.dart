@@ -15,6 +15,20 @@ class ShowController extends GetxController
 
   final searchController = TextEditingController();
 
+  // ─── Filter State ────────────────────────────────────────────────────────────
+  final filterSearch = ''.obs;
+  final filterDate = 'all'.obs;
+  final filterSort = 'date_asc'.obs;
+
+  bool get isFilterActive =>
+      filterSearch.value.isNotEmpty ||
+      filterDate.value != 'all' ||
+      filterSort.value != 'date_asc';
+
+  final filteredNewBills = <ShowBill>[].obs;
+  final filteredUpcomingBills = <ShowBill>[].obs;
+  final filteredHistoryBills = <ShowBill>[].obs;
+
   late TabController tabController;
   final _tabInitialized = [false, false, false];
 
@@ -73,12 +87,162 @@ class ShowController extends GetxController
   Future<void> refreshData() async {
     final index = tabController.index;
     _tabInitialized[index] = true;
+    if (isFilterActive) {
+      await _applyFilterForTab(index);
+      return;
+    }
     if (index == 0) {
       await _fetchNewBills(reset: true);
     } else if (index == 1) {
       await _fetchUpcomingBills(reset: true);
     } else if (index == 2) {
       await _fetchHistoryBills(reset: true);
+    }
+  }
+
+  // ─── Filter Logic ────────────────────────────────────────────────────────────
+
+  Future<void> applyFilter({
+    required String search,
+    required String dateFilter,
+    required String sort,
+  }) async {
+    filterSearch.value = search;
+    filterDate.value = dateFilter;
+    filterSort.value = sort;
+    await _applyFilterForTab(tabController.index);
+  }
+
+  Future<void> clearFilter() async {
+    filterSearch.value = '';
+    filterDate.value = 'all';
+    filterSort.value = 'date_asc';
+    filteredNewBills.clear();
+    filteredUpcomingBills.clear();
+    filteredHistoryBills.clear();
+  }
+
+  List<ShowBill> _filterLocally(List<ShowBill> source) {
+    var result = List<ShowBill>.from(source);
+
+    final q = filterSearch.value.toLowerCase().trim();
+    if (q.isNotEmpty) {
+      result = result
+          .where(
+            (b) =>
+                b.code.toLowerCase().contains(q) ||
+                b.clientName.toLowerCase().contains(q) ||
+                b.event.toLowerCase().contains(q) ||
+                b.category.toLowerCase().contains(q) ||
+                b.address.toLowerCase().contains(q),
+          )
+          .toList();
+    }
+
+    if (filterDate.value != 'all') {
+      final now = DateTime.now();
+      result = result.where((b) {
+        final date = DateTime.tryParse(b.date);
+        if (date == null) return false;
+        switch (filterDate.value) {
+          case 'today':
+            return date.year == now.year &&
+                date.month == now.month &&
+                date.day == now.day;
+          case 'this_week':
+            final start = now.subtract(Duration(days: now.weekday - 1));
+            final end = start.add(const Duration(days: 6));
+            return !date.isBefore(
+                  DateTime(start.year, start.month, start.day),
+                ) &&
+                !date.isAfter(DateTime(end.year, end.month, end.day, 23, 59));
+          case 'this_month':
+            return date.year == now.year && date.month == now.month;
+          default:
+            return true;
+        }
+      }).toList();
+    }
+
+    switch (filterSort.value) {
+      case 'date_desc':
+        result.sort((a, b) => b.date.compareTo(a.date));
+        break;
+      case 'price_asc':
+        result.sort((a, b) => a.finalTotal.compareTo(b.finalTotal));
+        break;
+      case 'price_desc':
+        result.sort((a, b) => b.finalTotal.compareTo(a.finalTotal));
+        break;
+      default: // date_asc
+        result.sort((a, b) => a.date.compareTo(b.date));
+        break;
+    }
+
+    return result;
+  }
+
+  Future<void> _applyFilterForTab(int index) async {
+    final String status;
+    final List<ShowBill> source;
+    if (index == 0) {
+      status = 'pending';
+      source = newBills;
+    } else if (index == 1) {
+      status = 'confirmed';
+      source = upcomingBills;
+    } else {
+      status = 'history';
+      source = historyBills;
+    }
+
+    final localResult = _filterLocally(source);
+    if (localResult.isNotEmpty) {
+      if (index == 0) {
+        filteredNewBills.value = localResult;
+      } else if (index == 1) {
+        filteredUpcomingBills.value = localResult;
+      } else {
+        filteredHistoryBills.value = localResult;
+      }
+      return;
+    }
+
+    // No local match → call API with filter params
+    if (index == 0) {
+      isLoading.value = true;
+    } else if (index == 1) {
+      isUpcomingLoading.value = true;
+    } else {
+      isHistoryLoading.value = true;
+    }
+
+    try {
+      final response = await _repository.getBills(
+        status: status,
+        search: filterSearch.value.isEmpty ? null : filterSearch.value,
+        dateFilter: filterDate.value,
+        sort: filterSort.value,
+        page: 1,
+      );
+      if (index == 0) {
+        filteredNewBills.value = response.bills;
+      } else if (index == 1) {
+        filteredUpcomingBills.value = response.bills;
+      } else {
+        filteredHistoryBills.value = response.bills;
+      }
+    } catch (e) {
+      Get.snackbar('error'.tr, 'load_data_failed'.tr);
+      logger.e('[Show] [Filter] API filter error: $e');
+    } finally {
+      if (index == 0) {
+        isLoading.value = false;
+      } else if (index == 1) {
+        isUpcomingLoading.value = false;
+      } else {
+        isHistoryLoading.value = false;
+      }
     }
   }
 
@@ -151,7 +315,7 @@ class ShowController extends GetxController
       upcomingBills.addAll(response.bills);
     } catch (e) {
       Get.snackbar('error'.tr, 'load_data_failed'.tr);
-      logger.e('Failed to load new bills: $e');
+      logger.e('Failed to load upcoming bills: $e');
     } finally {
       isUpcomingLoading.value = false;
     }

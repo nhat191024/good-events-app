@@ -4,6 +4,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:sukientotapp/core/utils/import/global.dart';
 
 import './show.dart';
+import './filter_sheet.dart';
 
 import 'package:sukientotapp/features/partner/show/controller.dart';
 
@@ -50,41 +51,63 @@ class UpcomingWidget extends GetView<ShowController> {
             if (controller.isUpcomingLoading.value) {
               return const Center(child: CircularProgressIndicator());
             }
-            if (controller.upcomingBills.isEmpty) {
+            final bills = controller.isFilterActive
+                ? controller.filteredUpcomingBills
+                : controller.upcomingBills;
+            if (bills.isEmpty) {
               return Center(
                 child: Column(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
                     Icon(
-                      CupertinoIcons.tray,
+                      controller.isFilterActive
+                          ? CupertinoIcons.search
+                          : CupertinoIcons.tray,
                       size: 56,
                       color: context.fTheme.colors.mutedForeground,
                     ),
                     const SizedBox(height: 12),
                     Text(
-                      'no_bills'.tr,
+                      controller.isFilterActive
+                          ? 'no_filter_results'.tr
+                          : 'no_bills'.tr,
                       style: context.typography.sm.copyWith(
                         color: context.fTheme.colors.mutedForeground,
                       ),
                     ),
+                    if (controller.isFilterActive) ...
+                      [
+                        const SizedBox(height: 10),
+                        GestureDetector(
+                          onTap: () => controller.clearFilter(),
+                          child: Text(
+                            'clear_filter'.tr,
+                            style: context.typography.xs.copyWith(
+                              color: context.fTheme.colors.primary,
+                              fontWeight: FontWeight.w600,
+                              decoration: TextDecoration.underline,
+                            ),
+                          ),
+                        ),
+                      ],
                   ],
                 ),
               );
             }
+            final showLoadMore = !controller.isFilterActive &&
+                controller.isUpcomingLoadMore.value;
             return ListView.builder(
               controller: controller.upcomingScrollController,
               padding: const EdgeInsets.only(top: 60, bottom: 100),
-              itemCount:
-                  controller.upcomingBills.length +
-                  (controller.isUpcomingLoadMore.value ? 1 : 0),
+              itemCount: bills.length + (showLoadMore ? 1 : 0),
               itemBuilder: (context, index) {
-                if (index == controller.upcomingBills.length) {
+                if (index == bills.length) {
                   return const Padding(
                     padding: EdgeInsets.all(16.0),
                     child: Center(child: CircularProgressIndicator()),
                   );
                 }
-                final bill = controller.upcomingBills[index];
+                final bill = bills[index];
                 return Show(
                       billId: bill.id,
                       code: bill.code,
@@ -145,7 +168,9 @@ class UpcomingWidget extends GetView<ShowController> {
                           ),
                         ),
                         child: Text(
-                          '${controller.upcomingBills.length}',
+                          controller.isFilterActive
+                              ? '${controller.filteredUpcomingBills.length}'
+                              : '${controller.upcomingBills.length}',
                           style: context.typography.xs.copyWith(
                             fontWeight: FontWeight.w700,
                             color: const Color(0xFF1D4ED8),
@@ -153,6 +178,32 @@ class UpcomingWidget extends GetView<ShowController> {
                         ),
                       ),
                     ),
+                    const SizedBox(width: 6),
+                    Obx(() {
+                      if (!controller.isFilterActive) return const SizedBox.shrink();
+                      return GestureDetector(
+                        onTap: () => controller.clearFilter(),
+                        child: Container(
+                          height: 28,
+                          padding: const EdgeInsets.symmetric(horizontal: 10),
+                          decoration: BoxDecoration(
+                            color: AppColors.red600.withValues(alpha: 0.1),
+                            borderRadius: BorderRadius.circular(8),
+                            border: Border.all(
+                              color: AppColors.red600.withValues(alpha: 0.3),
+                            ),
+                          ),
+                          alignment: Alignment.center,
+                          child: Text(
+                            'clear_filter'.tr,
+                            style: context.typography.xs.copyWith(
+                              fontWeight: FontWeight.w600,
+                              color: AppColors.red600,
+                            ),
+                          ),
+                        ),
+                      );
+                    }),
                     const Spacer(),
                     _buildToolbarBtn(
                       context,
@@ -161,16 +212,22 @@ class UpcomingWidget extends GetView<ShowController> {
                       color: AppColors.red600,
                     ),
                     const SizedBox(width: 6),
-                    _buildToolbarBtn(
-                      context,
-                      icon: FIcons.calendarDays,
-                      onTap: () => Get.snackbar('info'.tr, 'in_dev'.tr),
-                    ),
-                    const SizedBox(width: 6),
-                    _buildToolbarBtn(
-                      context,
-                      icon: FIcons.listFilterPlus,
-                      onTap: () => Get.snackbar('info'.tr, 'in_dev'.tr),
+                    Obx(
+                      () => _buildToolbarBtn(
+                        context,
+                        icon: FIcons.listFilterPlus,
+                        onTap: () => Get.bottomSheet(
+                          const FilterSheetWidget(),
+                          isScrollControlled: true,
+                          enterBottomSheetDuration:
+                              const Duration(milliseconds: 300),
+                          exitBottomSheetDuration:
+                              const Duration(milliseconds: 250),
+                        ),
+                        color: controller.isFilterActive
+                            ? const Color(0xFF3B82F6)
+                            : null,
+                      ),
                     ),
                   ],
                 ),

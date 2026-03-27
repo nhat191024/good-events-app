@@ -680,6 +680,23 @@ class AppTranslations extends Translations {
       'enter': 'Nhập',
       'add': 'Thêm',
 
+      // partner show filter
+      'filter_orders': 'Lọc đơn hàng',
+      'search_orders_hint': 'Tìm theo mã đơn, khách hàng, địa điểm...',
+      'date_filter_label': 'Lọc theo ngày sự kiện',
+      'date_all': 'Tất cả',
+      'date_today': 'Hôm nay',
+      'date_this_week': 'Tuần này',
+      'date_this_month': 'Tháng này',
+      'sort_label': 'Sắp xếp theo',
+      'sort_date_asc': 'Ngày tăng dần',
+      'sort_date_desc': 'Ngày giảm dần',
+      'sort_price_asc': 'Giá tăng dần',
+      'sort_price_desc': 'Giá giảm dần',
+      'apply_filter': 'Áp dụng',
+      'clear_filter': 'Xóa lọc',
+      'no_filter_results': 'Không có đơn nào khớp với bộ lọc',
+
       //dev
       'in_dev': 'Tính năng đang phát triển',
     },
@@ -1334,6 +1351,23 @@ class AppTranslations extends Translations {
       'submit_report': 'Submit Report',
       'report_success_message': 'Report submitted successfully!',
       'report_failed': 'Failed to submit report. Please try again.',
+
+      // partner show filter
+      'filter_orders': 'Filter Orders',
+      'search_orders_hint': 'Search by code, client, address...',
+      'date_filter_label': 'Filter by Event Date',
+      'date_all': 'All',
+      'date_today': 'Today',
+      'date_this_week': 'This Week',
+      'date_this_month': 'This Month',
+      'sort_label': 'Sort by',
+      'sort_date_asc': 'Date ↑',
+      'sort_date_desc': 'Date ↓',
+      'sort_price_asc': 'Price ↑',
+      'sort_price_desc': 'Price ↓',
+      'apply_filter': 'Apply',
+      'clear_filter': 'Clear Filter',
+      'no_filter_results': 'No orders match the current filter',
 
       //dev
       'in_dev': 'Feature in development',
