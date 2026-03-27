@@ -393,8 +393,7 @@ class _RevenueChartSection extends StatelessWidget {
   }
 
   String _formatRevenue(double value) {
-    if (value >= 1000000000)
-      return '${(value / 1000000000).toStringAsFixed(1)}B';
+    if (value >= 1000000000) return '${(value / 1000000000).toStringAsFixed(1)}B';
     if (value >= 1000000) return '${(value / 1000000).toStringAsFixed(1)}M';
     if (value >= 1000) return '${(value / 1000).toStringAsFixed(0)}K';
     return value.toStringAsFixed(0);
@@ -682,8 +681,7 @@ class _ServiceTile extends StatelessWidget {
   }
 
   String _fmt(double value) {
-    if (value >= 1000000000)
-      return '${(value / 1000000000).toStringAsFixed(1)}B đ';
+    if (value >= 1000000000) return '${(value / 1000000000).toStringAsFixed(1)}B đ';
     if (value >= 1000000) return '${(value / 1000000).toStringAsFixed(1)}M đ';
     if (value >= 1000) return '${(value / 1000).toStringAsFixed(0)}K đ';
     return '${value.toStringAsFixed(0)} đ';

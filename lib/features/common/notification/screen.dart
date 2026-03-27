@@ -165,8 +165,7 @@ class NotificationScreen extends GetView<NotificationController> {
 
     if (difference.inDays == 0) {
       if (difference.inHours == 0) {
-        if (difference.inMinutes <= 1)
-          return 'vừa_xong'.tr; // fallback for localization or plain text
+        if (difference.inMinutes <= 1) return 'vừa_xong'.tr;
         return '${difference.inMinutes} ${'minute_ago'.tr}';
       }
       return '${difference.inHours} ${'hour_ago'.tr}';
