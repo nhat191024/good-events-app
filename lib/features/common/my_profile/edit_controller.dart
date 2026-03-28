@@ -1,3 +1,5 @@
+import 'dart:math';
+
 import 'package:dio/dio.dart';
 import 'package:flutter_quill/flutter_quill.dart';
 import 'package:flutter_quill_delta_from_html/flutter_quill_delta_from_html.dart';
@@ -10,7 +12,10 @@ import 'package:sukientotapp/data/models/location_model.dart';
 import 'package:sukientotapp/data/providers/location_provider.dart';
 import 'package:sukientotapp/domain/repositories/common/my_profile_repository.dart';
 import 'package:sukientotapp/features/common/account/controller.dart';
-import 'package:sukientotapp/features/partner/home/controller.dart';
+import 'package:sukientotapp/features/partner/home/controller.dart'
+    as partner_home;
+import 'package:sukientotapp/features/client/home/controller.dart'
+    as client_home;
 
 import 'controller.dart';
 
@@ -263,8 +268,14 @@ class EditProfileController extends GetxController {
         Get.find<AccountController>().syncFromStorage();
       }
 
-      if (Get.isRegistered<HomeController>()) {
-        Get.find<HomeController>().syncFromStorage();
+      if (role.value == 'partner') {
+        if (Get.isRegistered<partner_home.HomeController>()) {
+          Get.find<partner_home.HomeController>().syncFromStorage();
+        }
+      } else {
+        if (Get.isRegistered<client_home.HomeController>()) {
+          Get.find<client_home.HomeController>().syncFromStorage();
+        }
       }
 
       AppSnackbar.showSuccess(message: 'profile_updated'.tr);
