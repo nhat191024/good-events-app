@@ -20,9 +20,11 @@ class HomeController extends GetxController {
   final isLoadingPartners = false.obs;
 
   // User data
-  RxString name = (StorageService.readMapData(key: LocalStorageKeys.user, mapKey: 'name') ?? '')
-      .toString()
-      .obs;
+  RxString name =
+      (StorageService.readMapData(key: LocalStorageKeys.user, mapKey: 'name') ??
+              '')
+          .toString()
+          .obs;
 
   RxString avatar =
       (StorageService.readMapData(
