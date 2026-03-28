@@ -2,6 +2,10 @@
 
 All notable changes to this project will be documented in this file.
 
+## [v2.3.1+39]
+
+- Fix update profile success but still show error noti
+
 ## [v2.3.0+38]
 
 - Update login, register, user verfiy screen UI
