@@ -3,12 +3,14 @@ import 'dart:async';
 import 'package:sukientotapp/core/utils/import/global.dart';
 import 'package:sukientotapp/core/utils/app_videos.dart';
 import 'package:sukientotapp/domain/repositories/auth_repository.dart';
+import 'package:sukientotapp/domain/repositories/settings_repository.dart';
 import 'package:video_player/video_player.dart';
 
 class SplashController extends GetxController {
   final AuthRepository _authRepository;
+  final SettingsRepository _settingsRepository;
 
-  SplashController(this._authRepository);
+  SplashController(this._authRepository, this._settingsRepository);
 
   VideoPlayerController videoPlayerController = VideoPlayerController.asset(
     AppVideos.splashVideoLight,
@@ -34,6 +36,7 @@ class SplashController extends GetxController {
     }
 
     _initVideo();
+    _fetchSettings();
     _checkToken();
   }
 
@@ -63,6 +66,15 @@ class SplashController extends GetxController {
         }
       }
     });
+  }
+
+  /// Fetch app settings from BE and cache to local storage
+  Future<void> _fetchSettings() async {
+    try {
+      await _settingsRepository.fetchSettings();
+    } catch (e) {
+      logger.w('[SplashController] [_fetchSettings] Failed: $e');
+    }
   }
 
   ///Check token validity

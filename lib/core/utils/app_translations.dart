@@ -136,6 +136,10 @@ class AppTranslations extends Translations {
       // client partner detail
       'contact': 'Liên hệ',
       'support': 'Hỗ trợ tư vấn',
+      'contact_via': 'Chọn cách liên hệ',
+      'call_hotline': 'Gọi điện hotline',
+      'open_zalo': 'Nhắn tin qua Zalo',
+      'no_contact_info': 'Hiện chưa có thông tin liên hệ',
       'rent': 'Thuê ngay',
       'book_now': 'Đặt lịch ngay',
       'main_info': 'Thông tin chính',
@@ -834,6 +838,10 @@ class AppTranslations extends Translations {
       // client partner detail
       'contact': 'Contact',
       'support': 'Support',
+      'contact_via': 'Choose contact method',
+      'call_hotline': 'Call hotline',
+      'open_zalo': 'Chat on Zalo',
+      'no_contact_info': 'No contact info available',
       'rent': 'Rent',
       'book_now': 'Book now',
       'main_info': 'Main info',

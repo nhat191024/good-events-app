@@ -1,4 +1,7 @@
 class AppUrl {
+  // App Settings
+  static const String settings = '/settings';
+
   // Authentication
   static const String login = '/login';
   static const String loginGoogle = '/login/google';

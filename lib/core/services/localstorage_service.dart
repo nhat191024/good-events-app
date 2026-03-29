@@ -65,4 +65,5 @@ class LocalStorageKeys {
 
   // App settings
   static const String locale = "locale";
+  static const String settings = "settings";
 }
