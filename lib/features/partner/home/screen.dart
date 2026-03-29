@@ -12,7 +12,7 @@ import 'widgets/income_panel.dart';
 import 'widgets/bill_count_panel.dart';
 import 'widgets/new_review_panel.dart';
 
-class HomeScreen extends GetView<HomeController> {
+class HomeScreen extends GetView<PartnerHomeController> {
   const HomeScreen({super.key});
 
   @override

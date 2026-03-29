@@ -5,9 +5,9 @@ import 'package:sukientotapp/data/models/client/home_summary_model.dart';
 import 'package:sukientotapp/data/models/client/blog_home_model.dart';
 import 'package:sukientotapp/data/models/client/partner_category_model.dart';
 
-class HomeController extends GetxController {
+class ClientHomeController extends GetxController {
   final HomeRepository _repository;
-  HomeController(this._repository);
+  ClientHomeController(this._repository);
 
   // States
   final Rx<HomeSummaryModel?> summary = Rx<HomeSummaryModel?>(null);

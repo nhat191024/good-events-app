@@ -1,5 +1,5 @@
 import 'package:get/get.dart';
-import 'controller.dart';
+import 'controller.dart'; // ClientHomeController
 
 import 'package:sukientotapp/core/services/api_service.dart';
 import 'package:sukientotapp/domain/repositories/client/home_repository.dart';
@@ -19,8 +19,8 @@ class HomeBinding extends Bindings {
       () => HomeRepositoryImpl(Get.find<HomeProvider>()),
     );
 
-    Get.lazyPut<HomeController>(
-      () => HomeController(Get.find<HomeRepository>()),
+    Get.lazyPut<ClientHomeController>(
+      () => ClientHomeController(Get.find<HomeRepository>()),
     );
   }
 }

@@ -5,7 +5,7 @@ import 'package:sukientotapp/features/client/home/controller.dart';
 class ClientBillCountPanel extends StatelessWidget {
   const ClientBillCountPanel({super.key, required this.controller});
 
-  final HomeController controller;
+  final ClientHomeController controller;
 
   @override
   Widget build(BuildContext context) {

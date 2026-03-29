@@ -2,10 +2,10 @@ import 'package:sukientotapp/core/utils/import/global.dart';
 import 'package:sukientotapp/domain/repositories/partner/dashboard_repository.dart';
 import 'package:sukientotapp/data/models/partner/dashboard_model.dart';
 
-class HomeController extends GetxController {
+class PartnerHomeController extends GetxController {
   final DashboardRepository _dashboardRepository;
 
-  HomeController(this._dashboardRepository);
+  PartnerHomeController(this._dashboardRepository);
 
   RxString name =
       (StorageService.readMapData(key: LocalStorageKeys.user, mapKey: 'name') ??
@@ -72,7 +72,7 @@ class HomeController extends GetxController {
       final data = await _dashboardRepository.getDashboardData();
       dashboardData.value = data;
     } catch (e) {
-      logger.e('[HomeController] [fetchDashboardData] error: $e');
+      logger.e('[PartnerHomeController] [fetchDashboardData] error: $e');
     } finally {
       isLoading.value = false;
     }

@@ -48,8 +48,8 @@ class PaymentResultController extends GetxController {
           Get.find<AccountController>().syncBalance();
         }
 
-        if (Get.isRegistered<HomeController>()) {
-          Get.find<HomeController>().syncBalance();
+        if (Get.isRegistered<PartnerHomeController>()) {
+          Get.find<PartnerHomeController>().syncBalance();
         }
       }
     } catch (e) {

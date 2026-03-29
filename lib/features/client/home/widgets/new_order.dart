@@ -5,7 +5,7 @@ import 'package:sukientotapp/features/client/home/controller.dart';
 class NewOrderPanel extends StatefulWidget {
   const NewOrderPanel({super.key, required this.controller});
 
-  final HomeController controller;
+  final ClientHomeController controller;
 
   @override
   State<NewOrderPanel> createState() => _NewOrderPanelState();

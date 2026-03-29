@@ -6,7 +6,7 @@ import 'package:sukientotapp/features/components/common/notification_button/noti
 class ClientHomeHeader extends StatelessWidget {
   const ClientHomeHeader({super.key, required this.controller});
 
-  final HomeController controller;
+  final ClientHomeController controller;
 
   @override
   Widget build(BuildContext context) {

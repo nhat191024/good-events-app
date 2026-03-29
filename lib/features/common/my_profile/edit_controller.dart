@@ -269,12 +269,12 @@ class EditProfileController extends GetxController {
       }
 
       if (role.value == 'partner') {
-        if (Get.isRegistered<partner_home.HomeController>()) {
-          Get.find<partner_home.HomeController>().syncFromStorage();
+        if (Get.isRegistered<partner_home.PartnerHomeController>()) {
+          Get.find<partner_home.PartnerHomeController>().syncFromStorage();
         }
       } else {
-        if (Get.isRegistered<client_home.HomeController>()) {
-          Get.find<client_home.HomeController>().syncFromStorage();
+        if (Get.isRegistered<client_home.ClientHomeController>()) {
+          Get.find<client_home.ClientHomeController>().syncFromStorage();
         }
       }
 

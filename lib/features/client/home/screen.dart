@@ -12,7 +12,7 @@ import 'package:sukientotapp/features/client/home/widgets/fake_search_bar.dart';
 
 import 'controller.dart';
 
-class HomeScreen extends GetView<HomeController> {
+class HomeScreen extends GetView<ClientHomeController> {
   const HomeScreen({super.key});
 
   @override

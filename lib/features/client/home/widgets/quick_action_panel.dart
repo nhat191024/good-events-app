@@ -5,7 +5,7 @@ import 'package:sukientotapp/features/client/home/widgets/popup_search_sheet.dar
 class ClientQuickActionPanel extends StatelessWidget {
   const ClientQuickActionPanel({super.key, required this.controller});
 
-  final HomeController controller;
+  final ClientHomeController controller;
 
   @override
   Widget build(BuildContext context) {
