@@ -34,18 +34,22 @@ class AppTranslations extends Translations {
 
       //forgot password screen
       'forgot_password': 'Quên mật khẩu',
-      'forgot_password_subtitle': 'Nhập email hoặc số điện thoại đã đăng ký. Chúng tôi sẽ gửi liên kết đặt lại mật khẩu cho bạn.',
+      'forgot_password_subtitle':
+          'Nhập email hoặc số điện thoại đã đăng ký. Chúng tôi sẽ gửi liên kết đặt lại mật khẩu cho bạn.',
       'email_or_phone': 'Email hoặc số điện thoại',
       'email_or_phone_hint': 'email@example.com hoặc 0987654321',
       'email_or_phone_required': 'Vui lòng nhập email hoặc số điện thoại.',
       'sending': 'Đang gửi...',
       'send_reset_link': 'Gửi liên kết đặt lại',
-      'forgot_password_success_message': 'Đã gửi liên kết đặt lại mật khẩu. Vui lòng kiểm tra email hoặc tin nhắn của bạn.',
-      'forgot_password_send_failed': 'Gửi liên kết thất bại, vui lòng thử lại sau.',
+      'forgot_password_success_message':
+          'Đã gửi liên kết đặt lại mật khẩu. Vui lòng kiểm tra email hoặc tin nhắn của bạn.',
+      'forgot_password_send_failed':
+          'Gửi liên kết thất bại, vui lòng thử lại sau.',
 
       //register screen
       'create_account': 'Tạo tài khoản',
-      'register_subtitle': 'Điền thông tin để bắt đầu hành trình cùng chúng tôi.',
+      'register_subtitle':
+          'Điền thông tin để bắt đầu hành trình cùng chúng tôi.',
       'full_name': 'Họ và tên',
       'name_hint': 'Nhập họ và tên đầy đủ',
       'name_required': 'Vui lòng nhập họ và tên.',
@@ -547,6 +551,13 @@ class AppTranslations extends Translations {
       'reason': 'Lý do',
       'balance_change': 'Thay đổi số dư',
 
+      'change_to_partner': 'Chuyển sang đối tác',
+      'change_to_client': 'Chuyển sang khách hàng',
+      'change_to_desc': 'Chuyển sang giao diện @role?',
+      'no_partner_profile': 'Bạn chưa đăng ký thành đối tác',
+      'switch_role_too_frequently':
+          'Bạn đã chuyển vai trò quá nhiều lần trong thời gian ngắn. Vui lòng thử lại sau.',
+
       // Payment Result Screen
       'payment_order_code': 'Mã đơn hàng',
       'back_to_home': 'Về trang chủ',
@@ -744,18 +755,22 @@ class AppTranslations extends Translations {
 
       //forgot password screen
       'forgot_password': 'Forgot Password',
-      'forgot_password_subtitle': 'Enter your registered email or phone number. We will send you a password reset link.',
+      'forgot_password_subtitle':
+          'Enter your registered email or phone number. We will send you a password reset link.',
       'email_or_phone': 'Email or Phone Number',
       'email_or_phone_hint': 'email@example.com or 0987654321',
       'email_or_phone_required': 'Please enter your email or phone number.',
       'sending': 'Sending...',
       'send_reset_link': 'Send Reset Link',
-      'forgot_password_success_message': 'Password reset link sent. Please check your email or messages.',
-      'forgot_password_send_failed': 'Failed to send reset link, please try again.',
+      'forgot_password_success_message':
+          'Password reset link sent. Please check your email or messages.',
+      'forgot_password_send_failed':
+          'Failed to send reset link, please try again.',
 
       //register screen
       'create_account': 'Create Account',
-      'register_subtitle': 'Fill in your details to start your journey with us.',
+      'register_subtitle':
+          'Fill in your details to start your journey with us.',
       'full_name': 'Full Name',
       'name_hint': 'Enter your full name',
       'name_required': 'Please enter your full name.',
@@ -1208,6 +1223,13 @@ class AppTranslations extends Translations {
       'transaction_id': 'Transaction ID',
       'reason': 'Reason',
       'balance_change': 'Balance change',
+
+      'change_to_partner': 'Change to partner',
+      'change_to_client': 'Change to client',
+      'change_to_desc': 'Switch to @role interface?',
+      'no_partner_profile': 'You have not registered as a partner yet',
+      'switch_role_too_fast':
+          'You are switching roles too fast, please wait a moment and try again.',
 
       // Payment Result Screen
       'payment_order_code': 'Order Code',

@@ -37,6 +37,15 @@ class AccountController extends GetxController {
           .obs;
   final RxBool saveBankInfo = false.obs;
 
+  RxString isHavePartnerProfile =
+      (StorageService.readMapData(
+                key: LocalStorageKeys.user,
+                mapKey: 'is_have_partner_profile',
+              ) ??
+              '')
+          .toString()
+          .obs;
+
   //============================================================================
   // WALLET & TRANSACTIONS
   //============================================================================
@@ -210,6 +219,55 @@ class AccountController extends GetxController {
       AppSnackbar.showError(title: 'error'.tr, message: e.toString());
     } finally {
       isRechargeLoading.value = false;
+    }
+  }
+
+  //============================================================================
+  // ROLE SWITCHING
+  //============================================================================
+  static DateTime? _lastSwitchTime;
+
+  Future<void> switchRole() async {
+    if (isHavePartnerProfile.value == 'false') {
+      AppSnackbar.showError(
+        title: 'error'.tr,
+        message: 'no_partner_profile'.tr,
+      );
+      return;
+    }
+
+    final now = DateTime.now();
+    if (_lastSwitchTime != null &&
+        now.difference(_lastSwitchTime!).inSeconds < 3) {
+      AppSnackbar.showError(
+        title: 'error'.tr,
+        message: 'switch_role_too_fast'.tr,
+      );
+      return;
+    }
+    if (isLoading.value) return;
+
+    _lastSwitchTime = now;
+    isLoading.value = true;
+
+    try {
+      final newRole = role.value == 'partner' ? 'client' : 'partner';
+
+      StorageService.updateMapData(
+        key: LocalStorageKeys.user,
+        mapKey: 'role',
+        value: newRole,
+      );
+
+      if (newRole == 'client') {
+        Get.offAllNamed(Routes.clientHome);
+      } else {
+        Get.offAllNamed(Routes.partnerHome);
+      }
+    } catch (e) {
+      logger.e('[AccountController] [switchRole] error: $e');
+      AppSnackbar.showError(title: 'error'.tr, message: e.toString());
+      isLoading.value = false;
     }
   }
 

@@ -163,6 +163,27 @@ class AccountScreen extends GetView<AccountController> {
                             const SizedBox(height: 8),
                             _buildMenuCard(context, [
                               _MenuItem(
+                                controller.role.value == 'partner'
+                                    ? 'change_to_client'.tr
+                                    : 'change_to_partner'.tr,
+                                FIcons.userStar,
+                                () => ConfirmDialog.show(
+                                  title: controller.role.value == 'partner'
+                                      ? 'change_to_client'.tr
+                                      : 'change_to_partner'.tr,
+                                  message: 'change_to_desc'.trParams({
+                                    'role': controller.role.value == 'partner'
+                                        ? 'customer'.tr
+                                        : 'partner'.tr,
+                                  }),
+                                  confirmText: 'confirm'.tr,
+                                  icon: FIcons.userStar,
+                                  iconColor: context.primary,
+                                  confirmColor: context.primary,
+                                  onConfirm: controller.switchRole,
+                                ),
+                              ),
+                              _MenuItem(
                                 'my_profile'.tr,
                                 FIcons.user,
                                 () => Get.toNamed(Routes.myProfile),
