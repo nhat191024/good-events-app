@@ -7,6 +7,7 @@ All notable changes to this project will be documented in this file.
 - Change some text translation
 - Fix price size in partner category detail
 - Add action for support button in partner category detail
+- Add new behavior for list category bottom sheet in client home. now when return from partner category detail the bottom sheet auto open up
 
 ## [v2.4.0+41]
 
