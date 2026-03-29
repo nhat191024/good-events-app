@@ -1,9 +1,12 @@
+import 'package:get/get_connect/http/src/utils/utils.dart';
 import 'package:sukientotapp/core/utils/import/global.dart';
 import 'package:sukientotapp/domain/repositories/client/home_repository.dart';
 
 import 'package:sukientotapp/data/models/client/home_summary_model.dart';
 import 'package:sukientotapp/data/models/client/blog_home_model.dart';
 import 'package:sukientotapp/data/models/client/partner_category_model.dart';
+
+import 'package:sukientotapp/features/client/home/widgets/popup_search_sheet.dart';
 
 class ClientHomeController extends GetxController {
   final HomeRepository _repository;
@@ -115,5 +118,29 @@ class ClientHomeController extends GetxController {
     // } else {
     //   throw 'Could not launch $url';
     // }
+  }
+
+  void openDetailScreen(String slug) async {
+    var result = await Get.toNamed(
+      Routes.partnerDetail,
+      arguments: {'slug': slug},
+    );
+
+    if (result == "show_category_bottom_sheet") {
+      Future.delayed(const Duration(milliseconds: 400), () {
+        openCategoryListBottomSheet(Get.context!);
+      });
+    }
+  }
+
+  void openCategoryListBottomSheet(BuildContext context) {
+    showModalBottomSheet(
+      context: context,
+      builder: (context) => PopupPartnerSearchSheet(
+        partnerCategories: partnerList,
+        isLoadingPartners: isLoadingPartners,
+      ),
+      isScrollControlled: true,
+    );
   }
 }

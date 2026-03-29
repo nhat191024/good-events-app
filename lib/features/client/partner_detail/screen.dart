@@ -21,7 +21,11 @@ class PartnerDetailScreen extends GetView<PartnerDetailController> {
                 : controller.partnerName.value,
           ),
         ),
-        prefixes: [FHeaderAction.back(onPress: Get.back)],
+        prefixes: [
+          FHeaderAction.back(
+            onPress: () => Get.back(result: 'show_category_bottom_sheet'),
+          ),
+        ],
         suffixes: [LanguageSwitch()],
       ),
       child: Obx(() {

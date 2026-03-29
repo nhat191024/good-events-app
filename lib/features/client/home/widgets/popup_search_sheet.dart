@@ -1,5 +1,6 @@
 import 'package:sukientotapp/core/utils/import/global.dart';
 import 'package:sukientotapp/data/models/client/partner_category_model.dart';
+import '../controller.dart';
 
 class PopupPartnerSearchSheet extends StatefulWidget {
   const PopupPartnerSearchSheet({
@@ -12,7 +13,8 @@ class PopupPartnerSearchSheet extends StatefulWidget {
   final RxBool isLoadingPartners;
 
   @override
-  State<PopupPartnerSearchSheet> createState() => _PopupPartnerSearchSheetState();
+  State<PopupPartnerSearchSheet> createState() =>
+      _PopupPartnerSearchSheetState();
 }
 
 class _PopupPartnerSearchSheetState extends State<PopupPartnerSearchSheet> {
@@ -20,8 +22,10 @@ class _PopupPartnerSearchSheetState extends State<PopupPartnerSearchSheet> {
   final RxString _searchQuery = ''.obs;
 
   String _removeDiacritics(String str) {
-    const withDiacritics = 'áàảãạâấầẩẫậăắằẳẵặđéèẻẽẹêếềểễệíìỉĩịóòỏõọôốồổỗộơớờởỡợúùủũụưứừửữựýỳỷỹỵ';
-    const withoutDiacritics = 'aaaaaaaaaaaaaaaaadeeeeeeeeeeeiiiiiooooooooooooooooouuuuuuuuuuuyyyyy';
+    const withDiacritics =
+        'áàảãạâấầẩẫậăắằẳẵặđéèẻẽẹêếềểễệíìỉĩịóòỏõọôốồổỗộơớờởỡợúùủũụưứừửữựýỳỷỹỵ';
+    const withoutDiacritics =
+        'aaaaaaaaaaaaaaaaadeeeeeeeeeeeiiiiiooooooooooooooooouuuuuuuuuuuyyyyy';
     var lowerStr = str.toLowerCase();
     for (int i = 0; i < withDiacritics.length; i++) {
       lowerStr = lowerStr.replaceAll(withDiacritics[i], withoutDiacritics[i]);
@@ -114,7 +118,8 @@ class _PopupPartnerSearchSheetState extends State<PopupPartnerSearchSheet> {
               const SizedBox(height: 10),
               Expanded(
                 child: Obx(() {
-                  if (widget.isLoadingPartners.value && widget.partnerCategories.isEmpty) {
+                  if (widget.isLoadingPartners.value &&
+                      widget.partnerCategories.isEmpty) {
                     return Center(
                       child: Column(
                         mainAxisSize: MainAxisSize.min,
@@ -132,7 +137,9 @@ class _PopupPartnerSearchSheetState extends State<PopupPartnerSearchSheet> {
                   if (filtered.isEmpty) {
                     return Center(
                       child: Text(
-                        _searchQuery.value.isEmpty ? 'in_dev'.tr : 'no_results_found'.tr,
+                        _searchQuery.value.isEmpty
+                            ? 'in_dev'.tr
+                            : 'no_results_found'.tr,
                         style: TextStyle(
                           color: context.fTheme.colors.mutedForeground,
                         ),
@@ -193,12 +200,9 @@ class _PopupPartnerSearchSheetState extends State<PopupPartnerSearchSheet> {
         crossAxisSpacing: 4,
         mainAxisSpacing: 4,
       ),
-      delegate: SliverChildBuilderDelegate(
-        (context, index) {
-          return PartnerItem(partner: category.partnerList[index]);
-        },
-        childCount: category.partnerList.length,
-      ),
+      delegate: SliverChildBuilderDelegate((context, index) {
+        return PartnerItem(partner: category.partnerList[index]);
+      }, childCount: category.partnerList.length),
     );
   }
 }
@@ -214,12 +218,8 @@ class PartnerItem extends StatelessWidget {
       behavior: HitTestBehavior.opaque,
       onTap: () {
         Get.back();
-        Get.toNamed(
-          Routes.partnerDetail,
-          arguments: {
-            'slug': partner.slug,
-          },
-        );
+        final controller = Get.find<ClientHomeController>();
+        controller.openDetailScreen(partner.slug);
       },
       child: SizedBox(
         width: double.infinity,
@@ -262,7 +262,10 @@ class PartnerItem extends StatelessWidget {
                   partner.name,
                   maxLines: 2,
                   overflow: TextOverflow.visible,
-                  style: const TextStyle(fontSize: 12, fontWeight: FontWeight.normal),
+                  style: const TextStyle(
+                    fontSize: 12,
+                    fontWeight: FontWeight.normal,
+                  ),
                 ),
               ),
             ),

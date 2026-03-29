@@ -22,10 +22,18 @@ class HomeScreen extends GetView<ClientHomeController> {
 
     return FScaffold(
       header: Container(
-        padding: EdgeInsets.only(top: statusBarHeight + 4, left: 16, right: 16, bottom: 20),
+        padding: EdgeInsets.only(
+          top: statusBarHeight + 4,
+          left: 16,
+          right: 16,
+          bottom: 20,
+        ),
         decoration: BoxDecoration(
           gradient: LinearGradient(
-            colors: [AppColors.primary, AppColors.primary.withValues(alpha: 0.78)],
+            colors: [
+              AppColors.primary,
+              AppColors.primary.withValues(alpha: 0.78),
+            ],
             begin: Alignment.topLeft,
             end: Alignment.bottomRight,
           ),
@@ -40,14 +48,7 @@ class HomeScreen extends GetView<ClientHomeController> {
               onTap: () {
                 searchController.clear();
                 controller.ensurePartnersLoaded();
-                showModalBottomSheet(
-                  context: context,
-                  builder: (context) => PopupPartnerSearchSheet(
-                    partnerCategories: controller.partnerList,
-                    isLoadingPartners: controller.isLoadingPartners,
-                  ),
-                  isScrollControlled: true,
-                );
+                controller.openCategoryListBottomSheet(context);
               },
             ),
           ],
@@ -60,22 +61,22 @@ class HomeScreen extends GetView<ClientHomeController> {
           mainAxisAlignment: MainAxisAlignment.start,
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            ClientQuickActionPanel(
-              controller: controller,
-            )
+            ClientQuickActionPanel(controller: controller)
                 .animate(delay: 100.ms)
                 .fadeIn(duration: 400.ms)
                 .slideY(begin: 0.1, end: 0),
 
             const SizedBox(height: 14),
-            ClientBillCountPanel(
-              controller: controller,
-            ).animate(delay: 200.ms).fadeIn(duration: 400.ms).slideY(begin: 0.1, end: 0),
+            ClientBillCountPanel(controller: controller)
+                .animate(delay: 200.ms)
+                .fadeIn(duration: 400.ms)
+                .slideY(begin: 0.1, end: 0),
 
             const SizedBox(height: 14),
-            NewOrderPanel(
-              controller: controller,
-            ).animate(delay: 300.ms).fadeIn(duration: 400.ms).slideY(begin: 0.1, end: 0),
+            NewOrderPanel(controller: controller)
+                .animate(delay: 300.ms)
+                .fadeIn(duration: 400.ms)
+                .slideY(begin: 0.1, end: 0),
 
             const SizedBox(height: 14),
 
