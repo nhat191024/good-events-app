@@ -94,7 +94,7 @@ class PartnerInfoCard extends StatelessWidget {
                   () => Text(
                     controller.priceRange.value,
                     style: const TextStyle(
-                      fontSize: 24,
+                      fontSize: 20,
                       fontWeight: FontWeight.w600,
                       color: Color(0xFF1E3A8A), // Primary-900
                     ),
