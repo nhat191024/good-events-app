@@ -129,7 +129,7 @@ class AppTranslations extends Translations {
       'rent_product': 'Thiết bị sự kiện',
       'file_product': 'File thiết kế',
       'blog': 'Bài viết',
-      'news_and_blogs': 'Tin tức bài viết',
+      'news_and_blogs': 'Địa điểm sự kiện',
       'see_more': 'Xem thêm',
       'partner_search': 'Tìm kiếm nhân sự đối tác',
 
@@ -391,7 +391,7 @@ class AppTranslations extends Translations {
       'calendar': 'Lịch',
 
       'customer': 'Khách hàng',
-      'partner': 'Đối tác sự kiện',
+      'partner': 'Nhân sự sự kiện',
       'service_provider': 'Nhà cung cấp dịch vụ',
 
       'refresh': 'Làm mới',
@@ -827,7 +827,7 @@ class AppTranslations extends Translations {
       'rent_product': 'Event Rentals',
       'file_product': 'Digital Design Files',
       'blog': 'Blog',
-      'news_and_blogs': 'News & Blogs',
+      'news_and_blogs': 'Event locations',
       'see_more': 'See More',
       'partner_search': 'Partner Search',
 
