@@ -2,6 +2,10 @@
 
 All notable changes to this project will be documented in this file.
 
+## [v2.3.2+40]
+
+- Fix app bottom navigation being blocked by system bottom navigation gesture
+
 ## [v2.3.1+39]
 
 - Fix update profile success but still show error noti
