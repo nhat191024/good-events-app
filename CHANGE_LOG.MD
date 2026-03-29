@@ -2,6 +2,16 @@
 
 All notable changes to this project will be documented in this file.
 
+## [v2.4.1+42]
+
+- Change some text translation
+- Fix price size in partner category detail
+- Add action for support button in partner category detail
+
+## [v2.4.0+41]
+
+- Add change to partner/customer UI feature
+
 ## [v2.3.2+40]
 
 - Fix app bottom navigation being blocked by system bottom navigation gesture
