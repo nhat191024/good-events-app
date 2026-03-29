@@ -19,21 +19,26 @@ class PartnerBottomNavigationView
     return Obx(
       () => Scaffold(
         extendBody: true,
-        bottomNavigationBar: CurvedNavigationBar(
-          index: controller.currentIndex.value,
-          onTap: (index) => controller.setIndex(index),
-          color: AppColors.primary,
-          buttonBackgroundColor: AppColors.red800,
-          backgroundColor: Colors.transparent,
-          animationDuration: Duration(milliseconds: 500),
-          height: context.height * 0.07,
-          items: [
-            Icon(FIcons.house, size: 24, color: Colors.white),
-            Icon(FIcons.calendars, size: 24, color: Colors.white),
-            Icon(FIcons.calendarPlus, size: 24, color: Colors.white),
-            Icon(FIcons.messageSquareText, size: 24, color: Colors.white),
-            Icon(FIcons.userRound, size: 24, color: Colors.white),
-          ],
+        bottomNavigationBar: Padding(
+          padding: EdgeInsets.only(
+            bottom: MediaQuery.paddingOf(context).bottom,
+          ),
+          child: CurvedNavigationBar(
+            index: controller.currentIndex.value,
+            onTap: (index) => controller.setIndex(index),
+            color: AppColors.primary,
+            buttonBackgroundColor: AppColors.red800,
+            backgroundColor: Colors.transparent,
+            animationDuration: Duration(milliseconds: 500),
+            height: context.height * 0.07,
+            items: [
+              Icon(FIcons.house, size: 24, color: Colors.white),
+              Icon(FIcons.calendars, size: 24, color: Colors.white),
+              Icon(FIcons.calendarPlus, size: 24, color: Colors.white),
+              Icon(FIcons.messageSquareText, size: 24, color: Colors.white),
+              Icon(FIcons.userRound, size: 24, color: Colors.white),
+            ],
+          ),
         ),
         //FadeThroughTransition option. Use this if SharedAxisTransition case laggy problem (because Obx)
         // body: Obx(
