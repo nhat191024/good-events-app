@@ -314,7 +314,7 @@ class AppTranslations extends Translations {
           'Xác nhận chốt đơn sẽ mở khóa chat với đối tác và không thể chọn lại đối tác khác cho đơn này.',
       'partner_proposed_price_label': 'Đối tác trả giá: ',
       'accept_price_question': 'Bạn có chấp nhận mức giá này không?',
-      'confirm_no_btn': 'Ko chốt',
+      'confirm_no_btn': 'Không chốt',
       'confirm_yes_btn': 'Chốt đơn!',
       'choose_partner_success': 'Chốt đơn thành công!',
       'choose_partner_failed': 'Chốt đơn thất bại.',
