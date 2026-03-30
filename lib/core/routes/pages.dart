@@ -168,6 +168,7 @@ class Pages {
       page: () => CommonWebviewScreen(
         url: Get.arguments['url'] ?? '',
         title: Get.arguments['title'],
+        allowReload: Get.arguments['allowReload'] ?? false,
       ),
       transition: Transition.cupertino,
       transitionDuration: const Duration(milliseconds: 300),

@@ -4,8 +4,14 @@ import 'package:webview_flutter/webview_flutter.dart';
 class CommonWebviewScreen extends StatefulWidget {
   final String url;
   final String? title;
+  final bool allowReload;
 
-  const CommonWebviewScreen({super.key, required this.url, this.title});
+  const CommonWebviewScreen({
+    super.key,
+    required this.url,
+    this.title,
+    this.allowReload = false,
+  });
 
   @override
   State<CommonWebviewScreen> createState() => _CommonWebviewScreenState();
@@ -42,6 +48,12 @@ class _CommonWebviewScreenState extends State<CommonWebviewScreen> {
           onNavigationRequest: (NavigationRequest request) {
             final uri = Uri.tryParse(request.url);
             logger.i('WebView Navigation Request: $uri');
+
+            if (request.url.startsWith('intent://')) {
+              logger.w('Intent URL detected and blocked: ${request.url}');
+              return NavigationDecision.prevent;
+            }
+
             if (uri != null && uri.scheme == 'sukientot') {
               final basePath = uri.host.isNotEmpty
                   ? '/${uri.host}${uri.path}'
@@ -66,6 +78,13 @@ class _CommonWebviewScreenState extends State<CommonWebviewScreen> {
       header: FHeader.nested(
         title: Text(widget.title ?? 'video'.tr),
         prefixes: [FHeaderAction.back(onPress: () => Get.back())],
+        suffixes: [
+          if (widget.allowReload)
+            FHeaderAction(
+              icon: const Icon(Icons.refresh),
+              onPress: () => _controller.reload(),
+            ),
+        ],
       ),
       child: Stack(
         children: [

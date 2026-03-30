@@ -184,7 +184,7 @@ class _PopupPartnerSearchSheetState extends State<PopupPartnerSearchSheet> {
         children: [
           Text(
             category.name,
-            style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
+            style: TextStyle(fontSize: 15, fontWeight: FontWeight.bold),
           ),
         ],
       ),

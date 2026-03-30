@@ -3,12 +3,14 @@ class HomeSummaryModel {
   final int pendingOrders;
   final int confirmedOrders;
   final int pendingPartners; // Applicants
+  final List<String> pendingPartnerAvatars;
 
   const HomeSummaryModel({
     required this.isHasNewNoti,
     required this.pendingOrders,
     required this.confirmedOrders,
     required this.pendingPartners,
+    required this.pendingPartnerAvatars,
   });
 
   factory HomeSummaryModel.fromJson(Map<String, dynamic> json) {
@@ -17,6 +19,7 @@ class HomeSummaryModel {
       pendingOrders: _parseInt(json['pending_orders']),
       confirmedOrders: _parseInt(json['confirmed_orders']),
       pendingPartners: _parseInt(json['pending_partners']),
+      pendingPartnerAvatars: List<String>.from(json['pending_partner_avatars'] ?? []),
     );
   }
 

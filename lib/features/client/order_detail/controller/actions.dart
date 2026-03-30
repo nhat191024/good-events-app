@@ -339,6 +339,13 @@ extension ClientOrderDetailActions on ClientOrderDetailController {
       if (result['success'] == true) {
         Get.snackbar('success'.tr, 'cancel_success'.tr);
         await fetchOrderDetails(); // Refresh to reflect cancelled status
+
+        // Trigger history reload in ClientOrderController if it's registered
+        if (Get.isRegistered<ClientOrderController>()) {
+          final listController = Get.find<ClientOrderController>();
+          listController.hasFetchedHistory.value = false;
+          listController.fetchHistoryOrders();
+        }
       } else {
         Get.snackbar(
           'error'.tr,

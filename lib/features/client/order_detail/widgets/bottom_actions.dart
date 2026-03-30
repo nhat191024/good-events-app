@@ -13,7 +13,7 @@ class BottomActions extends GetView<ClientOrderDetailController> {
 
       // If it's a history item or the status is ended, we handle history-like actions
       if (controller.isHistory.value || isEnded) {
-        if (status == 'completed') {
+        if (status == 'completed' && controller.rating.value == 0) {
           return Container(
             padding: const EdgeInsets.all(16),
             decoration: BoxDecoration(

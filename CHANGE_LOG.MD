@@ -2,6 +2,16 @@
 
 All notable changes to this project will be documented in this file.
 
+## [v2.4.2+43]
+
+- Hide 'rate now' button if the order is already rated
+- Fixed 'history order' tab not updating after the user cancel an order
+- Reduced font size of the pricing in partner category detail
+- Removed invalid translations
+- The home screen now show avatar of the pending applicants
+- Added partner category list on client home screen
+- Added pull to refresh to the home screen
+
 ## [v2.4.1+42]
 
 - Change some text translation

@@ -108,34 +108,36 @@ class _NewOrderPanelState extends State<NewOrderPanel> with SingleTickerProvider
               .scaleXY(end: 0.95, duration: 100.ms, curve: Curves.easeInOut),
     ).animate(delay: 350.ms).fadeIn(duration: 200.ms);
   }
-
-  // NOTE: For showcase purpose we use fake data here.
   List<Widget> _buildAvatarList() {
-    /// this is not related to 'reviews', it's just a name for the pictures
-    /// this widget is for showing pending applicants
-    final fakeReviewers = [
-      'https://i.pravatar.cc/150?img=12',
-      'https://i.pravatar.cc/150?img=5',
-      '', // empty -> show placeholder icon
-      'https://i.pravatar.cc/150?img=8',
-      'https://i.pravatar.cc/150?img=20',
-    ];
+    final summary = widget.controller.summary.value;
+    List<String> reviewers = summary?.pendingPartnerAvatars ?? [];
+
+    // If we have real data but no avatars, or if summary is null (e.g. initial load), show fallback
+    if (summary == null || (summary.pendingPartners > 0 && reviewers.isEmpty)) {
+      reviewers = [
+        'https://i.pravatar.cc/150?img=12',
+        'https://i.pravatar.cc/150?img=5',
+        'https://i.pravatar.cc/150?img=8',
+        'https://i.pravatar.cc/150?img=20',
+      ];
+    }
 
     List<Widget> avatars = [];
-    final reviewerCount = fakeReviewers.length;
-    final maxDisplayCount = 4;
+    final totalCount = summary?.pendingPartners ?? reviewers.length;
+    const maxDisplayCount = 4;
 
     for (var i = 0; i < maxDisplayCount; i++) {
-      if (i == maxDisplayCount - 1) {
-        final remaining = reviewerCount - (maxDisplayCount - 1);
+      if (i == maxDisplayCount - 1 && totalCount > maxDisplayCount) {
+        // Only show "remaining" if there are more than we can display in the available slots
+        final remaining = totalCount - (maxDisplayCount - 1);
         avatars.add(
           Positioned(
             left: i * 22.0,
             child: _AvatarWidget(isLast: true, remaining: remaining),
           ),
         );
-      } else if (i < reviewerCount) {
-        final reviewerAvatar = fakeReviewers[i];
+      } else if (i < reviewers.length) {
+        final reviewerAvatar = reviewers[i];
         avatars.add(
           Positioned(
             left: i * 22.0,
