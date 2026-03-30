@@ -7,6 +7,7 @@ import 'package:sukientotapp/features/client/home/widgets/new_order.dart';
 import 'package:sukientotapp/features/client/home/widgets/popup_search_sheet.dart';
 import 'package:sukientotapp/features/client/home/widgets/quick_action_panel.dart';
 import 'package:sukientotapp/features/client/home/widgets/fake_search_bar.dart';
+import 'package:sukientotapp/features/client/home/widgets/category_intro_card.dart';
 
 // import 'package:url_launcher/url_launcher.dart';
 
@@ -78,7 +79,11 @@ class HomeScreen extends GetView<ClientHomeController> {
                 .fadeIn(duration: 400.ms)
                 .slideY(begin: 0.1, end: 0),
 
-            const SizedBox(height: 14),
+            const Padding(
+              padding: EdgeInsets.only(top: 12),
+              child: CategoryIntroCard(),
+            ),
+            const SizedBox(height: 16),
 
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -109,7 +114,7 @@ class HomeScreen extends GetView<ClientHomeController> {
               ],
             ).animate(delay: 400.ms).fadeIn(duration: 200.ms),
 
-            const SizedBox(height: 8),
+            const SizedBox(height: 14),
             ClientBlogPanel(blogs: controller.blogs),
 
             const SizedBox(height: 80),
