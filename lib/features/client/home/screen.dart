@@ -4,7 +4,6 @@ import 'package:sukientotapp/features/client/home/widgets/bill_count.dart';
 import 'package:sukientotapp/features/client/home/widgets/blogs_panel.dart';
 import 'package:sukientotapp/features/client/home/widgets/header.dart';
 import 'package:sukientotapp/features/client/home/widgets/new_order.dart';
-import 'package:sukientotapp/features/client/home/widgets/popup_search_sheet.dart';
 import 'package:sukientotapp/features/client/home/widgets/quick_action_panel.dart';
 import 'package:sukientotapp/features/client/home/widgets/fake_search_bar.dart';
 import 'package:sukientotapp/features/client/home/widgets/category_intro_card.dart';
@@ -56,8 +55,12 @@ class HomeScreen extends GetView<ClientHomeController> {
         ),
       ),
 
-      child: SingleChildScrollView(
-        padding: const EdgeInsets.fromLTRB(4, 16, 4, 10),
+      child: SmartRefresher(
+        controller: controller.refreshController,
+        onRefresh: controller.onRefresh,
+        enablePullUp: false,
+        child: SingleChildScrollView(
+          padding: const EdgeInsets.fromLTRB(4, 16, 4, 10),
         child: Column(
           mainAxisAlignment: MainAxisAlignment.start,
           crossAxisAlignment: CrossAxisAlignment.start,
@@ -120,6 +123,7 @@ class HomeScreen extends GetView<ClientHomeController> {
             const SizedBox(height: 80),
           ],
         ),
+      ),
       ),
     );
   }

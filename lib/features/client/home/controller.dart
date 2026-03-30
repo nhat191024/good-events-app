@@ -22,6 +22,13 @@ class ClientHomeController extends GetxController {
   final isLoadingBlogs = false.obs;
   final isLoadingPartners = false.obs;
 
+  final RefreshController refreshController = RefreshController(initialRefresh: false);
+
+  Future<void> onRefresh() async {
+    await fetchSummary();
+    refreshController.refreshCompleted();
+  }
+
   // User data
   RxString name =
       (StorageService.readMapData(key: LocalStorageKeys.user, mapKey: 'name') ??
