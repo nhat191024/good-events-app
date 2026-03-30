@@ -64,7 +64,7 @@ class ArrivalPhotoSection extends GetView<ClientOrderDetailController> {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   Text(
-                    isCategoryFallback ? 'category_image'.tr : 'arrival_photo_banner'.tr,
+                    'arrival_photo_banner'.tr,
                     style: context.typography.base.copyWith(fontWeight: FontWeight.bold),
                   ),
                   Text(
