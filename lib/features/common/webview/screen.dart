@@ -42,6 +42,12 @@ class _CommonWebviewScreenState extends State<CommonWebviewScreen> {
           onNavigationRequest: (NavigationRequest request) {
             final uri = Uri.tryParse(request.url);
             logger.i('WebView Navigation Request: $uri');
+
+            if (request.url.startsWith('intent://')) {
+              logger.w('Intent URL detected and blocked: ${request.url}');
+              return NavigationDecision.prevent;
+            }
+
             if (uri != null && uri.scheme == 'sukientot') {
               final basePath = uri.host.isNotEmpty
                   ? '/${uri.host}${uri.path}'
