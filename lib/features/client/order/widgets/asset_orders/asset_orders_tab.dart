@@ -77,11 +77,10 @@ class AssetOrdersTab extends StatelessWidget {
                       controller.onLoadMoreAsset(controller.cancelledAssetRefreshController),
                 ),
               ),
-
-              SizedBox(height: 50),
             ],
           ),
         ),
+        const SizedBox(height: 50),
       ],
     );
   }
