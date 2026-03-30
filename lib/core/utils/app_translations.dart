@@ -314,8 +314,8 @@ class AppTranslations extends Translations {
           'Xác nhận chốt đơn sẽ mở khóa chat với đối tác và không thể chọn lại đối tác khác cho đơn này.',
       'partner_proposed_price_label': 'Đối tác trả giá: ',
       'accept_price_question': 'Bạn có chấp nhận mức giá này không?',
-      'confirm_no_btn': 'Ko, chưa chốt',
-      'confirm_yes_btn': 'Chốt đơn luôn!',
+      'confirm_no_btn': 'Ko chốt',
+      'confirm_yes_btn': 'Chốt đơn!',
       'choose_partner_success': 'Chốt đơn thành công!',
       'choose_partner_failed': 'Chốt đơn thất bại.',
 
@@ -323,7 +323,7 @@ class AppTranslations extends Translations {
       'confirm_cancel_order_title': 'Bạn có chắc chắn muốn hủy đơn không?',
       'confirm_cancel_order_desc':
           'Lượt hủy này có thể sẽ tăng tỉ lệ hủy đơn của tài khoản của bạn. Bạn sẽ phải đợi xác nhận nếu đã lỡ chốt đơn với một đối tác bất kỳ. Trong trường hợp đó, hãy chat với đối tác trước khi thực hiện hủy nhé!',
-      'cancel_order_no_btn': 'Ko hủy, tôi lỡ tay',
+      'cancel_order_no_btn': 'Không hủy',
       'cancel_order_yes_btn': 'Hủy đơn ngay',
       'cancel_success': 'Hủy đơn thành công!',
       'cancel_failed': 'Hủy đơn thất bại, vui lòng thử lại.',
