@@ -38,6 +38,7 @@ class ClientQuickActionPanel extends StatelessWidget {
               arguments: {
                 'url': 'https://sukientot.com/thue-vat-tu',
                 'title': 'rent_product'.tr,
+                'allowReload': true,
               },
             );
           },
@@ -53,6 +54,7 @@ class ClientQuickActionPanel extends StatelessWidget {
               arguments: {
                 'url': 'https://sukientot.com/tai-lieu',
                 'title': 'file_product'.tr,
+                'allowReload': true,
               },
             );
           },
@@ -68,6 +70,7 @@ class ClientQuickActionPanel extends StatelessWidget {
               arguments: {
                 'url': 'https://sukientot.com/dia-diem-to-chuc-su-kien',
                 'title': 'news_and_blogs'.tr,
+                'allowReload': true,
               },
             );
           },
