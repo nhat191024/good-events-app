@@ -1,4 +1,5 @@
 import 'package:sukientotapp/core/utils/import/global.dart';
+import 'package:sukientotapp/data/models/client/partner_category_model.dart';
 import 'package:sukientotapp/features/client/home/widgets/popup_search_sheet.dart';
 import '../controller.dart';
 
@@ -47,11 +48,9 @@ class CategoryIntroCard extends GetView<GuestHomeController> {
                 );
               }
 
-              final allPartners = controller.partnerList
-                  .expand((category) => category.partnerList)
-                  .toList();
+              final categories = controller.partnerList;
 
-              if (allPartners.isEmpty) {
+              if (categories.isEmpty) {
                 return const SizedBox.shrink();
               }
 
@@ -63,7 +62,7 @@ class CategoryIntroCard extends GetView<GuestHomeController> {
                     height: 230,
                     child: GridView.builder(
                       scrollDirection: Axis.horizontal,
-                      itemCount: allPartners.length,
+                      itemCount: categories.length,
                       gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
                         crossAxisCount: 2,
                         mainAxisSpacing: 8,
@@ -72,7 +71,7 @@ class CategoryIntroCard extends GetView<GuestHomeController> {
                       ),
                       itemBuilder: (context, index) {
                         return IgnorePointer(
-                          child: PartnerItem(partner: allPartners[index]),
+                          child: _CategoryItem(category: categories[index]),
                         );
                       },
                     ),
@@ -82,6 +81,67 @@ class CategoryIntroCard extends GetView<GuestHomeController> {
             }),
           ],
         ),
+      ),
+    );
+  }
+}
+
+class _CategoryItem extends StatelessWidget {
+  const _CategoryItem({required this.category});
+
+  final PartnerCategoryModel category;
+
+  @override
+  Widget build(BuildContext context) {
+    return SizedBox(
+      width: double.infinity,
+      height: double.infinity,
+      child: Column(
+        mainAxisAlignment: MainAxisAlignment.center,
+        crossAxisAlignment: CrossAxisAlignment.center,
+        children: [
+          ClipRRect(
+            borderRadius: BorderRadius.circular(10),
+            child: CachedNetworkImage(
+              imageUrl: category.image,
+              height: 70,
+              width: 70,
+              fit: BoxFit.cover,
+              placeholder: (context, url) => const SizedBox(
+                height: 70,
+                width: 70,
+                child: Center(
+                  child: SizedBox(
+                    width: 20,
+                    height: 20,
+                    child: CircularProgressIndicator(strokeWidth: 2),
+                  ),
+                ),
+              ),
+              errorWidget: (context, url, error) => const SizedBox(
+                height: 70,
+                width: 70,
+                child: Center(child: Icon(Icons.error, color: Colors.grey)),
+              ),
+            ),
+          ),
+          const SizedBox(height: 8),
+          Flexible(
+            child: Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 4),
+              child: Text(
+                textAlign: TextAlign.center,
+                category.name,
+                maxLines: 2,
+                overflow: TextOverflow.visible,
+                style: const TextStyle(
+                  fontSize: 12,
+                  fontWeight: FontWeight.normal,
+                ),
+              ),
+            ),
+          ),
+        ],
       ),
     );
   }
