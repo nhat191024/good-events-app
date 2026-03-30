@@ -1,6 +1,7 @@
 import 'package:sukientotapp/core/utils/import/global.dart';
 import 'package:sukientotapp/features/client/partner_detail/controller.dart';
 import 'package:flutter_html/flutter_html.dart';
+import 'inline_video_player.dart';
 
 class PartnerContentWidget extends StatelessWidget {
   final PartnerDetailController controller;
@@ -47,48 +48,28 @@ class PartnerContentWidget extends StatelessWidget {
           ),
           const SizedBox(height: 12),
           Obx(
-            () => GestureDetector(
-              onTap: () {
-                final url = controller.getVideoUrl();
-                if (url.isNotEmpty) {
-                  Get.toNamed(
-                    Routes.webView,
-                    arguments: {
-                      'url': url,
-                      'title': 'Video ${controller.partnerName.value}',
-                    },
-                  );
-                }
-              },
-              child: Container(
-                width: double.infinity,
-                height: 200, // Aspect ratio proxy
-                decoration: BoxDecoration(
-                  color: const Color(0xFFF9FAFB), // Gray-50
-                  borderRadius: BorderRadius.circular(16),
-                  border: Border.all(color: const Color(0xFFF3F4F6)),
-                  image: controller.getThumbnail().isNotEmpty
-                      ? DecorationImage(
-                          image: CachedNetworkImageProvider(
-                            controller.getThumbnail(),
-                          ),
-                          fit: BoxFit.cover,
-                          colorFilter: ColorFilter.mode(
-                            Colors.black.withValues(alpha: 0.2),
-                            BlendMode.darken,
-                          ),
-                        )
-                      : null,
-                ),
-                child: const Center(
-                  child: Icon(
-                    Icons.play_circle_fill,
-                    size: 50,
-                    color: Colors.white,
-                  ),
-                ),
-              ),
-            ),
+            () {
+              if (controller.videoUrl.value.isEmpty) {
+                return const SizedBox.shrink();
+              }
+              return InlineVideoPlayer(
+                htmlContent: controller.videoUrl.value,
+                thumbnailUrl: controller.getThumbnail(),
+                onTapExternal: () {
+                  final url = controller.getVideoUrl();
+                  if (url.isNotEmpty) {
+                    Get.toNamed(
+                      Routes.webView,
+                      arguments: {
+                        'url': url,
+                        'title': 'Video ${controller.partnerName.value}',
+                        'allowReload': true,
+                      },
+                    );
+                  }
+                },
+              );
+            },
           ),
           const SizedBox(height: 32),
 
