@@ -1,4 +1,5 @@
 import 'package:sukientotapp/core/utils/import/global.dart';
+import 'package:sukientotapp/features/components/common/language_switch/language_switch.dart';
 
 import 'controller.dart';
 
@@ -213,6 +214,17 @@ class ChooseYoSideScreen extends GetView<ChooseYoSideController> {
                     fontWeight: FontWeight.bold,
                   ),
                   textAlign: TextAlign.center,
+                ),
+              ),
+            ),
+
+            Positioned(
+              top: 0,
+              right: 0,
+              child: SafeArea(
+                child: Padding(
+                  padding: const EdgeInsets.only(top: 8, right: 8),
+                  child: LanguageSwitch(),
                 ),
               ),
             ),
