@@ -41,8 +41,8 @@ class GuestIntroCard extends GetView<GuestHomeController> {
           //   ),
           // ),
           const SizedBox(height: 8),
-          const Text(
-            'Đặt show biểu diễn chỉ với một cú nhấp',
+          Text(
+            'guest_intro_title'.tr,
             style: TextStyle(
               fontSize: 24, // 2xl
               fontWeight: FontWeight.bold,
@@ -51,8 +51,8 @@ class GuestIntroCard extends GetView<GuestHomeController> {
             ),
           ),
           const SizedBox(height: 8),
-          const Text(
-            'Tìm hiểu cách chúng tôi kết nối chú hề, MC, ảo thuật gia, workshop và mascot cho mọi sự kiện trong 30 giây.',
+          Text(
+            'guest_intro_description'.tr,
             style: TextStyle(
               fontSize: 14, // sm
               color: Color(0xE6FFFFFF), // white/90

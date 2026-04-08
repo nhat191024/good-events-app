@@ -118,6 +118,9 @@ class AppTranslations extends Translations {
       'register_now': 'Đăng ký ngay',
       'become_partner': 'Trở thành đối tác',
       'no_blogs': 'Chưa có bài viết nào',
+      'guest_intro_title': 'Đặt show biểu diễn chỉ với một cú nhấp',
+      'guest_intro_description':
+          'Tìm hiểu cách chúng tôi kết nối chú hề, MC, ảo thuật gia, workshop và mascot cho mọi sự kiện trong 30 giây.',
 
       //partner home
       'quick_actions': 'Truy cập nhanh',
@@ -821,6 +824,9 @@ class AppTranslations extends Translations {
       'register_now': 'Register Now',
       'become_partner': 'Become a Partner',
       'no_blogs': 'No blogs available',
+      'guest_intro_title': 'Book a show with a single tap',
+      'guest_intro_description':
+          'See how we connect clowns, MCs, magicians, workshop hosts, and mascots for any event in 30 seconds.',
 
       //partner home
       'quick_actions': 'Quick Actions',

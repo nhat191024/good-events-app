@@ -13,6 +13,22 @@ class HomeSummaryModel {
     required this.pendingPartnerAvatars,
   });
 
+  HomeSummaryModel copyWith({
+    bool? isHasNewNoti,
+    int? pendingOrders,
+    int? confirmedOrders,
+    int? pendingPartners,
+    List<String>? pendingPartnerAvatars,
+  }) {
+    return HomeSummaryModel(
+      isHasNewNoti: isHasNewNoti ?? this.isHasNewNoti,
+      pendingOrders: pendingOrders ?? this.pendingOrders,
+      confirmedOrders: confirmedOrders ?? this.confirmedOrders,
+      pendingPartners: pendingPartners ?? this.pendingPartners,
+      pendingPartnerAvatars: pendingPartnerAvatars ?? this.pendingPartnerAvatars,
+    );
+  }
+
   factory HomeSummaryModel.fromJson(Map<String, dynamic> json) {
     return HomeSummaryModel(
       isHasNewNoti: json['is_has_new_noti'] ?? false,

@@ -2,6 +2,12 @@
 
 All notable changes to this project will be documented in this file.
 
+## [v2.4.3+44]
+
+- Fix order count incrementing
+- Add lang switch button to the very first intro screen
+- Add missing translations for the guest screen
+
 ## [v2.4.2+43]
 
 - Hide 'rate now' button if the order is already rated

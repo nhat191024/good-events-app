@@ -221,6 +221,12 @@ extension ClientOrderDetailActions on ClientOrderDetailController {
 
       if (result['success'] == true) {
         Get.snackbar('success'.tr, 'choose_partner_success'.tr);
+
+        if (Get.isRegistered<ClientHomeController>()) {
+          final applicantCount = _eventOrder.value?.applicantCount ?? 0;
+          Get.find<ClientHomeController>().confirmOrder(applicantCount: applicantCount);
+        }
+
         await fetchOrderDetails();
       } else {
         Get.snackbar(

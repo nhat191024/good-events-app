@@ -1,4 +1,3 @@
-import 'package:get/get_connect/http/src/utils/utils.dart';
 import 'package:sukientotapp/core/utils/import/global.dart';
 import 'package:sukientotapp/domain/repositories/client/home_repository.dart';
 
@@ -82,6 +81,61 @@ class ClientHomeController extends GetxController {
     } finally {
       isLoadingSummary.value = false;
     }
+  }
+
+  HomeSummaryModel _currentSummaryOrDefault() {
+    return summary.value ??
+        const HomeSummaryModel(
+          isHasNewNoti: false,
+          pendingOrders: 0,
+          confirmedOrders: 0,
+          pendingPartners: 0,
+          pendingPartnerAvatars: <String>[],
+        );
+  }
+
+  void _updateSummary(HomeSummaryModel Function(HomeSummaryModel current) updater) {
+    summary.value = updater(_currentSummaryOrDefault());
+  }
+
+  void incrementPendingOrders({int by = 1}) {
+    if (by <= 0) return;
+
+    _updateSummary((current) {
+      return current.copyWith(
+        pendingOrders: current.pendingOrders + by,
+      );
+    });
+  }
+
+  void confirmOrder({int applicantCount = 0}) {
+    final int safeApplicantCount = applicantCount < 0 ? 0 : applicantCount;
+
+    _updateSummary((current) {
+      final int nextPendingOrders = current.pendingOrders > 0 ? current.pendingOrders - 1 : 0;
+      final int nextConfirmedOrders = current.confirmedOrders + 1;
+      final int nextPendingPartners =
+          current.pendingPartners > safeApplicantCount ? current.pendingPartners - safeApplicantCount : 0;
+
+      final List<String> nextAvatars;
+      if (safeApplicantCount <= 0 || current.pendingPartnerAvatars.isEmpty) {
+        nextAvatars = current.pendingPartnerAvatars;
+      } else if (safeApplicantCount >= current.pendingPartnerAvatars.length) {
+        nextAvatars = <String>[];
+      } else {
+        nextAvatars = current.pendingPartnerAvatars.sublist(
+          0,
+          current.pendingPartnerAvatars.length - safeApplicantCount,
+        );
+      }
+
+      return current.copyWith(
+        pendingOrders: nextPendingOrders,
+        confirmedOrders: nextConfirmedOrders,
+        pendingPartners: nextPendingPartners,
+        pendingPartnerAvatars: nextAvatars,
+      );
+    });
   }
 
   Future<void> fetchBlogs() async {
