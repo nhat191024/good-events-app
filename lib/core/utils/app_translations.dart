@@ -712,6 +712,7 @@ class AppTranslations extends Translations {
       'delete': 'Xóa',
       'enter': 'Nhập',
       'add': 'Thêm',
+      'add_media': 'Thêm media',
 
       // partner show filter
       'filter_orders': 'Lọc đơn hàng',
@@ -1393,6 +1394,7 @@ class AppTranslations extends Translations {
       'delete': 'Delete',
       'enter': 'Enter',
       'add': 'Add',
+      'add_media': 'Add Media',
 
       /// Asset Order Detail
       'asset_order_detail_title': 'Design Order Detail',
