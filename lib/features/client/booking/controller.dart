@@ -1,6 +1,7 @@
 import 'package:sukientotapp/core/utils/import/global.dart';
 import 'package:sukientotapp/features/client/bottom_navigation/controller.dart';
 import 'package:sukientotapp/features/client/order/controller.dart';
+import 'package:sukientotapp/features/client/home/controller.dart';
 import 'package:sukientotapp/data/providers/client/booking_provider.dart';
 import 'package:sukientotapp/domain/repositories/location_repository.dart';
 import 'package:sukientotapp/data/models/location_model.dart';
@@ -364,6 +365,10 @@ class ClientBookingController extends GetxController {
       Get.snackbar('success'.tr, 'booking_success'.tr);
 
       final order = EventOrderModel.fromJson(result['bill']);
+
+      if (Get.isRegistered<ClientHomeController>()) {
+        Get.find<ClientHomeController>().incrementPendingOrders();
+      }
 
       // Pop all screens (including booking flow and partner details)
       // until we are back at the Main Bottom Navigation screen (ClientHome)
