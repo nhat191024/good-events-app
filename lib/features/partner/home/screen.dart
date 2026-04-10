@@ -146,14 +146,14 @@ class HomeScreen extends GetView<PartnerHomeController> {
                   .fadeIn(duration: 400.ms)
                   .slideY(begin: 0.1, end: 0),
               const SizedBox(height: 14),
-              NewReviewPanel(
-                    recentReviewsCount: data.recentReviewsCount,
-                    recentReviewsAvatars: data.recentReviewsAvatars,
-                  )
-                  .animate(delay: 300.ms)
-                  .fadeIn(duration: 400.ms)
-                  .slideY(begin: 0.1, end: 0),
-              const SizedBox(height: 14),
+              // NewReviewPanel(
+              //       recentReviewsCount: data.recentReviewsCount,
+              //       recentReviewsAvatars: data.recentReviewsAvatars,
+              //     )
+              //     .animate(delay: 300.ms)
+              //     .fadeIn(duration: 400.ms)
+              //     .slideY(begin: 0.1, end: 0),
+              // const SizedBox(height: 14),
               IncomeChart(
                     spots: revenueSpots.isNotEmpty
                         ? revenueSpots
@@ -165,7 +165,7 @@ class HomeScreen extends GetView<PartnerHomeController> {
                           ],
                     unit: '₫',
                   )
-                  .animate(delay: 400.ms)
+                  .animate(delay: 300.ms)
                   .fadeIn(duration: 400.ms)
                   .slideY(begin: 0.1, end: 0),
             ],
