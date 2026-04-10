@@ -46,7 +46,6 @@ class MessageController extends GetxController {
   static const _pusherEventName = 'SendMessage';
 
   final TextEditingController messageController = TextEditingController();
-  final TextEditingController searchTextController = TextEditingController();
   final ScrollController scrollController = ScrollController();
   final ScrollController listScrollController = ScrollController();
 
@@ -69,7 +68,6 @@ class MessageController extends GetxController {
   void onClose() {
     _unsubscribeThread();
     messageController.dispose();
-    searchTextController.dispose();
     scrollController.dispose();
     listScrollController.dispose();
     super.onClose();

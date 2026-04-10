@@ -3,10 +3,23 @@ import 'package:searchbar_animation/searchbar_animation.dart';
 import 'package:sukientotapp/core/utils/import/global.dart';
 import '../controller.dart';
 
-class Header extends StatelessWidget {
+class Header extends StatefulWidget {
   const Header({super.key, required this.controller});
 
   final MessageController controller;
+
+  @override
+  State<Header> createState() => _HeaderState();
+}
+
+class _HeaderState extends State<Header> {
+  final TextEditingController _searchTextController = TextEditingController();
+
+  @override
+  void dispose() {
+    _searchTextController.dispose();
+    super.dispose();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -38,7 +51,7 @@ class Header extends StatelessWidget {
                   child: SearchBarAnimation(
                     searchBoxWidth: context.width - 32,
                     hintText: 'search_with_dot'.tr,
-                    textEditingController: controller.searchTextController,
+                    textEditingController: _searchTextController,
                     isOriginalAnimation: true,
 
                     buttonBorderColour: Colors.transparent,
@@ -58,12 +71,12 @@ class Header extends StatelessWidget {
                     isSearchBoxOnRightSide: true,
 
                     onCollapseComplete: () {
-                      controller.searchTextController.clear();
-                      controller.searchMessages('');
+                      _searchTextController.clear();
+                      widget.controller.searchMessages('');
                     },
 
                     onChanged: (String value) {
-                      controller.searchMessages(value);
+                      widget.controller.searchMessages(value);
                     },
                   ),
                 ),
