@@ -42,9 +42,6 @@ class QickActionsPanel extends StatelessWidget {
           Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
-              _buildButtonItem(context, FIcons.calendars, 'calendar', () {
-                Get.toNamed(Routes.partnerShowCalendar);
-              }, const Color(0xFF3B82F6)),
               _buildButtonItem(context, FIcons.calendarPlus, 'take_order', () {
                 _navController.setIndex(2);
               }, const Color(0xFF10B981)),
@@ -54,6 +51,9 @@ class QickActionsPanel extends StatelessWidget {
               _buildButtonItem(context, FIcons.calendarCheck2, 'confirmed', () {
                 _navController.setIndex(1, setTab: 1);
               }, const Color(0xFF8B5CF6)),
+              _buildButtonItem(context, FIcons.calendars, 'calendar', () {
+                Get.toNamed(Routes.partnerShowCalendar);
+              }, const Color(0xFF3B82F6)),
             ],
           ),
         ],
