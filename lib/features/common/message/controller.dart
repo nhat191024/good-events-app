@@ -70,6 +70,7 @@ class MessageController extends GetxController {
     messageController.dispose();
     scrollController.dispose();
     listScrollController.dispose();
+    refreshController.dispose();
     super.onClose();
   }
 
