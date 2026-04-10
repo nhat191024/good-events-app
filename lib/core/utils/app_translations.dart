@@ -487,7 +487,8 @@ class AppTranslations extends Translations {
 
       'invalid_price': 'Vui lòng nhập giá hợp lệ (tối thiểu @min)',
       'accepted_show': 'Bạn đã nhận show #@code',
-      'failed_to_accept_show': 'Không thể nhận show, vui lòng thử lại',
+      'failed_to_accept_show':
+          'Không thể nhận show vì bạn đã bị cấm hoặc số dư không đủ.',
 
       'needs': 'Cần tìm',
 
@@ -1171,7 +1172,8 @@ class AppTranslations extends Translations {
 
       'invalid_price': 'Please enter a valid price (minimum @min)',
       'accepted_show': 'You have accepted show #@code',
-      'failed_to_accept_show': 'Failed to accept show, please try again',
+      'failed_to_accept_show':
+          'Failed to accept show because you are either banned or have insufficient balance.',
 
       'needs': 'Needs',
 
