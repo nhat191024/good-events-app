@@ -3,6 +3,8 @@ import 'package:sukientotapp/core/utils/import/global.dart';
 import 'package:sukientotapp/features/components/widget/badge.dart';
 import 'package:sukientotapp/features/components/widget/confirm_dialog.dart';
 
+import 'package:sukientotapp/features/common/message/controller.dart';
+
 import '../controller.dart';
 import 'detail.dart';
 import 'upload_arrived_photo.dart';
@@ -400,7 +402,12 @@ class Show extends StatelessWidget {
                             ),
                             const SizedBox(width: 8),
                             GestureDetector(
-                              onTap: () => Get.snackbar('info'.tr, 'in_dev'.tr),
+                              onTap: () => {
+                                Get.isRegistered<MessageController>()
+                                    ? Get.find<MessageController>()
+                                          .openThreadFromMyShow(billId)
+                                    : Get.snackbar('error'.tr, 'error'.tr),
+                              },
                               child: Container(
                                 width: 36,
                                 height: 36,

@@ -7,6 +7,8 @@ import 'package:sukientotapp/domain/repositories/partner/message_repository.dart
 import 'package:sukientotapp/data/models/message_model.dart';
 import 'package:sukientotapp/data/models/message_list_model.dart';
 
+import 'detail_screen.dart';
+
 class MessageController extends GetxController {
   final MessageRepository _repository;
   MessageController(this._repository);
@@ -217,6 +219,21 @@ class MessageController extends GetxController {
     logger.i(
       '[MessageController] [closeThread] Updated preview for thread=$threadId',
     );
+  }
+
+  Future<void> openThreadFromMyShow(int showid) async {
+    final thread = filteredMessages.firstWhereOrNull(
+      (t) => t.bill.id == showid,
+    );
+
+    if (thread == null) {
+      AppSnackbar.showError(message: 'thread_not_found'.tr);
+      return;
+    }
+
+    await openThread(thread);
+    await Get.to<void>(() => const MessageDetailScreen());
+    closeThread();
   }
 
   Future<void> _subscribeToThread(String threadId) async {
