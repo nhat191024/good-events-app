@@ -6,6 +6,7 @@ import 'package:sukientotapp/data/models/partner/partner_bill_model.dart';
 import 'package:sukientotapp/domain/repositories/partner/new_show_repository.dart';
 import 'package:sukientotapp/features/partner/home/controller.dart';
 import 'package:sukientotapp/features/partner/show/controller.dart';
+import 'package:sukientotapp/features/common/message/controller.dart';
 
 class NewShowController extends GetxController {
   final NewShowRepository _repository;
@@ -189,6 +190,10 @@ class NewShowController extends GetxController {
       if (Get.isRegistered<ShowController>()) {
         Get.find<ShowController>().refreshNewBills();
       }
+    if (Get.isRegistered<MessageController>()){
+      Get.find<MessageController>().refreshThreads();
+    }
+
       logger.i('[NewShow] [Accept] Bill $billId accepted at price $price');
       return true;
     } catch (e) {
