@@ -51,8 +51,8 @@ class _AcceptState extends State<Accept> {
   Future<void> _onSubmit() async {
     final price = _CurrencyInputFormatter.parse(_priceController.text);
     if (price == null || price < 10000) {
-      GetxSuperSnackbar.showError(
-        'invalid_price'.trParams({'min': '10.000'}),
+      AppSnackbar.showError(
+        message: 'invalid_price'.trParams({'min': '10.000'}),
         title: 'error'.tr,
       );
       return;
@@ -66,14 +66,9 @@ class _AcceptState extends State<Accept> {
 
     if (success) {
       Get.back();
-      GetxSuperSnackbar.showSuccess(
-        'accepted_show'.trParams({'code': widget.code}),
+      AppSnackbar.showSuccess(
+        message: 'accepted_show'.trParams({'code': widget.code}),
         title: 'success'.tr,
-      );
-    } else {
-      GetxSuperSnackbar.showError(
-        'failed_to_accept_show'.trParams({'code': widget.code}),
-        title: 'failed'.tr,
       );
     }
   }
@@ -137,8 +132,9 @@ class _AcceptState extends State<Accept> {
                           ),
                         ),
                         Text(
-                          'price_quote_for_show'
-                              .trParams({'code': widget.code}),
+                          'price_quote_for_show'.trParams({
+                            'code': widget.code,
+                          }),
                           style: FTheme.of(context).typography.xs.copyWith(
                             color: FTheme.of(context).colors.mutedForeground,
                             fontWeight: FontWeight.w400,
@@ -152,10 +148,7 @@ class _AcceptState extends State<Accept> {
             ),
 
             const SizedBox(height: 16),
-            Divider(
-              height: 1,
-              color: FTheme.of(context).colors.border,
-            ),
+            Divider(height: 1, color: FTheme.of(context).colors.border),
 
             // Input + button
             Flexible(
@@ -204,8 +197,7 @@ class _AcceptState extends State<Accept> {
                           color: FTheme.of(context).colors.mutedForeground,
                         ),
                         suffixText: 'VND',
-                        suffixStyle:
-                            FTheme.of(context).typography.sm.copyWith(
+                        suffixStyle: FTheme.of(context).typography.sm.copyWith(
                           color: FTheme.of(context).colors.mutedForeground,
                           fontWeight: FontWeight.w600,
                         ),
@@ -252,17 +244,15 @@ class _AcceptState extends State<Accept> {
                               begin: Alignment.centerLeft,
                               end: Alignment.centerRight,
                             ),
-                      color: accepting
-                          ? FTheme.of(context).colors.muted
-                          : null,
+                      color: accepting ? FTheme.of(context).colors.muted : null,
                       borderRadius: BorderRadius.circular(12),
                       boxShadow: accepting
                           ? null
                           : [
                               BoxShadow(
-                                color: const Color(0xFF6366F1).withValues(
-                                  alpha: 0.35,
-                                ),
+                                color: const Color(
+                                  0xFF6366F1,
+                                ).withValues(alpha: 0.35),
                                 blurRadius: 10,
                                 offset: const Offset(0, 4),
                               ),
@@ -277,8 +267,7 @@ class _AcceptState extends State<Accept> {
                             height: 16,
                             child: CircularProgressIndicator(
                               strokeWidth: 2,
-                              color:
-                                  FTheme.of(context).colors.mutedForeground,
+                              color: FTheme.of(context).colors.mutedForeground,
                             ),
                           )
                         else

@@ -185,6 +185,11 @@ class NewShowController extends GetxController {
       return true;
     } catch (e) {
       logger.e('[NewShow] [Accept] Error: $e');
+
+      AppSnackbar.showError(
+        message: 'failed_to_accept_show'.tr,
+        title: 'failed'.tr,
+      );
       return false;
     } finally {
       isAccepting.value = false;
