@@ -8,7 +8,6 @@ class ArrivalPhotoSection extends GetView<ClientOrderDetailController> {
   Widget build(BuildContext context) {
     return Obx(() {
       String? imageUrl = controller.arrivalPhoto;
-      bool isCategoryFallback = false;
 
       // If not history AND no specific arrival photo, hide the section
       if (!controller.isHistory.value && (imageUrl == null || imageUrl.isEmpty)) {
@@ -18,7 +17,6 @@ class ArrivalPhotoSection extends GetView<ClientOrderDetailController> {
       // As requested, if arrival_photo is null, use category_image
       if (imageUrl == null || imageUrl.isEmpty) {
         imageUrl = controller.categoryImage;
-        isCategoryFallback = true;
       }
 
       return GestureDetector(
