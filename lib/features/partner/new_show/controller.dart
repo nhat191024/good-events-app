@@ -117,14 +117,10 @@ class NewShowController extends GetxController {
         result.sort((a, b) => b.date.compareTo(a.date));
         break;
       case 'price_asc':
-        result.sort(
-          (a, b) => (a.finalTotal ?? 0).compareTo(b.finalTotal ?? 0),
-        );
+        result.sort((a, b) => (a.finalTotal ?? 0).compareTo(b.finalTotal ?? 0));
         break;
       case 'price_desc':
-        result.sort(
-          (a, b) => (b.finalTotal ?? 0).compareTo(a.finalTotal ?? 0),
-        );
+        result.sort((a, b) => (b.finalTotal ?? 0).compareTo(a.finalTotal ?? 0));
         break;
       default: // date_asc
         result.sort((a, b) => a.date.compareTo(b.date));
