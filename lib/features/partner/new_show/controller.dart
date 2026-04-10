@@ -190,9 +190,9 @@ class NewShowController extends GetxController {
       if (Get.isRegistered<ShowController>()) {
         Get.find<ShowController>().refreshNewBills();
       }
-    if (Get.isRegistered<MessageController>()){
-      Get.find<MessageController>().refreshThreads();
-    }
+      if (Get.isRegistered<MessageController>()) {
+        Get.find<MessageController>().refreshThreads();
+      }
 
       logger.i('[NewShow] [Accept] Bill $billId accepted at price $price');
       return true;
