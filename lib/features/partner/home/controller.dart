@@ -66,6 +66,24 @@ class PartnerHomeController extends GetxController {
             .toInt();
   }
 
+  void updateShowDataOnAccept() {
+    final current = dashboardData.value;
+    if (current == null) return;
+    final currentNew = (int.tryParse(current.showData.newShows) ?? 0) - 1;
+    final currentWaiting = (int.tryParse(current.showData.waitingConfirmation) ?? 0) + 1;
+    dashboardData.value = DashboardModel(
+      hasNotification: current.hasNotification,
+      revenue: current.revenue,
+      showData: ShowData(
+        newShows: currentNew.clamp(0, double.maxFinite.toInt()).toString(),
+        waitingConfirmation: currentWaiting.toString(),
+      ),
+      recentReviewsCount: current.recentReviewsCount,
+      recentReviewsAvatars: current.recentReviewsAvatars,
+      quarterlyRevenue: current.quarterlyRevenue,
+    );
+  }
+
   Future<void> fetchDashboardData() async {
     try {
       isLoading.value = true;
