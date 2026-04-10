@@ -5,6 +5,7 @@ import 'package:sukientotapp/core/utils/import/global.dart';
 import 'package:sukientotapp/data/models/partner/partner_bill_model.dart';
 import 'package:sukientotapp/domain/repositories/partner/new_show_repository.dart';
 import 'package:sukientotapp/features/partner/home/controller.dart';
+import 'package:sukientotapp/features/partner/show/controller.dart';
 
 class NewShowController extends GetxController {
   final NewShowRepository _repository;
@@ -184,6 +185,9 @@ class NewShowController extends GetxController {
       bills.removeWhere((b) => b.id == billId);
       if (Get.isRegistered<PartnerHomeController>()) {
         Get.find<PartnerHomeController>().updateShowDataOnAccept();
+      }
+      if (Get.isRegistered<ShowController>()) {
+        Get.find<ShowController>().refreshNewBills();
       }
       logger.i('[NewShow] [Accept] Bill $billId accepted at price $price');
       return true;
