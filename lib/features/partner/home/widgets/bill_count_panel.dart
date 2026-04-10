@@ -30,7 +30,7 @@ class BillCountPanel extends StatelessWidget {
           itemWidth,
           AppColors.amber500,
           FIcons.calendarCheck2,
-          'waiting',
+          'waiting_show',
           waitingConfirmation,
         ),
       ],

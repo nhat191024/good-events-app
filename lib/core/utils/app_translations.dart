@@ -428,7 +428,8 @@ class AppTranslations extends Translations {
       'from': 'Từ',
 
       ///Show
-      'take_order': 'Nhận show',
+      'take_order': 'Show Chờ Nhận',
+      'waiting_show': 'Show Chờ Xử Lý',
       'arrived': 'Đã đến nơi',
       'completed_show': 'Hoàn thành show',
       'waiting': 'Đang chờ',
@@ -1110,7 +1111,8 @@ class AppTranslations extends Translations {
       'from': 'From',
 
       ///Show
-      'take_order': 'Take show',
+      'take_order': 'Show available',
+      'waiting_show': 'Show in process',
       'arrived': 'Arrived',
       'completed_show': 'Completed show',
       'waiting': 'Waiting',
