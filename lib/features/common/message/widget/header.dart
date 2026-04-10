@@ -13,11 +13,16 @@ class Header extends StatefulWidget {
 }
 
 class _HeaderState extends State<Header> {
-  final TextEditingController _searchTextController = TextEditingController();
+  late final TextEditingController _searchTextController;
+
+  @override
+  void initState() {
+    super.initState();
+    _searchTextController = TextEditingController();
+  }
 
   @override
   void dispose() {
-    _searchTextController.dispose();
     super.dispose();
   }
 
