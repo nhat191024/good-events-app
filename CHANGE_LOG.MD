@@ -2,6 +2,11 @@
 
 All notable changes to this project will be documented in this file.
 
+## [v2.4.4+45]
+
+- Fix accept new show don't change bill count in home
+- Fix my show don't refresh when accept show
+
 ## [v2.4.3+44]
 
 - Fix order count incrementing
