@@ -1,5 +1,7 @@
 import 'package:dio/dio.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
+import 'package:flutter/foundation.dart';
+import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 import 'package:sukientotapp/core/services/api_service.dart';
 import 'package:sukientotapp/core/services/localstorage_service.dart';
 import 'package:sukientotapp/core/utils/logger.dart';
@@ -14,6 +16,61 @@ Future<void> firebaseMessagingBackgroundHandler(RemoteMessage message) async {
 class NotificationService {
   static final FirebaseMessaging _messaging = FirebaseMessaging.instance;
   static final ApiService _apiService = ApiService();
+  static final FlutterLocalNotificationsPlugin _localNotifications =
+      FlutterLocalNotificationsPlugin();
+
+  static const AndroidNotificationChannel _androidChannel =
+      AndroidNotificationChannel(
+        'high_importance_channel',
+        'High Importance Notifications',
+        description: 'This channel is used for important notifications.',
+        importance: Importance.high,
+      );
+
+  static Future<void> _initLocalNotifications() async {
+    const androidSettings = AndroidInitializationSettings(
+      '@mipmap/ic_launcher',
+    );
+    const darwinSettings = DarwinInitializationSettings();
+    const initSettings = InitializationSettings(
+      android: androidSettings,
+      iOS: darwinSettings,
+    );
+    await _localNotifications.initialize(settings: initSettings);
+
+    // Create Android notification channel
+    await _localNotifications
+        .resolvePlatformSpecificImplementation<
+          AndroidFlutterLocalNotificationsPlugin
+        >()
+        ?.createNotificationChannel(_androidChannel);
+  }
+
+  static Future<void> _showLocalNotification(RemoteMessage message) async {
+    final notification = message.notification;
+    if (notification == null) return;
+
+    final androidDetails = AndroidNotificationDetails(
+      _androidChannel.id,
+      _androidChannel.name,
+      channelDescription: _androidChannel.description,
+      importance: Importance.high,
+      priority: Priority.high,
+      icon: '@mipmap/ic_launcher',
+    );
+
+    final notificationDetails = NotificationDetails(
+      android: androidDetails,
+      iOS: const DarwinNotificationDetails(),
+    );
+
+    await _localNotifications.show(
+      id: message.hashCode,
+      title: notification.title,
+      body: notification.body,
+      notificationDetails: notificationDetails,
+    );
+  }
 
   static Future<void> init() async {
     final settings = await _messaging.requestPermission(
@@ -26,6 +83,8 @@ class NotificationService {
     logger.i('[FCM] Permission status: ${settings.authorizationStatus}');
 
     FirebaseMessaging.onBackgroundMessage(firebaseMessagingBackgroundHandler);
+
+    await _initLocalNotifications();
 
     final isGranted =
         settings.authorizationStatus == AuthorizationStatus.authorized ||
@@ -53,7 +112,9 @@ class NotificationService {
       final title = message.notification?.title;
       final body = message.notification?.body;
       logger.i('[FCM] Foreground message — title: $title | body: $body');
-      // TODO: display in-app notification (e.g. flutter_local_notifications)
+      if (!kIsWeb) {
+        _showLocalNotification(message);
+      }
     });
 
     // 6. App opened from a background notification tap
