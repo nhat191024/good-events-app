@@ -29,6 +29,14 @@ class AccountController extends GetxController {
               '')
           .toString()
           .obs;
+  RxString isLegit =
+      (StorageService.readMapData(
+                key: LocalStorageKeys.user,
+                mapKey: 'is_legit',
+              ) ??
+              false)
+          .toString()
+          .obs;
 
   RxString role =
       (StorageService.readMapData(key: LocalStorageKeys.user, mapKey: 'role') ??
