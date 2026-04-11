@@ -2,6 +2,11 @@
 
 All notable changes to this project will be documented in this file.
 
+## [v2.4.5+46]
+
+- Fix new thread don't go to top when new message com
+- change a bit of thread layout
+
 ## [v2.4.4+45]
 
 - Fix accept new show don't change bill count in home
