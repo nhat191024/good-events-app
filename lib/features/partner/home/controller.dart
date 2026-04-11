@@ -20,6 +20,14 @@ class PartnerHomeController extends GetxController {
               '')
           .toString()
           .obs;
+  RxString isLegit =
+      (StorageService.readMapData(
+                key: LocalStorageKeys.user,
+                mapKey: 'is_legit',
+              ) ??
+              false)
+          .toString()
+          .obs;
 
   RxInt balance = RxInt(
     (StorageService.readMapData(
@@ -70,7 +78,8 @@ class PartnerHomeController extends GetxController {
     final current = dashboardData.value;
     if (current == null) return;
     final currentNew = (int.tryParse(current.showData.newShows) ?? 0) - 1;
-    final currentWaiting = (int.tryParse(current.showData.waitingConfirmation) ?? 0) + 1;
+    final currentWaiting =
+        (int.tryParse(current.showData.waitingConfirmation) ?? 0) + 1;
     dashboardData.value = DashboardModel(
       hasNotification: current.hasNotification,
       revenue: current.revenue,
@@ -89,10 +98,93 @@ class PartnerHomeController extends GetxController {
       isLoading.value = true;
       final data = await _dashboardRepository.getDashboardData();
       dashboardData.value = data;
+      if (isLegit.value == 'false') {
+        _showVerifyBanner();
+      }
     } catch (e) {
       logger.e('[PartnerHomeController] [fetchDashboardData] error: $e');
     } finally {
       isLoading.value = false;
     }
+  }
+
+  void _showVerifyBanner() {
+    Get.dialog(
+      Dialog(
+        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(20)),
+        backgroundColor: Colors.white,
+        child: Padding(
+          padding: const EdgeInsets.fromLTRB(24, 28, 24, 20),
+          child: Column(
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              Container(
+                padding: const EdgeInsets.all(16),
+                decoration: BoxDecoration(
+                  color: AppColors.amber500.withValues(alpha: 0.12),
+                  shape: BoxShape.circle,
+                ),
+                child: const Icon(
+                  Icons.verified_user_outlined,
+                  color: AppColors.amber500,
+                  size: 36,
+                ),
+              ),
+              const SizedBox(height: 16),
+              Text(
+                'verify_account_cta'.tr,
+                textAlign: TextAlign.center,
+                style: const TextStyle(
+                  fontSize: 17,
+                  fontWeight: FontWeight.bold,
+                  color: Colors.black87,
+                ),
+              ),
+              const SizedBox(height: 10),
+              Text(
+                'verify_account_body'.tr,
+                textAlign: TextAlign.center,
+                style: const TextStyle(
+                  fontSize: 13.5,
+                  color: Colors.black54,
+                  height: 1.45,
+                ),
+              ),
+              const SizedBox(height: 24),
+              SizedBox(
+                width: double.infinity,
+                child: ElevatedButton(
+                  style: ElevatedButton.styleFrom(
+                    backgroundColor: AppColors.amber500,
+                    foregroundColor: Colors.white,
+                    padding: const EdgeInsets.symmetric(vertical: 13),
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(12),
+                    ),
+                  ),
+                  onPressed: () {
+                    Get.back();
+                    Get.toNamed(Routes.myProfile);
+                  },
+                  child: Text(
+                    'verify_now'.tr,
+                    style: const TextStyle(fontWeight: FontWeight.bold, fontSize: 14.5),
+                  ),
+                ),
+              ),
+              const SizedBox(height: 10),
+              TextButton(
+                onPressed: Get.back,
+                child: Text(
+                  'skip'.tr,
+                  style: const TextStyle(color: Colors.black45, fontSize: 13.5),
+                ),
+              ),
+            ],
+          ),
+        ),
+      ),
+      barrierDismissible: true,
+    );
   }
 }

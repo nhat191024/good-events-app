@@ -411,6 +411,9 @@ class AppTranslations extends Translations {
 
       'verified': 'Đã xác minh',
       'unverified': 'Chưa xác minh',
+      'verify_account_cta': 'Tài khoản chưa xác minh',
+      'verify_account_body': 'Xác minh ngay để tăng độ tin cậy với khách hàng.',
+      'verify_now': 'Xác minh ngay',
 
       'currency': 'VND',
 
@@ -1095,6 +1098,9 @@ class AppTranslations extends Translations {
 
       'verified': 'Verified',
       'unverified': 'Unverified',
+      'verify_account_cta': 'Account not verified',
+      'verify_account_body': 'Verify now to build trust with clients.',
+      'verify_now': 'Verify Now',
 
       'currency': 'VNĐ',
 
