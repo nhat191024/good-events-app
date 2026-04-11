@@ -9,6 +9,7 @@ class UserModel {
   final String bio;
   final int walletBalance;
   final bool isHavePartnerProfile;
+  final bool isLegit;
 
   UserModel({
     required this.role,
@@ -21,6 +22,7 @@ class UserModel {
     this.bio = '',
     required this.walletBalance,
     required this.isHavePartnerProfile,
+    required this.isLegit,
   });
 
   factory UserModel.fromJson(Map<String, dynamic> json) {
@@ -36,6 +38,7 @@ class UserModel {
       walletBalance: json['user']['wallet_balance'] as int? ?? 0,
       isHavePartnerProfile:
           json['user']['is_have_partner_profile'] as bool? ?? false,
+      isLegit: json['user']['is_legit'] as bool? ?? false,
     );
   }
 
@@ -51,6 +54,7 @@ class UserModel {
       'bio': bio,
       'wallet_balance': walletBalance,
       'is_have_partner_profile': isHavePartnerProfile,
+      'is_legit': isLegit,
     };
   }
 }
