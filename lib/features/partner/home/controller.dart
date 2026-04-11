@@ -168,7 +168,10 @@ class PartnerHomeController extends GetxController {
                   },
                   child: Text(
                     'verify_now'.tr,
-                    style: const TextStyle(fontWeight: FontWeight.bold, fontSize: 14.5),
+                    style: const TextStyle(
+                      fontWeight: FontWeight.bold,
+                      fontSize: 14.5,
+                    ),
                   ),
                 ),
               ),
