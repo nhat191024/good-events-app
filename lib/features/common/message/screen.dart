@@ -114,8 +114,9 @@ class MessageScreen extends GetView<MessageController> {
                     boxShadow: hasUnread
                         ? [
                             BoxShadow(
-                              color: context.fTheme.colors.primary
-                                  .withValues(alpha: 0.06),
+                              color: context.fTheme.colors.primary.withValues(
+                                alpha: 0.06,
+                              ),
                               blurRadius: 8,
                               offset: const Offset(0, 2),
                             ),
@@ -131,8 +132,9 @@ class MessageScreen extends GetView<MessageController> {
                         height: 42,
                         decoration: BoxDecoration(
                           color: hasUnread
-                              ? context.fTheme.colors.primary
-                                  .withValues(alpha: 0.12)
+                              ? context.fTheme.colors.primary.withValues(
+                                  alpha: 0.12,
+                                )
                               : context.fTheme.colors.muted,
                           borderRadius: BorderRadius.circular(12),
                         ),
@@ -163,25 +165,13 @@ class MessageScreen extends GetView<MessageController> {
                                       color: hasUnread
                                           ? context.fTheme.colors.foreground
                                           : context
-                                                .fTheme.colors.mutedForeground,
+                                                .fTheme
+                                                .colors
+                                                .mutedForeground,
                                       fontWeight: hasUnread
                                           ? FontWeight.w700
                                           : FontWeight.w500,
                                     ),
-                                  ),
-                                ),
-                                const SizedBox(width: 8),
-                                Text(
-                                  message.time,
-                                  style: context.typography.xs.copyWith(
-                                    color: hasUnread
-                                        ? context.fTheme.colors.primary
-                                        : context
-                                              .fTheme.colors.mutedForeground,
-                                    fontSize: 11,
-                                    fontWeight: hasUnread
-                                        ? FontWeight.w600
-                                        : FontWeight.w400,
                                   ),
                                 ),
                               ],
@@ -195,30 +185,35 @@ class MessageScreen extends GetView<MessageController> {
                                     overflow: TextOverflow.ellipsis,
                                     text: TextSpan(
                                       children: [
-                                        if (message.newestMessageSender !=
-                                            null)
+                                        if (message.newestMessageSender != null)
                                           TextSpan(
                                             text:
                                                 '${message.newestMessageSender}: ',
                                             style: context.typography.xs
                                                 .copyWith(
-                                              color: hasUnread
-                                                  ? context
-                                                        .fTheme.colors.primary
-                                                  : context.fTheme.colors
-                                                        .mutedForeground,
-                                              fontWeight: hasUnread
-                                                  ? FontWeight.w600
-                                                  : FontWeight.w400,
-                                            ),
+                                                  color: hasUnread
+                                                      ? context
+                                                            .fTheme
+                                                            .colors
+                                                            .primary
+                                                      : context
+                                                            .fTheme
+                                                            .colors
+                                                            .mutedForeground,
+                                                  fontWeight: hasUnread
+                                                      ? FontWeight.w600
+                                                      : FontWeight.w400,
+                                                ),
                                           ),
                                         TextSpan(
-                                          text: message.newestMessage ??
+                                          text:
+                                              message.newestMessage ??
                                               'no_messages'.tr,
-                                          style:
-                                              context.typography.xs.copyWith(
+                                          style: context.typography.xs.copyWith(
                                             color: context
-                                                .fTheme.colors.mutedForeground,
+                                                .fTheme
+                                                .colors
+                                                .mutedForeground,
                                             fontWeight: FontWeight.w400,
                                           ),
                                         ),
@@ -247,6 +242,19 @@ class MessageScreen extends GetView<MessageController> {
                                     ),
                                   ),
                                 ],
+                                const SizedBox(width: 8),
+                                Text(
+                                  message.time,
+                                  style: context.typography.xs.copyWith(
+                                    color: hasUnread
+                                        ? context.fTheme.colors.primary
+                                        : context.fTheme.colors.mutedForeground,
+                                    fontSize: 11,
+                                    fontWeight: hasUnread
+                                        ? FontWeight.w600
+                                        : FontWeight.w400,
+                                  ),
+                                ),
                               ],
                             ),
                           ],
