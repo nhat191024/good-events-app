@@ -34,6 +34,7 @@ class MessageListModel {
   final String id;
   final String subject;
   final List<String> names;
+  final String code;
   final String? newestMessage;
   final String? newestMessageSender;
   final String time;
@@ -45,6 +46,7 @@ class MessageListModel {
     required this.id,
     this.subject = '',
     required this.names,
+    required this.code,
     required this.newestMessage,
     required this.newestMessageSender,
     required this.time,
@@ -68,6 +70,7 @@ class MessageListModel {
       id: json['id'].toString(),
       subject: json['subject'] as String? ?? '',
       names: participantNames,
+      code: json['code'] as String? ?? '',
       newestMessage: latestMessage?['body'] as String?,
       newestMessageSender: latestMessage?['sender_name'] as String?,
       time: latestMessage?['created_at'] as String? ?? '',
@@ -81,6 +84,7 @@ class MessageListModel {
     String? id,
     String? subject,
     List<String>? names,
+    String? code,
     String? newestMessage,
     String? newestMessageSender,
     String? time,
@@ -92,6 +96,7 @@ class MessageListModel {
       id: id ?? this.id,
       subject: subject ?? this.subject,
       names: names ?? this.names,
+      code: code ?? this.code,
       newestMessage: newestMessage ?? this.newestMessage,
       newestMessageSender: newestMessageSender ?? this.newestMessageSender,
       time: time ?? this.time,
