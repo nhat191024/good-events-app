@@ -10,7 +10,7 @@ import 'package:sukientotapp/features/components/common/partner_chart/income_cha
 import 'widgets/qick_actions_panel.dart';
 import 'widgets/income_panel.dart';
 import 'widgets/bill_count_panel.dart';
-import 'widgets/new_review_panel.dart';
+// import 'widgets/new_review_panel.dart';
 
 class HomeScreen extends GetView<PartnerHomeController> {
   const HomeScreen({super.key});
