@@ -93,9 +93,21 @@ class SplashController extends GetxController {
     }
 
     try {
-      final isTokenValid = await _authRepository.checkToken();
+      final result = await _authRepository.checkToken();
+      final isTokenValid = result != null && result['valid'] == true;
 
       if (isTokenValid) {
+        final isLegit = result['is_legit'];
+        if (isLegit != null) {
+          final existingUser =
+              StorageService.readMapData(key: LocalStorageKeys.user) ??
+              <String, dynamic>{};
+          StorageService.writeMapData(
+            key: LocalStorageKeys.user,
+            value: {...existingUser, 'is_legit': isLegit},
+          );
+        }
+
         await PusherService.init();
 
         var role = StorageService.readMapData(

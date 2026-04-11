@@ -5,6 +5,6 @@ abstract class AuthRepository {
   Future<UserModel> loginWithGoogle(String accessToken);
   Future<UserModel> registerClient(Map<String, dynamic> data);
   Future<UserModel> registerPartner(Map<String, dynamic> data);
-  Future<bool> checkToken();
+  Future<Map<String, dynamic>?> checkToken();
   Future<bool> logout();
 }

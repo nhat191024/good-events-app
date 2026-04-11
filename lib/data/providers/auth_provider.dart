@@ -138,20 +138,20 @@ class AuthProvider {
 
   /// Check Token Validity API call
   /// GET /check-token
-  Future<bool> checkToken() async {
+  Future<Map<String, dynamic>?> checkToken() async {
     try {
       final response = await _apiService.dio.get(AppUrl.checkToken);
 
       if (response.statusCode == 200) {
-        return true;
+        return response.data as Map<String, dynamic>;
       } else {
-        return false;
+        return null;
       }
     } on DioException catch (e) {
       logger.e('[AuthProvider] [checkToken] DioException: ${e.message}');
 
       if (e.response?.statusCode == 401) {
-        return false;
+        return null;
       }
 
       throw Exception('Không thể xác thực token. Vui lòng thử lại.');

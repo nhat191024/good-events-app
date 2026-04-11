@@ -136,13 +136,13 @@ class AuthRepositoryImpl implements AuthRepository {
   }
 
   @override
-  Future<bool> checkToken() async {
+  Future<Map<String, dynamic>?> checkToken() async {
     try {
       logger.i('[AuthRepositoryImpl] [checkToken] Checking token validity');
 
-      final isValid = await _authProvider.checkToken();
+      final result = await _authProvider.checkToken();
 
-      if (isValid) {
+      if (result != null && result['valid'] == true) {
         logger.i('[AuthRepositoryImpl] [checkToken] Token is valid');
       } else {
         logger.w(
@@ -150,7 +150,7 @@ class AuthRepositoryImpl implements AuthRepository {
         );
       }
 
-      return isValid;
+      return result;
     } catch (e) {
       logger.e('[AuthRepositoryImpl] [checkToken] Check token failed: $e');
       rethrow;
