@@ -167,7 +167,7 @@ class MessageController extends GetxController {
       if (threadId == null) return;
       final idx = filteredMessages.indexWhere((t) => t.id == threadId);
       if (idx != -1) {
-        filteredMessages[idx] = filteredMessages[idx].copyWith(
+        final updated = filteredMessages[idx].copyWith(
           newestMessage: incoming.text,
           newestMessageSender: incoming.sender,
           time: MessageModel.diffForHumans(DateTime.now().toIso8601String()),
@@ -176,6 +176,8 @@ class MessageController extends GetxController {
               ? 0
               : filteredMessages[idx].unreadMessages + 1,
         );
+        filteredMessages.removeAt(idx);
+        filteredMessages.insert(0, updated);
       }
 
       logger.i(
@@ -270,13 +272,15 @@ class MessageController extends GetxController {
       final threadId = selectedThreadId;
       final idx = filteredMessages.indexWhere((t) => t.id == threadId);
       if (idx != -1) {
-        filteredMessages[idx] = filteredMessages[idx].copyWith(
+        final updated = filteredMessages[idx].copyWith(
           newestMessage: incoming.text,
           newestMessageSender: incoming.sender,
           time: MessageModel.diffForHumans(DateTime.now().toIso8601String()),
           isRead: true,
           unreadMessages: 0,
         );
+        filteredMessages.removeAt(idx);
+        filteredMessages.insert(0, updated);
       }
 
       logger.i(
@@ -435,6 +439,23 @@ class MessageController extends GetxController {
           time: optimistic.time,
           date: optimistic.date,
         );
+      }
+      // Move thread to top of list
+      final currentUserName =
+          StorageService.readMapData(key: LocalStorageKeys.user, mapKey: 'name')
+              as String? ??
+          '';
+      final threadIdx = filteredMessages.indexWhere((t) => t.id == threadId);
+      if (threadIdx != -1) {
+        final updated = filteredMessages[threadIdx].copyWith(
+          newestMessage: text,
+          newestMessageSender: currentUserName,
+          time: MessageModel.diffForHumans(DateTime.now().toIso8601String()),
+          isRead: true,
+          unreadMessages: 0,
+        );
+        filteredMessages.removeAt(threadIdx);
+        filteredMessages.insert(0, updated);
       }
       logger.i('[MessageController] [sendMessage] Sent to thread=$threadId');
     } catch (e) {
