@@ -601,6 +601,7 @@ class AppTranslations extends Translations {
 
       'id_verification': 'Xác thực danh tính',
       'id_card': 'ID Card',
+      'id_number': 'Số ID',
 
       'province': 'Thành phố',
       'district': 'Phường',
@@ -1288,6 +1289,7 @@ class AppTranslations extends Translations {
 
       'id_verification': 'Identity Verification',
       'id_card': 'ID Card',
+      'id_number': 'ID Number',
 
       'province': 'City',
       'district': 'District',
