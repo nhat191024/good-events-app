@@ -21,10 +21,18 @@ class HomeScreen extends GetView<PartnerHomeController> {
 
     return FScaffold(
       header: Container(
-        padding: EdgeInsets.only(top: statusBarHeight + 4, left: 16, right: 16, bottom: 20),
+        padding: EdgeInsets.only(
+          top: statusBarHeight + 4,
+          left: 16,
+          right: 16,
+          bottom: 20,
+        ),
         decoration: BoxDecoration(
           gradient: LinearGradient(
-            colors: [AppColors.primary, AppColors.primary.withValues(alpha: 0.78)],
+            colors: [
+              AppColors.primary,
+              AppColors.primary.withValues(alpha: 0.78),
+            ],
             begin: Alignment.topLeft,
             end: Alignment.bottomRight,
           ),
@@ -39,10 +47,15 @@ class HomeScreen extends GetView<PartnerHomeController> {
                     padding: const EdgeInsets.all(2.5),
                     decoration: BoxDecoration(
                       shape: BoxShape.circle,
-                      border: Border.all(color: Colors.white.withValues(alpha: 0.6), width: 2),
+                      border: Border.all(
+                        color: Colors.white.withValues(alpha: 0.6),
+                        width: 2,
+                      ),
                     ),
                     child: FAvatar(
-                      image: CachedNetworkImageProvider(controller.avatar.value),
+                      image: CachedNetworkImageProvider(
+                        controller.avatar.value,
+                      ),
                       size: 44.0,
                       semanticsLabel: 'User avatar',
                       fallback: const Text('ST'),
@@ -65,19 +78,30 @@ class HomeScreen extends GetView<PartnerHomeController> {
                         ),
                         const SizedBox(height: 4),
                         Container(
-                          padding: const EdgeInsets.symmetric(horizontal: 7, vertical: 2),
+                          padding: const EdgeInsets.symmetric(
+                            horizontal: 7,
+                            vertical: 2,
+                          ),
                           decoration: BoxDecoration(
                             color: Colors.white.withValues(alpha: 0.2),
                             borderRadius: BorderRadius.circular(8),
-                            border: Border.all(color: Colors.white.withValues(alpha: 0.35)),
+                            border: Border.all(
+                              color: Colors.white.withValues(alpha: 0.35),
+                            ),
                           ),
                           child: Row(
                             mainAxisSize: MainAxisSize.min,
                             children: [
-                              const Icon(FIcons.badgeCheck, size: 10, color: Colors.white),
+                              const Icon(
+                                FIcons.badgeCheck,
+                                size: 10,
+                                color: Colors.white,
+                              ),
                               const SizedBox(width: 3),
                               Text(
-                                'verified'.tr,
+                                controller.isLegit.value == 'true'
+                                    ? 'verified'.tr
+                                    : 'unverified'.tr,
                                 style: context.typography.xs.copyWith(
                                   color: Colors.white,
                                   fontWeight: FontWeight.w600,
@@ -101,7 +125,7 @@ class HomeScreen extends GetView<PartnerHomeController> {
                     hasNotification:
                         controller.dashboardData.value?.hasNotification ??
                         false,
-						onTap: () => Get.toNamed(Routes.notification),
+                    onTap: () => Get.toNamed(Routes.notification),
                   ),
                 ),
               ],
@@ -128,10 +152,10 @@ class HomeScreen extends GetView<PartnerHomeController> {
           padding: const EdgeInsets.fromLTRB(14, 16, 14, 80),
           child: Column(
             children: [
-              IncomePanel(balance: controller.balance.value, revenue: data.revenue)
-                  .animate()
-                  .fadeIn(duration: 400.ms)
-                  .slideY(begin: 0.1, end: 0),
+              IncomePanel(
+                balance: controller.balance.value,
+                revenue: data.revenue,
+              ).animate().fadeIn(duration: 400.ms).slideY(begin: 0.1, end: 0),
               const SizedBox(height: 14),
               QickActionsPanel()
                   .animate(delay: 100.ms)

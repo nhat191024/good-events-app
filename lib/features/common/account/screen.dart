@@ -95,7 +95,9 @@ class AccountScreen extends GetView<AccountController> {
                                 ),
                                 const SizedBox(width: 3),
                                 Text(
-                                  'verified'.tr,
+                                  controller.isLegit.value == 'true'
+                                      ? 'verified'.tr
+                                      : 'unverified'.tr,
                                   style: context.typography.xs.copyWith(
                                     color: Colors.white,
                                     fontWeight: FontWeight.w600,
