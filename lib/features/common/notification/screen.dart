@@ -69,14 +69,14 @@ class NotificationScreen extends GetView<NotificationController> {
         child: ListView.separated(
           padding: const EdgeInsets.all(16),
           itemCount: controller.notifications.length,
-          separatorBuilder: (context, index) => const Divider(
-            height: 20,
-            color: Colors.transparent,
-          ),
+          separatorBuilder: (context, index) =>
+              const Divider(height: 20, color: Colors.transparent),
           itemBuilder: (context, index) {
             final item = controller.notifications[index];
             return Material(
-              color: item.unread ? context.primary.withAlpha(10) : Colors.transparent,
+              color: item.unread
+                  ? context.primary.withAlpha(10)
+                  : Colors.transparent,
               child: InkWell(
                 onTap: () => controller.readNotification(item),
                 child: Padding(
@@ -108,7 +108,9 @@ class NotificationScreen extends GetView<NotificationController> {
                                   child: Text(
                                     item.title,
                                     style: context.typography.base.copyWith(
-                                      fontWeight: item.unread ? FontWeight.w900 : FontWeight.bold,
+                                      fontWeight: item.unread
+                                          ? FontWeight.w900
+                                          : FontWeight.bold,
                                     ),
                                     overflow: TextOverflow.ellipsis,
                                   ),
@@ -117,8 +119,11 @@ class NotificationScreen extends GetView<NotificationController> {
                                 Text(
                                   _formatDate(item.createdAt),
                                   style: context.typography.xs.copyWith(
-                                    color: context.fTheme.colors.mutedForeground,
-                                    fontWeight: item.unread ? FontWeight.bold : FontWeight.normal,
+                                    color:
+                                        context.fTheme.colors.mutedForeground,
+                                    fontWeight: item.unread
+                                        ? FontWeight.bold
+                                        : FontWeight.normal,
                                   ),
                                 ),
                               ],
@@ -130,7 +135,9 @@ class NotificationScreen extends GetView<NotificationController> {
                                 color: item.unread
                                     ? context.fTheme.colors.foreground
                                     : context.fTheme.colors.mutedForeground,
-                                fontWeight: item.unread ? FontWeight.w500 : FontWeight.normal,
+                                fontWeight: item.unread
+                                    ? FontWeight.w500
+                                    : FontWeight.normal,
                               ),
                             ),
                           ],
@@ -165,12 +172,12 @@ class NotificationScreen extends GetView<NotificationController> {
 
     if (difference.inDays == 0) {
       if (difference.inHours == 0) {
-        if (difference.inMinutes <= 1) return 'vừa_xong'.tr;
-        return '${difference.inMinutes} ${'minute_ago'.tr}';
+        if (difference.inMinutes <= 1) return 'just_now'.tr;
+        return 'minute_ago'.trParams({'count': '${difference.inMinutes}'});
       }
-      return '${difference.inHours} ${'hour_ago'.tr}';
+      return 'hour_ago'.trParams({'count': '${difference.inHours}'});
     } else if (difference.inDays < 7) {
-      return '${difference.inDays} ${'day_ago'.tr}';
+      return 'day_ago'.trParams({'count': '${difference.inDays}'});
     }
 
     return '${date.day.toString().padLeft(2, '0')}/${date.month.toString().padLeft(2, '0')}';
