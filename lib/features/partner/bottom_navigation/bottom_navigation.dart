@@ -27,16 +27,41 @@ class PartnerBottomNavigationView
             index: controller.currentIndex.value,
             onTap: (index) => controller.setIndex(index),
             color: AppColors.primary,
-            buttonBackgroundColor: AppColors.red800,
+            buttonBackgroundColor: AppColors.red600,
             backgroundColor: Colors.transparent,
             animationDuration: Duration(milliseconds: 500),
             height: context.height * 0.07,
             items: [
-              Icon(FIcons.house, size: 24, color: Colors.white),
-              Icon(FIcons.calendars, size: 24, color: Colors.white),
-              Icon(FIcons.calendarPlus, size: 24, color: Colors.white),
-              Icon(FIcons.messageSquareText, size: 24, color: Colors.white),
-              Icon(FIcons.userRound, size: 24, color: Colors.white),
+              _buildNavItem(
+                FIcons.house,
+                'home'.tr,
+                0,
+                controller.currentIndex.value,
+              ),
+              _buildNavItem(
+                FIcons.calendars,
+                'my_shows'.tr,
+                1,
+                controller.currentIndex.value,
+              ),
+              _buildNavItem(
+                FIcons.calendarPlus,
+                'new_show'.tr,
+                2,
+                controller.currentIndex.value,
+              ),
+              _buildNavItem(
+                FIcons.messageSquareText,
+                'messages'.tr,
+                3,
+                controller.currentIndex.value,
+              ),
+              _buildNavItem(
+                FIcons.userRound,
+                'account'.tr,
+                4,
+                controller.currentIndex.value,
+              ),
             ],
           ),
         ),
@@ -70,6 +95,32 @@ class PartnerBottomNavigationView
           ),
         ),
       ),
+    );
+  }
+
+  Widget _buildNavItem(
+    IconData icon,
+    String label,
+    int index,
+    int currentIndex,
+  ) {
+    final isSelected = index == currentIndex;
+    if (isSelected) {
+      return Icon(icon, size: 24, color: Colors.white);
+    }
+    return Column(
+      mainAxisSize: MainAxisSize.min,
+      children: [
+        Icon(icon, size: 20, color: Colors.white),
+        Text(
+          label,
+          style: const TextStyle(
+            color: Colors.white,
+            fontSize: 10,
+            fontWeight: FontWeight.w500,
+          ),
+        ),
+      ],
     );
   }
 
