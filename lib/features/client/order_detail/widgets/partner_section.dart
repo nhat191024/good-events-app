@@ -25,7 +25,9 @@ class PartnerSection extends GetView<ClientOrderDetailController> {
               return const SizedBox.shrink();
             }
             return Text(
-              controller.isHistory.value ? 'you_are_viewing_history'.tr : 'please_wait_a_moment'.tr,
+              controller.isHistory.value
+                  ? 'you_are_viewing_history'.tr
+                  : 'please_wait_a_moment'.tr,
               style: context.typography.sm.copyWith(color: Colors.grey[600]),
             );
           }),
@@ -49,14 +51,18 @@ class PartnerSection extends GetView<ClientOrderDetailController> {
                   child: Center(
                     child: Text(
                       'partner_not_found'.tr,
-                      style: context.typography.sm.copyWith(color: Colors.grey[600]),
+                      style: context.typography.sm.copyWith(
+                        color: Colors.grey[600],
+                      ),
                     ),
                   ),
                 );
               }
 
               // If a partner was already chosen (closed), only show that one
-              final closedItem = allItems.where((i) => i.status == 'closed').toList();
+              final closedItem = allItems
+                  .where((i) => i.status == 'closed')
+                  .toList();
               final items = closedItem.isNotEmpty ? closedItem : allItems;
 
               return Column(
@@ -102,7 +108,9 @@ class PartnerSection extends GetView<ClientOrderDetailController> {
                   shape: BoxShape.circle,
                   color: Colors.grey[200],
                   border: Border.all(
-                    color: FTheme.of(context).colors.primary.withValues(alpha: 0.2),
+                    color: FTheme.of(
+                      context,
+                    ).colors.primary.withValues(alpha: 0.2),
                     width: 2,
                   ),
                 ),
@@ -122,7 +130,9 @@ class PartnerSection extends GetView<ClientOrderDetailController> {
                   children: [
                     Text(
                       controller.partnerName,
-                      style: context.typography.lg.copyWith(fontWeight: FontWeight.bold),
+                      style: context.typography.lg.copyWith(
+                        fontWeight: FontWeight.bold,
+                      ),
                     ),
                     const SizedBox(height: 4),
                     Row(
@@ -131,11 +141,15 @@ class PartnerSection extends GetView<ClientOrderDetailController> {
                         const SizedBox(width: 4),
                         Text(
                           '${controller.partnerRating ?? 5} ',
-                          style: context.typography.sm.copyWith(fontWeight: FontWeight.bold),
+                          style: context.typography.sm.copyWith(
+                            fontWeight: FontWeight.bold,
+                          ),
                         ),
                         Text(
                           '(1 ${'rate'.tr})',
-                          style: context.typography.sm.copyWith(color: Colors.grey),
+                          style: context.typography.sm.copyWith(
+                            color: Colors.grey,
+                          ),
                         ),
                       ],
                     ),
@@ -161,11 +175,18 @@ class PartnerSection extends GetView<ClientOrderDetailController> {
             mainAxisAlignment: MainAxisAlignment.end,
             children: [
               OutlinedButton(
-                onPressed: () {},
+                onPressed: () {
+                  final partnerId = controller.partnerId;
+                  if (partnerId != null) {
+                    controller.openPartnerProfilePreview(partnerId);
+                  }
+                },
                 style: OutlinedButton.styleFrom(
                   foregroundColor: FTheme.of(context).colors.primary,
                   side: BorderSide(color: FTheme.of(context).colors.primary),
-                  shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(8)),
+                  shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(8),
+                  ),
                 ),
                 child: Text('profile'.tr),
               ),

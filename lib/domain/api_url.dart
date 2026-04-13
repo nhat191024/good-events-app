@@ -5,6 +5,7 @@ class AppUrl {
   // Authentication
   static const String login = '/login';
   static const String loginGoogle = '/login/google';
+  static const String loginApple = '/auth/apple';
   static const String registerClient = '/register';
   static const String registerPartner = '/register/partner';
   static const String checkToken = '/check-token';
@@ -25,17 +26,21 @@ class AppUrl {
   static const String homeSummary = '/event/home';
   static const String homeBlogs = '/blog/home';
   static const String partnerCategories = '/partner-categories';
-  static String partnerCategoryDetail(String slug) => '/partner-categories/$slug';
+  static String partnerCategoryDetail(String slug) =>
+      '/partner-categories/$slug';
 
   // Partner New Show
   static const String partnerBillsRealtime = '/partner/bills/realtime';
-  static String partnerBillAccept(int billId) => '/partner/bills/$billId/accept';
+  static String partnerBillAccept(int billId) =>
+      '/partner/bills/$billId/accept';
 
   // Partner my shows
   static String partnerBills(String status) => '/partner/bills/$status';
   static const String partnerBillsHistory = '/partner/bills/history';
-  static String partnerBillMarkInJob(int billId) => '/partner/bills/$billId/mark-in-job';
-  static String partnerBillComplete(int billId) => '/partner/bills/$billId/complete';
+  static String partnerBillMarkInJob(int billId) =>
+      '/partner/bills/$billId/mark-in-job';
+  static String partnerBillComplete(int billId) =>
+      '/partner/bills/$billId/complete';
 
   // Client Booking Screen APIs
   static const String quickBookingEventList = '/quick-booking/event-list';
@@ -58,14 +63,16 @@ class AppUrl {
 
   // Chat / Threads
   static const String chats = '/chat';
-  static String chatMessages(String threadId) => '/chat/threads/$threadId/messages';
+  static String chatMessages(String threadId) =>
+      '/chat/threads/$threadId/messages';
 
   // Partner Services
   static const String partnerServices = '/partner/service/index';
   static const String partnerServiceCreate = '/partner/service';
   static String partnerServiceDetail(String id) => '/partner/service/$id';
   static String partnerServiceUpdate(String id) => '/partner/service/$id';
-  static String partnerServiceImages(String id) => '/partner/service/$id/images';
+  static String partnerServiceImages(String id) =>
+      '/partner/service/$id/images';
   static String partnerServiceDeleteImage(String serviceId, String mediaId) =>
       '/partner/service/$serviceId/images/$mediaId';
 
@@ -74,18 +81,25 @@ class AppUrl {
 
   // Profile
   static const String profile = '/profile/me';
+  static String publicProfile(int userId) => '/profile/$userId';
   static const String updateProfile = '/profile/update';
   static const String updatePassword = '/profile/password';
 
   // Partner Wallet
-  static const String partnerWalletTransactions = '/partner/wallet/transactions';
-  static const String partnerWalletRegenerateAddFundsLink = '/partner/wallet/regenerate-add-funds-link';
-  static const String partnerWalletConfirmAddFunds = '/partner/wallet/confirm-add-funds';
+  static const String partnerWalletTransactions =
+      '/partner/wallet/transactions';
+  static const String partnerWalletRegenerateAddFundsLink =
+      '/partner/wallet/regenerate-add-funds-link';
+  static const String partnerWalletConfirmAddFunds =
+      '/partner/wallet/confirm-add-funds';
 
   // Partner Analytics
-  static const String partnerAnalyticsStatistics = '/partner/analytics/statistics';
-  static const String partnerAnalyticsRevenueChart = '/partner/analytics/revenue-chart';
-  static const String partnerAnalyticsTopServices = '/partner/analytics/top-services';
+  static const String partnerAnalyticsStatistics =
+      '/partner/analytics/statistics';
+  static const String partnerAnalyticsRevenueChart =
+      '/partner/analytics/revenue-chart';
+  static const String partnerAnalyticsTopServices =
+      '/partner/analytics/top-services';
 
   // Notifications
   static const String notifications = '/notifications';
