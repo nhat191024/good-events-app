@@ -1,16 +1,19 @@
 import 'package:sukientotapp/core/utils/import/global.dart';
+import 'package:sukientotapp/core/utils/webview_whitelist.dart';
 import 'package:webview_flutter/webview_flutter.dart';
 
 class CommonWebviewScreen extends StatefulWidget {
   final String url;
   final String? title;
   final bool allowReload;
+  final List<String> extraAllowedHosts;
 
   const CommonWebviewScreen({
     super.key,
     required this.url,
     this.title,
     this.allowReload = false,
+    this.extraAllowedHosts = const [],
   });
 
   @override
@@ -45,16 +48,16 @@ class _CommonWebviewScreenState extends State<CommonWebviewScreen> {
           onWebResourceError: (WebResourceError error) {
             logger.e('WebView Error: ${error.description}');
           },
-          onNavigationRequest: (NavigationRequest request) {
+          onNavigationRequest: (NavigationRequest request) async {
             final uri = Uri.tryParse(request.url);
             logger.i('WebView Navigation Request: $uri');
 
-            if (request.url.startsWith('intent://')) {
+            if (WebviewWhitelist.isIntentUrl(request.url)) {
               logger.w('Intent URL detected and blocked: ${request.url}');
               return NavigationDecision.prevent;
             }
 
-            if (uri != null && uri.scheme == 'sukientot') {
+            if (uri != null && WebviewWhitelist.isDeepLink(uri)) {
               final basePath = uri.host.isNotEmpty
                   ? '/${uri.host}${uri.path}'
                   : uri.path;
@@ -65,7 +68,12 @@ class _CommonWebviewScreenState extends State<CommonWebviewScreen> {
               Get.toNamed(fullPath);
               return NavigationDecision.prevent;
             }
-            return NavigationDecision.navigate;
+
+            return WebviewWhitelist.decide(
+              request.url,
+              extraAllowedHosts: widget.extraAllowedHosts,
+              openExternalBrowser: true,
+            );
           },
         ),
       )

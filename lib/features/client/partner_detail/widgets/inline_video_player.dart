@@ -1,4 +1,5 @@
 import 'package:sukientotapp/core/utils/import/global.dart';
+import 'package:sukientotapp/core/utils/webview_whitelist.dart';
 import 'package:webview_flutter/webview_flutter.dart';
 
 class InlineVideoPlayer extends StatefulWidget {
@@ -18,6 +19,7 @@ class InlineVideoPlayer extends StatefulWidget {
 }
 
 class _InlineVideoPlayerState extends State<InlineVideoPlayer> {
+  static const _inlineBaseUrl = 'https://sukientot.com';
   bool _isPlaying = false;
   late final WebViewController _controller;
 
@@ -57,13 +59,21 @@ class _InlineVideoPlayerState extends State<InlineVideoPlayer> {
           NavigationDelegate(
             onNavigationRequest: (NavigationRequest request) {
               if (request.isMainFrame) {
-                if (request.url == 'https://sukientot.com' ||
-                    request.url == 'https://sukientot.com/') {
+                if (request.url == _inlineBaseUrl ||
+                    request.url == '$_inlineBaseUrl/') {
                   return NavigationDecision.navigate;
                 }
-                // Prevent tapping the YouTube logo from redirecting the widget
-                // and open it externally instead
-                widget.onTapExternal();
+
+                if (WebviewWhitelist.isAllowed(request.url)) {
+                  // Keep inline player pinned. Open allowed outbound video pages
+                  // in dedicated screen instead of navigating inside iframe shell.
+                  widget.onTapExternal();
+                } else {
+                  logger.w(
+                    '[InlineVideoPlayer] Blocked navigation to: ${request.url}',
+                  );
+                }
+
                 return NavigationDecision.prevent;
               }
               return NavigationDecision.navigate;
@@ -72,7 +82,7 @@ class _InlineVideoPlayerState extends State<InlineVideoPlayer> {
         )
         ..loadHtmlString(
           wrappedHtml,
-          baseUrl: 'https://sukientot.com',
+          baseUrl: _inlineBaseUrl,
         );
     }
   }

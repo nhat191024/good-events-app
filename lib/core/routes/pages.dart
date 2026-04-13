@@ -169,6 +169,11 @@ class Pages {
         url: Get.arguments['url'] ?? '',
         title: Get.arguments['title'],
         allowReload: Get.arguments['allowReload'] ?? false,
+        extraAllowedHosts:
+            (Get.arguments['extraAllowedHosts'] as List<dynamic>?)
+                ?.map((host) => host.toString())
+                .toList() ??
+            const [],
       ),
       transition: Transition.cupertino,
       transitionDuration: const Duration(milliseconds: 300),
