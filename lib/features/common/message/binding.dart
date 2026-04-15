@@ -12,7 +12,7 @@ class MessageBinding extends Bindings {
   void dependencies() {
     Get.lazyPut<ApiService>(() => ApiService(), fenix: true);
 
-    Get.lazyPut<MessageProvider>(() => MessageProvider(Get.find<ApiService>()));
+    Get.lazyPut<MessageProvider>(() => MessageProvider(Get.find<ApiService>()), fenix: true);
     final endpoint = AppUrl.chats;
 
     Get.lazyPut<MessageRepository>(
@@ -20,10 +20,12 @@ class MessageBinding extends Bindings {
         Get.find<MessageProvider>(),
         endpoint: endpoint,
       ),
+      fenix: true,
     );
 
     Get.lazyPut<MessageController>(
       () => MessageController(Get.find<MessageRepository>()),
+      fenix: true,
     );
   }
 }
