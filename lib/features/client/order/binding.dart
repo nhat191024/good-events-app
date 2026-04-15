@@ -9,10 +9,11 @@ class ClientOrderBinding extends Bindings {
   @override
   void dependencies() {
     Get.lazyPut<ApiService>(() => ApiService(), fenix: true);
-    Get.lazyPut<OrderProvider>(() => OrderProvider(dio: Get.find<ApiService>().dio));
-    Get.lazyPut<OrderRepositoryImpl>(() => OrderRepositoryImpl(Get.find()));
+    Get.lazyPut<OrderProvider>(() => OrderProvider(dio: Get.find<ApiService>().dio), fenix: true);
+    Get.lazyPut<OrderRepositoryImpl>(() => OrderRepositoryImpl(Get.find()), fenix: true);
     Get.lazyPut<ClientOrderController>(
       () => ClientOrderController(Get.find<OrderRepositoryImpl>()),
+      fenix: true,
     );
   }
 }
