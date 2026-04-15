@@ -22,7 +22,8 @@ class ProfileProvider {
       }
     } on DioException catch (e) {
       logger.e('[ProfileProvider] [updateProfile] DioException: \${e.message}');
-      final errorMessage = e.response?.data['message'] ?? 'Failed to update profile';
+      final errorMessage =
+          e.response?.data['message'] ?? 'Failed to update profile';
       throw Exception(errorMessage);
     }
   }
@@ -48,7 +49,8 @@ class ProfileProvider {
       }
     } on DioException catch (e) {
       logger.e('[ProfileProvider] [updatePassword] DioException: ${e.message}');
-      final errorMessage = e.response?.data['message'] ?? 'Failed to update password';
+      final errorMessage =
+          e.response?.data['message'] ?? 'Failed to update password';
       throw Exception(errorMessage);
     }
   }
@@ -63,7 +65,28 @@ class ProfileProvider {
       }
     } on DioException catch (e) {
       logger.e('[ProfileProvider] [getProfile] DioException: ${e.message}');
-      final errorMessage = e.response?.data['message'] ?? 'Failed to load profile';
+      final errorMessage =
+          e.response?.data['message'] ?? 'Failed to load profile';
+      throw Exception(errorMessage);
+    }
+  }
+
+  Future<Map<String, dynamic>> getPublicProfilePreview(int userId) async {
+    try {
+      final response = await _apiService.dio.get(AppUrl.publicProfile(userId));
+      if (response.statusCode == 200) {
+        return response.data as Map<String, dynamic>;
+      } else {
+        throw Exception(
+          'Failed to load public profile: ${response.statusCode}',
+        );
+      }
+    } on DioException catch (e) {
+      logger.e(
+        '[ProfileProvider] [getPublicProfilePreview] DioException: ${e.message}',
+      );
+      final errorMessage =
+          e.response?.data?['message'] ?? 'Failed to load public profile';
       throw Exception(errorMessage);
     }
   }

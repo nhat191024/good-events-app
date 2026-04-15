@@ -2,6 +2,11 @@
 
 All notable changes to this project will be documented in this file.
 
+## [v2.4.7+48]
+
+- Fix partner profile preview
+- Fix notification on iOS
+
 ## [v2.4.6+47]
 
 - Add text to bottom navigation

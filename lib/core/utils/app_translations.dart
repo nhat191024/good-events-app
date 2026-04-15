@@ -30,6 +30,8 @@ class AppTranslations extends Translations {
       'password_invalid': 'Mật khẩu phải có ít nhất 8 ký tự.',
 
       'google_login': 'Đăng nhập với Google',
+      'apple_login': 'Đăng nhập với Apple',
+      'apple_login_not_ready': 'Đăng nhập Apple chưa được cấu hình.',
       'logging_loading': 'Đang đăng nhập...',
 
       //forgot password screen
@@ -416,6 +418,25 @@ class AppTranslations extends Translations {
       'verify_now': 'Xác minh ngay',
 
       'currency': 'VND',
+      'trusted_partner': 'Uy tín',
+      'orders_posted': 'Đơn đã tạo',
+      'quick_stats': 'Thống kê nhanh',
+      'last_active': 'Hoạt động lần cuối',
+      'services': 'Dịch vụ',
+      'customer_reviews': 'Đánh giá từ khách hàng',
+      'member_label': 'Thành viên',
+      'member_since_year': 'Thành viên • từ @year',
+      'loading_profile_preview': 'Đang tải hồ sơ đối tác...',
+      'failed_to_load_public_profile':
+          'Không thể tải hồ sơ đối tác.',
+      'introduction': 'Giới thiệu',
+      'profile_description_empty': 'Chưa có mô tả.',
+      'public_profile_no_services': 'Chưa có dịch vụ nào.',
+      'public_profile_no_reviews': 'Chưa có đánh giá nào.',
+      'public_profile_no_images': 'Chưa có hình ảnh dịch vụ.',
+      'anonymous_user': 'Người dùng ẩn danh',
+      'report_this_user': 'Báo cáo người dùng này',
+      'reviews_count_label': 'Đánh giá',
 
       'click_to_upload': 'Nhấn để tải ảnh lên',
       'upload_description': 'PNG, JPG, JPEG, WEBP (Tối đa 5MB)',
@@ -765,7 +786,6 @@ class AppTranslations extends Translations {
       'password_hint': '********',
       'password_invalid': 'Password must be at least 8 characters long.',
 
-      'google_login': 'Login with Google',
       'logging_loading': 'Logging in...',
 
       //forgot password screen
@@ -1081,8 +1101,8 @@ class AppTranslations extends Translations {
       'account': 'Account',
       'search_with_dot': 'Search...',
 
-      'wallet': 'Ví',
-      'income': 'Thu nhập',
+      'wallet': 'Wallet',
+      'income': 'Income',
 
       'calendar': 'Calendar',
       'customer': 'Customer',
@@ -1099,6 +1119,7 @@ class AppTranslations extends Translations {
 
       'verified': 'Verified',
       'unverified': 'Unverified',
+      'trusted_partner': 'Trusted',
       'verify_account_cta': 'Account not verified',
       'verify_account_body': 'Verify now to build trust with clients.',
       'verify_now': 'Verify Now',
@@ -1110,6 +1131,23 @@ class AppTranslations extends Translations {
 
       'completed_orders': 'Completed Orders',
       'cancellation_rate': 'Cancelled rate',
+      'orders_posted': 'Orders Posted',
+      'quick_stats': 'Quick Stats',
+      'last_active': 'Last Active',
+      'services': 'Services',
+      'customer_reviews': 'Customer Reviews',
+      'member_label': 'Member',
+      'member_since_year': 'Member • since @year',
+      'loading_profile_preview': 'Loading partner profile...',
+      'failed_to_load_public_profile': 'Failed to load partner profile.',
+      'introduction': 'Introduction',
+      'profile_description_empty': 'No description yet.',
+      'public_profile_no_services': 'No services yet.',
+      'public_profile_no_reviews': 'No reviews yet.',
+      'public_profile_no_images': 'No service images yet.',
+      'anonymous_user': 'Anonymous user',
+      'report_this_user': 'Report this user',
+      'reviews_count_label': 'Reviews',
 
       'front': 'Front',
       'back': 'Back',
@@ -1148,6 +1186,9 @@ class AppTranslations extends Translations {
 
       'notification': 'Notification',
       'login_successful': 'Login successful! Welcome, @name.',
+      'google_login': 'Continue with Google',
+      'apple_login': 'Continue with Apple',
+      'apple_login_not_ready': 'Apple login is not configured yet.',
 
       'pending_order': 'Pending order',
       'confirmed_order': 'Confirmed order',

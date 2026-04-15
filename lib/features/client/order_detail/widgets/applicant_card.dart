@@ -42,7 +42,9 @@ class ApplicantCard extends GetView<ClientOrderDetailController> {
                   shape: BoxShape.circle,
                   color: Colors.grey[200],
                   border: Border.all(
-                    color: FTheme.of(context).colors.primary.withValues(alpha: 0.2),
+                    color: FTheme.of(
+                      context,
+                    ).colors.primary.withValues(alpha: 0.2),
                     width: 2,
                   ),
                 ),
@@ -65,14 +67,19 @@ class ApplicantCard extends GetView<ClientOrderDetailController> {
                         Expanded(
                           child: Text(
                             partnerName,
-                            style: context.typography.lg.copyWith(fontWeight: FontWeight.bold),
+                            style: context.typography.lg.copyWith(
+                              fontWeight: FontWeight.bold,
+                            ),
                             maxLines: 1,
                             overflow: TextOverflow.ellipsis,
                           ),
                         ),
                         if (isChosen)
                           Container(
-                            padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 2),
+                            padding: const EdgeInsets.symmetric(
+                              horizontal: 8,
+                              vertical: 2,
+                            ),
                             decoration: BoxDecoration(
                               color: Colors.green[50],
                               borderRadius: BorderRadius.circular(12),
@@ -118,11 +125,15 @@ class ApplicantCard extends GetView<ClientOrderDetailController> {
                     children: [
                       Text(
                         '100%',
-                        style: context.typography.base.copyWith(fontWeight: FontWeight.bold),
+                        style: context.typography.base.copyWith(
+                          fontWeight: FontWeight.bold,
+                        ),
                       ),
                       Text(
                         'completion_rate'.tr,
-                        style: context.typography.xs.copyWith(color: Colors.grey[600]),
+                        style: context.typography.xs.copyWith(
+                          color: Colors.grey[600],
+                        ),
                       ),
                     ],
                   ),
@@ -141,17 +152,25 @@ class ApplicantCard extends GetView<ClientOrderDetailController> {
                       Row(
                         mainAxisAlignment: MainAxisAlignment.center,
                         children: [
-                          Icon(Icons.schedule, size: 14, color: Colors.grey[600]),
+                          Icon(
+                            Icons.schedule,
+                            size: 14,
+                            color: Colors.grey[600],
+                          ),
                           const SizedBox(width: 4),
                           Text(
                             '5 phút',
-                            style: context.typography.sm.copyWith(fontWeight: FontWeight.bold),
+                            style: context.typography.sm.copyWith(
+                              fontWeight: FontWeight.bold,
+                            ),
                           ),
                         ],
                       ),
                       Text(
                         'cancellation_rate'.tr,
-                        style: context.typography.xs.copyWith(color: Colors.grey[600]),
+                        style: context.typography.xs.copyWith(
+                          color: Colors.grey[600],
+                        ),
                       ),
                     ],
                   ),
@@ -170,11 +189,18 @@ class ApplicantCard extends GetView<ClientOrderDetailController> {
               mainAxisAlignment: MainAxisAlignment.end,
               children: [
                 OutlinedButton(
-                  onPressed: () {},
+                  onPressed: () {
+                    final partnerId = item.partner?.id;
+                    if (partnerId != null) {
+                      controller.openPartnerProfilePreview(partnerId);
+                    }
+                  },
                   style: OutlinedButton.styleFrom(
                     foregroundColor: FTheme.of(context).colors.primary,
                     side: BorderSide(color: FTheme.of(context).colors.primary),
-                    shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(8)),
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(8),
+                    ),
                   ),
                   child: Text('profile'.tr),
                 ),
@@ -189,7 +215,9 @@ class ApplicantCard extends GetView<ClientOrderDetailController> {
                     style: ElevatedButton.styleFrom(
                       backgroundColor: FTheme.of(context).colors.primary,
                       foregroundColor: Colors.white,
-                      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(8)),
+                      shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(8),
+                      ),
                     ),
                     child: Text('choose_partner'.tr),
                   ),

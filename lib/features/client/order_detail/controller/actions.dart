@@ -44,7 +44,9 @@ extension ClientOrderDetailActions on ClientOrderDetailController {
           // Sync back to ClientOrderController's event orders list if it exists
           if (Get.isRegistered<ClientOrderController>()) {
             final listController = Get.find<ClientOrderController>();
-            final index = listController.eventOrders.indexWhere((o) => o.id == updatedOrder.id);
+            final index = listController.eventOrders.indexWhere(
+              (o) => o.id == updatedOrder.id,
+            );
             if (index != -1) {
               listController.eventOrders[index] = updatedOrder;
             }
@@ -122,7 +124,9 @@ extension ClientOrderDetailActions on ClientOrderDetailController {
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
                         Text(
-                          'confirm_choose_partner_title'.trParams({'name': partnerName}),
+                          'confirm_choose_partner_title'.trParams({
+                            'name': partnerName,
+                          }),
                           style: context.typography.lg.copyWith(
                             fontWeight: FontWeight.bold,
                             color: Colors.black,
@@ -131,7 +135,10 @@ extension ClientOrderDetailActions on ClientOrderDetailController {
                         const SizedBox(height: 8),
                         RichText(
                           text: TextSpan(
-                            style: context.typography.sm.copyWith(color: Colors.black, height: 1.5),
+                            style: context.typography.sm.copyWith(
+                              color: Colors.black,
+                              height: 1.5,
+                            ),
                             children: [
                               TextSpan(
                                 text: 'confirm_choose_partner_desc'.tr,
@@ -145,7 +152,9 @@ extension ClientOrderDetailActions on ClientOrderDetailController {
                                         '${NumberFormat.currency(locale: 'vi_VN', symbol: '', decimalDigits: 0).format(amount)} đ',
                                   ),
                                   if (discountValue != null) ...[
-                                    TextSpan(text: '\n${'discount_from_voucher'.tr}'),
+                                    TextSpan(
+                                      text: '\n${'discount_from_voucher'.tr}',
+                                    ),
                                     TextSpan(
                                       text:
                                           '${NumberFormat.currency(locale: 'vi_VN', symbol: '', decimalDigits: 0).format(amount - discountValue)} đ (-${NumberFormat.currency(locale: 'vi_VN', symbol: '', decimalDigits: 0).format(discountValue)} đ)',
@@ -169,7 +178,11 @@ extension ClientOrderDetailActions on ClientOrderDetailController {
                   const SizedBox(width: 8),
                   InkWell(
                     onTap: () => Get.back(result: false),
-                    child: const Icon(Icons.close, color: Colors.black, size: 24),
+                    child: const Icon(
+                      Icons.close,
+                      color: Colors.black,
+                      size: 24,
+                    ),
                   ),
                 ],
               ),
@@ -182,8 +195,13 @@ extension ClientOrderDetailActions on ClientOrderDetailController {
                     style: OutlinedButton.styleFrom(
                       foregroundColor: Colors.black,
                       side: const BorderSide(color: Colors.grey),
-                      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(4)),
-                      padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
+                      shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(4),
+                      ),
+                      padding: const EdgeInsets.symmetric(
+                        horizontal: 16,
+                        vertical: 8,
+                      ),
                     ),
                     child: Text('confirm_no_btn'.tr),
                   ),
@@ -193,8 +211,13 @@ extension ClientOrderDetailActions on ClientOrderDetailController {
                     style: ElevatedButton.styleFrom(
                       backgroundColor: FTheme.of(context).colors.primary,
                       foregroundColor: Colors.white,
-                      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(4)),
-                      padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
+                      shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(4),
+                      ),
+                      padding: const EdgeInsets.symmetric(
+                        horizontal: 16,
+                        vertical: 8,
+                      ),
                     ),
                     child: Text(
                       'confirm_yes_btn'.tr,
@@ -224,7 +247,9 @@ extension ClientOrderDetailActions on ClientOrderDetailController {
 
         if (Get.isRegistered<ClientHomeController>()) {
           final applicantCount = _eventOrder.value?.applicantCount ?? 0;
-          Get.find<ClientHomeController>().confirmOrder(applicantCount: applicantCount);
+          Get.find<ClientHomeController>().confirmOrder(
+            applicantCount: applicantCount,
+          );
         }
 
         await fetchOrderDetails();
@@ -275,7 +300,10 @@ extension ClientOrderDetailActions on ClientOrderDetailController {
                         const SizedBox(height: 8),
                         RichText(
                           text: TextSpan(
-                            style: context.typography.sm.copyWith(color: Colors.black, height: 1.5),
+                            style: context.typography.sm.copyWith(
+                              color: Colors.black,
+                              height: 1.5,
+                            ),
                             children: [
                               TextSpan(
                                 text: 'confirm_cancel_order_desc'.tr,
@@ -295,7 +323,11 @@ extension ClientOrderDetailActions on ClientOrderDetailController {
                         shape: BoxShape.circle,
                         color: Colors.transparent,
                       ),
-                      child: const Icon(Icons.close, color: Colors.black, size: 24),
+                      child: const Icon(
+                        Icons.close,
+                        color: Colors.black,
+                        size: 24,
+                      ),
                     ),
                   ),
                 ],
@@ -309,8 +341,13 @@ extension ClientOrderDetailActions on ClientOrderDetailController {
                     style: OutlinedButton.styleFrom(
                       foregroundColor: Colors.black,
                       side: const BorderSide(color: Colors.grey),
-                      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(4)),
-                      padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 4),
+                      shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(4),
+                      ),
+                      padding: const EdgeInsets.symmetric(
+                        horizontal: 12,
+                        vertical: 4,
+                      ),
                     ),
                     child: Text('cancel_order_no_btn'.tr),
                   ),
@@ -320,8 +357,13 @@ extension ClientOrderDetailActions on ClientOrderDetailController {
                     style: ElevatedButton.styleFrom(
                       backgroundColor: FTheme.of(context).colors.primary,
                       foregroundColor: Colors.white,
-                      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(4)),
-                      padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 4),
+                      shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(4),
+                      ),
+                      padding: const EdgeInsets.symmetric(
+                        horizontal: 12,
+                        vertical: 4,
+                      ),
                     ),
                     child: Text(
                       'cancel_order_yes_btn'.tr,
@@ -386,7 +428,10 @@ extension ClientOrderDetailActions on ClientOrderDetailController {
 
       if (result['success'] == true) {
         Get.back(); // Close bottom sheet
-        Get.snackbar('success'.tr, result['message'] ?? 'review_submitted_success'.tr);
+        Get.snackbar(
+          'success'.tr,
+          result['message'] ?? 'review_submitted_success'.tr,
+        );
         await fetchOrderDetails();
       } else {
         Get.snackbar(
@@ -450,5 +495,85 @@ extension ClientOrderDetailActions on ClientOrderDetailController {
       backgroundColor: Colors.transparent,
       ignoreSafeArea: false,
     );
+  }
+
+  Future<void> openPartnerProfilePreview(int userId) async {
+    activePreviewUserId.value = userId;
+    profilePreviewError.value = '';
+
+    final PublicProfilePreviewModel? cached = profilePreviewCache[userId];
+    activeProfilePreview.value = cached;
+    isProfilePreviewLoading.value = cached == null;
+
+    if (Get.isDialogOpen != true) {
+      Get.dialog(
+        Dialog(
+          elevation: 0,
+          backgroundColor: Colors.transparent,
+          insetPadding: const EdgeInsets.symmetric(
+            horizontal: 16,
+            vertical: 16,
+          ),
+          child: Obx(
+            () => ProfilePreviewModal(
+              profile: activeProfilePreview.value,
+              isLoading: isProfilePreviewLoading.value,
+              errorMessage: profilePreviewError.value,
+              onClose: Get.back,
+              onRetry: retryPartnerProfilePreview,
+            ),
+          ),
+        ),
+        barrierDismissible: true,
+      );
+    }
+
+    if (cached != null) return;
+    await _fetchPartnerProfilePreview(userId);
+  }
+
+  Future<void> retryPartnerProfilePreview() async {
+    final int? userId = activePreviewUserId.value;
+    if (userId == null) return;
+    await _fetchPartnerProfilePreview(userId, forceRefresh: true);
+  }
+
+  Future<void> _fetchPartnerProfilePreview(
+    int userId, {
+    bool forceRefresh = false,
+  }) async {
+    if (!forceRefresh && profilePreviewCache.containsKey(userId)) {
+      activeProfilePreview.value = profilePreviewCache[userId];
+      profilePreviewError.value = '';
+      isProfilePreviewLoading.value = false;
+      return;
+    }
+
+    isProfilePreviewLoading.value = true;
+    profilePreviewError.value = '';
+
+    try {
+      final PublicProfilePreviewModel profile = await _profileRepository.getPublicProfilePreview(
+        userId,
+      );
+      profilePreviewCache[userId] = profile;
+
+      if (activePreviewUserId.value == userId) {
+        activeProfilePreview.value = profile;
+      }
+    } catch (e) {
+      logger.e('Error loading public profile preview for $userId: $e');
+      if (activePreviewUserId.value == userId) {
+        activeProfilePreview.value = null;
+        profilePreviewError.value = e.toString().replaceFirst(
+          'Exception: ',
+          '',
+        );
+      }
+    } finally {
+      if (activePreviewUserId.value == userId) {
+        isProfilePreviewLoading.value = false;
+      }
+    }
   }
 }

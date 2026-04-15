@@ -38,6 +38,12 @@ class NotificationService {
     );
     await _localNotifications.initialize(settings: initSettings);
 
+    await _messaging.setForegroundNotificationPresentationOptions(
+      alert: true,
+      badge: true,
+      sound: true,
+    );
+
     // Create Android notification channel
     await _localNotifications
         .resolvePlatformSpecificImplementation<
@@ -93,6 +99,14 @@ class NotificationService {
     if (!isGranted) {
       logger.w('[FCM] Notification permission not granted.');
       return;
+    }
+
+    if (!kIsWeb && defaultTargetPlatform == TargetPlatform.iOS) {
+      final apnsToken = await _messaging.getAPNSToken();
+      logger.i('[FCM] APNs token: $apnsToken');
+      if (apnsToken == null) {
+        logger.w('[FCM] APNs token is null - iOS notifications may not work.');
+      }
     }
 
     await _fetchAndSaveToken();

@@ -11,6 +11,13 @@ mixin ClientOrderDetailState {
   final RxBool isChoosingPartner = false.obs;
   final RxBool isCancellingOrder = false.obs;
   Timer? _refreshTimer;
+  final RxBool isProfilePreviewLoading = false.obs;
+  final RxString profilePreviewError = ''.obs;
+  final RxnInt activePreviewUserId = RxnInt();
+  final Rx<PublicProfilePreviewModel?> activeProfilePreview =
+      Rx<PublicProfilePreviewModel?>(null);
+  final Map<int, PublicProfilePreviewModel> profilePreviewCache =
+      <int, PublicProfilePreviewModel>{};
 
   // Report Form State
   final reportTitleController = TextEditingController();
@@ -30,14 +37,18 @@ mixin ClientOrderDetailState {
 
   // Unified Getters
   int get orderId {
-    if (isHistory.value && _historyOrder.value != null) return _historyOrder.value!.id;
-    if (!isHistory.value && _eventOrder.value != null) return _eventOrder.value!.id;
+    if (isHistory.value && _historyOrder.value != null)
+      return _historyOrder.value!.id;
+    if (!isHistory.value && _eventOrder.value != null)
+      return _eventOrder.value!.id;
     return 0;
   }
 
   String get orderCode {
-    if (isHistory.value && _historyOrder.value != null) return _historyOrder.value!.code ?? '';
-    if (!isHistory.value && _eventOrder.value != null) return _eventOrder.value!.code;
+    if (isHistory.value && _historyOrder.value != null)
+      return _historyOrder.value!.code ?? '';
+    if (!isHistory.value && _eventOrder.value != null)
+      return _eventOrder.value!.code;
     return '';
   }
 
@@ -45,7 +56,8 @@ mixin ClientOrderDetailState {
     if (isHistory.value && _historyOrder.value != null) {
       return _historyOrder.value!.categoryName ?? '';
     }
-    if (!isHistory.value && _eventOrder.value != null) return _eventOrder.value!.categoryName;
+    if (!isHistory.value && _eventOrder.value != null)
+      return _eventOrder.value!.categoryName;
     return '';
   }
 
@@ -53,43 +65,56 @@ mixin ClientOrderDetailState {
     if (isHistory.value && _historyOrder.value != null) {
       return _historyOrder.value!.parentCategoryName ?? '';
     }
-    if (!isHistory.value && _eventOrder.value != null) return _eventOrder.value!.parentCategoryName;
+    if (!isHistory.value && _eventOrder.value != null)
+      return _eventOrder.value!.parentCategoryName;
     return '';
   }
 
   String get eventName {
-    if (isHistory.value && _historyOrder.value != null) return _historyOrder.value!.eventName ?? '';
-    if (!isHistory.value && _eventOrder.value != null) return _eventOrder.value!.eventName;
+    if (isHistory.value && _historyOrder.value != null)
+      return _historyOrder.value!.eventName ?? '';
+    if (!isHistory.value && _eventOrder.value != null)
+      return _eventOrder.value!.eventName;
     return '';
   }
 
   String get status {
-    if (isHistory.value && _historyOrder.value != null) return _historyOrder.value!.status ?? '';
-    if (!isHistory.value && _eventOrder.value != null) return _eventOrder.value!.status;
+    if (isHistory.value && _historyOrder.value != null)
+      return _historyOrder.value!.status ?? '';
+    if (!isHistory.value && _eventOrder.value != null)
+      return _eventOrder.value!.status;
     return '';
   }
 
   String get address {
-    if (isHistory.value && _historyOrder.value != null) return _historyOrder.value!.address ?? '';
-    if (!isHistory.value && _eventOrder.value != null) return _eventOrder.value!.address;
+    if (isHistory.value && _historyOrder.value != null)
+      return _historyOrder.value!.address ?? '';
+    if (!isHistory.value && _eventOrder.value != null)
+      return _eventOrder.value!.address;
     return '';
   }
 
   String get date {
-    if (isHistory.value && _historyOrder.value != null) return _historyOrder.value!.date ?? '';
-    if (!isHistory.value && _eventOrder.value != null) return _eventOrder.value!.date;
+    if (isHistory.value && _historyOrder.value != null)
+      return _historyOrder.value!.date ?? '';
+    if (!isHistory.value && _eventOrder.value != null)
+      return _eventOrder.value!.date;
     return '';
   }
 
   String get startTime {
-    if (isHistory.value && _historyOrder.value != null) return _historyOrder.value!.startTime ?? '';
-    if (!isHistory.value && _eventOrder.value != null) return _eventOrder.value!.startTime;
+    if (isHistory.value && _historyOrder.value != null)
+      return _historyOrder.value!.startTime ?? '';
+    if (!isHistory.value && _eventOrder.value != null)
+      return _eventOrder.value!.startTime;
     return '';
   }
 
   String get endTime {
-    if (isHistory.value && _historyOrder.value != null) return _historyOrder.value!.endTime ?? '';
-    if (!isHistory.value && _eventOrder.value != null) return _eventOrder.value!.endTime;
+    if (isHistory.value && _historyOrder.value != null)
+      return _historyOrder.value!.endTime ?? '';
+    if (!isHistory.value && _eventOrder.value != null)
+      return _eventOrder.value!.endTime;
     return '';
   }
 
@@ -114,8 +139,10 @@ mixin ClientOrderDetailState {
   }
 
   String get note {
-    if (isHistory.value && _historyOrder.value != null) return _historyOrder.value!.note ?? '';
-    if (!isHistory.value && _eventOrder.value != null) return _eventOrder.value!.note;
+    if (isHistory.value && _historyOrder.value != null)
+      return _historyOrder.value!.note ?? '';
+    if (!isHistory.value && _eventOrder.value != null)
+      return _eventOrder.value!.note;
     return '';
   }
 

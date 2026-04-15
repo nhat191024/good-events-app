@@ -1,24 +1,31 @@
 import 'dart:async';
 import 'package:sukientotapp/core/utils/import/global.dart';
+import 'package:sukientotapp/data/models/common/public_profile_preview_model.dart';
 import 'package:sukientotapp/data/models/client/event_order_model.dart';
 import 'package:sukientotapp/data/models/client/history_order_model.dart';
 import 'package:sukientotapp/data/models/client/order_detail_model.dart';
 import 'package:sukientotapp/data/models/client/voucher_model.dart';
+import 'package:sukientotapp/domain/repositories/common/my_profile_repository.dart';
 import 'package:sukientotapp/domain/repositories/client/order_repository.dart';
 import 'package:sukientotapp/features/client/home/controller.dart';
 import 'package:sukientotapp/features/client/order/controller.dart';
+import '../widgets/profile_preview.dart';
 import '../widgets/voucher_details_bottom_sheet.dart';
 
 part 'state.dart';
 part 'actions.dart';
 part 'report.dart';
 
-class ClientOrderDetailController extends GetxController with ClientOrderDetailState {
+class ClientOrderDetailController extends GetxController
+    with ClientOrderDetailState {
   final OrderRepository _repository;
+  final MyProfileRepository _profileRepository;
 
-  final RefreshController refreshController = RefreshController(initialRefresh: false);
+  final RefreshController refreshController = RefreshController(
+    initialRefresh: false,
+  );
 
-  ClientOrderDetailController(this._repository);
+  ClientOrderDetailController(this._repository, this._profileRepository);
 
   @override
   void onInit() {
