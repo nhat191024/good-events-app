@@ -43,10 +43,8 @@ class AssetOrdersTab extends StatelessWidget {
                   controller: controller,
                   orders: controller.paidAssetOrders,
                   emptyMessage: 'no_paid_asset_orders'.tr,
-                  refreshController: controller.paidAssetRefreshController,
-                  onRefresh: () => controller.onRefreshAsset(controller.paidAssetRefreshController),
-                  onLoading: () =>
-                      controller.onLoadMoreAsset(controller.paidAssetRefreshController),
+                  onRefresh: () async => controller.onRefreshAsset(),
+                  onLoading: () async => controller.onLoadMoreAsset(),
                 ),
               ),
 
@@ -56,11 +54,8 @@ class AssetOrdersTab extends StatelessWidget {
                   controller: controller,
                   orders: controller.pendingAssetOrders,
                   emptyMessage: 'no_pending_asset_orders'.tr,
-                  refreshController: controller.pendingAssetRefreshController,
-                  onRefresh: () =>
-                      controller.onRefreshAsset(controller.pendingAssetRefreshController),
-                  onLoading: () =>
-                      controller.onLoadMoreAsset(controller.pendingAssetRefreshController),
+                  onRefresh: () async => controller.onRefreshAsset(),
+                  onLoading: () async => controller.onLoadMoreAsset(),
                 ),
               ),
 
@@ -70,11 +65,8 @@ class AssetOrdersTab extends StatelessWidget {
                   controller: controller,
                   orders: controller.cancelledAssetOrders,
                   emptyMessage: 'no_cancelled_asset_orders'.tr,
-                  refreshController: controller.cancelledAssetRefreshController,
-                  onRefresh: () =>
-                      controller.onRefreshAsset(controller.cancelledAssetRefreshController),
-                  onLoading: () =>
-                      controller.onLoadMoreAsset(controller.cancelledAssetRefreshController),
+                  onRefresh: () async => controller.onRefreshAsset(),
+                  onLoading: () async => controller.onLoadMoreAsset(),
                 ),
               ),
             ],
