@@ -1,10 +1,14 @@
 import 'package:sukientotapp/core/utils/import/global.dart';
 
 import 'package:sukientotapp/features/components/widget/badge.dart';
+import 'package:sukientotapp/features/components/widget/confirm_dialog.dart';
+import 'package:sukientotapp/features/partner/show/controller.dart';
 
 class Detail extends StatelessWidget {
   const Detail({
     super.key,
+    required this.billId,
+    required this.billStatus,
     required this.code,
     required this.status,
     required this.statusColor,
@@ -19,6 +23,8 @@ class Detail extends StatelessWidget {
     required this.total,
   });
 
+  final int billId;
+  final String billStatus;
   final String code;
   final String status;
   final Color statusColor;
@@ -213,9 +219,7 @@ class Detail extends StatelessWidget {
                                 ? context.fTheme.colors.mutedForeground
                                 : context.fTheme.colors.foreground,
                             fontWeight: FontWeight.w400,
-                            fontStyle: note.isEmpty
-                                ? FontStyle.italic
-                                : FontStyle.normal,
+                            fontStyle: note.isEmpty ? FontStyle.italic : FontStyle.normal,
                           ),
                         ),
                       ],
@@ -277,7 +281,7 @@ class Detail extends StatelessWidget {
             ),
           ),
 
-          // Close button
+          // Action buttons
           Padding(
             padding: EdgeInsets.fromLTRB(
               20,
@@ -285,26 +289,76 @@ class Detail extends StatelessWidget {
               20,
               MediaQuery.of(context).padding.bottom + 16,
             ),
-            child: GestureDetector(
-              onTap: () => Get.back(),
-              child: Container(
-                height: 46,
-                width: double.infinity,
-                decoration: BoxDecoration(
-                  color: context.fTheme.colors.muted,
-                  borderRadius: BorderRadius.circular(12),
-                  border: Border.all(color: context.fTheme.colors.border),
-                ),
-                child: Center(
-                  child: Text(
-                    'close'.tr,
-                    style: context.typography.sm.copyWith(
-                      fontWeight: FontWeight.w600,
-                      color: context.fTheme.colors.foreground,
+            child: Column(
+              mainAxisSize: MainAxisSize.min,
+              children: [
+                GestureDetector(
+                  onTap: () {
+                    if (billStatus != 'pending') {
+                      AppSnackbar.showError(
+                        message: 'cancel_book_show_not_allowed'.tr,
+                      );
+                      return;
+                    }
+                    ConfirmDialog.show(
+                      title: 'confirm_cancel_book_show_title'.tr,
+                      message: 'confirm_cancel_book_show_desc'.tr,
+                      confirmText: 'cancel_book_show_yes_btn'.tr,
+                      cancelText: 'cancel_book_show_no_btn'.tr,
+                      icon: FIcons.circleX,
+                      iconColor: context.fTheme.colors.error,
+                      confirmColor: context.fTheme.colors.error,
+                      onConfirm: () {
+                        Get.find<ShowController>().cancelAcceptBill(billId);
+                      },
+                    );
+                  },
+                  child: Container(
+                    height: 46,
+                    width: double.infinity,
+                    decoration: BoxDecoration(
+                      color: context.fTheme.colors.error.withValues(alpha: 0.12),
+                      borderRadius: BorderRadius.circular(12),
+                      border: Border.all(
+                        color: context.fTheme.colors.error.withValues(
+                          alpha: 0.35,
+                        ),
+                      ),
+                    ),
+                    child: Center(
+                      child: Text(
+                        'cancel_book_show'.tr,
+                        style: context.typography.sm.copyWith(
+                          fontWeight: FontWeight.w600,
+                          color: context.fTheme.colors.error,
+                        ),
+                      ),
                     ),
                   ),
                 ),
-              ),
+                const SizedBox(height: 10),
+                GestureDetector(
+                  onTap: () => Get.back(),
+                  child: Container(
+                    height: 46,
+                    width: double.infinity,
+                    decoration: BoxDecoration(
+                      color: context.fTheme.colors.muted,
+                      borderRadius: BorderRadius.circular(12),
+                      border: Border.all(color: context.fTheme.colors.border),
+                    ),
+                    child: Center(
+                      child: Text(
+                        'close'.tr,
+                        style: context.typography.sm.copyWith(
+                          fontWeight: FontWeight.w600,
+                          color: context.fTheme.colors.foreground,
+                        ),
+                      ),
+                    ),
+                  ),
+                ),
+              ],
             ),
           ),
         ],

@@ -1,5 +1,6 @@
 import 'package:pusher_channels_flutter/pusher_channels_flutter.dart';
 import 'package:sukientotapp/core/utils/import/global.dart';
+import 'package:sukientotapp/features/client/home/controller.dart';
 import 'package:sukientotapp/features/common/message/controller.dart';
 
 class ClientBottomNavigationController extends GetxController {
@@ -8,6 +9,7 @@ class ClientBottomNavigationController extends GetxController {
 
   static const _pusherEventName = 'SendMessage';
   String? _userChannel;
+  DateTime? _lastHomeSummaryRefreshAt;
 
   @override
   void onInit() {
@@ -50,7 +52,19 @@ class ClientBottomNavigationController extends GetxController {
   }
 
   void setIndex(int index) {
+    final prev = currentIndex.value;
     isReverse.value = index < currentIndex.value;
     currentIndex.value = index;
+
+    // tab switches can keep old/new pages alive briefly due to animated transitions.
+    // refresh home summary on focus, but throttle to avoid spamming API on fast taps.
+    if (index == 0 && prev != 0 && Get.isRegistered<ClientHomeController>()) {
+      final now = DateTime.now();
+      final last = _lastHomeSummaryRefreshAt;
+      if (last == null || now.difference(last) > const Duration(seconds: 2)) {
+        _lastHomeSummaryRefreshAt = now;
+        Future.microtask(() => Get.find<ClientHomeController>().fetchSummary());
+      }
+    }
   }
 }

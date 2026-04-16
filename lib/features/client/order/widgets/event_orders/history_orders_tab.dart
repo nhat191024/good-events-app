@@ -2,10 +2,31 @@ import 'package:sukientotapp/core/utils/import/global.dart';
 import '../../controller.dart';
 import 'history_order_card.dart';
 
-class HistoryOrdersTab extends StatelessWidget {
+class HistoryOrdersTab extends StatefulWidget {
   const HistoryOrdersTab({super.key, required this.controller});
 
   final ClientOrderController controller;
+
+  @override
+  State<HistoryOrdersTab> createState() => _HistoryOrdersTabState();
+}
+
+class _HistoryOrdersTabState extends State<HistoryOrdersTab> {
+  late final RefreshController refreshController;
+
+  ClientOrderController get controller => widget.controller;
+
+  @override
+  void initState() {
+    super.initState();
+    refreshController = RefreshController(initialRefresh: false);
+  }
+
+  @override
+  void dispose() {
+    refreshController.dispose();
+    super.dispose();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -21,13 +42,28 @@ class HistoryOrdersTab extends StatelessWidget {
       }
 
       return SmartRefresher(
-        controller: controller.historyRefreshController,
+        controller: refreshController,
         enablePullDown: true,
         enablePullUp: true,
         header: const ClassicHeader(),
         footer: const ClassicFooter(),
-        onRefresh: controller.onRefreshHistory,
-        onLoading: controller.onLoadMoreHistory,
+        onRefresh: () async {
+          await controller.fetchHistoryOrders();
+          if (mounted) {
+            refreshController.resetNoData();
+            refreshController.refreshCompleted();
+          }
+        },
+        onLoading: () async {
+          await controller.fetchHistoryOrders(loadMore: true);
+          if (mounted) {
+            if (controller.historyCurrentPage.value >= controller.historyLastPage.value) {
+              refreshController.loadNoData();
+            } else {
+              refreshController.loadComplete();
+            }
+          }
+        },
         child: ListView.builder(
           padding: const EdgeInsets.all(16),
           itemCount: orders.length,

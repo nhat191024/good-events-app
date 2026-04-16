@@ -41,6 +41,7 @@ class AppUrl {
       '/partner/bills/$billId/mark-in-job';
   static String partnerBillComplete(int billId) =>
       '/partner/bills/$billId/complete';
+  static String billCancel(int billId) => '/partner/bills/$billId/cancel';
 
   // Client Booking Screen APIs
   static const String quickBookingEventList = '/quick-booking/event-list';

@@ -4,6 +4,8 @@ class AppTranslations extends Translations {
   @override
   Map<String, Map<String, String>> get keys => {
     'vi_VN': {
+      'cancel_book_show_not_allowed':
+          'Đơn này không còn ở trạng thái chờ, không thể hủy.',
       //choose your side screen
       'title_choose_your_side': 'Bạn là khách hàng hay \nnhà cung cấp dịch vụ?',
 
@@ -45,13 +47,11 @@ class AppTranslations extends Translations {
       'send_reset_link': 'Gửi liên kết đặt lại',
       'forgot_password_success_message':
           'Đã gửi liên kết đặt lại mật khẩu. Vui lòng kiểm tra email hoặc tin nhắn của bạn.',
-      'forgot_password_send_failed':
-          'Gửi liên kết thất bại, vui lòng thử lại sau.',
+      'forgot_password_send_failed': 'Gửi liên kết thất bại, vui lòng thử lại sau.',
 
       //register screen
       'create_account': 'Tạo tài khoản',
-      'register_subtitle':
-          'Điền thông tin để bắt đầu hành trình cùng chúng tôi.',
+      'register_subtitle': 'Điền thông tin để bắt đầu hành trình cùng chúng tôi.',
       'full_name': 'Họ và tên',
       'name_hint': 'Nhập họ và tên đầy đủ',
       'name_required': 'Vui lòng nhập họ và tên.',
@@ -83,8 +83,7 @@ class AppTranslations extends Translations {
 
       // verify screen
       'verify_account_title': 'Xác thực tài khoản',
-      'verify_account_subtitle':
-          'Chọn phương thức bạn muốn dùng để xác thực tài khoản.',
+      'verify_account_subtitle': 'Chọn phương thức bạn muốn dùng để xác thực tài khoản.',
       'verify_via_email': 'Xác thực qua Email',
       'verify_via_zalo': 'Xác thực qua Zalo',
       'verify_zalo_subtitle': 'Gửi mã OTP đến @phone',
@@ -158,8 +157,7 @@ class AppTranslations extends Translations {
       'about_the': 'về',
       'service': 'dịch vụ',
       'reference_price': 'Giá tham khảo',
-      'contact_to_get_detail_and_best_deal':
-          'Liên hệ để nhận báo giá chi tiết và ưu đãi tốt nhất.',
+      'contact_to_get_detail_and_best_deal': 'Liên hệ để nhận báo giá chi tiết và ưu đãi tốt nhất.',
       'partner_trustworthy': 'Đối tác uy tín, đã được xác minh.',
       'partner_professional': 'Phục vụ chuyên nghiệp, tận tâm.',
       'partner_competitive': 'Giá cả cạnh tranh, minh bạch.',
@@ -177,8 +175,7 @@ class AppTranslations extends Translations {
       'booking_event_custom': 'Nội dung sự kiện (Tùy chọn)',
       'booking_event_custom_placeholder': 'VD: Tổ chức thăm lăng bác',
       'booking_note_optional': 'Ghi chú bổ sung (Tùy chọn)',
-      'booking_note_placeholder':
-          'VD: Cần người mặc đồng phục có tông màu vàng',
+      'booking_note_placeholder': 'VD: Cần người mặc đồng phục có tông màu vàng',
       'booking_location': 'Địa điểm tổ chức',
       'booking_location_ward': 'Phường/Xã',
       'booking_select_province': 'Chọn tỉnh/thành',
@@ -194,14 +191,11 @@ class AppTranslations extends Translations {
       'event_type_conference': 'Hội nghị',
       'event_type_birthday': 'Sinh nhật',
       'booking_stage_time_title': 'Chọn thời gian',
-      'booking_stage_time_subtitle':
-          'Chọn giờ bắt đầu, kết thúc và ngày tổ chức.',
+      'booking_stage_time_subtitle': 'Chọn giờ bắt đầu, kết thúc và ngày tổ chức.',
       'booking_stage_event_title': 'Nội dung sự kiện',
-      'booking_stage_event_subtitle':
-          'Cho biết nội dung hoặc ghi chú cần thiết.',
+      'booking_stage_event_subtitle': 'Cho biết nội dung hoặc ghi chú cần thiết.',
       'booking_stage_location_title': 'Địa điểm tổ chức',
-      'booking_stage_location_subtitle':
-          'Chọn khu vực và nhập địa chỉ chi tiết.',
+      'booking_stage_location_subtitle': 'Chọn khu vực và nhập địa chỉ chi tiết.',
       'start_over': 'Bắt đầu lại',
 
       // client order
@@ -257,6 +251,14 @@ class AppTranslations extends Translations {
       'profile': 'Hồ sơ',
       'choose_partner': 'Chọn đối tác',
       'cancel_order': 'Hủy đơn hàng',
+      'cancel_book_show': 'Hủy báo giá',
+      'confirm_cancel_book_show_title': 'Bạn có chắc muốn hủy báo giá này không?',
+      'confirm_cancel_book_show_desc':
+          'Thao tác này sẽ hủy báo giá hiện tại, bạn sẽ không bị tính phí.',
+      'cancel_book_show_no_btn': 'Không',
+      'cancel_book_show_yes_btn': 'Đồng ý',
+      'cancel_book_show_success': 'Đã hủy báo giá thành công!',
+      'cancel_book_show_failed': 'Hủy báo giá thất bại, vui lòng thử lại.',
       'applicants_list': 'Danh sách đăng ký',
       'chosen': 'Đã chọn',
       'discounted': 'Đã giảm',
@@ -278,8 +280,7 @@ class AppTranslations extends Translations {
       'order_creation_time': 'Thời gian tạo đơn',
       'chosen_partner': 'Đối tác đã chốt',
       'sealing_price': 'Giá niêm phong',
-      'apply_voucher_code':
-          'Mã giảm giá (Áp dụng vào giá chốt của ứng viên bạn chọn)',
+      'apply_voucher_code': 'Mã giảm giá (Áp dụng vào giá chốt của ứng viên bạn chọn)',
       'apply_code': 'Áp dụng mã',
       'check_and_save_code': 'Kiểm tra & Lưu mã',
       'voucher_placeholder': 'VD: N1993+1...',
@@ -427,8 +428,7 @@ class AppTranslations extends Translations {
       'member_label': 'Thành viên',
       'member_since_year': 'Thành viên • từ @year',
       'loading_profile_preview': 'Đang tải hồ sơ đối tác...',
-      'failed_to_load_public_profile':
-          'Không thể tải hồ sơ đối tác.',
+      'failed_to_load_public_profile': 'Không thể tải hồ sơ đối tác.',
       'introduction': 'Giới thiệu',
       'profile_description_empty': 'Chưa có mô tả.',
       'public_profile_no_services': 'Chưa có dịch vụ nào.',
@@ -473,12 +473,10 @@ class AppTranslations extends Translations {
       'loading_with_dot': 'Đang tải...',
 
       'upload_arrived_photo': 'Tải ảnh đã đến nơi',
-      'upload_arrived_photo_desc':
-          'Tải ảnh lên để xác nhận bạn đã đến địa điểm.',
+      'upload_arrived_photo_desc': 'Tải ảnh lên để xác nhận bạn đã đến địa điểm.',
 
       'confirm_complete': 'Xác nhận hoàn thành',
-      'confirm_complete_message':
-          'Bạn có chắc chắn muốn đánh dấu đơn này là đã hoàn thành?',
+      'confirm_complete_message': 'Bạn có chắc chắn muốn đánh dấu đơn này là đã hoàn thành?',
 
       'complete_bill_success': 'Đơn đã được hoàn thành!',
       'insufficient_balance': 'Số dư không đủ để hoàn thành đơn!',
@@ -511,8 +509,7 @@ class AppTranslations extends Translations {
 
       'invalid_price': 'Vui lòng nhập giá hợp lệ (tối thiểu @min)',
       'accepted_show': 'Bạn đã nhận show #@code',
-      'failed_to_accept_show':
-          'Không thể nhận show vì bạn đã bị cấm hoặc số dư không đủ.',
+      'failed_to_accept_show': 'Không thể nhận show vì bạn đã bị cấm hoặc số dư không đủ.',
 
       'needs': 'Cần tìm',
 
@@ -645,8 +642,7 @@ class AppTranslations extends Translations {
       'add_service': 'Thêm dịch vụ',
       'add_service_subtitle':
           'Thêm dịch vụ của bạn. Giới thiệu dịch vụ chỉ hỗ trợ cho admin duyệt không hiển thị cho khách hàng',
-      'edit_service_subtitle':
-          'Danh mục của dịch vụ, hiện không trợ thay đổi giới thiệu',
+      'edit_service_subtitle': 'Danh mục của dịch vụ, hiện không trợ thay đổi giới thiệu',
       'no_services': 'Bạn chưa có dịch vụ nào',
       'manage_media': 'Quản lý media',
       'service_media_info': 'Giới thiệu dịch vụ cho admin',
@@ -657,8 +653,7 @@ class AppTranslations extends Translations {
       'no_media_yet': 'Chưa có media nào',
       'tap_add_media_hint':
           'Nhấn vào nút "Thêm media" để admin có thể duyệt dịch vụ của bạn nhanh hơn.',
-      'tap_add_images_hint':
-          'Nhấn vào nút "Thêm ảnh" để khách hàng có thể xem dịch vụ của bạn.',
+      'tap_add_images_hint': 'Nhấn vào nút "Thêm ảnh" để khách hàng có thể xem dịch vụ của bạn.',
       'media_required': 'Vui lòng thêm ít nhất 1 media.',
       'media_item': 'Media',
       'media_url': 'Đường dẫn video',
@@ -673,8 +668,7 @@ class AppTranslations extends Translations {
       'images_limit_reached': 'Đã đạt giới hạn 10 ảnh',
       'image_too_large': 'Ảnh vượt quá 5MB, vui lòng chọn ảnh khác',
       'delete_image_confirm_title': 'Xóa ảnh?',
-      'delete_image_confirm_desc':
-          'Ảnh sẽ bị xóa vĩnh viễn và không thể khôi phục.',
+      'delete_image_confirm_desc': 'Ảnh sẽ bị xóa vĩnh viễn và không thể khôi phục.',
 
       ///Statistics
       'revenue_statistics': 'Thống kê doanh thu',
@@ -762,6 +756,8 @@ class AppTranslations extends Translations {
       'in_dev': 'Tính năng đang phát triển',
     },
     'en_US': {
+      'cancel_book_show_not_allowed':
+          'This booking is no longer pending and cannot be cancelled.',
       //choose your side screen
       'title_choose_your_side': 'Are you a customer or \na service provider?',
 
@@ -799,13 +795,11 @@ class AppTranslations extends Translations {
       'send_reset_link': 'Send Reset Link',
       'forgot_password_success_message':
           'Password reset link sent. Please check your email or messages.',
-      'forgot_password_send_failed':
-          'Failed to send reset link, please try again.',
+      'forgot_password_send_failed': 'Failed to send reset link, please try again.',
 
       //register screen
       'create_account': 'Create Account',
-      'register_subtitle':
-          'Fill in your details to start your journey with us.',
+      'register_subtitle': 'Fill in your details to start your journey with us.',
       'full_name': 'Full Name',
       'name_hint': 'Enter your full name',
       'name_required': 'Please enter your full name.',
@@ -889,8 +883,7 @@ class AppTranslations extends Translations {
       'about_the': 'about the',
       'service': 'service',
       'reference_price': 'Reference price',
-      'contact_to_get_detail_and_best_deal':
-          'Contact to get detail and best deal',
+      'contact_to_get_detail_and_best_deal': 'Contact to get detail and best deal',
       'partner_trustworthy': 'A trusted partner, fully verified.',
       'partner_professional': 'Professional and dedicated service.',
       'partner_competitive': 'Competitive and transparent pricing.',
@@ -906,8 +899,7 @@ class AppTranslations extends Translations {
       'booking_event_type': 'Event type',
       'booking_event_type_placeholder': 'Select event type',
       'booking_event_custom': 'Event details (Optional)',
-      'booking_event_custom_placeholder':
-          "e.g., Visit the President's Mausoleum",
+      'booking_event_custom_placeholder': "e.g., Visit the President's Mausoleum",
       'booking_note_optional': 'Additional notes (Optional)',
       'booking_note_placeholder': 'e.g., Need staff with yellow uniforms',
       'booking_location': 'Location',
@@ -927,11 +919,9 @@ class AppTranslations extends Translations {
       'booking_stage_time_title': 'Select time',
       'booking_stage_time_subtitle': 'Pick start/end time and event date.',
       'booking_stage_event_title': 'Event details',
-      'booking_stage_event_subtitle':
-          'Describe the event and add notes if needed.',
+      'booking_stage_event_subtitle': 'Describe the event and add notes if needed.',
       'booking_stage_location_title': 'Select location',
-      'booking_stage_location_subtitle':
-          'Choose area and enter detailed address.',
+      'booking_stage_location_subtitle': 'Choose area and enter detailed address.',
       'start_over': 'Start over',
 
       // client order
@@ -1007,8 +997,7 @@ class AppTranslations extends Translations {
       'order_creation_time': 'Order Creation Time',
       'chosen_partner': 'Chosen Partner',
       'sealing_price': 'Sealing Price',
-      'apply_voucher_code':
-          'Voucher Code (Applied to the final price of the chosen applicant)',
+      'apply_voucher_code': 'Voucher Code (Applied to the final price of the chosen applicant)',
       'apply_code': 'Apply Code',
       'check_and_save_code': 'Check & Save Code',
       'voucher_placeholder': 'EX: N1993+1...',
@@ -1026,8 +1015,7 @@ class AppTranslations extends Translations {
       'on_final_price': 'on final price',
       'maximum': 'Maximum',
       'min_order_condition': 'Minimum order condition',
-      'voucher_apply_hint':
-          'Voucher will apply when you finalize with a partner.',
+      'voucher_apply_hint': 'Voucher will apply when you finalize with a partner.',
       'validity_period': 'Validity period',
       'starts_at': 'Starts at',
       'expires_at_label': 'Expires at',
@@ -1041,6 +1029,15 @@ class AppTranslations extends Translations {
       'save_code': 'Save Code',
       'chat_now': 'Chat Now',
       'cancel_order': 'Cancel Order',
+      // Hủy báo giá
+      'cancel_book_show': 'Cancel this booking',
+      'confirm_cancel_book_show_title': 'Cancel this booking?',
+      'confirm_cancel_book_show_desc':
+          'This will revert accepting the current order, you will not be charged.',
+      'cancel_book_show_no_btn': 'No',
+      'cancel_book_show_yes_btn': 'Confirm',
+      'cancel_book_show_success': 'Booking cancelled successfully!',
+      'cancel_book_show_failed': 'Failed to cancel booking, please try again.',
       'back_to_list': 'Back to List',
       'partner_not_found': 'Currently no partners found',
 
@@ -1056,8 +1053,7 @@ class AppTranslations extends Translations {
       'choose_partner_failed': 'Failed to choose partner.',
 
       // Cancel Order Dialog
-      'confirm_cancel_order_title':
-          'Are you sure you want to cancel the order?',
+      'confirm_cancel_order_title': 'Are you sure you want to cancel the order?',
       'confirm_cancel_order_desc':
           'This cancellation may increase your account\'s cancellation rate. You will need confirmation if you have already finalized with a partner. In that case, please chat with the partner before cancelling!',
       'cancel_order_no_btn': 'No, my mistake',
@@ -1199,12 +1195,10 @@ class AppTranslations extends Translations {
       'loading_with_dot': 'Loading...',
 
       'upload_arrived_photo': 'Upload arrived photo',
-      'upload_arrived_photo_desc':
-          'Upload a photo to confirm you have arrived at the location.',
+      'upload_arrived_photo_desc': 'Upload a photo to confirm you have arrived at the location.',
 
       'confirm_complete': 'Confirm completion',
-      'confirm_complete_message':
-          'Are you sure you want to mark this bill as completed?',
+      'confirm_complete_message': 'Are you sure you want to mark this bill as completed?',
 
       'complete_bill_success': 'The bill has been completed!',
       'insufficient_balance': 'Insufficient balance to complete the bill!',
@@ -1353,8 +1347,7 @@ class AppTranslations extends Translations {
       'add_service': 'Add Service',
       'add_service_subtitle':
           'Add your service. Service introduction is for admin review only and will not be shown to customers',
-      'edit_service_subtitle':
-          'Service category, currently does not support changing introduction',
+      'edit_service_subtitle': 'Service category, currently does not support changing introduction',
       'no_services': 'You have no services yet',
       'manage_media': 'Manage media',
       'service_media_info': 'Introduce your service for admin',
@@ -1363,8 +1356,7 @@ class AppTranslations extends Translations {
       'images_count': 'Images',
       'service_images': 'Service images for customers',
       'no_media_yet': 'No media yet',
-      'tap_add_media_hint':
-          'Tap the "Add media" button to let admin review your service faster.',
+      'tap_add_media_hint': 'Tap the "Add media" button to let admin review your service faster.',
       'tap_add_images_hint':
           'Tap the "Add images" button to add images for your service. These images will be shown to customers when they view your service.',
       'media_required': 'Please add at least 1 media.',

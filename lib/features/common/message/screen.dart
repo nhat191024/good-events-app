@@ -4,8 +4,29 @@ import 'controller.dart';
 import 'widget/header.dart';
 import 'detail_screen.dart';
 
-class MessageScreen extends GetView<MessageController> {
+class MessageScreen extends StatefulWidget {
   const MessageScreen({super.key});
+
+  @override
+  State<MessageScreen> createState() => _MessageScreenState();
+}
+
+class _MessageScreenState extends State<MessageScreen> {
+  late final MessageController controller;
+  late final RefreshController refreshController;
+
+  @override
+  void initState() {
+    super.initState();
+    controller = Get.find<MessageController>();
+    refreshController = RefreshController(initialRefresh: false);
+  }
+
+  @override
+  void dispose() {
+    refreshController.dispose();
+    super.dispose();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -56,12 +77,19 @@ class MessageScreen extends GetView<MessageController> {
         }
 
         return SmartRefresher(
-          controller: controller.refreshController,
+          controller: refreshController,
           enablePullDown: true,
           enablePullUp: false,
           header: const ClassicHeader(),
-          onRefresh: controller.refreshThreads,
-          onLoading: controller.onLoadMore,
+          onRefresh: () async {
+            await controller.refreshThreads();
+            if (mounted) {
+              refreshController.refreshCompleted();
+            }
+          },
+          onLoading: () {
+            refreshController.loadComplete();
+          },
           child: ListView.builder(
             controller: controller.listScrollController,
             padding: const EdgeInsets.fromLTRB(16, 12, 16, 100),

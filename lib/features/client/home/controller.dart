@@ -21,11 +21,8 @@ class ClientHomeController extends GetxController {
   final isLoadingBlogs = false.obs;
   final isLoadingPartners = false.obs;
 
-  final RefreshController refreshController = RefreshController(initialRefresh: false);
-
   Future<void> onRefresh() async {
     await fetchSummary();
-    refreshController.refreshCompleted();
   }
 
   // User data
@@ -96,6 +93,14 @@ class ClientHomeController extends GetxController {
 
   void _updateSummary(HomeSummaryModel Function(HomeSummaryModel current) updater) {
     summary.value = updater(_currentSummaryOrDefault());
+  }
+
+  void setHasNewNotification(bool value) {
+    _updateSummary((current) {
+      return current.copyWith(
+        isHasNewNoti: value,
+      );
+    });
   }
 
   void incrementPendingOrders({int by = 1}) {

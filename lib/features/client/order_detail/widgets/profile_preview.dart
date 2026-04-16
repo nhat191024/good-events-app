@@ -121,8 +121,6 @@ class ProfilePreviewModal extends StatelessWidget {
                 ),
                 const SizedBox(height: 16),
                 if (isMobile) ...[
-                  _ContactCard(contact: payload.contact),
-                  const SizedBox(height: 16),
                   _QuickStatsCard(quick: payload.quick),
                   const SizedBox(height: 16),
                   _IntroductionCard(payload: payload),

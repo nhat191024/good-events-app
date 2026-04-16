@@ -19,6 +19,8 @@ class SplashController extends GetxController {
 
   // waits for video to complete
   final Completer<void> _videoCompleter = Completer<void>();
+  bool _skipRequested = false;
+  bool _videoDisposed = false;
 
   final bool isDarkMode = Get.isDarkMode;
 
@@ -43,8 +45,36 @@ class SplashController extends GetxController {
   @override
   void onClose() {
     /// mem leak ;)
-    videoPlayerController.dispose();
+    if (!_videoDisposed) {
+      videoPlayerController.dispose();
+      _videoDisposed = true;
+    }
     super.onClose();
+  }
+
+  void skipIntro() {
+    if (_skipRequested) return;
+    _skipRequested = true;
+
+    if (!_videoCompleter.isCompleted) {
+      _videoCompleter.complete();
+    }
+
+    // Hide video immediately to avoid binding a disposed controller in UI.
+    if (isVideoInitialized.value) {
+      isVideoInitialized.value = false;
+    }
+
+    try {
+      videoPlayerController.pause();
+    } catch (_) {}
+
+    if (!_videoDisposed) {
+      try {
+        videoPlayerController.dispose();
+      } catch (_) {}
+      _videoDisposed = true;
+    }
   }
 
   void _initVideo() async {
@@ -54,7 +84,19 @@ class SplashController extends GetxController {
     //   return;
     // }
 
-    await videoPlayerController.initialize();
+    try {
+      await videoPlayerController.initialize();
+    } catch (e) {
+      logger.w('[SplashController] [_initVideo] init failed: $e');
+      if (!_videoCompleter.isCompleted) _videoCompleter.complete();
+      return;
+    }
+
+    if (_skipRequested || _videoDisposed) {
+      if (!_videoCompleter.isCompleted) _videoCompleter.complete();
+      return;
+    }
+
     isVideoInitialized.value = true;
     videoPlayerController.play();
 

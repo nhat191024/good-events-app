@@ -287,6 +287,8 @@ class Show extends StatelessWidget {
                 onTap: () {
                   Get.bottomSheet(
                     Detail(
+                      billId: billId,
+                      billStatus: currentStatus,
                       code: code,
                       status: statusLabel,
                       statusColor: statusBg,

@@ -16,16 +16,6 @@ class ClientOrderController extends GetxController with GetTickerProviderStateMi
   late TabController eventOrdersTabController; // Current | History
   late TabController assetOrdersTabController; // All | Pending | Paid | Cancelled
 
-  // Refresh controllers
-  final RefreshController eventRefreshController = RefreshController(initialRefresh: false);
-  final RefreshController historyRefreshController = RefreshController(initialRefresh: false);
-
-  final RefreshController paidAssetRefreshController = RefreshController(initialRefresh: false);
-  final RefreshController pendingAssetRefreshController = RefreshController(initialRefresh: false);
-  final RefreshController cancelledAssetRefreshController = RefreshController(
-    initialRefresh: false,
-  );
-
   final RxInt currentParentTab = 0.obs;
   final RxInt currentEventOrdersTab = 0.obs;
 
@@ -96,12 +86,6 @@ class ClientOrderController extends GetxController with GetTickerProviderStateMi
     eventOrdersTabController.dispose();
     assetOrdersTabController.dispose();
 
-    eventRefreshController.dispose();
-    historyRefreshController.dispose();
-    paidAssetRefreshController.dispose();
-    pendingAssetRefreshController.dispose();
-    cancelledAssetRefreshController.dispose();
-
     super.onClose();
   }
 
@@ -137,19 +121,17 @@ class ClientOrderController extends GetxController with GetTickerProviderStateMi
     } finally {
       if (loadMore) {
         isFetchingMoreEvent.value = false;
-        eventRefreshController.loadComplete();
       } else {
         isLoadingEventOrders.value = false;
-        eventRefreshController.refreshCompleted();
       }
     }
   }
 
-  void onRefreshEvent() async {
+  Future<void> onRefreshEvent() async {
     await fetchEventOrders();
   }
 
-  void onLoadMoreEvent() async {
+  Future<void> onLoadMoreEvent() async {
     await fetchEventOrders(loadMore: true);
   }
 
@@ -186,24 +168,22 @@ class ClientOrderController extends GetxController with GetTickerProviderStateMi
     } finally {
       if (loadMore) {
         isFetchingMoreHistory.value = false;
-        historyRefreshController.loadComplete();
       } else {
         isLoadingHistoryOrders.value = false;
-        historyRefreshController.refreshCompleted();
       }
     }
   }
 
-  void onRefreshHistory() async {
+  Future<void> onRefreshHistory() async {
     await fetchHistoryOrders();
   }
 
-  void onLoadMoreHistory() async {
+  Future<void> onLoadMoreHistory() async {
     await fetchHistoryOrders(loadMore: true);
   }
 
   // Fetch Asset Orders from API
-  Future<void> fetchAssetOrders({RefreshController? refreshController}) async {
+  Future<void> fetchAssetOrders() async {
     if (isLoadingAssetOrders.value) return;
     isLoadingAssetOrders.value = true;
     try {
@@ -213,17 +193,15 @@ class ClientOrderController extends GetxController with GetTickerProviderStateMi
       logger.e('Failed to fetch asset orders: $e');
     } finally {
       isLoadingAssetOrders.value = false;
-      refreshController?.refreshCompleted();
     }
   }
 
-  void onRefreshAsset(RefreshController refreshController) async {
-    await fetchAssetOrders(refreshController: refreshController);
+  Future<void> onRefreshAsset() async {
+    await fetchAssetOrders();
   }
 
-  void onLoadMoreAsset(RefreshController refreshController) async {
+  Future<void> onLoadMoreAsset() async {
     // Currently getAssetOrders doesn't support pagination
-    refreshController.loadNoData();
   }
 
   // Filter logic helper across EventOrder fields

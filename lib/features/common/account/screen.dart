@@ -1,4 +1,6 @@
 import 'package:sukientotapp/core/utils/import/global.dart';
+import 'package:sukientotapp/features/client/home/controller.dart' as client_home;
+import 'package:sukientotapp/features/partner/home/controller.dart' as partner_home;
 import 'controller.dart';
 
 import 'widget/wallet_header.dart';
@@ -7,8 +9,29 @@ import 'package:sukientotapp/features/components/common/language_switch/language
 import 'package:sukientotapp/features/components/common/notification_button/notification_button.dart';
 import 'package:sukientotapp/features/components/widget/confirm_dialog.dart';
 
-class AccountScreen extends GetView<AccountController> {
+class AccountScreen extends StatefulWidget {
   const AccountScreen({super.key});
+
+  @override
+  State<AccountScreen> createState() => _AccountScreenState();
+}
+
+class _AccountScreenState extends State<AccountScreen> {
+  late final AccountController controller;
+  late final RefreshController refreshController;
+
+  @override
+  void initState() {
+    super.initState();
+    controller = Get.find<AccountController>();
+    refreshController = RefreshController(initialRefresh: false);
+  }
+
+  @override
+  void dispose() {
+    refreshController.dispose();
+    super.dispose();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -117,7 +140,21 @@ class AccountScreen extends GetView<AccountController> {
                   LanguageSwitch(),
                   const SizedBox(width: 10),
                   NotificationButton(
-                    hasNotification: true,
+                    hasNotification: controller.role.value == 'partner'
+                        ? (Get.isRegistered<partner_home.PartnerHomeController>()
+                              ? Get.find<partner_home.PartnerHomeController>()
+                                        .dashboardData
+                                        .value
+                                        ?.hasNotification ??
+                                    false
+                              : false)
+                        : (Get.isRegistered<client_home.ClientHomeController>()
+                              ? Get.find<client_home.ClientHomeController>()
+                                        .summary
+                                        .value
+                                        ?.isHasNewNoti ??
+                                    false
+                              : false),
                     onTap: () => Get.toNamed(Routes.notification),
                   ),
                 ],
@@ -127,12 +164,20 @@ class AccountScreen extends GetView<AccountController> {
         ),
       ),
       child: SmartRefresher(
-        controller: controller.refreshController,
+        controller: refreshController,
         enablePullDown: true,
         enablePullUp: false,
         header: const ClassicHeader(),
-        onRefresh: controller.onRefresh,
-        onLoading: controller.onLoadMore,
+        onRefresh: () async {
+          await controller.onRefresh();
+          if (mounted) {
+            refreshController.resetNoData();
+            refreshController.refreshCompleted();
+          }
+        },
+        onLoading: () {
+          refreshController.loadComplete();
+        },
         child: Stack(
           children: [
             Obx(
