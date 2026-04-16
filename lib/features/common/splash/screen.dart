@@ -12,31 +12,36 @@ class SplashScreen extends GetView<SplashController> {
 
   @override
   Widget build(BuildContext context) {
-    return FScaffold(
-      childPad: false,
-      child: Stack(
-        children: [
-          Obx(() {
-            if (controller.isVideoInitialized.value) {
-              return SizedBox.expand(
-                child: FittedBox(
-                  fit: BoxFit.cover,
-                  child: SizedBox(
-                    width: controller.videoPlayerController.value.size.width,
-                    height: controller.videoPlayerController.value.size.height,
-                    child: VideoPlayer(controller.videoPlayerController),
+    return GestureDetector(
+      behavior: HitTestBehavior.opaque,
+      onTap: controller.skipIntro,
+      child: FScaffold(
+        childPad: false,
+        child: Stack(
+          children: [
+            Obx(() {
+              if (controller.isVideoInitialized.value) {
+                return SizedBox.expand(
+                  child: FittedBox(
+                    fit: BoxFit.cover,
+                    child: SizedBox(
+                      width: controller.videoPlayerController.value.size.width,
+                      height:
+                          controller.videoPlayerController.value.size.height,
+                      child: VideoPlayer(controller.videoPlayerController),
+                    ),
                   ),
+                );
+              }
+              return Center(
+                child: Image.asset(
+                  'assets/images/logo.png', // Replace with your actual logo path
+                  width: 150,
                 ),
               );
-            }
-            return Center(
-              child: Image.asset(
-                'assets/images/logo.png', // Replace with your actual logo path
-                width: 150,
-              ),
-            );
-          }),
-        ],
+            }),
+          ],
+        ),
       ),
     );
   }
