@@ -8,9 +8,6 @@ class AccountController extends GetxController {
   AccountController(this._repository);
 
   final isLoading = false.obs;
-  RefreshController refreshController = RefreshController(
-    initialRefresh: false,
-  );
 
   //============================================================================
   // PERSONAL INFORMATION
@@ -104,16 +101,13 @@ class AccountController extends GetxController {
     }
   }
 
-  void onRefresh() async {
+  Future<void> onRefresh() async {
     if (role.value == 'partner') {
-      fetchWalletTransactions();
+      await fetchWalletTransactions();
     }
-    refreshController.refreshCompleted();
   }
 
-  void onLoadMore() async {
-    refreshController.loadComplete();
-  }
+  Future<void> onLoadMore() async {}
 
   void syncFromStorage() {
     name.value =

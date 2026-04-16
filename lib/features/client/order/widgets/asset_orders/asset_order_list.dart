@@ -3,13 +3,12 @@ import 'package:sukientotapp/data/models/client/asset_order_model.dart';
 import '../../controller.dart';
 import 'asset_order_card.dart';
 
-class AssetOrderList extends StatelessWidget {
+class AssetOrderList extends StatefulWidget {
   const AssetOrderList({
     super.key,
     required this.controller,
     required this.orders,
     required this.emptyMessage,
-    required this.refreshController,
     required this.onRefresh,
     required this.onLoading,
   });
@@ -17,9 +16,31 @@ class AssetOrderList extends StatelessWidget {
   final ClientOrderController controller;
   final List<AssetOrderModel> orders;
   final String emptyMessage;
-  final RefreshController refreshController;
-  final VoidCallback onRefresh;
-  final VoidCallback onLoading;
+  final Future<void> Function() onRefresh;
+  final Future<void> Function() onLoading;
+
+  @override
+  State<AssetOrderList> createState() => _AssetOrderListState();
+}
+
+class _AssetOrderListState extends State<AssetOrderList> {
+  late final RefreshController refreshController;
+
+  ClientOrderController get controller => widget.controller;
+  List<AssetOrderModel> get orders => widget.orders;
+  String get emptyMessage => widget.emptyMessage;
+
+  @override
+  void initState() {
+    super.initState();
+    refreshController = RefreshController(initialRefresh: false);
+  }
+
+  @override
+  void dispose() {
+    refreshController.dispose();
+    super.dispose();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -28,8 +49,19 @@ class AssetOrderList extends StatelessWidget {
       enablePullDown: true,
       enablePullUp: false,
       header: const ClassicHeader(),
-      onRefresh: onRefresh,
-      onLoading: onLoading,
+      onRefresh: () async {
+        await widget.onRefresh();
+        if (mounted) {
+          refreshController.resetNoData();
+          refreshController.refreshCompleted();
+        }
+      },
+      onLoading: () async {
+        await widget.onLoading();
+        if (mounted) {
+          refreshController.loadNoData();
+        }
+      },
       child: _buildContent(context),
     );
   }

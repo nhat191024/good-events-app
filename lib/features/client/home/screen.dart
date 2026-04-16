@@ -12,8 +12,29 @@ import 'package:sukientotapp/features/client/home/widgets/category_intro_card.da
 
 import 'controller.dart';
 
-class HomeScreen extends GetView<ClientHomeController> {
+class HomeScreen extends StatefulWidget {
   const HomeScreen({super.key});
+
+  @override
+  State<HomeScreen> createState() => _HomeScreenState();
+}
+
+class _HomeScreenState extends State<HomeScreen> {
+  late final ClientHomeController controller;
+  late final RefreshController refreshController;
+
+  @override
+  void initState() {
+    super.initState();
+    controller = Get.find<ClientHomeController>();
+    refreshController = RefreshController(initialRefresh: false);
+  }
+
+  @override
+  void dispose() {
+    refreshController.dispose();
+    super.dispose();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -56,8 +77,14 @@ class HomeScreen extends GetView<ClientHomeController> {
       ),
 
       child: SmartRefresher(
-        controller: controller.refreshController,
-        onRefresh: controller.onRefresh,
+        controller: refreshController,
+        onRefresh: () async {
+          await controller.onRefresh();
+          if (mounted) {
+            refreshController.resetNoData();
+            refreshController.refreshCompleted();
+          }
+        },
         enablePullUp: false,
         child: SingleChildScrollView(
           padding: const EdgeInsets.fromLTRB(4, 16, 4, 10),

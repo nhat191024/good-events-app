@@ -13,19 +13,6 @@ class MessageController extends GetxController {
   final MessageRepository _repository;
   MessageController(this._repository);
 
-  RefreshController refreshController = RefreshController(
-    initialRefresh: false,
-  );
-
-  void onRefresh() async {
-    await refreshThreads();
-    refreshController.refreshCompleted();
-  }
-
-  void onLoadMore() async {
-    refreshController.loadComplete();
-  }
-
   // ─── Thread List State ────────────────────────────────────────────────────────
   final RxList<MessageListModel> filteredMessages = <MessageListModel>[].obs;
   final RxBool isLoading = false.obs;
@@ -72,7 +59,6 @@ class MessageController extends GetxController {
     messageController.dispose();
     scrollController.dispose();
     listScrollController.dispose();
-    refreshController.dispose();
     super.onClose();
   }
 

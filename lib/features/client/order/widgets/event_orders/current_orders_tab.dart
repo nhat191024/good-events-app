@@ -2,10 +2,31 @@ import 'package:sukientotapp/core/utils/import/global.dart';
 import '../../controller.dart';
 import 'event_order_card.dart';
 
-class CurrentOrdersTab extends StatelessWidget {
+class CurrentOrdersTab extends StatefulWidget {
   const CurrentOrdersTab({super.key, required this.controller});
 
   final ClientOrderController controller;
+
+  @override
+  State<CurrentOrdersTab> createState() => _CurrentOrdersTabState();
+}
+
+class _CurrentOrdersTabState extends State<CurrentOrdersTab> {
+  late final RefreshController refreshController;
+
+  ClientOrderController get controller => widget.controller;
+
+  @override
+  void initState() {
+    super.initState();
+    refreshController = RefreshController(initialRefresh: false);
+  }
+
+  @override
+  void dispose() {
+    refreshController.dispose();
+    super.dispose();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -21,13 +42,28 @@ class CurrentOrdersTab extends StatelessWidget {
       }
 
       return SmartRefresher(
-        controller: controller.eventRefreshController,
+        controller: refreshController,
         enablePullDown: true,
         enablePullUp: true,
         header: const ClassicHeader(),
         footer: const ClassicFooter(),
-        onRefresh: controller.onRefreshEvent,
-        onLoading: controller.onLoadMoreEvent,
+        onRefresh: () async {
+          await controller.fetchEventOrders();
+          if (mounted) {
+            refreshController.resetNoData();
+            refreshController.refreshCompleted();
+          }
+        },
+        onLoading: () async {
+          await controller.fetchEventOrders(loadMore: true);
+          if (mounted) {
+            if (controller.eventCurrentPage.value >= controller.eventLastPage.value) {
+              refreshController.loadNoData();
+            } else {
+              refreshController.loadComplete();
+            }
+          }
+        },
         child: ListView.builder(
           padding: const EdgeInsets.all(16),
           itemCount: orders.length,
