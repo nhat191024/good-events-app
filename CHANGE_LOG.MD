@@ -2,6 +2,17 @@
 
 All notable changes to this project will be documented in this file.
 
+## [v2.4.9+50]
+- Added allow partner to un-accept the orders that are still at pending status.
+- Fixed all the 'white screen' bugs when user switching tabs too quicky
+- Fixed video intro haters
+
+## [v2.4.8+49]
+- Removed unnecessary email and phone details of partner profile preview
+- Limited to iPhone only (removed iPad/macOS support)
+- Fixed the bell icon always at 'ringing' state even with no new notifications
+- Home screen now updates the stats widget like 'pending' and 'confirmed' count
+
 ## [v2.4.7+48]
 
 - Fix partner profile preview
