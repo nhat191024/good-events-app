@@ -93,6 +93,20 @@ class PartnerHomeController extends GetxController {
     );
   }
 
+  void setHasNotification(bool value) {
+    final current = dashboardData.value;
+    if (current == null) return;
+
+    dashboardData.value = DashboardModel(
+      hasNotification: value,
+      revenue: current.revenue,
+      showData: current.showData,
+      recentReviewsCount: current.recentReviewsCount,
+      recentReviewsAvatars: current.recentReviewsAvatars,
+      quarterlyRevenue: current.quarterlyRevenue,
+    );
+  }
+
   Future<void> fetchDashboardData() async {
     try {
       isLoading.value = true;

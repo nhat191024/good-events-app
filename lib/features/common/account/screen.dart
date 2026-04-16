@@ -1,4 +1,6 @@
 import 'package:sukientotapp/core/utils/import/global.dart';
+import 'package:sukientotapp/features/client/home/controller.dart' as client_home;
+import 'package:sukientotapp/features/partner/home/controller.dart' as partner_home;
 import 'controller.dart';
 
 import 'widget/wallet_header.dart';
@@ -117,7 +119,21 @@ class AccountScreen extends GetView<AccountController> {
                   LanguageSwitch(),
                   const SizedBox(width: 10),
                   NotificationButton(
-                    hasNotification: true,
+                    hasNotification: controller.role.value == 'partner'
+                        ? (Get.isRegistered<partner_home.PartnerHomeController>()
+                              ? Get.find<partner_home.PartnerHomeController>()
+                                        .dashboardData
+                                        .value
+                                        ?.hasNotification ??
+                                    false
+                              : false)
+                        : (Get.isRegistered<client_home.ClientHomeController>()
+                              ? Get.find<client_home.ClientHomeController>()
+                                        .summary
+                                        .value
+                                        ?.isHasNewNoti ??
+                                    false
+                              : false),
                     onTap: () => Get.toNamed(Routes.notification),
                   ),
                 ],

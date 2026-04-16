@@ -2,7 +2,9 @@ import 'package:sukientotapp/core/utils/import/global.dart';
 import 'package:sukientotapp/data/models/common/notification_model.dart';
 import 'package:sukientotapp/domain/repositories/common/notification_repository.dart';
 import 'package:sukientotapp/domain/repositories/client/order_repository.dart';
+import 'package:sukientotapp/features/client/home/controller.dart';
 import 'package:sukientotapp/features/partner/bottom_navigation/controller.dart';
+import 'package:sukientotapp/features/partner/home/controller.dart';
 
 class NotificationController extends GetxController {
   final NotificationRepository _repository;
@@ -89,6 +91,21 @@ class NotificationController extends GetxController {
     return status == 'completed' || status == 'cancelled';
   }
 
+  void _syncNotificationBadge() {
+    final hasUnread = notifications.any((notification) => notification.unread);
+
+    if (isServiceProvider) {
+      if (Get.isRegistered<PartnerHomeController>()) {
+        Get.find<PartnerHomeController>().setHasNotification(hasUnread);
+      }
+      return;
+    }
+
+    if (Get.isRegistered<ClientHomeController>()) {
+      Get.find<ClientHomeController>().setHasNewNotification(hasUnread);
+    }
+  }
+
   Future<void> readNotification(NotificationModel notification) async {
     if (isServiceProvider) {
       await readPartnerNotification(notification);
@@ -107,6 +124,7 @@ class NotificationController extends GetxController {
 
     notification.unread = false;
     notifications.refresh();
+    _syncNotificationBadge();
 
     try {
       await _repository.readNotification(notification.id);
@@ -148,6 +166,7 @@ class NotificationController extends GetxController {
     // Optimistic UI update
     notification.unread = false;
     notifications.refresh();
+    _syncNotificationBadge();
 
     try {
       await _repository.readNotification(notification.id);
@@ -166,7 +185,10 @@ class NotificationController extends GetxController {
         changed = true;
       }
     }
-    if (changed) notifications.refresh();
+    if (changed) {
+      notifications.refresh();
+      _syncNotificationBadge();
+    }
 
     try {
       await _repository.readAllNotifications();

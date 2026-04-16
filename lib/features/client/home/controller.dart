@@ -98,6 +98,14 @@ class ClientHomeController extends GetxController {
     summary.value = updater(_currentSummaryOrDefault());
   }
 
+  void setHasNewNotification(bool value) {
+    _updateSummary((current) {
+      return current.copyWith(
+        isHasNewNoti: value,
+      );
+    });
+  }
+
   void incrementPendingOrders({int by = 1}) {
     if (by <= 0) return;
 
