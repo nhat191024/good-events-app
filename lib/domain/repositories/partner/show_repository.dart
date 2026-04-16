@@ -14,4 +14,6 @@ abstract class ShowRepository {
   Future<void> markInJob(int billId, XFile image);
 
   Future<void> completeBill(int billId);
+
+  Future<void> cancelAcceptBill(int billId);
 }

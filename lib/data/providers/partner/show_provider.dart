@@ -61,4 +61,8 @@ class ShowProvider {
   Future<void> completeBill(int billId) async {
     await _apiService.dio.post(AppUrl.partnerBillComplete(billId));
   }
+
+  Future<void> cancelAcceptBill(int billId) async {
+    await _apiService.dio.post(AppUrl.billCancel(billId));
+  }
 }

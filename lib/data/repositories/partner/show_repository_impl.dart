@@ -37,4 +37,9 @@ class ShowRepositoryImpl implements ShowRepository {
   Future<void> completeBill(int billId) async {
     await _provider.completeBill(billId);
   }
+
+  @override
+  Future<void> cancelAcceptBill(int billId) async {
+    await _provider.cancelAcceptBill(billId);
+  }
 }
