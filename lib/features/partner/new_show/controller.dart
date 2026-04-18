@@ -234,11 +234,17 @@ class NewShowController extends GetxController {
         final newBill = PartnerBill.fromMap(data);
         bills.insert(0, newBill);
         lastUpdated.value = DateFormat('HH:mm:ss').format(DateTime.now());
+        if (Get.isRegistered<PartnerHomeController>()) {
+          Get.find<PartnerHomeController>().updateShowDataOnNewBill();
+        }
         logger.i('[NewShow] [Pusher] New bill received: ${newBill.code}');
       } else {
         final response = RealtimeBillsResponse.fromMap(data);
         bills.insertAll(0, response.partnerBills);
         lastUpdated.value = response.lastUpdated;
+        if (Get.isRegistered<PartnerHomeController>()) {
+          Get.find<PartnerHomeController>().updateShowDataOnNewBill(count: response.partnerBills.length);
+        }
         logger.i(
           '[NewShow] [Pusher] ${response.partnerBills.length} new bill(s) received',
         );
