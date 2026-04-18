@@ -89,7 +89,7 @@ class NewShowScreen extends GetView<NewShowController> {
                     ),
                   ),
                   GestureDetector(
-                    onTap: () => controller.fetchRealtimeBills(isInitialFetch: false),
+                    onTap: () => controller.refreshBills(),
                     child: Container(
                       padding: const EdgeInsets.symmetric(
                         horizontal: 10,

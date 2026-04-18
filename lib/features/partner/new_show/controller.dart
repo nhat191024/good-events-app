@@ -34,8 +34,12 @@ class NewShowController extends GetxController {
   int _currentPage = 1;
   int _lastPage = 1;
   final _subscribedChannels = <String>[];
+  DateTime? _lastScrollFetchTime;
+  DateTime? _lastRefreshTime;
 
   static const _pusherEventName = 'NewPartnerBillCreated';
+  static const _scrollFetchCooldown = Duration(seconds: 3);
+  static const _refreshCooldown = Duration(seconds: 5);
 
   @override
   void onInit() {
@@ -140,14 +144,31 @@ class NewShowController extends GetxController {
 
     if (isInitialFetch) {
       if (!hasMorePages.value) return;
+      final now = DateTime.now();
+      if (_lastScrollFetchTime != null &&
+          now.difference(_lastScrollFetchTime!) < _scrollFetchCooldown) {
+        return;
+      }
+      _lastScrollFetchTime = now;
     }
-    
+
     isLoading.value = true;
     final pageToFetch = _currentPage;
     try {
       final response = await _repository.getRealtimeBills(page: pageToFetch);
 
       if (pageToFetch == 1) {
+        if (!isInitialFetch) {
+          final existingIds = bills.map((b) => b.id).toSet();
+          final newCount = response.partnerBills
+              .where((b) => !existingIds.contains(b.id))
+              .length;
+          if (newCount > 0 && Get.isRegistered<PartnerHomeController>()) {
+            Get.find<PartnerHomeController>().updateShowDataOnNewBill(
+              count: newCount,
+            );
+          }
+        }
         bills.assignAll(response.partnerBills);
         availableCategories.assignAll(response.availableCategories);
         await _subscribeToCategories();
@@ -176,10 +197,24 @@ class NewShowController extends GetxController {
   }
 
   Future<void> refreshBills() async {
+    final now = DateTime.now();
+    if (_lastRefreshTime != null &&
+        now.difference(_lastRefreshTime!) < _refreshCooldown) {
+      AppSnackbar.showInfo(
+        message: 'please_wait_before_refreshing'.tr,
+        title: 'cooldown_active'.trParams({
+          'seconds': _refreshCooldown.inSeconds.toString(),
+        }),
+      );
+
+      logger.w('[NewShow] [Refresh] Cooldown active, skipping');
+      return;
+    }
+    _lastRefreshTime = now;
     _currentPage = 1;
     _lastPage = 1;
     hasMorePages.value = true;
-    await fetchRealtimeBills();
+    await fetchRealtimeBills(isInitialFetch: false);
   }
 
   final isAccepting = false.obs;
@@ -248,7 +283,9 @@ class NewShowController extends GetxController {
         bills.insertAll(0, response.partnerBills);
         lastUpdated.value = response.lastUpdated;
         if (Get.isRegistered<PartnerHomeController>()) {
-          Get.find<PartnerHomeController>().updateShowDataOnNewBill(count: response.partnerBills.length);
+          Get.find<PartnerHomeController>().updateShowDataOnNewBill(
+            count: response.partnerBills.length,
+          );
         }
         logger.i(
           '[NewShow] [Pusher] ${response.partnerBills.length} new bill(s) received',
