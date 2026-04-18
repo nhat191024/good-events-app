@@ -2,6 +2,10 @@
 
 All notable changes to this project will be documented in this file.
 
+## [v2.4.11+52]
+
+- Fix bill count data in partner home not update in many screen
+
 ## [v2.4.10+51]
 
 - Fix flutter local notification take wrong app icon
