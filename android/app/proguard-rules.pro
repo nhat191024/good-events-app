@@ -23,5 +23,36 @@
 -keep class io.flutter.** { *; }
 -dontwarn io.flutter.**
 
-# Nếu vẫn báo thiếu các class cụ thể trong log, dùng thêm dòng này:
+# ── Pusher Channels ──────────────────────────────────────────────────────────
+# pusher_channels_flutter dùng JNI/reflection để gọi PusherAndroid SDK
+-keep class com.pusher.** { *; }
+-keep interface com.pusher.** { *; }
+-dontwarn com.pusher.**
+-keep class com.github.pusher.** { *; }
+-dontwarn com.github.pusher.**
+
+# ── OkHttp / Okio (dùng bởi Dio trên Android) ───────────────────────────────
+-keep class okhttp3.** { *; }
+-keep interface okhttp3.** { *; }
+-dontwarn okhttp3.**
+-keep class okio.** { *; }
+-dontwarn okio.**
+
+# ── Dio ──────────────────────────────────────────────────────────────────────
+-keep class io.github.azhon.** { *; }
+-dontwarn io.github.azhon.**
+
+# ── GetStorage ───────────────────────────────────────────────────────────────
+-keep class com.getkeepsafe.relinker.** { *; }
+-dontwarn com.getkeepsafe.relinker.**
+
+# ── Sqflite ──────────────────────────────────────────────────────────────────
+-keep class io.flutter.plugins.sqflite.** { *; }
+-dontwarn io.flutter.plugins.sqflite.**
+
+# ── Firebase Messaging ───────────────────────────────────────────────────────
+-keep class com.google.firebase.messaging.** { *; }
+-dontwarn com.google.firebase.messaging.**
+
+# ── Nếu vẫn báo thiếu class, bật dòng này để debug ─────────────────────────
 -ignorewarnings
