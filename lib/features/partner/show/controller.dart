@@ -3,6 +3,8 @@ import 'package:image_picker/image_picker.dart';
 import 'package:sukientotapp/core/utils/import/global.dart';
 import 'package:sukientotapp/data/models/partner/show_bill_model.dart';
 import 'package:sukientotapp/domain/repositories/partner/show_repository.dart';
+import 'package:sukientotapp/features/partner/home/controller.dart';
+import 'package:sukientotapp/features/partner/new_show/controller.dart';
 
 class ShowController extends GetxController
     with GetSingleTickerProviderStateMixin {
@@ -485,6 +487,13 @@ class ShowController extends GetxController
       upcomingBills.removeWhere((b) => b.id == billId);
       filteredNewBills.removeWhere((b) => b.id == billId);
       filteredUpcomingBills.removeWhere((b) => b.id == billId);
+
+      if (Get.isRegistered<PartnerHomeController>()) {
+        Get.find<PartnerHomeController>().updateShowDataOnCancelAccept();
+      }
+      if (Get.isRegistered<NewShowController>()) {
+        Get.find<NewShowController>().refreshBills();
+      }
 
       // Cancelled items typically show up in history; refresh to reflect server state.
       await _fetchHistoryBills(reset: true);

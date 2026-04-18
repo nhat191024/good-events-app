@@ -91,6 +91,26 @@ class PartnerHomeController extends GetxController {
     );
   }
 
+  void updateShowDataOnCancelAccept() {
+    final current = dashboardData.value;
+    if (current == null) return;
+    final currentNew = (int.tryParse(current.showData.newShows) ?? 0) + 1;
+    final currentWaiting =
+        (int.tryParse(current.showData.waitingConfirmation) ?? 0) - 1;
+    dashboardData.value = DashboardModel(
+      hasNotification: current.hasNotification,
+      revenue: current.revenue,
+      showData: ShowData(
+        newShows: currentNew.toString(),
+        waitingConfirmation:
+            currentWaiting.clamp(0, double.maxFinite.toInt()).toString(),
+      ),
+      recentReviewsCount: current.recentReviewsCount,
+      recentReviewsAvatars: current.recentReviewsAvatars,
+      quarterlyRevenue: current.quarterlyRevenue,
+    );
+  }
+
   void updateShowDataOnAccept() {
     final current = dashboardData.value;
     if (current == null) return;
