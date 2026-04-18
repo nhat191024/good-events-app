@@ -253,6 +253,8 @@ class ShowController extends GetxController
   Future<void> refreshNewBills() => _fetchNewBills(reset: true);
 
   Future<void> _fetchNewBills({bool reset = false}) async {
+    final oldCount = reset ? newBills.length : null;
+
     if (reset) {
       _newPage = 1;
       _newLastPage = 1;
@@ -267,6 +269,19 @@ class ShowController extends GetxController
       );
       _newLastPage = response.meta.lastPage;
       newBills.addAll(response.bills);
+
+      if (oldCount != null && Get.isRegistered<PartnerHomeController>()) {
+        final diff = oldCount - newBills.length;
+
+        if (diff > 0) {
+          Get.find<PartnerHomeController>().updateShowDataOnConfirmedByClient(
+            count: diff,
+          );
+          logger.i(
+            '[Show] [NewBills] $diff bill(s) moved to waiting confirmation',
+          );
+        }
+      }
     } catch (e) {
       Get.snackbar('error'.tr, 'load_data_failed'.tr);
       logger.e('Failed to load new bills: $e');
