@@ -210,9 +210,16 @@ class MessageController extends GetxController {
   }
 
   Future<void> openThreadFromMyShow(int showid) async {
-    final thread = filteredMessages.firstWhereOrNull(
+    MessageListModel? thread = filteredMessages.firstWhereOrNull(
       (t) => t.bill.id == showid,
     );
+
+    if (thread == null) {
+      await refreshThreads();
+      thread = filteredMessages.firstWhereOrNull(
+        (t) => t.bill.id == showid,
+      );
+    }
 
     if (thread == null) {
       AppSnackbar.showError(message: 'thread_not_found'.tr);
