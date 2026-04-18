@@ -181,8 +181,9 @@ class NewWidget extends GetView<ShowController> {
                     ),
                     const SizedBox(width: 6),
                     Obx(() {
-                      if (!controller.isFilterActive)
+                      if (!controller.isFilterActive) {
                         return const SizedBox.shrink();
+                      }
                       return GestureDetector(
                         onTap: () => controller.clearFilter(),
                         child: Container(
