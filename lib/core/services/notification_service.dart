@@ -62,7 +62,7 @@ class NotificationService {
       channelDescription: _androidChannel.description,
       importance: Importance.high,
       priority: Priority.high,
-      icon: '@mipmap/ic_launcher',
+      icon: '@mipmap/launcher_icon',
     );
 
     final notificationDetails = NotificationDetails(
