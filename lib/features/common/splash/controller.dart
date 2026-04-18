@@ -101,13 +101,25 @@ class SplashController extends GetxController {
     videoPlayerController.play();
 
     videoPlayerController.addListener(() {
-      if (videoPlayerController.value.position >=
-          videoPlayerController.value.duration) {
+      final pos = videoPlayerController.value.position;
+      final dur = videoPlayerController.value.duration;
+      if (dur > Duration.zero && pos >= dur) {
         if (!_videoCompleter.isCompleted) {
           _videoCompleter.complete();
         }
       }
     });
+
+    // Fallback: if listener never fires (release mode codec issue), complete after duration + 2s
+    final videoDuration = videoPlayerController.value.duration;
+    if (videoDuration > Duration.zero) {
+      Future.delayed(videoDuration + const Duration(seconds: 2), () {
+        if (!_videoCompleter.isCompleted) {
+          logger.w('[SplashController] [_initVideo] Fallback timeout triggered');
+          _videoCompleter.complete();
+        }
+      });
+    }
   }
 
   /// Fetch app settings from BE and cache to local storage
@@ -121,8 +133,13 @@ class SplashController extends GetxController {
 
   ///Check token validity
   Future<void> _checkToken() async {
-    // this equals 2.71 seconds
-    await _videoCompleter.future;
+    // Wait for video with an 8s safety timeout (release mode video may hang)
+    await _videoCompleter.future.timeout(
+      const Duration(seconds: 8),
+      onTimeout: () {
+        logger.w('[SplashController] [_checkToken] Video timeout, continuing...');
+      },
+    );
 
     final token = StorageService.readData(key: LocalStorageKeys.token);
 
@@ -150,7 +167,12 @@ class SplashController extends GetxController {
           );
         }
 
-        await PusherService.init();
+        await PusherService.init().timeout(
+          const Duration(seconds: 10),
+          onTimeout: () {
+            logger.w('[SplashController] [_checkToken] Pusher init timed out, continuing...');
+          },
+        );
 
         var role = StorageService.readMapData(
           key: LocalStorageKeys.user,
