@@ -135,8 +135,13 @@ class NewShowController extends GetxController {
 
   // ─────────────────────────────────────────────────────────────────────────────
 
-  Future<void> fetchRealtimeBills() async {
+  Future<void> fetchRealtimeBills({bool isInitialFetch = true}) async {
     if (isLoading.value) return;
+
+    if (isInitialFetch) {
+      if (!hasMorePages.value) return;
+    }
+    
     isLoading.value = true;
     final pageToFetch = _currentPage;
     try {
