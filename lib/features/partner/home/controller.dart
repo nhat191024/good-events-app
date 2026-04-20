@@ -38,6 +38,13 @@ class PartnerHomeController extends GetxController {
         0,
   );
 
+  RxString newBillCount = RxString(
+    (StorageService.readData(key: LocalStorageKeys.newBill) ?? '0'),
+  );
+  RxString waitingBillCount = RxString(
+    (StorageService.readData(key: LocalStorageKeys.waitingBill) ?? '0'),
+  );
+
   RxBool isLoading = true.obs;
   Rxn<DashboardModel> dashboardData = Rxn<DashboardModel>();
 
@@ -75,78 +82,33 @@ class PartnerHomeController extends GetxController {
   }
 
   void updateShowDataOnNewBill({int count = 1}) {
-    final current = dashboardData.value;
-    if (current == null) return;
-    final currentNew = (int.tryParse(current.showData.newShows) ?? 0) + count;
-    dashboardData.value = DashboardModel(
-      hasNotification: current.hasNotification,
-      revenue: current.revenue,
-      showData: ShowData(
-        newShows: currentNew.toString(),
-        waitingConfirmation: current.showData.waitingConfirmation,
-      ),
-      recentReviewsCount: current.recentReviewsCount,
-      recentReviewsAvatars: current.recentReviewsAvatars,
-      quarterlyRevenue: current.quarterlyRevenue,
-    );
+    final currentNew = int.tryParse(newBillCount.value) ?? 0;
+    newBillCount.value = (currentNew + count).toString();
   }
 
   void updateShowDataOnConfirmedByClient({int count = 1}) {
-    final current = dashboardData.value;
-    if (current == null) return;
-    final currentWaiting =
-        ((int.tryParse(current.showData.waitingConfirmation) ?? 0) - count)
-            .clamp(0, double.maxFinite.toInt());
-    dashboardData.value = DashboardModel(
-      hasNotification: current.hasNotification,
-      revenue: current.revenue,
-      showData: ShowData(
-        newShows: current.showData.newShows,
-        waitingConfirmation: currentWaiting.toString(),
-      ),
-      recentReviewsCount: current.recentReviewsCount,
-      recentReviewsAvatars: current.recentReviewsAvatars,
-      quarterlyRevenue: current.quarterlyRevenue,
-    );
+    final currentWaiting = int.tryParse(waitingBillCount.value) ?? 0;
+    waitingBillCount.value = (currentWaiting - count)
+        .clamp(0, double.maxFinite.toInt())
+        .toString();
   }
 
   void updateShowDataOnCancelAccept() {
-    final current = dashboardData.value;
-    if (current == null) return;
-    final currentNew = (int.tryParse(current.showData.newShows) ?? 0) + 1;
-    final currentWaiting =
-        (int.tryParse(current.showData.waitingConfirmation) ?? 0) - 1;
-    dashboardData.value = DashboardModel(
-      hasNotification: current.hasNotification,
-      revenue: current.revenue,
-      showData: ShowData(
-        newShows: currentNew.toString(),
-        waitingConfirmation:
-            currentWaiting.clamp(0, double.maxFinite.toInt()).toString(),
-      ),
-      recentReviewsCount: current.recentReviewsCount,
-      recentReviewsAvatars: current.recentReviewsAvatars,
-      quarterlyRevenue: current.quarterlyRevenue,
-    );
+    final currentWaiting = int.tryParse(waitingBillCount.value) ?? 0;
+
+    waitingBillCount.value = (currentWaiting - 1)
+        .clamp(0, double.maxFinite.toInt())
+        .toString();
   }
 
   void updateShowDataOnAccept() {
-    final current = dashboardData.value;
-    if (current == null) return;
-    final currentNew = (int.tryParse(current.showData.newShows) ?? 0) - 1;
-    final currentWaiting =
-        (int.tryParse(current.showData.waitingConfirmation) ?? 0) + 1;
-    dashboardData.value = DashboardModel(
-      hasNotification: current.hasNotification,
-      revenue: current.revenue,
-      showData: ShowData(
-        newShows: currentNew.clamp(0, double.maxFinite.toInt()).toString(),
-        waitingConfirmation: currentWaiting.toString(),
-      ),
-      recentReviewsCount: current.recentReviewsCount,
-      recentReviewsAvatars: current.recentReviewsAvatars,
-      quarterlyRevenue: current.quarterlyRevenue,
-    );
+    final currentNew = int.tryParse(newBillCount.value) ?? 0;
+    newBillCount.value = (currentNew - 1)
+        .clamp(0, double.maxFinite.toInt())
+        .toString();
+
+    final currentWaiting = int.tryParse(waitingBillCount.value) ?? 0;
+    waitingBillCount.value = (currentWaiting + 1).toString();
   }
 
   void setHasNotification(bool value) {
@@ -156,7 +118,6 @@ class PartnerHomeController extends GetxController {
     dashboardData.value = DashboardModel(
       hasNotification: value,
       revenue: current.revenue,
-      showData: current.showData,
       recentReviewsCount: current.recentReviewsCount,
       recentReviewsAvatars: current.recentReviewsAvatars,
       quarterlyRevenue: current.quarterlyRevenue,
