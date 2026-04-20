@@ -423,6 +423,8 @@ class ShowController extends GetxController
     try {
       final success = await _repository.completeBill(billId);
       if (!success) {
+        refreshData();
+
         AppSnackbar.showError(message: 'load_data_failed'.tr);
         return;
       }
@@ -470,13 +472,16 @@ class ShowController extends GetxController
     isLoading.value = true;
     try {
       final success = await _repository.markInJob(billId, image);
+      Get.back();
+
       if (!success) {
+        refreshData();
+
         AppSnackbar.showError(message: 'load_data_failed'.tr);
         return;
       }
 
       selectedImage.value = null;
-      Get.back();
       final index = upcomingBills.indexWhere((b) => b.id == billId);
       if (index != -1) {
         upcomingBills[index] = upcomingBills[index].copyWith(status: 'in_job');
@@ -506,12 +511,14 @@ class ShowController extends GetxController
     isLoading.value = true;
     try {
       final success = await _repository.cancelAcceptBill(billId);
+      Get.back();
+
       if (!success) {
+        refreshData();
+
         AppSnackbar.showError(message: 'cancel_book_show_failed'.tr);
         return;
       }
-
-      Get.back();
 
       newBills.removeWhere((b) => b.id == billId);
       filteredNewBills.removeWhere((b) => b.id == billId);
