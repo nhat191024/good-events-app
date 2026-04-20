@@ -464,7 +464,12 @@ class ShowController extends GetxController
 
     isLoading.value = true;
     try {
-      await _repository.markInJob(billId, image);
+      final success = await _repository.markInJob(billId, image);
+      if (!success) {
+        AppSnackbar.showError(message: 'load_data_failed'.tr);
+        return;
+      }
+
       selectedImage.value = null;
       Get.back();
       final index = upcomingBills.indexWhere((b) => b.id == billId);
