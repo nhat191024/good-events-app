@@ -1,6 +1,7 @@
 import 'package:fl_chart/fl_chart.dart';
 
 import 'package:sukientotapp/core/utils/import/global.dart';
+import 'package:sukientotapp/features/partner/bottom_navigation/controller.dart';
 import 'package:sukientotapp/features/partner/home/controller.dart';
 
 import 'package:sukientotapp/features/components/common/language_switch/language_switch.dart';
@@ -18,6 +19,7 @@ class HomeScreen extends GetView<PartnerHomeController> {
   @override
   Widget build(BuildContext context) {
     double statusBarHeight = MediaQuery.of(context).viewPadding.top;
+    final navController = Get.find<PartnerBottomNavigationController>();
 
     return FScaffold(
       header: Container(
@@ -41,80 +43,83 @@ class HomeScreen extends GetView<PartnerHomeController> {
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
             Expanded(
-              child: Row(
-                children: [
-                  Container(
-                    padding: const EdgeInsets.all(2.5),
-                    decoration: BoxDecoration(
-                      shape: BoxShape.circle,
-                      border: Border.all(
-                        color: Colors.white.withValues(alpha: 0.6),
-                        width: 2,
-                      ),
-                    ),
-                    child: FAvatar(
-                      image: CachedNetworkImageProvider(
-                        controller.avatar.value,
-                      ),
-                      size: 44.0,
-                      semanticsLabel: 'User avatar',
-                      fallback: const Text('ST'),
-                    ),
-                  ),
-                  const SizedBox(width: 10),
-                  Expanded(
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        Text(
-                          controller.name.value,
-                          maxLines: 1,
-                          overflow: TextOverflow.ellipsis,
-                          style: const TextStyle(
-                            fontSize: 18,
-                            fontWeight: FontWeight.bold,
-                            color: Colors.white,
-                          ),
+              child: GestureDetector(
+                onTap: () => Get.toNamed(Routes.myProfile),
+                child: Row(
+                  children: [
+                    Container(
+                      padding: const EdgeInsets.all(2.5),
+                      decoration: BoxDecoration(
+                        shape: BoxShape.circle,
+                        border: Border.all(
+                          color: Colors.white.withValues(alpha: 0.6),
+                          width: 2,
                         ),
-                        const SizedBox(height: 4),
-                        Container(
-                          padding: const EdgeInsets.symmetric(
-                            horizontal: 7,
-                            vertical: 2,
-                          ),
-                          decoration: BoxDecoration(
-                            color: Colors.white.withValues(alpha: 0.2),
-                            borderRadius: BorderRadius.circular(8),
-                            border: Border.all(
-                              color: Colors.white.withValues(alpha: 0.35),
+                      ),
+                      child: FAvatar(
+                        image: CachedNetworkImageProvider(
+                          controller.avatar.value,
+                        ),
+                        size: 44.0,
+                        semanticsLabel: 'User avatar',
+                        fallback: const Text('ST'),
+                      ),
+                    ),
+                    const SizedBox(width: 10),
+                    Expanded(
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Text(
+                            controller.name.value,
+                            maxLines: 1,
+                            overflow: TextOverflow.ellipsis,
+                            style: const TextStyle(
+                              fontSize: 18,
+                              fontWeight: FontWeight.bold,
+                              color: Colors.white,
                             ),
                           ),
-                          child: Row(
-                            mainAxisSize: MainAxisSize.min,
-                            children: [
-                              const Icon(
-                                FIcons.badgeCheck,
-                                size: 10,
-                                color: Colors.white,
+                          const SizedBox(height: 4),
+                          Container(
+                            padding: const EdgeInsets.symmetric(
+                              horizontal: 7,
+                              vertical: 2,
+                            ),
+                            decoration: BoxDecoration(
+                              color: Colors.white.withValues(alpha: 0.2),
+                              borderRadius: BorderRadius.circular(8),
+                              border: Border.all(
+                                color: Colors.white.withValues(alpha: 0.35),
                               ),
-                              const SizedBox(width: 3),
-                              Text(
-                                controller.isLegit.value == 'true'
-                                    ? 'verified'.tr
-                                    : 'unverified'.tr,
-                                style: context.typography.xs.copyWith(
+                            ),
+                            child: Row(
+                              mainAxisSize: MainAxisSize.min,
+                              children: [
+                                const Icon(
+                                  FIcons.badgeCheck,
+                                  size: 10,
                                   color: Colors.white,
-                                  fontWeight: FontWeight.w600,
                                 ),
-                              ),
-                            ],
+                                const SizedBox(width: 3),
+                                Text(
+                                  controller.isLegit.value == 'true'
+                                      ? 'verified'.tr
+                                      : 'unverified'.tr,
+                                  style: context.typography.xs.copyWith(
+                                    color: Colors.white,
+                                    fontWeight: FontWeight.w600,
+                                  ),
+                                ),
+                              ],
+                            ),
                           ),
-                        ),
-                      ],
+                        ],
+                      ),
                     ),
-                  ),
-                ],
-              ).animate().fadeIn(duration: 400.ms).slideX(begin: -0.1, end: 0),
+                  ],
+                ).animate().fadeIn(duration: 400.ms).slideX(begin: -0.1, end: 0),
+              ),
             ),
             Row(
               children: [
@@ -165,6 +170,8 @@ class HomeScreen extends GetView<PartnerHomeController> {
               BillCountPanel(
                     newShows: data.showData.newShows,
                     waitingConfirmation: data.showData.waitingConfirmation,
+                onTapNewShows: () => navController.setIndex(2),
+                onTapWaitingConfirmation: () => navController.setIndex(1, setTab: 0),
                   )
                   .animate(delay: 200.ms)
                   .fadeIn(duration: 400.ms)
