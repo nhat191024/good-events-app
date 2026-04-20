@@ -38,7 +38,7 @@ class BillCountPanel extends StatelessWidget {
           'waiting_show',
           waitingConfirmation,
           () {
-            navController.setIndex(2);
+            navController.setIndex(2, setTab: 0);
           },
         ),
       ],
