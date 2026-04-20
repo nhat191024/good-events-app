@@ -11,9 +11,9 @@ abstract class ShowRepository {
     int perPage = 5,
   });
 
-  Future<void> markInJob(int billId, XFile image);
+  Future<bool> markInJob(int billId, XFile image);
 
-  Future<void> completeBill(int billId);
+  Future<bool> completeBill(int billId);
 
-  Future<void> cancelAcceptBill(int billId);
+  Future<bool> cancelAcceptBill(int billId);
 }

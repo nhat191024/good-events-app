@@ -421,7 +421,14 @@ class ShowController extends GetxController
   Future<void> completeBill(int billId) async {
     isLoading.value = true;
     try {
-      await _repository.completeBill(billId);
+      final success = await _repository.completeBill(billId);
+      if (!success) {
+        refreshData();
+
+        AppSnackbar.showError(message: 'load_data_failed'.tr);
+        return;
+      }
+
       final index = upcomingBills.indexWhere((b) => b.id == billId);
       if (index != -1) {
         final completedBill = upcomingBills[index].copyWith(
@@ -464,9 +471,17 @@ class ShowController extends GetxController
 
     isLoading.value = true;
     try {
-      await _repository.markInJob(billId, image);
-      selectedImage.value = null;
+      final success = await _repository.markInJob(billId, image);
       Get.back();
+
+      if (!success) {
+        refreshData();
+
+        AppSnackbar.showError(message: 'load_data_failed'.tr);
+        return;
+      }
+
+      selectedImage.value = null;
       final index = upcomingBills.indexWhere((b) => b.id == billId);
       if (index != -1) {
         upcomingBills[index] = upcomingBills[index].copyWith(status: 'in_job');
@@ -495,13 +510,18 @@ class ShowController extends GetxController
   Future<void> cancelAcceptBill(int billId) async {
     isLoading.value = true;
     try {
-      await _repository.cancelAcceptBill(billId);
-      Get.back(); // close detail sheet
+      final success = await _repository.cancelAcceptBill(billId);
+      Get.back();
+
+      if (!success) {
+        refreshData();
+
+        AppSnackbar.showError(message: 'cancel_book_show_failed'.tr);
+        return;
+      }
 
       newBills.removeWhere((b) => b.id == billId);
-      upcomingBills.removeWhere((b) => b.id == billId);
       filteredNewBills.removeWhere((b) => b.id == billId);
-      filteredUpcomingBills.removeWhere((b) => b.id == billId);
 
       if (Get.isRegistered<PartnerHomeController>()) {
         Get.find<PartnerHomeController>().updateShowDataOnCancelAccept();
@@ -510,17 +530,16 @@ class ShowController extends GetxController
         Get.find<NewShowController>().refreshBills();
       }
 
-      // Cancelled items typically show up in history; refresh to reflect server state.
-      await _fetchHistoryBills(reset: true);
-
       AppSnackbar.showSuccess(message: 'cancel_book_show_success'.tr);
-    } on DioException catch (e) {
-      final statusCode = e.response?.statusCode;
-      final message = e.response?.data?['message'] as String?;
-      AppSnackbar.showError(message: message ?? 'cancel_book_show_failed'.tr);
-      logger.e('[Show] [CancelBill] Error $statusCode: $e');
-      await refreshData();
-    } catch (e) {
+    }
+    // on DioException catch (e) {
+    //   final statusCode = e.response?.statusCode;
+    //   final message = e.response?.data?['message'] as String?;
+    //   AppSnackbar.showError(message: message ?? 'cancel_book_show_failed'.tr);
+    //   logger.e('[Show] [CancelBill] Error $statusCode: $e');
+    //   await refreshData();
+    // }
+    catch (e) {
       AppSnackbar.showError(message: 'cancel_book_show_failed'.tr);
       logger.e('[Show] [CancelBill] Unexpected error: $e');
       await refreshData();

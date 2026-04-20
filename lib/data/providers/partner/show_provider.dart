@@ -44,25 +44,28 @@ class ShowProvider {
     }
   }
 
-  Future<void> markInJob(int billId, XFile image) async {
+  Future<bool> markInJob(int billId, XFile image) async {
     final formData = FormData.fromMap({
       'arrival_photo': await MultipartFile.fromFile(
         image.path,
         filename: image.name,
       ),
     });
-    await _apiService.dio.post(
+    final response = await _apiService.dio.post(
       AppUrl.partnerBillMarkInJob(billId),
       data: formData,
       options: Options(contentType: 'multipart/form-data'),
     );
+    return response.statusCode == 200;
   }
 
-  Future<void> completeBill(int billId) async {
-    await _apiService.dio.post(AppUrl.partnerBillComplete(billId));
+  Future<bool> completeBill(int billId) async {
+    final response = await _apiService.dio.post(AppUrl.partnerBillComplete(billId));
+    return response.statusCode == 200;
   }
 
-  Future<void> cancelAcceptBill(int billId) async {
-    await _apiService.dio.post(AppUrl.billCancel(billId));
+  Future<bool> cancelAcceptBill(int billId) async {
+    final response = await _apiService.dio.post(AppUrl.billCancel(billId));
+    return response.statusCode == 200;
   }
 }

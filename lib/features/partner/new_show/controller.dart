@@ -222,7 +222,15 @@ class NewShowController extends GetxController {
   Future<bool> acceptBill({required int billId, required double price}) async {
     isAccepting.value = true;
     try {
-      await _repository.acceptBill(billId: billId, price: price);
+      final success = await _repository.acceptBill(billId: billId, price: price);
+      if (!success) {
+        AppSnackbar.showError(
+          message: 'failed_to_accept_show'.tr,
+          title: 'failed'.tr,
+        );
+        return false;
+      }
+
       bills.removeWhere((b) => b.id == billId);
       if (Get.isRegistered<PartnerHomeController>()) {
         Get.find<PartnerHomeController>().updateShowDataOnAccept();
