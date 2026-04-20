@@ -1,7 +1,6 @@
 import 'package:fl_chart/fl_chart.dart';
 
 import 'package:sukientotapp/core/utils/import/global.dart';
-import 'package:sukientotapp/features/partner/bottom_navigation/controller.dart';
 import 'package:sukientotapp/features/partner/home/controller.dart';
 
 import 'package:sukientotapp/features/components/common/language_switch/language_switch.dart';
@@ -19,7 +18,6 @@ class HomeScreen extends GetView<PartnerHomeController> {
   @override
   Widget build(BuildContext context) {
     double statusBarHeight = MediaQuery.of(context).viewPadding.top;
-    final navController = Get.find<PartnerBottomNavigationController>();
 
     return FScaffold(
       header: Container(
@@ -170,8 +168,6 @@ class HomeScreen extends GetView<PartnerHomeController> {
               BillCountPanel(
                     newShows: data.showData.newShows,
                     waitingConfirmation: data.showData.waitingConfirmation,
-                onTapNewShows: () => navController.setIndex(2),
-                onTapWaitingConfirmation: () => navController.setIndex(1, setTab: 0),
                   )
                   .animate(delay: 200.ms)
                   .fadeIn(duration: 400.ms)

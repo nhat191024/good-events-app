@@ -1,23 +1,21 @@
 import 'package:sukientotapp/core/utils/import/global.dart';
+import 'package:sukientotapp/features/partner/bottom_navigation/controller.dart';
 
 class BillCountPanel extends StatelessWidget {
   final String newShows;
   final String waitingConfirmation;
-  final VoidCallback? onTapNewShows;
-  final VoidCallback? onTapWaitingConfirmation;
 
   const BillCountPanel({
     super.key,
     required this.newShows,
     required this.waitingConfirmation,
-    this.onTapNewShows,
-    this.onTapWaitingConfirmation,
   });
 
   @override
   Widget build(BuildContext context) {
     double panelWidth = MediaQuery.of(context).size.width;
     double itemWidth = (panelWidth - 58) / 2;
+    final navController = Get.find<PartnerBottomNavigationController>();
 
     return Row(
       mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -28,7 +26,7 @@ class BillCountPanel extends StatelessWidget {
           iconData: FIcons.calendarSearch,
           title: 'take_order',
           count: newShows,
-          onTap: onTapNewShows,
+          onTap: () => navController.setIndex(2),
         ),
         _BillItem(
           width: itemWidth,
@@ -36,7 +34,7 @@ class BillCountPanel extends StatelessWidget {
           iconData: FIcons.calendarCheck2,
           title: 'waiting_show',
           count: waitingConfirmation,
-          onTap: onTapWaitingConfirmation,
+          onTap: () => navController.setIndex(1, setTab: 0),
         ),
       ],
     );
