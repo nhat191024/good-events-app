@@ -2,6 +2,14 @@
 
 All notable changes to this project will be documented in this file.
 
+## [v2.4.12+53]
+
+- Fix the chat page not refresh after user confirmed choosing a partner
+- Added clicking on homepage stats card that switches to the orders tab (partner side)
+- Added click action to profile image and name on top of the screen.
+- Make 'booking forms' to be unselected by default
+- Fixed reviews section to now showing because there were too many services
+
 ## [v2.4.11+52]
 
 - Fix bill count data in partner home not update in many screen
