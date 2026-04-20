@@ -1,8 +1,8 @@
 import 'package:sukientotapp/core/utils/import/global.dart';
 
 class BillCountPanel extends StatelessWidget {
-  final String newShows;
-  final String waitingConfirmation;
+  final RxString newShows;
+  final RxString waitingConfirmation;
 
   const BillCountPanel({
     super.key,
@@ -43,7 +43,7 @@ class BillCountPanel extends StatelessWidget {
     Color iconBgColor,
     IconData iconData,
     String title,
-    String count,
+    RxString count,
   ) {
     return Container(
       width: itemWidth,
@@ -82,13 +82,15 @@ class BillCountPanel extends StatelessWidget {
                   ),
                 ),
                 const SizedBox(height: 2),
-                Text(
-                  count,
-                  style: const TextStyle(
-                    color: Color(0xFF1F2937),
-                    fontSize: 28,
-                    fontWeight: FontWeight.bold,
-                    height: 1.1,
+                Obx(
+                  () => Text(
+                    count.value,
+                    style: const TextStyle(
+                      color: Color(0xFF1F2937),
+                      fontSize: 28,
+                      fontWeight: FontWeight.bold,
+                      height: 1.1,
+                    ),
                   ),
                 ),
               ],

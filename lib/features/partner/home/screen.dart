@@ -163,8 +163,8 @@ class HomeScreen extends GetView<PartnerHomeController> {
                   .slideY(begin: 0.1, end: 0),
               const SizedBox(height: 14),
               BillCountPanel(
-                    newShows: data.showData.newShows,
-                    waitingConfirmation: data.showData.waitingConfirmation,
+                    newShows: controller.newBillCount,
+                    waitingConfirmation: controller.waitingBillCount,
                   )
                   .animate(delay: 200.ms)
                   .fadeIn(duration: 400.ms)
