@@ -90,9 +90,9 @@ class ClientBookingController extends GetxController {
       eventTypes.assignAll([customEventTypeKey]);
     }
 
-    selectedStartTime.value = '01:00';
-    selectedEndTime.value = '03:00';
-    selectedEventType.value = eventTypes.isNotEmpty ? eventTypes.first : '';
+    selectedStartTime.value = '';
+    selectedEndTime.value = '';
+    selectedEventType.value = '';
 
     await fetchProvinces();
 
@@ -146,9 +146,6 @@ class ClientBookingController extends GetxController {
       isFetchingProvinces.value = true;
       final data = await _locationRepository.getProvinces();
       provinces.assignAll(data);
-      if (provinces.isNotEmpty) {
-        selectProvince(provinces.first);
-      }
     } catch (e) {
       logger.e('[ClientBookingController] Error fetching provinces: $e');
       Get.snackbar('error'.tr, 'failed_to_load_provinces'.tr);
@@ -163,9 +160,6 @@ class ClientBookingController extends GetxController {
       wards.clear();
       final data = await _locationRepository.getWards(provinceId);
       wards.assignAll(data);
-      if (wards.isNotEmpty) {
-        selectWard(wards.first);
-      }
     } catch (e) {
       logger.e('[ClientBookingController] Error fetching wards: $e');
       Get.snackbar('error'.tr, 'failed_to_load_wards'.tr);

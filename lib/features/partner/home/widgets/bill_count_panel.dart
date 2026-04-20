@@ -44,6 +44,15 @@ class BillCountPanel extends StatelessWidget {
       ],
     );
   }
+}
+
+class _BillItem extends StatefulWidget {
+  final double width;
+  final Color iconBgColor;
+  final IconData iconData;
+  final String title;
+  final String count;
+  final VoidCallback? onTap;
 
   GestureDetector _buildItem(
     BuildContext context,

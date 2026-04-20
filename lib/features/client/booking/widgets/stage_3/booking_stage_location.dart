@@ -58,19 +58,34 @@ class BookingLocationStage extends GetView<ClientBookingController> {
             ),
           ),
           right: Obx(
-            () => BookingSelectField(
-              label: 'booking_location_ward'.tr,
-              value: controller.selectedWardModel.value?.name ?? '',
-              placeholder: 'booking_select_ward'.tr,
-              errorText: controller.fieldErrors['ward'],
-              onTap: () => _showOptions<LocationModel>(
-                title: 'booking_location_ward'.tr,
-                options: controller.wards,
-                selectedValue: controller.selectedWardModel.value,
-                onSelect: controller.selectWard,
-                labelBuilder: (m) => m.name,
-              ),
-            ),
+            () {
+              final hasProvince = controller.selectedProvinceModel.value != null;
+              final isLoadingWards = controller.isFetchingWards.value;
+
+              return BookingSelectField(
+                label: 'booking_location_ward'.tr,
+                value: controller.selectedWardModel.value?.name ?? '',
+                placeholder: isLoadingWards
+                    ? 'loading_with_dot'.tr
+                    : 'booking_select_ward'.tr,
+                errorText: controller.fieldErrors['ward'],
+                isLoading: isLoadingWards,
+                onTap: () {
+                  if (!hasProvince) {
+                    Get.snackbar('error'.tr, 'select_province_first'.tr);
+                    return;
+                  }
+
+                  _showOptions<LocationModel>(
+                    title: 'booking_location_ward'.tr,
+                    options: controller.wards,
+                    selectedValue: controller.selectedWardModel.value,
+                    onSelect: controller.selectWard,
+                    labelBuilder: (m) => m.name,
+                  );
+                },
+              );
+            },
           ),
         ),
         const SizedBox(height: 12),

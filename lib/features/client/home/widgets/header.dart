@@ -15,41 +15,44 @@ class ClientHomeHeader extends StatelessWidget {
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
           Expanded(
-            child: Row(
-              children: [
-                Container(
-                  padding: const EdgeInsets.all(2.5),
-                  decoration: BoxDecoration(
-                    shape: BoxShape.circle,
-                    border: Border.all(color: Colors.white.withValues(alpha: 0.6), width: 2),
+            child: GestureDetector(
+              onTap: () => Get.toNamed(Routes.myProfile),
+              child: Row(
+                children: [
+                  Container(
+                    padding: const EdgeInsets.all(2.5),
+                    decoration: BoxDecoration(
+                      shape: BoxShape.circle,
+                      border: Border.all(color: Colors.white.withValues(alpha: 0.6), width: 2),
+                    ),
+                    child: FAvatar(
+                      image: NetworkImage(controller.avatar.value),
+                      size: 44.0,
+                      semanticsLabel: 'User avatar',
+                      fallback: const Text('ST'),
+                    ),
                   ),
-                  child: FAvatar(
-                    image: NetworkImage(controller.avatar.value),
-                    size: 44.0,
-                    semanticsLabel: 'User avatar',
-                    fallback: const Text('ST'),
-                  ),
-                ),
-                const SizedBox(width: 10),
-                Expanded(
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      Text(
-                        controller.name.value,
-                        maxLines: 1,
-                        overflow: TextOverflow.ellipsis,
-                        style: const TextStyle(
-                          fontSize: 18,
-                          fontWeight: FontWeight.bold,
-                          color: Colors.white,
+                  const SizedBox(width: 10),
+                  Expanded(
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Text(
+                          controller.name.value,
+                          maxLines: 1,
+                          overflow: TextOverflow.ellipsis,
+                          style: const TextStyle(
+                            fontSize: 18,
+                            fontWeight: FontWeight.bold,
+                            color: Colors.white,
+                          ),
                         ),
-                      ),
-                    ],
+                      ],
+                    ),
                   ),
-                ),
-              ],
-            ).animate().fadeIn(duration: 400.ms).slideX(begin: -0.1, end: 0),
+                ],
+              ).animate().fadeIn(duration: 400.ms).slideX(begin: -0.1, end: 0),
+            ),
           ),
           Row(
             children: [

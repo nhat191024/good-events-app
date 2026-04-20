@@ -10,6 +10,7 @@ class BookingSelectField extends StatelessWidget {
     this.leading,
     this.trailing,
     this.errorText,
+    this.isLoading = false,
   });
 
   final String label;
@@ -19,6 +20,7 @@ class BookingSelectField extends StatelessWidget {
   final IconData? leading;
   final IconData? trailing;
   final String? errorText;
+  final bool isLoading;
 
   @override
   Widget build(BuildContext context) {
@@ -36,7 +38,7 @@ class BookingSelectField extends StatelessWidget {
         ),
         const SizedBox(height: 6),
         FTappable(
-          onPress: onTap,
+          onPress: isLoading ? null : onTap,
           child: Container(
             padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 12),
             decoration: BoxDecoration(
@@ -66,11 +68,23 @@ class BookingSelectField extends StatelessWidget {
                     ),
                   ),
                 ),
-                Icon(
-                  trailing ?? FIcons.chevronDown,
-                  size: 18,
-                  color: context.fTheme.colors.mutedForeground,
-                ),
+                if (isLoading)
+                  SizedBox(
+                    width: 18,
+                    height: 18,
+                    child: CircularProgressIndicator(
+                      strokeWidth: 2,
+                      valueColor: AlwaysStoppedAnimation<Color>(
+                        context.fTheme.colors.mutedForeground,
+                      ),
+                    ),
+                  )
+                else
+                  Icon(
+                    trailing ?? FIcons.chevronDown,
+                    size: 18,
+                    color: context.fTheme.colors.mutedForeground,
+                  ),
               ],
             ),
           ),

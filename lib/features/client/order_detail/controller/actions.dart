@@ -253,6 +253,9 @@ extension ClientOrderDetailActions on ClientOrderDetailController {
         }
 
         await fetchOrderDetails();
+        if (Get.isRegistered<MessageController>()) {
+          await Get.find<MessageController>().refreshThreads();
+        }
       } else {
         Get.snackbar(
           'error'.tr,
