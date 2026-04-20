@@ -495,7 +495,12 @@ class ShowController extends GetxController
   Future<void> cancelAcceptBill(int billId) async {
     isLoading.value = true;
     try {
-      await _repository.cancelAcceptBill(billId);
+      final success = await _repository.cancelAcceptBill(billId);
+      if (!success) {
+        AppSnackbar.showError(message: 'cancel_book_show_failed'.tr);
+        return;
+      }
+
       Get.back();
 
       newBills.removeWhere((b) => b.id == billId);

@@ -62,7 +62,8 @@ class ShowProvider {
     await _apiService.dio.post(AppUrl.partnerBillComplete(billId));
   }
 
-  Future<void> cancelAcceptBill(int billId) async {
-    await _apiService.dio.post(AppUrl.billCancel(billId));
+  Future<bool> cancelAcceptBill(int billId) async {
+    final response = await _apiService.dio.post(AppUrl.billCancel(billId));
+    return response.statusCode == 200;
   }
 }

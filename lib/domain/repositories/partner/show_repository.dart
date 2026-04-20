@@ -15,5 +15,5 @@ abstract class ShowRepository {
 
   Future<void> completeBill(int billId);
 
-  Future<void> cancelAcceptBill(int billId);
+  Future<bool> cancelAcceptBill(int billId);
 }
