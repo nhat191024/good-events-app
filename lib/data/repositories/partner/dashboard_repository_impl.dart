@@ -1,6 +1,7 @@
 import 'package:sukientotapp/data/models/partner/dashboard_model.dart';
 import 'package:sukientotapp/data/providers/partner/dashboard_provider.dart';
 import 'package:sukientotapp/domain/repositories/partner/dashboard_repository.dart';
+import 'package:sukientotapp/core/services/localstorage_service.dart';
 
 class DashboardRepositoryImpl implements DashboardRepository {
   final DashboardProvider _provider;
@@ -10,6 +11,21 @@ class DashboardRepositoryImpl implements DashboardRepository {
   @override
   Future<DashboardModel> getDashboardData() async {
     final response = await _provider.getDashboardData();
+
+    StorageService.writeStringData(
+      key: LocalStorageKeys.newBill,
+      value: response['show_data']['new'],
+    );
+    StorageService.writeStringData(
+      key: LocalStorageKeys.waitingBill,
+      value: response['show_data']['waitingConfirmation'],
+    );
+
+    StorageService.writeBoolData(
+      key: LocalStorageKeys.hasNotification,
+      value: response['has_notification'],
+    );
+
     return DashboardModel.fromMap(response);
   }
 }
