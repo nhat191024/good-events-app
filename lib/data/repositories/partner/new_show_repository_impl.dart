@@ -14,7 +14,7 @@ class NewShowRepositoryImpl implements NewShowRepository {
   }
 
   @override
-  Future<void> acceptBill({required int billId, required double price}) async {
-    await _provider.acceptBill(billId: billId, price: price);
+  Future<bool> acceptBill({required int billId, required double price}) async {
+    return _provider.acceptBill(billId: billId, price: price);
   }
 }

@@ -19,14 +19,12 @@ class NewShowProvider {
     }
   }
 
-  Future<void> acceptBill({required int billId, required double price}) async {
+  Future<bool> acceptBill({required int billId, required double price}) async {
     final response = await _apiService.dio.post(
       AppUrl.partnerBillAccept(billId),
       data: {'price': price},
     );
 
-    if (response.statusCode != 200) {
-      throw Exception('Failed to accept bill');
-    }
+    return response.statusCode == 200;
   }
 }
