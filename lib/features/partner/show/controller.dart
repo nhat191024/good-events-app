@@ -496,12 +496,10 @@ class ShowController extends GetxController
     isLoading.value = true;
     try {
       await _repository.cancelAcceptBill(billId);
-      Get.back(); // close detail sheet
+      Get.back();
 
       newBills.removeWhere((b) => b.id == billId);
-      upcomingBills.removeWhere((b) => b.id == billId);
       filteredNewBills.removeWhere((b) => b.id == billId);
-      filteredUpcomingBills.removeWhere((b) => b.id == billId);
 
       if (Get.isRegistered<PartnerHomeController>()) {
         Get.find<PartnerHomeController>().updateShowDataOnCancelAccept();
@@ -510,17 +508,16 @@ class ShowController extends GetxController
         Get.find<NewShowController>().refreshBills();
       }
 
-      // Cancelled items typically show up in history; refresh to reflect server state.
-      await _fetchHistoryBills(reset: true);
-
       AppSnackbar.showSuccess(message: 'cancel_book_show_success'.tr);
-    } on DioException catch (e) {
-      final statusCode = e.response?.statusCode;
-      final message = e.response?.data?['message'] as String?;
-      AppSnackbar.showError(message: message ?? 'cancel_book_show_failed'.tr);
-      logger.e('[Show] [CancelBill] Error $statusCode: $e');
-      await refreshData();
-    } catch (e) {
+    }
+    // on DioException catch (e) {
+    //   final statusCode = e.response?.statusCode;
+    //   final message = e.response?.data?['message'] as String?;
+    //   AppSnackbar.showError(message: message ?? 'cancel_book_show_failed'.tr);
+    //   logger.e('[Show] [CancelBill] Error $statusCode: $e');
+    //   await refreshData();
+    // }
+    catch (e) {
       AppSnackbar.showError(message: 'cancel_book_show_failed'.tr);
       logger.e('[Show] [CancelBill] Unexpected error: $e');
       await refreshData();
