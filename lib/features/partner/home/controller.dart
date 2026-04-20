@@ -45,6 +45,11 @@ class PartnerHomeController extends GetxController {
     (StorageService.readData(key: LocalStorageKeys.waitingBill) ?? '0'),
   );
 
+  RxBool hasNotification = RxBool(
+    (StorageService.readData(key: LocalStorageKeys.hasNotification) ?? false)
+        as bool,
+  );
+
   RxBool isLoading = true.obs;
   Rxn<DashboardModel> dashboardData = Rxn<DashboardModel>();
 
@@ -116,7 +121,6 @@ class PartnerHomeController extends GetxController {
     if (current == null) return;
 
     dashboardData.value = DashboardModel(
-      hasNotification: value,
       revenue: current.revenue,
       recentReviewsCount: current.recentReviewsCount,
       recentReviewsAvatars: current.recentReviewsAvatars,

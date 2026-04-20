@@ -1,6 +1,8 @@
 import 'package:sukientotapp/core/utils/import/global.dart';
-import 'package:sukientotapp/features/client/home/controller.dart' as client_home;
-import 'package:sukientotapp/features/partner/home/controller.dart' as partner_home;
+import 'package:sukientotapp/features/client/home/controller.dart'
+    as client_home;
+import 'package:sukientotapp/features/partner/home/controller.dart'
+    as partner_home;
 import 'controller.dart';
 
 import 'widget/wallet_header.dart';
@@ -141,12 +143,12 @@ class _AccountScreenState extends State<AccountScreen> {
                   const SizedBox(width: 10),
                   NotificationButton(
                     hasNotification: controller.role.value == 'partner'
-                        ? (Get.isRegistered<partner_home.PartnerHomeController>()
+                        ? (Get.isRegistered<
+                                partner_home.PartnerHomeController
+                              >()
                               ? Get.find<partner_home.PartnerHomeController>()
-                                        .dashboardData
-                                        .value
-                                        ?.hasNotification ??
-                                    false
+                                    .hasNotification
+                                    .value
                               : false)
                         : (Get.isRegistered<client_home.ClientHomeController>()
                               ? Get.find<client_home.ClientHomeController>()

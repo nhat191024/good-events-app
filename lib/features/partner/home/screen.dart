@@ -122,9 +122,7 @@ class HomeScreen extends GetView<PartnerHomeController> {
                 const SizedBox(width: 10),
                 Obx(
                   () => NotificationButton(
-                    hasNotification:
-                        controller.dashboardData.value?.hasNotification ??
-                        false,
+                    hasNotification: controller.hasNotification.value,
                     onTap: () => Get.toNamed(Routes.notification),
                   ),
                 ),
