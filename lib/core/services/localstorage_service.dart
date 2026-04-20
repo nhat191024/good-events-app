@@ -63,6 +63,7 @@ class LocalStorageKeys {
   //Partner dashboard data
   static const String newBill = "new_bill";
   static const String waitingBill = "waiting_bill";
+  static const String hasNotification = "has_notification";
 
   // Firebase Cloud Messaging
   static const String fcmToken = "fcm_token";

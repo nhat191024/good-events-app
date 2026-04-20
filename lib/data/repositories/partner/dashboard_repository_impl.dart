@@ -21,6 +21,11 @@ class DashboardRepositoryImpl implements DashboardRepository {
       value: response['show_data']['waitingConfirmation'],
     );
 
+    StorageService.writeBoolData(
+      key: LocalStorageKeys.hasNotification,
+      value: response['has_notification'],
+    );
+
     return DashboardModel.fromMap(response);
   }
 }
