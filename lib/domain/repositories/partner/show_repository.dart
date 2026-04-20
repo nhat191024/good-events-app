@@ -13,7 +13,7 @@ abstract class ShowRepository {
 
   Future<bool> markInJob(int billId, XFile image);
 
-  Future<void> completeBill(int billId);
+  Future<bool> completeBill(int billId);
 
   Future<bool> cancelAcceptBill(int billId);
 }

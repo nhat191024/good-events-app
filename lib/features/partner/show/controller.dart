@@ -421,7 +421,12 @@ class ShowController extends GetxController
   Future<void> completeBill(int billId) async {
     isLoading.value = true;
     try {
-      await _repository.completeBill(billId);
+      final success = await _repository.completeBill(billId);
+      if (!success) {
+        AppSnackbar.showError(message: 'load_data_failed'.tr);
+        return;
+      }
+
       final index = upcomingBills.indexWhere((b) => b.id == billId);
       if (index != -1) {
         final completedBill = upcomingBills[index].copyWith(
