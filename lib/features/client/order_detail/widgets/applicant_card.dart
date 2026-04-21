@@ -12,7 +12,7 @@ class ApplicantCard extends GetView<ClientOrderDetailController> {
     final partner = item.partner;
     if (partner == null) return const SizedBox.shrink();
 
-    final partnerName = partner.partnerProfile?.partnerName ?? partner.name;
+    final partnerName = partner.name;
     final avatarUrl = partner.avatar.isNotEmpty
         ? partner.avatar
         : 'https://ui-avatars.com/api/?name=$partnerName&background=random&size=512&format=png';
