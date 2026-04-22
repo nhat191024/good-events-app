@@ -2,6 +2,12 @@
 
 All notable changes to this project will be documented in this file.
 
+## [v2.4.13+54]
+
+- Fix category image not show in bill detail at client side
+- Fix bill count not init right when boot in partner dashboard
+- Add bill detail bottom sheet in new show at partner side
+
 ## [v2.4.12+53]
 
 - Fix the chat page not refresh after user confirmed choosing a partner
