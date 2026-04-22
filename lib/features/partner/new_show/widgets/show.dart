@@ -1,6 +1,7 @@
 import 'package:sukientotapp/core/utils/import/global.dart';
 
 import '../widgets/accept.dart';
+import 'package:sukientotapp/features/components/widget/show_detail.dart';
 
 class Show extends StatelessWidget {
   const Show({
@@ -207,6 +208,62 @@ class Show extends StatelessWidget {
                     _buildChip(context, FIcons.notepadText, note, expand: true),
                   ],
                 ],
+              ),
+            ),
+
+            GestureDetector(
+              onTap: () {
+                Get.bottomSheet(
+                  ShowDetail(
+                    billId: billId,
+                    billStatus: 'pending',
+                    code: code,
+                    status: 'waiting'.tr,
+                    statusColor: Color(0xFF6366F1),
+                    statusTextColor: Colors.white,
+                    clientName: clientName,
+                    event: event,
+                    startTime: startTime,
+                    endTime: endTime,
+                    date: date,
+                    address: address,
+                    note: note,
+                    total: 0,
+                    isNew: true,
+                  ),
+                  isScrollControlled: true,
+                  backgroundColor: context.fTheme.colors.background,
+                  enterBottomSheetDuration: const Duration(milliseconds: 400),
+                  exitBottomSheetDuration: const Duration(milliseconds: 300),
+                  shape: const RoundedRectangleBorder(
+                    borderRadius: BorderRadius.vertical(
+                      top: Radius.circular(20),
+                    ),
+                  ),
+                );
+              },
+              child: Container(
+                width: double.infinity,
+                padding: const EdgeInsets.fromLTRB(16, 0, 16, 10),
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.end,
+                  children: [
+                    Text(
+                      'detail_info'.tr,
+                      style: context.typography.xs.copyWith(
+                        color: context.fTheme.colors.primary,
+                        fontWeight: FontWeight.w600,
+                        fontSize: 11,
+                      ),
+                    ),
+                    const SizedBox(width: 2),
+                    Icon(
+                      FIcons.arrowRight,
+                      color: context.fTheme.colors.primary,
+                      size: 13,
+                    ),
+                  ],
+                ),
               ),
             ),
 
