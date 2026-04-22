@@ -2,11 +2,11 @@ import 'package:sukientotapp/core/utils/import/global.dart';
 
 import 'package:sukientotapp/features/components/widget/badge.dart';
 import 'package:sukientotapp/features/components/widget/confirm_dialog.dart';
+import 'package:sukientotapp/features/components/widget/show_detail.dart';
 
 import 'package:sukientotapp/features/common/message/controller.dart';
 
 import '../controller.dart';
-import 'detail.dart';
 import 'upload_arrived_photo.dart';
 
 class Show extends StatelessWidget {
@@ -286,7 +286,7 @@ class Show extends StatelessWidget {
               GestureDetector(
                 onTap: () {
                   Get.bottomSheet(
-                    Detail(
+                    ShowDetail(
                       billId: billId,
                       billStatus: currentStatus,
                       code: code,
