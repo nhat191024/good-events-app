@@ -47,9 +47,9 @@ class PartnerHomeController extends GetxController {
   Rxn<DashboardModel> dashboardData = Rxn<DashboardModel>();
 
   @override
-  void onInit() {
+  void onInit() async {
     super.onInit();
-    fetchDashboardData();
+    await fetchDashboardData();
 
     newBillCount = RxString(
       (StorageService.readData(key: LocalStorageKeys.newBill) ?? '0'),
