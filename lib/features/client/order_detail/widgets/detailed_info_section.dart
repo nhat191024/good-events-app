@@ -24,17 +24,46 @@ class DetailedInfoSection extends GetView<ClientOrderDetailController> {
             height: 64,
             width: 64,
             decoration: BoxDecoration(
-              color: Colors.orange[50],
               shape: BoxShape.circle,
+              border: Border.all(
+                color: context.primary.withValues(alpha: 0.1),
+                width: 2,
+              ),
             ),
-            alignment: Alignment.center,
-            child: const Icon(Icons.image_not_supported, color: Colors.grey),
+            child: ClipOval(
+              child: (controller.categoryImage ?? '').isNotEmpty
+                  ? CachedNetworkImage(
+                      imageUrl: controller.categoryImage ?? '',
+                      fit: BoxFit.cover,
+                      placeholder: (context, url) => Container(
+                        color: context.primary.withValues(alpha: 0.1),
+                        child: const Center(
+                          child: CircularProgressIndicator(strokeWidth: 2),
+                        ),
+                      ),
+                      errorWidget: (context, url, error) => Container(
+                        color: context.primary.withValues(alpha: 0.1),
+                        child: Icon(
+                          Icons.image_not_supported,
+                          color: context.primary,
+                        ),
+                      ),
+                    )
+                  : Container(
+                      color: context.primary.withValues(alpha: 0.1),
+                      child: Icon(Icons.person, color: context.primary),
+                    ),
+            ),
           ),
           const SizedBox(height: 12),
           Obx(
             () => Text(
-              controller.isHistory.value ? 'detailed_history_info'.tr : 'detailed_rental_info'.tr,
-              style: context.typography.xl.copyWith(fontWeight: FontWeight.bold),
+              controller.isHistory.value
+                  ? 'detailed_history_info'.tr
+                  : 'detailed_rental_info'.tr,
+              style: context.typography.xl.copyWith(
+                fontWeight: FontWeight.bold,
+              ),
             ),
           ),
           const SizedBox(height: 8),
@@ -58,15 +87,30 @@ class DetailedInfoSection extends GetView<ClientOrderDetailController> {
           Obx(
             () => Column(
               children: [
-                _buildInfoRow(context, Icons.calendar_today, 'event_date'.tr, controller.date),
+                _buildInfoRow(
+                  context,
+                  Icons.calendar_today,
+                  'event_date'.tr,
+                  controller.date,
+                ),
                 _buildInfoRow(
                   context,
                   Icons.access_time,
                   'time'.tr,
                   '${controller.startTime} - ${controller.endTime}',
                 ),
-                _buildInfoRow(context, Icons.location_on, 'location'.tr, controller.address),
-                _buildInfoRow(context, Icons.stars, 'event_type'.tr, controller.eventName),
+                _buildInfoRow(
+                  context,
+                  Icons.location_on,
+                  'location'.tr,
+                  controller.address,
+                ),
+                _buildInfoRow(
+                  context,
+                  Icons.stars,
+                  'event_type'.tr,
+                  controller.eventName,
+                ),
                 _buildInfoRow(
                   context,
                   Icons.sticky_note_2,
@@ -101,17 +145,25 @@ class DetailedInfoSection extends GetView<ClientOrderDetailController> {
                       children: [
                         Text(
                           'chosen_partner'.tr,
-                          style: context.typography.xs.copyWith(color: Colors.grey[600]),
+                          style: context.typography.xs.copyWith(
+                            color: Colors.grey[600],
+                          ),
                         ),
                         Row(
                           children: [
                             Expanded(
                               child: Text(
                                 controller.partnerName,
-                                style: context.typography.sm.copyWith(fontWeight: FontWeight.bold),
+                                style: context.typography.sm.copyWith(
+                                  fontWeight: FontWeight.bold,
+                                ),
                               ),
                             ),
-                            Icon(Icons.open_in_new, size: 14, color: Colors.grey[600]),
+                            Icon(
+                              Icons.open_in_new,
+                              size: 14,
+                              color: Colors.grey[600],
+                            ),
                           ],
                         ),
                       ],
@@ -131,7 +183,11 @@ class DetailedInfoSection extends GetView<ClientOrderDetailController> {
               ),
               child: Row(
                 children: [
-                  Icon(Icons.monetization_on, color: Colors.grey[600], size: 20),
+                  Icon(
+                    Icons.monetization_on,
+                    color: Colors.grey[600],
+                    size: 20,
+                  ),
                   const SizedBox(width: 12),
                   Expanded(
                     child: Column(
@@ -139,7 +195,9 @@ class DetailedInfoSection extends GetView<ClientOrderDetailController> {
                       children: [
                         Text(
                           'sealing_price'.tr,
-                          style: context.typography.xs.copyWith(color: Colors.grey[600]),
+                          style: context.typography.xs.copyWith(
+                            color: Colors.grey[600],
+                          ),
                         ),
                         Text(
                           '${NumberFormat.currency(locale: 'vi_VN', symbol: '', decimalDigits: 0).format(controller.finalTotal)} đ',
@@ -157,13 +215,16 @@ class DetailedInfoSection extends GetView<ClientOrderDetailController> {
           ),
           const SizedBox(height: 24),
           Obx(() {
-            if (!controller.isHistory.value && controller.status != 'confirmed') {
+            if (!controller.isHistory.value &&
+                controller.status != 'confirmed') {
               return Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   Text(
                     'apply_voucher_code'.tr,
-                    style: context.typography.xs.copyWith(color: Colors.grey[600]),
+                    style: context.typography.xs.copyWith(
+                      color: Colors.grey[600],
+                    ),
                   ),
                   const SizedBox(height: 8),
                   Row(
@@ -176,8 +237,13 @@ class DetailedInfoSection extends GetView<ClientOrderDetailController> {
                           controller: controller.voucherController,
                           decoration: InputDecoration(
                             hintText: 'voucher_placeholder'.tr,
-                            contentPadding: const EdgeInsets.symmetric(horizontal: 12, vertical: 8),
-                            border: OutlineInputBorder(borderRadius: BorderRadius.circular(8)),
+                            contentPadding: const EdgeInsets.symmetric(
+                              horizontal: 12,
+                              vertical: 8,
+                            ),
+                            border: OutlineInputBorder(
+                              borderRadius: BorderRadius.circular(8),
+                            ),
                           ),
                         ),
                       ),
@@ -191,7 +257,9 @@ class DetailedInfoSection extends GetView<ClientOrderDetailController> {
                           style: ElevatedButton.styleFrom(
                             backgroundColor: FTheme.of(context).colors.primary,
                             foregroundColor: Colors.white,
-                            shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(8)),
+                            shape: RoundedRectangleBorder(
+                              borderRadius: BorderRadius.circular(8),
+                            ),
                           ),
                           child: controller.isCheckingVoucher.value
                               ? const SizedBox(
@@ -199,12 +267,16 @@ class DetailedInfoSection extends GetView<ClientOrderDetailController> {
                                   height: 20,
                                   child: CircularProgressIndicator(
                                     strokeWidth: 2,
-                                    valueColor: AlwaysStoppedAnimation<Color>(Colors.white),
+                                    valueColor: AlwaysStoppedAnimation<Color>(
+                                      Colors.white,
+                                    ),
                                   ),
                                 )
                               : Text(
                                   'check_and_save_code'.tr,
-                                  style: const TextStyle(fontWeight: FontWeight.bold),
+                                  style: const TextStyle(
+                                    fontWeight: FontWeight.bold,
+                                  ),
                                 ),
                         ),
                       ),
@@ -219,7 +291,10 @@ class DetailedInfoSection extends GetView<ClientOrderDetailController> {
               if (discount > 0) {
                 return Container(
                   width: double.infinity,
-                  padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 8),
+                  padding: const EdgeInsets.symmetric(
+                    horizontal: 12,
+                    vertical: 8,
+                  ),
                   decoration: BoxDecoration(
                     color: Colors.grey[50],
                     border: Border.all(color: Colors.grey[300]!),
@@ -227,7 +302,9 @@ class DetailedInfoSection extends GetView<ClientOrderDetailController> {
                   ),
                   child: Text(
                     '${'discounted'.tr}: ${NumberFormat.currency(locale: 'vi_VN', symbol: '', decimalDigits: 0).format(discount)} đ',
-                    style: context.typography.sm.copyWith(color: Colors.grey[700]),
+                    style: context.typography.sm.copyWith(
+                      color: Colors.grey[700],
+                    ),
                   ),
                 );
               }
@@ -240,7 +317,12 @@ class DetailedInfoSection extends GetView<ClientOrderDetailController> {
     );
   }
 
-  Widget _buildInfoRow(BuildContext context, IconData icon, String label, String value) {
+  Widget _buildInfoRow(
+    BuildContext context,
+    IconData icon,
+    String label,
+    String value,
+  ) {
     return Container(
       margin: const EdgeInsets.only(bottom: 12),
       padding: const EdgeInsets.all(12),
@@ -257,8 +339,18 @@ class DetailedInfoSection extends GetView<ClientOrderDetailController> {
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                Text(label, style: context.typography.xs.copyWith(color: Colors.grey[600])),
-                Text(value, style: context.typography.sm.copyWith(fontWeight: FontWeight.bold)),
+                Text(
+                  label,
+                  style: context.typography.xs.copyWith(
+                    color: Colors.grey[600],
+                  ),
+                ),
+                Text(
+                  value,
+                  style: context.typography.sm.copyWith(
+                    fontWeight: FontWeight.bold,
+                  ),
+                ),
               ],
             ),
           ),
