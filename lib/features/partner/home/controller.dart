@@ -38,17 +38,10 @@ class PartnerHomeController extends GetxController {
         0,
   );
 
-  RxString newBillCount = RxString(
-    (StorageService.readData(key: LocalStorageKeys.newBill) ?? '0'),
-  );
-  RxString waitingBillCount = RxString(
-    (StorageService.readData(key: LocalStorageKeys.waitingBill) ?? '0'),
-  );
+  RxString newBillCount = "0".obs;
+  RxString waitingBillCount = "0".obs;
 
-  RxBool hasNotification = RxBool(
-    (StorageService.readData(key: LocalStorageKeys.hasNotification) ?? false)
-        as bool,
-  );
+  RxBool hasNotification = false.obs;
 
   RxBool isLoading = true.obs;
   Rxn<DashboardModel> dashboardData = Rxn<DashboardModel>();
@@ -57,6 +50,17 @@ class PartnerHomeController extends GetxController {
   void onInit() {
     super.onInit();
     fetchDashboardData();
+
+    newBillCount = RxString(
+      (StorageService.readData(key: LocalStorageKeys.newBill) ?? '0'),
+    );
+    waitingBillCount = RxString(
+      (StorageService.readData(key: LocalStorageKeys.waitingBill) ?? '0'),
+    );
+    hasNotification = RxBool(
+      (StorageService.readData(key: LocalStorageKeys.hasNotification) ?? false)
+          as bool,
+    );
   }
 
   void syncFromStorage() {
