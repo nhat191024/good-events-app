@@ -4,8 +4,8 @@ import 'package:sukientotapp/features/components/widget/badge.dart';
 import 'package:sukientotapp/features/components/widget/confirm_dialog.dart';
 import 'package:sukientotapp/features/partner/show/controller.dart';
 
-class Detail extends StatelessWidget {
-  const Detail({
+class ShowDetail extends StatelessWidget {
+  const ShowDetail({
     super.key,
     required this.billId,
     required this.billStatus,
@@ -21,6 +21,7 @@ class Detail extends StatelessWidget {
     required this.address,
     required this.note,
     required this.total,
+    this.isNew = false,
   });
 
   final int billId;
@@ -37,7 +38,7 @@ class Detail extends StatelessWidget {
   final String address;
   final String note;
   final int total;
-
+  final bool isNew;
   @override
   Widget build(BuildContext context) {
     return Container(
@@ -149,12 +150,7 @@ class Detail extends StatelessWidget {
                           clientName,
                         ),
                         _buildDivider(context),
-                        _buildRow(
-                          context,
-                          FIcons.ticket,
-                          'event'.tr,
-                          event,
-                        ),
+                        _buildRow(context, FIcons.ticket, 'event'.tr, event),
                         _buildDivider(context),
                         _buildRow(
                           context,
@@ -219,63 +215,65 @@ class Detail extends StatelessWidget {
                                 ? context.fTheme.colors.mutedForeground
                                 : context.fTheme.colors.foreground,
                             fontWeight: FontWeight.w400,
-                            fontStyle: note.isEmpty ? FontStyle.italic : FontStyle.normal,
+                            fontStyle: note.isEmpty
+                                ? FontStyle.italic
+                                : FontStyle.normal,
                           ),
                         ),
                       ],
                     ),
                   ),
-
-                  const SizedBox(height: 12),
 
                   // Total price highlight
-                  Container(
-                    padding: const EdgeInsets.symmetric(
-                      horizontal: 16,
-                      vertical: 14,
-                    ),
-                    decoration: BoxDecoration(
-                      gradient: LinearGradient(
-                        colors: [
-                          statusTextColor.withValues(alpha: 0.12),
-                          statusTextColor.withValues(alpha: 0.04),
-                        ],
-                        begin: Alignment.centerLeft,
-                        end: Alignment.centerRight,
+                  if (!isNew) ...[
+                    const SizedBox(height: 12),
+                    Container(
+                      padding: const EdgeInsets.symmetric(
+                        horizontal: 16,
+                        vertical: 14,
                       ),
-                      borderRadius: BorderRadius.circular(14),
-                      border: Border.all(
-                        color: statusTextColor.withValues(alpha: 0.2),
+                      decoration: BoxDecoration(
+                        gradient: LinearGradient(
+                          colors: [
+                            statusTextColor.withValues(alpha: 0.12),
+                            statusTextColor.withValues(alpha: 0.04),
+                          ],
+                          begin: Alignment.centerLeft,
+                          end: Alignment.centerRight,
+                        ),
+                        borderRadius: BorderRadius.circular(14),
+                        border: Border.all(
+                          color: statusTextColor.withValues(alpha: 0.2),
+                        ),
                       ),
-                    ),
-                    child: Row(
-                      children: [
-                        Icon(
-                          FIcons.dollarSign,
-                          size: 16,
-                          color: statusTextColor,
-                        ),
-                        const SizedBox(width: 8),
-                        Text(
-                          'total_price'.tr,
-                          style: context.typography.sm.copyWith(
-                            fontWeight: FontWeight.w500,
-                            color: context.fTheme.colors.mutedForeground,
-                          ),
-                        ),
-                        const Spacer(),
-                        Text(
-                          FormatUtils.formatCurrencyToDoule(total),
-                          style: context.typography.lg.copyWith(
-                            fontWeight: FontWeight.w700,
+                      child: Row(
+                        children: [
+                          Icon(
+                            FIcons.dollarSign,
+                            size: 16,
                             color: statusTextColor,
                           ),
-                        ),
-                      ],
+                          const SizedBox(width: 8),
+                          Text(
+                            'total_price'.tr,
+                            style: context.typography.sm.copyWith(
+                              fontWeight: FontWeight.w500,
+                              color: context.fTheme.colors.mutedForeground,
+                            ),
+                          ),
+                          const Spacer(),
+                          Text(
+                            FormatUtils.formatCurrencyToDoule(total),
+                            style: context.typography.lg.copyWith(
+                              fontWeight: FontWeight.w700,
+                              color: statusTextColor,
+                            ),
+                          ),
+                        ],
+                      ),
                     ),
-                  ),
-
-                  const SizedBox(height: 20),
+                    const SizedBox(height: 20),
+                  ],
                 ],
               ),
             ),
@@ -292,51 +290,55 @@ class Detail extends StatelessWidget {
             child: Column(
               mainAxisSize: MainAxisSize.min,
               children: [
-                GestureDetector(
-                  onTap: () {
-                    if (billStatus != 'pending') {
-                      AppSnackbar.showError(
-                        message: 'cancel_book_show_not_allowed'.tr,
+                if (!isNew) ...[
+                  GestureDetector(
+                    onTap: () {
+                      if (billStatus != 'pending') {
+                        AppSnackbar.showError(
+                          message: 'cancel_book_show_not_allowed'.tr,
+                        );
+                        return;
+                      }
+                      ConfirmDialog.show(
+                        title: 'confirm_cancel_book_show_title'.tr,
+                        message: 'confirm_cancel_book_show_desc'.tr,
+                        confirmText: 'cancel_book_show_yes_btn'.tr,
+                        cancelText: 'cancel_book_show_no_btn'.tr,
+                        icon: FIcons.circleX,
+                        iconColor: context.fTheme.colors.error,
+                        confirmColor: context.fTheme.colors.error,
+                        onConfirm: () {
+                          Get.find<ShowController>().cancelAcceptBill(billId);
+                        },
                       );
-                      return;
-                    }
-                    ConfirmDialog.show(
-                      title: 'confirm_cancel_book_show_title'.tr,
-                      message: 'confirm_cancel_book_show_desc'.tr,
-                      confirmText: 'cancel_book_show_yes_btn'.tr,
-                      cancelText: 'cancel_book_show_no_btn'.tr,
-                      icon: FIcons.circleX,
-                      iconColor: context.fTheme.colors.error,
-                      confirmColor: context.fTheme.colors.error,
-                      onConfirm: () {
-                        Get.find<ShowController>().cancelAcceptBill(billId);
-                      },
-                    );
-                  },
-                  child: Container(
-                    height: 46,
-                    width: double.infinity,
-                    decoration: BoxDecoration(
-                      color: context.fTheme.colors.error.withValues(alpha: 0.12),
-                      borderRadius: BorderRadius.circular(12),
-                      border: Border.all(
+                    },
+                    child: Container(
+                      height: 46,
+                      width: double.infinity,
+                      decoration: BoxDecoration(
                         color: context.fTheme.colors.error.withValues(
-                          alpha: 0.35,
+                          alpha: 0.12,
+                        ),
+                        borderRadius: BorderRadius.circular(12),
+                        border: Border.all(
+                          color: context.fTheme.colors.error.withValues(
+                            alpha: 0.35,
+                          ),
                         ),
                       ),
-                    ),
-                    child: Center(
-                      child: Text(
-                        'cancel_book_show'.tr,
-                        style: context.typography.sm.copyWith(
-                          fontWeight: FontWeight.w600,
-                          color: context.fTheme.colors.error,
+                      child: Center(
+                        child: Text(
+                          'cancel_book_show'.tr,
+                          style: context.typography.sm.copyWith(
+                            fontWeight: FontWeight.w600,
+                            color: context.fTheme.colors.error,
+                          ),
                         ),
                       ),
                     ),
                   ),
-                ),
-                const SizedBox(height: 10),
+                  const SizedBox(height: 10),
+                ],
                 GestureDetector(
                   onTap: () => Get.back(),
                   child: Container(
