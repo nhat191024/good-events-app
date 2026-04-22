@@ -173,7 +173,7 @@ class Show extends StatelessWidget {
 
                   // Client name row
                   GestureDetector(
-                    onTap: () => Get.snackbar('info'.tr, 'in_dev'.tr),
+                    onTap: () => logger.d('Tapped on client name: $clientName'),
                     child: Row(
                       children: [
                         Container(
