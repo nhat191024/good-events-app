@@ -114,7 +114,7 @@ class EditProfileScreen extends GetView<EditProfileController> {
               () => CustomButtonPlus(
                 onTap: controller.isUpdating.value
                     ? () {}
-                    : controller.updateProfile,
+                    : controller.isUpdateId,
                 isDisabled: controller.isUpdating.value,
                 isLoading: controller.isUpdating.value,
                 width: double.infinity,

@@ -448,6 +448,9 @@ class AppTranslations extends Translations {
       'report_this_user': 'Báo cáo người dùng này',
       'reviews_count_label': 'Đánh giá',
 
+      'upload_id_notification':
+          'Sau khi bạn tải lên giấy tờ tùy thân, đội ngũ của chúng tôi sẽ xem xét và xác minh danh tính của bạn trong vòng 24-48 giờ. Bạn sẽ nhận được thông báo khi quá trình xác minh hoàn tất.',
+
       'click_to_upload': 'Nhấn để tải ảnh lên',
       'upload_description': 'PNG, JPG, JPEG, WEBP (Tối đa 5MB)',
 
@@ -753,6 +756,7 @@ class AppTranslations extends Translations {
       'enter': 'Nhập',
       'add': 'Thêm',
       'add_media': 'Thêm media',
+      'update': 'Cập nhật',
 
       // partner show filter
       'filter_orders': 'Lọc đơn hàng',
@@ -1173,6 +1177,9 @@ class AppTranslations extends Translations {
       'report_this_user': 'Report this user',
       'reviews_count_label': 'Reviews',
 
+      'upload_id_notification':
+          'After uploading your ID, our team will review and verify your identity within 24-48 hours. You will receive a notification once the verification is complete.',
+
       'front': 'Front',
       'back': 'Back',
 
@@ -1476,6 +1483,7 @@ class AppTranslations extends Translations {
       'enter': 'Enter',
       'add': 'Add',
       'add_media': 'Add Media',
+      'update': 'Update',
 
       /// Asset Order Detail
       'asset_order_detail_title': 'Design Order Detail',
