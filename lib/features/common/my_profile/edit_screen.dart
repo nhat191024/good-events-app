@@ -1,6 +1,5 @@
 import 'dart:io';
 
-import 'package:flutter_animate/flutter_animate.dart';
 import 'package:flutter_quill/flutter_quill.dart';
 import 'package:sukientotapp/core/utils/import/global.dart';
 import 'package:sukientotapp/features/components/button/plus.dart';
