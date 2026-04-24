@@ -179,6 +179,17 @@ class EditProfileController extends GetxController {
     }
   }
 
+  Future<void> isUpdateId() async {
+    if (role.value == 'partner' &&
+        (selfieFile.value != null ||
+            frontCardFile.value != null ||
+            backCardFile.value != null)) {
+      _showUpdateNotification();
+    } else {
+      updateProfile();
+    }
+  }
+
   Future<void> updateProfile() async {
     final name = nameController.text.trim();
     final email = emailController.text.trim();
@@ -260,10 +271,6 @@ class EditProfileController extends GetxController {
         value: updatedProfile.avatarUrl,
       );
 
-      logger.i(
-        'Updated avatar in local storage: ${StorageService.readMapData(key: LocalStorageKeys.user, mapKey: 'avatar_url')}',
-      );
-
       if (Get.isRegistered<AccountController>()) {
         Get.find<AccountController>().syncFromStorage();
       }
@@ -279,6 +286,7 @@ class EditProfileController extends GetxController {
       }
 
       AppSnackbar.showSuccess(message: 'profile_updated'.tr);
+      await Future.delayed(const Duration(seconds: 1));
       Get.back();
     } catch (e) {
       logger.e('[EditProfileController] [updateProfile] error: $e');
@@ -286,5 +294,78 @@ class EditProfileController extends GetxController {
     } finally {
       isUpdating.value = false;
     }
+  }
+
+  void _showUpdateNotification() {
+    Get.dialog(
+      Dialog(
+        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(20)),
+        backgroundColor: Colors.white,
+        child: Padding(
+          padding: const EdgeInsets.fromLTRB(24, 28, 24, 20),
+          child: Column(
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              Container(
+                padding: const EdgeInsets.all(16),
+                decoration: BoxDecoration(
+                  color: AppColors.primary.withValues(alpha: 0.12),
+                  shape: BoxShape.circle,
+                ),
+                child: Icon(
+                  Icons.verified_user_outlined,
+                  color: AppColors.primary,
+                  size: 36,
+                ),
+              ),
+              const SizedBox(height: 16),
+              Text(
+                'upload_id_notification'.tr,
+                textAlign: TextAlign.center,
+                style: const TextStyle(
+                  fontSize: 13.5,
+                  color: Colors.black54,
+                  height: 1.45,
+                ),
+              ),
+              const SizedBox(height: 24),
+              SizedBox(
+                width: double.infinity,
+                child: ElevatedButton(
+                  style: ElevatedButton.styleFrom(
+                    backgroundColor: AppColors.primary,
+                    foregroundColor: Colors.white,
+                    padding: const EdgeInsets.symmetric(vertical: 13),
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(12),
+                    ),
+                  ),
+                  onPressed: () {
+                    Get.back();
+                    updateProfile();
+                  },
+                  child: Text(
+                    'update'.tr,
+                    style: const TextStyle(
+                      fontWeight: FontWeight.bold,
+                      fontSize: 14.5,
+                    ),
+                  ),
+                ),
+              ),
+              const SizedBox(height: 10),
+              TextButton(
+                onPressed: Get.back,
+                child: Text(
+                  'cancel'.tr,
+                  style: const TextStyle(color: Colors.black45, fontSize: 13.5),
+                ),
+              ),
+            ],
+          ),
+        ),
+      ),
+      barrierDismissible: true,
+    );
   }
 }

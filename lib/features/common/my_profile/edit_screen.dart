@@ -1,6 +1,5 @@
 import 'dart:io';
 
-import 'package:flutter_animate/flutter_animate.dart';
 import 'package:flutter_quill/flutter_quill.dart';
 import 'package:sukientotapp/core/utils/import/global.dart';
 import 'package:sukientotapp/features/components/button/plus.dart';
@@ -115,7 +114,7 @@ class EditProfileScreen extends GetView<EditProfileController> {
               () => CustomButtonPlus(
                 onTap: controller.isUpdating.value
                     ? () {}
-                    : controller.updateProfile,
+                    : controller.isUpdateId,
                 isDisabled: controller.isUpdating.value,
                 isLoading: controller.isUpdating.value,
                 width: double.infinity,
