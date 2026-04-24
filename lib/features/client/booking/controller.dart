@@ -14,6 +14,7 @@ class ClientBookingController extends GetxController {
 
   static const String customEventTypeKey = 'event_type_custom';
   static const int totalStages = 3;
+  static const int minEventDurationMinutes = 5;
 
   final RxBool isLoading = true.obs;
   final RxBool isSubmitting = false.obs;
@@ -73,7 +74,8 @@ class ClientBookingController extends GetxController {
     loadInitialData();
   }
 
-  bool get shouldShowCustomEvent => selectedEventType.value == customEventTypeKey;
+  bool get shouldShowCustomEvent =>
+      selectedEventType.value == customEventTypeKey;
   bool get isFirstStage => currentStage.value == 0;
   bool get isLastStage => currentStage.value == totalStages - 1;
 
@@ -83,7 +85,9 @@ class ClientBookingController extends GetxController {
       final fetchedTypes = await _bookingProvider.getEventTypes();
       _apiEvents.assignAll(fetchedTypes);
 
-      final typeNames = fetchedTypes.map((e) => (e['name'] as String).trim()).toList();
+      final typeNames = fetchedTypes
+          .map((e) => (e['name'] as String).trim())
+          .toList();
       eventTypes.assignAll([customEventTypeKey, ...typeNames]);
     } catch (e) {
       logger.e('Failed to load event types: $e');
@@ -184,7 +188,9 @@ class ClientBookingController extends GetxController {
   }
 
   int? _getEventId(String name) {
-    return _apiEvents.firstWhereOrNull((e) => (e['name'] as String).trim() == name)?['id'];
+    return _apiEvents.firstWhereOrNull(
+      (e) => (e['name'] as String).trim() == name,
+    )?['id'];
   }
 
   bool _validateCurrentStage() {
@@ -207,8 +213,12 @@ class ClientBookingController extends GetxController {
 
       if (isValid) {
         try {
-          final dateParsed = DateFormat('dd/MM/yyyy').parse(selectedEventDate.value);
-          final startParsed = DateFormat('HH:mm').parse(selectedStartTime.value);
+          final dateParsed = DateFormat(
+            'dd/MM/yyyy',
+          ).parse(selectedEventDate.value);
+          final startParsed = DateFormat(
+            'HH:mm',
+          ).parse(selectedStartTime.value);
           final endParsed = DateFormat('HH:mm').parse(selectedEndTime.value);
 
           final startDateTime = DateTime(
@@ -228,25 +238,30 @@ class ClientBookingController extends GetxController {
           final now = DateTime.now();
 
           if (startDateTime.isBefore(now)) {
-            fieldErrors['eventDate'] = 'Thời gian tổ chức sự kiện phải là thời gian tới.';
-            fieldErrors['startTime'] = 'Thời gian tổ chức sự kiện phải là thời gian tới.';
+            fieldErrors['eventDate'] =
+                'Thời gian tổ chức sự kiện phải là thời gian tới.';
+            fieldErrors['startTime'] =
+                'Thời gian tổ chức sự kiện phải là thời gian tới.';
             isValid = false;
           } else {
             final nowPlusLead = now.add(const Duration(minutes: 15));
             if (startDateTime.isBefore(nowPlusLead)) {
-              fieldErrors['startTime'] = 'Bạn phải đặt lịch trước ít nhất 15 phút.';
+              fieldErrors['startTime'] =
+                  'Bạn phải đặt lịch trước ít nhất 15 phút.';
               isValid = false;
             }
           }
 
-          if (startDateTime.isAfter(endDateTime) || startDateTime.isAtSameMomentAs(endDateTime)) {
+          if (startDateTime.isAfter(endDateTime) ||
+              startDateTime.isAtSameMomentAs(endDateTime)) {
             fieldErrors['startTime'] = 'Giờ bắt đầu phải nhỏ hơn giờ kết thúc.';
             isValid = false;
           }
 
           final duration = endDateTime.difference(startDateTime).inMinutes;
-          if (duration < 30) {
-            fieldErrors['endTime'] = 'Thời gian tổ chức sự kiện phải ít nhất 30 phút.';
+          if (duration < minEventDurationMinutes) {
+            fieldErrors['endTime'] =
+                'Thời gian tổ chức sự kiện phải ít nhất $minEventDurationMinutes phút.';
             isValid = false;
           }
         } catch (e) {
@@ -263,11 +278,13 @@ class ClientBookingController extends GetxController {
           fieldErrors['customEvent'] = 'Vui lòng nhập sự kiện.';
           isValid = false;
         } else if (customEventController.text.trim().length < 5) {
-          fieldErrors['customEvent'] = 'Chi tiết sự kiện phải có ít nhất 5 ký tự.';
+          fieldErrors['customEvent'] =
+              'Chi tiết sự kiện phải có ít nhất 5 ký tự.';
           isValid = false;
         }
       } else {
-        if (selectedEventType.value.isEmpty || _getEventId(selectedEventType.value) == null) {
+        if (selectedEventType.value.isEmpty ||
+            _getEventId(selectedEventType.value) == null) {
           fieldErrors['eventType'] = 'Vui lòng chọn sự kiện.';
           isValid = false;
         }
@@ -288,7 +305,8 @@ class ClientBookingController extends GetxController {
         fieldErrors['locationDetail'] = 'Vui lòng nhập địa chỉ chi tiết.';
         isValid = false;
       } else if (addressDetailController.text.trim().length < 5) {
-        fieldErrors['locationDetail'] = 'Địa chỉ chi tiết phải có ít nhất 5 ký tự.';
+        fieldErrors['locationDetail'] =
+            'Địa chỉ chi tiết phải có ít nhất 5 ký tự.';
         isValid = false;
       }
       return isValid;
@@ -308,7 +326,8 @@ class ClientBookingController extends GetxController {
       return;
     }
 
-    if (selectedProvinceModel.value == null || selectedWardModel.value == null) {
+    if (selectedProvinceModel.value == null ||
+        selectedWardModel.value == null) {
       Get.snackbar('error'.tr, 'missing_location'.tr);
       return;
     }
@@ -366,7 +385,9 @@ class ClientBookingController extends GetxController {
 
       // Pop all screens (including booking flow and partner details)
       // until we are back at the Main Bottom Navigation screen (ClientHome)
-      Get.until((route) => route.settings.name == Routes.clientHome || route.isFirst);
+      Get.until(
+        (route) => route.settings.name == Routes.clientHome || route.isFirst,
+      );
 
       try {
         Get.find<ClientBottomNavigationController>().setIndex(1);
@@ -375,7 +396,10 @@ class ClientBookingController extends GetxController {
       }
 
       // Then push order details on top of the Orders tab
-      Get.toNamed(Routes.clientOrderDetail, arguments: {'order': order, 'isHistory': false});
+      Get.toNamed(
+        Routes.clientOrderDetail,
+        arguments: {'order': order, 'isHistory': false},
+      );
 
       // Trigger a refresh of the current orders tab if the controller is alive
       try {

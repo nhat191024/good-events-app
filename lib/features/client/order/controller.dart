@@ -1,10 +1,13 @@
+import 'dart:async';
+
 import 'package:sukientotapp/core/utils/import/global.dart';
 import 'package:sukientotapp/data/models/client/event_order_model.dart';
 import 'package:sukientotapp/data/models/client/history_order_model.dart';
 import 'package:sukientotapp/data/models/client/asset_order_model.dart';
 import 'package:sukientotapp/domain/repositories/client/order_repository.dart';
 
-class ClientOrderController extends GetxController with GetTickerProviderStateMixin {
+class ClientOrderController extends GetxController
+    with GetTickerProviderStateMixin {
   final OrderRepository _repository;
 
   ClientOrderController(this._repository);
@@ -14,7 +17,8 @@ class ClientOrderController extends GetxController with GetTickerProviderStateMi
 
   // Child tab controllers
   late TabController eventOrdersTabController; // Current | History
-  late TabController assetOrdersTabController; // All | Pending | Paid | Cancelled
+  // All | Pending | Paid | Cancelled
+  late TabController assetOrdersTabController;
 
   final RxInt currentParentTab = 0.obs;
   final RxInt currentEventOrdersTab = 0.obs;
@@ -24,6 +28,8 @@ class ClientOrderController extends GetxController with GetTickerProviderStateMi
   final RxBool isLoadingHistoryOrders = false.obs;
   final RxBool isLoadingAssetOrders = false.obs;
   final RxBool hasFetchedHistory = false.obs;
+  Timer? _eventOrdersRefreshTimer;
+  bool _isSilentlyRefreshingEventOrders = false;
 
   // Data
   final RxList<EventOrderModel> eventOrders = <EventOrderModel>[].obs;
@@ -78,6 +84,7 @@ class ClientOrderController extends GetxController with GetTickerProviderStateMi
     // Load initial data
     fetchEventOrders();
     fetchAssetOrders();
+    _startCurrentEventOrdersAutoRefresh();
   }
 
   @override
@@ -85,8 +92,17 @@ class ClientOrderController extends GetxController with GetTickerProviderStateMi
     parentTabController.dispose();
     eventOrdersTabController.dispose();
     assetOrdersTabController.dispose();
+    _eventOrdersRefreshTimer?.cancel();
 
     super.onClose();
+  }
+
+  void _startCurrentEventOrdersAutoRefresh() {
+    _eventOrdersRefreshTimer?.cancel();
+    _eventOrdersRefreshTimer = Timer.periodic(
+      const Duration(minutes: 5),
+      (_) => fetchEventOrders(silent: true),
+    );
   }
 
   final RxInt eventCurrentPage = 1.obs;
@@ -94,19 +110,39 @@ class ClientOrderController extends GetxController with GetTickerProviderStateMi
   final RxBool isFetchingMoreEvent = false.obs;
 
   // Fetch Event Orders from API
-  Future<void> fetchEventOrders({bool force = false, bool loadMore = false}) async {
+  Future<void> fetchEventOrders({
+    bool force = false,
+    bool loadMore = false,
+    bool silent = false,
+  }) async {
     if (loadMore) {
-      if (isFetchingMoreEvent.value || eventCurrentPage.value >= eventLastPage.value) return;
+      if (_isSilentlyRefreshingEventOrders ||
+          isFetchingMoreEvent.value ||
+          eventCurrentPage.value >= eventLastPage.value) {
+        return;
+      }
       isFetchingMoreEvent.value = true;
       eventCurrentPage.value++;
+    } else if (silent) {
+      if (_isSilentlyRefreshingEventOrders ||
+          isLoadingEventOrders.value ||
+          isFetchingMoreEvent.value) {
+        return;
+      }
+      _isSilentlyRefreshingEventOrders = true;
+      eventCurrentPage.value = 1;
     } else {
-      if (isLoadingEventOrders.value) return;
+      if (_isSilentlyRefreshingEventOrders || isLoadingEventOrders.value) {
+        return;
+      }
       isLoadingEventOrders.value = true;
       eventCurrentPage.value = 1;
     }
 
     try {
-      final res = await _repository.getEventOrders(page: eventCurrentPage.value);
+      final res = await _repository.getEventOrders(
+        page: eventCurrentPage.value,
+      );
       if (loadMore) {
         eventOrders.addAll(res.data);
       } else {
@@ -121,6 +157,8 @@ class ClientOrderController extends GetxController with GetTickerProviderStateMi
     } finally {
       if (loadMore) {
         isFetchingMoreEvent.value = false;
+      } else if (silent) {
+        _isSilentlyRefreshingEventOrders = false;
       } else {
         isLoadingEventOrders.value = false;
       }
@@ -140,9 +178,15 @@ class ClientOrderController extends GetxController with GetTickerProviderStateMi
   final RxBool isFetchingMoreHistory = false.obs;
 
   // Fetch History Orders from API
-  Future<void> fetchHistoryOrders({bool force = false, bool loadMore = false}) async {
+  Future<void> fetchHistoryOrders({
+    bool force = false,
+    bool loadMore = false,
+  }) async {
     if (loadMore) {
-      if (isFetchingMoreHistory.value || historyCurrentPage.value >= historyLastPage.value) return;
+      if (isFetchingMoreHistory.value ||
+          historyCurrentPage.value >= historyLastPage.value) {
+        return;
+      }
       isFetchingMoreHistory.value = true;
       historyCurrentPage.value++;
     } else {
@@ -152,7 +196,9 @@ class ClientOrderController extends GetxController with GetTickerProviderStateMi
     }
 
     try {
-      final res = await _repository.getHistoryOrders(page: historyCurrentPage.value);
+      final res = await _repository.getHistoryOrders(
+        page: historyCurrentPage.value,
+      );
       if (loadMore) {
         historyOrders.addAll(res.data);
       } else {
@@ -229,11 +275,14 @@ class ClientOrderController extends GetxController with GetTickerProviderStateMi
   List<EventOrderModel> get currentEventOrders {
     final filtered = eventOrders.where((order) {
       final isValidCurrentStatus =
-          order.status == 'pending' || order.status == 'confirmed' || order.status == 'in_job';
+          order.status == 'pending' ||
+          order.status == 'confirmed' ||
+          order.status == 'in_job';
 
       if (!isValidCurrentStatus) return false;
 
-      if (selectedStatusFilters.isNotEmpty && !selectedStatusFilters.contains(order.status)) {
+      if (selectedStatusFilters.isNotEmpty &&
+          !selectedStatusFilters.contains(order.status)) {
         return false;
       }
 
@@ -244,8 +293,10 @@ class ClientOrderController extends GetxController with GetTickerProviderStateMi
     filtered.sort((a, b) {
       switch (selectedSort.value) {
         case 'upcoming':
-          DateTime dateA = DateTime.tryParse('${a.date} ${a.startTime}') ?? DateTime.now();
-          DateTime dateB = DateTime.tryParse('${b.date} ${b.startTime}') ?? DateTime.now();
+          DateTime dateA =
+              DateTime.tryParse('${a.date} ${a.startTime}') ?? DateTime.now();
+          DateTime dateB =
+              DateTime.tryParse('${b.date} ${b.startTime}') ?? DateTime.now();
           // Ascending by date, closest event first
           return dateA.compareTo(dateB);
         case 'most_applicants':
@@ -264,7 +315,8 @@ class ClientOrderController extends GetxController with GetTickerProviderStateMi
 
   List<HistoryOrderModel> get filteredHistoryOrders {
     final filtered = historyOrders.where((order) {
-      if (selectedStatusFilters.isNotEmpty && !selectedStatusFilters.contains(order.status)) {
+      if (selectedStatusFilters.isNotEmpty &&
+          !selectedStatusFilters.contains(order.status)) {
         return false;
       }
       return _matchesHistoryOrderSearch(order);
@@ -277,12 +329,16 @@ class ClientOrderController extends GetxController with GetTickerProviderStateMi
           final dateB = DateTime.tryParse(b.updatedAt ?? '') ?? DateTime(0);
           return dateB.compareTo(dateA); // Most recently updated first
         case 'newest':
-          final dateA = DateTime.tryParse('${a.date} ${a.startTime}') ?? DateTime(0);
-          final dateB = DateTime.tryParse('${b.date} ${b.startTime}') ?? DateTime(0);
+          final dateA =
+              DateTime.tryParse('${a.date} ${a.startTime}') ?? DateTime(0);
+          final dateB =
+              DateTime.tryParse('${b.date} ${b.startTime}') ?? DateTime(0);
           return dateB.compareTo(dateA); // Descending by order date
         case 'oldest':
-          final dateA = DateTime.tryParse('${a.date} ${a.startTime}') ?? DateTime(0);
-          final dateB = DateTime.tryParse('${b.date} ${b.startTime}') ?? DateTime(0);
+          final dateA =
+              DateTime.tryParse('${a.date} ${a.startTime}') ?? DateTime(0);
+          final dateB =
+              DateTime.tryParse('${b.date} ${b.startTime}') ?? DateTime(0);
           return dateA.compareTo(dateB); // Ascending by order date
         case 'highest-budget':
           return (b.finalTotal ?? 0).compareTo(a.finalTotal ?? 0);

@@ -2,10 +2,12 @@ part of '../profile_preview.dart';
 
 class _Header extends StatelessWidget {
   final PublicProfileUserModel user;
+  final String avatarUrl;
   final VoidCallback onClose;
 
   const _Header({
     required this.user,
+    required this.avatarUrl,
     required this.onClose,
   });
 
@@ -18,7 +20,7 @@ class _Header extends StatelessWidget {
       ),
       child: Row(
         children: [
-          _Avatar(url: user.avatarUrl, name: user.name, size: 40),
+          _Avatar(url: avatarUrl, name: user.name, size: 40),
           const SizedBox(width: 12),
           Expanded(
             child: Column(

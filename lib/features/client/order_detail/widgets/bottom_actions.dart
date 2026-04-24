@@ -1,5 +1,6 @@
 import 'package:sukientotapp/core/utils/import/global.dart';
-import 'package:sukientotapp/features/client/bottom_navigation/controller.dart';
+import 'package:sukientotapp/features/common/message/controller.dart';
+import 'package:sukientotapp/features/common/message/detail_screen.dart';
 import '../controller/controller.dart';
 
 class BottomActions extends GetView<ClientOrderDetailController> {
@@ -67,10 +68,32 @@ class BottomActions extends GetView<ClientOrderDetailController> {
               Expanded(
                 child: ElevatedButton(
                   onPressed: controller.canChat
-                      ? () {
-                          Get.find<ClientBottomNavigationController>().setIndex(2);
-                          // go back
-                          Get.back();
+                      ? () async {
+                          if (!Get.isRegistered<MessageController>()) {
+                            Get.snackbar('error'.tr, 'error'.tr);
+                            return;
+                          }
+
+                          final messageController = Get.find<MessageController>();
+                          var thread = messageController.filteredMessages.firstWhereOrNull(
+                            (t) => t.bill.id == controller.orderId,
+                          );
+
+                          if (thread == null) {
+                            await messageController.refreshThreads();
+                            thread = messageController.filteredMessages.firstWhereOrNull(
+                              (t) => t.bill.id == controller.orderId,
+                            );
+                          }
+
+                          if (thread == null) {
+                            Get.snackbar('error'.tr, 'thread_not_found'.tr);
+                            return;
+                          }
+
+                          await messageController.openThread(thread);
+                          await Get.to<void>(() => const MessageDetailScreen());
+                          messageController.closeThread();
                         }
                       : null,
                   style: ElevatedButton.styleFrom(
@@ -120,9 +143,7 @@ class BottomActions extends GetView<ClientOrderDetailController> {
           borderRadius: BorderRadius.vertical(top: Radius.circular(16)),
         ),
         child: Padding(
-          padding: EdgeInsets.only(
-            bottom: MediaQuery.of(context).viewInsets.bottom,
-          ),
+          padding: EdgeInsets.only(bottom: MediaQuery.of(context).viewInsets.bottom),
           child: Column(
             mainAxisSize: MainAxisSize.min,
             crossAxisAlignment: CrossAxisAlignment.start,
