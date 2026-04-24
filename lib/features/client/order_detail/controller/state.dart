@@ -18,6 +18,8 @@ mixin ClientOrderDetailState {
       Rx<PublicProfilePreviewModel?>(null);
   final Map<int, PublicProfilePreviewModel> profilePreviewCache =
       <int, PublicProfilePreviewModel>{};
+  final RxString activeProfilePreviewAvatarUrl = ''.obs;
+  final Map<int, String> profileAvatarCache = <int, String>{};
 
   // Report Form State
   final reportTitleController = TextEditingController();

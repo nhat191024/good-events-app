@@ -2,6 +2,7 @@ part of '../profile_preview.dart';
 
 class ProfilePreviewModal extends StatelessWidget {
   final PublicProfilePreviewModel? profile;
+  final String avatarUrl;
   final bool isLoading;
   final String errorMessage;
   final VoidCallback onClose;
@@ -10,6 +11,7 @@ class ProfilePreviewModal extends StatelessWidget {
   const ProfilePreviewModal({
     super.key,
     required this.profile,
+    required this.avatarUrl,
     required this.isLoading,
     required this.errorMessage,
     required this.onClose,
@@ -102,10 +104,7 @@ class ProfilePreviewModal extends StatelessWidget {
 
     return Column(
       children: [
-        _Header(
-          user: payload.user,
-          onClose: onClose,
-        ),
+        _Header(user: payload.user, avatarUrl: avatarUrl, onClose: onClose),
         Expanded(
           child: SingleChildScrollView(
             padding: const EdgeInsets.all(16),
