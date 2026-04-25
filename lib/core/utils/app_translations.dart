@@ -460,6 +460,10 @@ class AppTranslations extends Translations {
       'front': 'Mặt trước',
       'back': 'Mặt sau',
 
+      'introduction_video': 'Video giới thiệu',
+      'video_url': 'URL video',
+      'video_url_hint': 'Nhập URL video của bạn',
+
       'no_data': 'Không có dữ liệu',
 
       'from': 'Từ',
@@ -1182,6 +1186,10 @@ class AppTranslations extends Translations {
 
       'front': 'Front',
       'back': 'Back',
+
+      'introduction_video': 'Introduction video',
+      'video_url': 'Video URL',
+      'video_url_hint': 'e.g., YouTube or Vimeo link',
 
       'no_data': 'No data',
 
