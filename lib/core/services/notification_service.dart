@@ -1,3 +1,4 @@
+import './handle_notifation_code.dart';
 import 'package:dio/dio.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/foundation.dart';
@@ -125,7 +126,13 @@ class NotificationService {
     FirebaseMessaging.onMessage.listen((RemoteMessage message) {
       final title = message.notification?.title;
       final body = message.notification?.body;
-      logger.i('[FCM] Foreground message — title: $title | body: $body');
+      final data = message.data;
+      logger.i(
+        '[FCM] Foreground message — title: $title | body: $body | data: $data',
+      );
+
+      NotificationHandler.handleMessage(data);
+
       if (!kIsWeb) {
         _showLocalNotification(message);
       }
@@ -133,7 +140,10 @@ class NotificationService {
 
     // 6. App opened from a background notification tap
     FirebaseMessaging.onMessageOpenedApp.listen((RemoteMessage message) {
-      logger.i('[FCM] Opened from background: ${message.notification?.title}');
+      final data = message.data;
+      logger.i(
+        '[FCM] Opened from background: ${message.notification?.title} | data: $data',
+      );
       // TODO: navigate to relevant screen based on message.data
     });
 
