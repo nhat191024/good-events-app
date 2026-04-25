@@ -37,6 +37,7 @@ class EditProfileController extends GetxController {
   final ScrollController bioScrollController = ScrollController();
   late final TextEditingController partnerNameController;
   late final TextEditingController identityCardController;
+  late final TextEditingController videoUrlController;
 
   // Image files
   final avatarFile = Rxn<XFile>();
@@ -87,6 +88,9 @@ class EditProfileController extends GetxController {
     identityCardController = TextEditingController(
       text: initialProfile.identityCardNumber ?? '',
     );
+    videoUrlController = TextEditingController(
+      text: initialProfile.videoUrl,
+    );
 
     if (role.value == 'partner') {
       fetchLocations();
@@ -104,6 +108,7 @@ class EditProfileController extends GetxController {
     bioScrollController.dispose();
     partnerNameController.dispose();
     identityCardController.dispose();
+    videoUrlController.dispose();
     super.onClose();
   }
 
@@ -211,6 +216,7 @@ class EditProfileController extends GetxController {
         'email': email,
         'phone': phoneController.text.trim(),
         'bio': _getBioHtml(),
+        'video_url': videoUrlController.text.trim(),
       };
 
       if (role.value == 'partner') {
