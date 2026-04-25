@@ -19,6 +19,7 @@ class NotificationService {
   static final ApiService _apiService = ApiService();
   static final FlutterLocalNotificationsPlugin _localNotifications =
       FlutterLocalNotificationsPlugin();
+  static bool _initialized = false;
 
   static const AndroidNotificationChannel _androidChannel =
       AndroidNotificationChannel(
@@ -80,6 +81,12 @@ class NotificationService {
   }
 
   static Future<void> init() async {
+    if (_initialized) {
+      logger.i('[FCM] Already initialized, skipping.');
+      return;
+    }
+    _initialized = true;
+
     final settings = await _messaging.requestPermission(
       alert: true,
       badge: true,
