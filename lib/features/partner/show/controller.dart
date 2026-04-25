@@ -251,6 +251,7 @@ class ShowController extends GetxController
   // ─── New Tab ────────────────────────────────────────────────────────────────
 
   Future<void> refreshNewBills() => _fetchNewBills(reset: true);
+  Future<void> refreshUpcomingBills() => _fetchUpcomingBills(reset: true);
 
   Future<void> _fetchNewBills({bool reset = false}) async {
     final oldCount = reset ? newBills.length : null;
