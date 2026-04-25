@@ -2,6 +2,10 @@
 
 All notable changes to this project will be documented in this file.
 
+## [v2.4.17+58]
+
+- Add ability for app to reload data in current order at client side & upcoming show in partner side when have new notification about show
+
 ## [v2.4.16+57]
 
 - Added 5 mins auto reload for bill screen
