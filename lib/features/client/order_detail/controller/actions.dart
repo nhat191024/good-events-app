@@ -13,6 +13,7 @@ extension ClientOrderDetailActions on ClientOrderDetailController {
 
         final details = results[0] as OrderDetailModel?;
         orderDetail.value = details;
+        _syncPartnerAvatarCache(details);
 
         final updatedOrder = results[1] as HistoryOrderModel?;
         if (updatedOrder != null) {
@@ -36,6 +37,7 @@ extension ClientOrderDetailActions on ClientOrderDetailController {
 
         final details = results[0] as OrderDetailModel?;
         orderDetail.value = details;
+        _syncPartnerAvatarCache(details);
 
         final updatedOrder = results[1] as EventOrderModel?;
         if (updatedOrder != null) {
@@ -503,9 +505,11 @@ extension ClientOrderDetailActions on ClientOrderDetailController {
   Future<void> openPartnerProfilePreview(int userId) async {
     activePreviewUserId.value = userId;
     profilePreviewError.value = '';
+    activeProfilePreviewAvatarUrl.value = _cachedProfileAvatarUrl(userId) ?? '';
 
     final PublicProfilePreviewModel? cached = profilePreviewCache[userId];
     activeProfilePreview.value = cached;
+    _refreshActiveProfilePreviewAvatarUrl(userId);
     isProfilePreviewLoading.value = cached == null;
 
     if (Get.isDialogOpen != true) {
@@ -520,6 +524,7 @@ extension ClientOrderDetailActions on ClientOrderDetailController {
           child: Obx(
             () => ProfilePreviewModal(
               profile: activeProfilePreview.value,
+              avatarUrl: activeProfilePreviewAvatarUrl.value,
               isLoading: isProfilePreviewLoading.value,
               errorMessage: profilePreviewError.value,
               onClose: Get.back,
@@ -547,6 +552,7 @@ extension ClientOrderDetailActions on ClientOrderDetailController {
   }) async {
     if (!forceRefresh && profilePreviewCache.containsKey(userId)) {
       activeProfilePreview.value = profilePreviewCache[userId];
+      _refreshActiveProfilePreviewAvatarUrl(userId);
       profilePreviewError.value = '';
       isProfilePreviewLoading.value = false;
       return;
@@ -556,18 +562,19 @@ extension ClientOrderDetailActions on ClientOrderDetailController {
     profilePreviewError.value = '';
 
     try {
-      final PublicProfilePreviewModel profile = await _profileRepository.getPublicProfilePreview(
-        userId,
-      );
+      final PublicProfilePreviewModel profile = await _profileRepository
+          .getPublicProfilePreview(userId);
       profilePreviewCache[userId] = profile;
 
       if (activePreviewUserId.value == userId) {
         activeProfilePreview.value = profile;
+        _refreshActiveProfilePreviewAvatarUrl(userId);
       }
     } catch (e) {
       logger.e('Error loading public profile preview for $userId: $e');
       if (activePreviewUserId.value == userId) {
         activeProfilePreview.value = null;
+        _refreshActiveProfilePreviewAvatarUrl(userId);
         profilePreviewError.value = e.toString().replaceFirst(
           'Exception: ',
           '',
@@ -578,5 +585,46 @@ extension ClientOrderDetailActions on ClientOrderDetailController {
         isProfilePreviewLoading.value = false;
       }
     }
+  }
+
+  void _syncPartnerAvatarCache(OrderDetailModel? details) {
+    final Map<int, String> nextCache = <int, String>{};
+
+    for (final OrderItemModel item
+        in details?.items ?? const <OrderItemModel>[]) {
+      final OrderPartnerModel? partner = item.partner;
+      if (partner == null || partner.id == 0) continue;
+
+      nextCache[partner.id] = avatarUrlForPartner(partner);
+    }
+
+    profileAvatarCache
+      ..clear()
+      ..addAll(nextCache);
+
+    final int? activeUserId = activePreviewUserId.value;
+    if (activeUserId != null) {
+      _refreshActiveProfilePreviewAvatarUrl(activeUserId);
+    }
+  }
+
+  String avatarUrlForPartner(OrderPartnerModel partner) {
+    if (partner.avatar.isNotEmpty) return partner.avatar;
+
+    final String encodedName = Uri.encodeComponent(partner.name);
+    return 'https://ui-avatars.com/api/?name=$encodedName&background=random&size=512&format=png';
+  }
+
+  String? _cachedProfileAvatarUrl(int userId) {
+    final String? cachedAvatarUrl = profileAvatarCache[userId];
+    if (cachedAvatarUrl == null || cachedAvatarUrl.isEmpty) return null;
+    return cachedAvatarUrl;
+  }
+
+  void _refreshActiveProfilePreviewAvatarUrl(int userId) {
+    activeProfilePreviewAvatarUrl.value =
+        _cachedProfileAvatarUrl(userId) ??
+        activeProfilePreview.value?.payload.user.avatarUrl ??
+        '';
   }
 }

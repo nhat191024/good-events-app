@@ -2,6 +2,20 @@
 
 All notable changes to this project will be documented in this file.
 
+## [v2.4.16+57]
+
+- Added 5 mins auto reload for bill screen
+- Fixed 'chat now' button not redirect to chat screen
+- Reduced minimum allowed time gap for start time and end time when booking a new event
+
+## [v2.4.15+56]
+
+- Fixed not not syncing avatars for partner profiles
+
+## [v2.4.14+55]
+
+- Fixed notfication not showing in client side
+
 ## [v2.4.13+54]
 
 - Fix category image not show in bill detail at client side
