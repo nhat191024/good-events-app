@@ -28,6 +28,7 @@ class ProfileModel {
   final String bio;
   final String createdAt;
   final String location;
+  final String videoUrl;
   final String? selfieImage;
   final String? identityCardNumber;
   final String? frontIdentityCardImage;
@@ -46,6 +47,7 @@ class ProfileModel {
     required this.bio,
     required this.createdAt,
     required this.location,
+    required this.videoUrl,
     this.selfieImage,
     this.identityCardNumber,
     this.frontIdentityCardImage,
@@ -66,6 +68,7 @@ class ProfileModel {
       bio: json['bio'] as String? ?? '',
       createdAt: json['created_at'] as String? ?? '',
       location: json['location'] as String? ?? '',
+      videoUrl: json['video_url'] as String? ?? '',
       selfieImage: json['selfie_image'] as String?,
       identityCardNumber: json['identity_card_number'] as String?,
       frontIdentityCardImage: json['front_identity_card_image'] as String?,
@@ -89,6 +92,7 @@ class ProfileModel {
       'bio': bio,
       'created_at': createdAt,
       'location': location,
+      'video_url': videoUrl,
       'selfie_image': selfieImage,
       'identity_card_number': identityCardNumber,
       'front_identity_card_image': frontIdentityCardImage,
