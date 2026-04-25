@@ -80,6 +80,29 @@ class EditProfileScreen extends GetView<EditProfileController> {
                 .slideY(begin: -0.02, end: 0, curve: Curves.easeOut),
             const SizedBox(height: 20),
 
+            // ── Introduction Video ─────────────────────────────────
+            _SectionLabel(label: 'introduction_video'.tr)
+                .animate(delay: 250.ms)
+                .fadeIn(duration: 400.ms)
+                .slideY(begin: -0.02, end: 0, curve: Curves.easeOut),
+            const SizedBox(height: 10),
+            _FormCard(
+              children: [
+                FTextFormField(
+                  control: FTextFieldControl.managed(
+                    controller: controller.videoUrlController,
+                  ),
+                  label: Text('video_url'.tr),
+                  hint: 'video_url_hint'.tr,
+                  keyboardType: TextInputType.url,
+                ),
+              ],
+            )
+                .animate(delay: 250.ms)
+                .fadeIn(duration: 400.ms)
+                .slideY(begin: -0.02, end: 0, curve: Curves.easeOut),
+            const SizedBox(height: 20),
+
             // ── Partner Section ────────────────────────────────────
             Obx(
               () => controller.role.value == 'partner'

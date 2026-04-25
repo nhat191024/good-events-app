@@ -1,6 +1,8 @@
 import 'package:flutter_html/flutter_html.dart';
 import 'package:sukientotapp/core/utils/import/global.dart';
+import 'package:sukientotapp/core/utils/webview_whitelist.dart';
 import 'package:sukientotapp/data/models/common/profile_model.dart';
+import 'package:webview_flutter/webview_flutter.dart';
 
 import 'controller.dart';
 
@@ -24,7 +26,7 @@ class MyProfileScreen extends GetView<MyProfileController> {
         }
 
         final profile = controller.profile.value;
-      if (profile == null) {
+        if (profile == null) {
           return Center(
             child: Column(
               mainAxisSize: MainAxisSize.min,
@@ -118,6 +120,20 @@ class MyProfileScreen extends GetView<MyProfileController> {
                 const SizedBox(height: 10),
                 _IdentityCard(profile: profile)
                     .animate(delay: 300.ms)
+                    .fadeIn(duration: 400.ms)
+                    .slideY(begin: -0.02, end: 0, curve: Curves.easeOut),
+                const SizedBox(height: 20),
+              ],
+
+              // ── Introduction Video ────────────────────────────────
+              if (profile.videoUrl.isNotEmpty) ...[
+                _SectionLabel(label: 'introduction_video'.tr)
+                    .animate(delay: 350.ms)
+                    .fadeIn(duration: 400.ms)
+                    .slideY(begin: -0.02, end: 0, curve: Curves.easeOut),
+                const SizedBox(height: 10),
+                _VideoCard(iframeSrc: profile.videoUrl)
+                    .animate(delay: 350.ms)
                     .fadeIn(duration: 400.ms)
                     .slideY(begin: -0.02, end: 0, curve: Curves.easeOut),
                 const SizedBox(height: 20),
@@ -517,6 +533,99 @@ class _InfoHtmlRow extends StatelessWidget {
           ),
         ),
       ],
+    );
+  }
+}
+
+// ─── Video Card ───────────────────────────────────────────────────────────────
+
+class _VideoCard extends StatefulWidget {
+  final String iframeSrc;
+
+  const _VideoCard({required this.iframeSrc});
+
+  @override
+  State<_VideoCard> createState() => _VideoCardState();
+}
+
+class _VideoCardState extends State<_VideoCard> {
+  static const _inlineBaseUrl = 'https://sukientot.com';
+  late final WebViewController _webViewController;
+  bool _isLoading = true;
+
+  String _buildWrappedHtml(String htmlContent) => '''
+<!DOCTYPE html>
+<html>
+<head>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+  <style>
+    body, html { margin: 0; padding: 0; height: 100%; width: 100%; overflow: hidden; background-color: #000; }
+    iframe { width: 100%; height: 100%; border: none; }
+  </style>
+</head>
+<body>
+  $htmlContent
+</body>
+</html>''';
+
+  @override
+  void initState() {
+    super.initState();
+    _webViewController = WebViewController()
+      ..setJavaScriptMode(JavaScriptMode.unrestricted)
+      ..setBackgroundColor(Colors.black)
+      ..setUserAgent(
+        'Mozilla/5.0 (Linux; Android 10; K) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/139.0.0.0 Mobile Safari/537.366',
+      )
+      ..setNavigationDelegate(
+        NavigationDelegate(
+          onPageFinished: (_) {
+            if (mounted) setState(() => _isLoading = false);
+          },
+          onNavigationRequest: (NavigationRequest request) {
+            if (request.isMainFrame) {
+              if (request.url == _inlineBaseUrl ||
+                  request.url == '$_inlineBaseUrl/') {
+                return NavigationDecision.navigate;
+              }
+              if (WebviewWhitelist.isAllowed(request.url)) {
+                return NavigationDecision.prevent;
+              }
+              return NavigationDecision.prevent;
+            }
+            return NavigationDecision.navigate;
+          },
+        ),
+      )
+      ..loadHtmlString(
+        _buildWrappedHtml(widget.iframeSrc),
+        baseUrl: _inlineBaseUrl,
+      );
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return ClipRRect(
+      borderRadius: BorderRadius.circular(16),
+      child: Container(
+        decoration: BoxDecoration(
+          border: Border.all(color: context.fTheme.colors.border),
+          borderRadius: BorderRadius.circular(16),
+        ),
+        child: AspectRatio(
+          aspectRatio: 16 / 9,
+          child: Stack(
+            children: [
+              WebViewWidget(controller: _webViewController),
+              if (_isLoading)
+                Container(
+                  color: context.fTheme.colors.muted,
+                  child: const Center(child: CircularProgressIndicator()),
+                ),
+            ],
+          ),
+        ),
+      ),
     );
   }
 }
