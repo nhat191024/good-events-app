@@ -10,6 +10,7 @@ class AppUrl {
   static const String registerPartner = '/register/partner';
   static const String checkToken = '/check-token';
   static const String logout = '/logout';
+  static const String deleteAccount = '/account/delete';
   static const String forgot = '/forgot';
 
   // Firebase Cloud Messaging

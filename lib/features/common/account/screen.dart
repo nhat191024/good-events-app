@@ -335,6 +335,15 @@ class _AccountScreenState extends State<AccountScreen> {
                                 color: context.fTheme.colors.error,
                               ),
                             ]),
+                            const SizedBox(height: 8),
+                            _buildMenuCard(context, [
+                              _MenuItem(
+                                'delete_account'.tr,
+                                FIcons.trash2,
+                                () => _showDeleteAccountDialog(context),
+                                color: context.fTheme.colors.error,
+                              ),
+                            ]),
                             const SizedBox(height: 20),
                           ],
                         ),
@@ -362,6 +371,115 @@ class _AccountScreenState extends State<AccountScreen> {
           ],
         ),
       ),
+    );
+  }
+
+  void _showDeleteAccountDialog(BuildContext context) {
+    controller.deletePasswordController.clear();
+    Get.dialog(
+      Dialog(
+        backgroundColor: context.fTheme.colors.background,
+        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(20)),
+        child: Padding(
+          padding: const EdgeInsets.all(24),
+          child: Column(
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              Container(
+                padding: const EdgeInsets.all(14),
+                decoration: BoxDecoration(
+                  color: context.fTheme.colors.error.withValues(alpha: 0.1),
+                  shape: BoxShape.circle,
+                ),
+                child: Icon(
+                  FIcons.trash2,
+                  size: 28,
+                  color: context.fTheme.colors.error,
+                ),
+              ),
+              const SizedBox(height: 16),
+              Text(
+                'delete_account_title'.tr,
+                textAlign: TextAlign.center,
+                style: context.typography.lg.copyWith(
+                  fontWeight: FontWeight.bold,
+                  color: context.fTheme.colors.foreground,
+                ),
+              ),
+              const SizedBox(height: 8),
+              Text(
+                'delete_account_message'.tr,
+                textAlign: TextAlign.center,
+                style: context.typography.sm.copyWith(
+                  color: context.fTheme.colors.mutedForeground,
+                  height: 1.5,
+                ),
+              ),
+              const SizedBox(height: 20),
+              Obx(
+                () => TextField(
+                  controller: controller.deletePasswordController,
+                  obscureText: controller.isDeletePasswordObscure.value,
+                  decoration: InputDecoration(
+                    labelText: 'password'.tr,
+                    border: OutlineInputBorder(
+                      borderRadius: BorderRadius.circular(12),
+                    ),
+                    suffixIcon: IconButton(
+                      icon: Icon(
+                        controller.isDeletePasswordObscure.value
+                            ? FIcons.eyeOff
+                            : FIcons.eye,
+                        size: 18,
+                      ),
+                      onPressed: () {
+                        controller.isDeletePasswordObscure.value =
+                            !controller.isDeletePasswordObscure.value;
+                      },
+                    ),
+                  ),
+                ),
+              ),
+              const SizedBox(height: 24),
+              Row(
+                children: [
+                  Expanded(
+                    child: OutlinedButton(
+                      onPressed: () => Get.back(),
+                      style: OutlinedButton.styleFrom(
+                        shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(12),
+                        ),
+                        padding: const EdgeInsets.symmetric(vertical: 14),
+                      ),
+                      child: Text('cancel'.tr),
+                    ),
+                  ),
+                  const SizedBox(width: 12),
+                  Expanded(
+                    child: ElevatedButton(
+                      onPressed: () {
+                        Get.back();
+                        controller.deleteAccount();
+                      },
+                      style: ElevatedButton.styleFrom(
+                        backgroundColor: context.fTheme.colors.error,
+                        foregroundColor: Colors.white,
+                        shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(12),
+                        ),
+                        padding: const EdgeInsets.symmetric(vertical: 14),
+                      ),
+                      child: Text('delete_account'.tr),
+                    ),
+                  ),
+                ],
+              ),
+            ],
+          ),
+        ),
+      ),
+      barrierDismissible: true,
     );
   }
 

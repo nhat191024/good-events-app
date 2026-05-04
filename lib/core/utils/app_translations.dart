@@ -660,6 +660,12 @@ class AppTranslations extends Translations {
       'logout_title': 'Đăng xuất',
       'logout_message': 'Bạn có chắc chắn muốn đăng xuất?',
 
+      'delete_account': 'Xóa tài khoản',
+      'delete_account_title': 'Xóa tài khoản',
+      'delete_account_message':
+          'Hành động này không thể hoàn tác. Vui lòng nhập mật khẩu để xác nhận.',
+      'password_required': 'Vui lòng nhập mật khẩu.',
+
       ///my services
       'my_services': 'Dịch vụ của tôi',
       'add_service': 'Thêm dịch vụ',
@@ -1390,6 +1396,12 @@ class AppTranslations extends Translations {
 
       'logout_title': 'Logout',
       'logout_message': 'Are you sure you want to logout?',
+
+      'delete_account': 'Delete Account',
+      'delete_account_title': 'Delete Account',
+      'delete_account_message':
+          'This action cannot be undone. Please enter your password to confirm.',
+      'password_required': 'Please enter your password.',
 
       ///my services
       'my_services': 'My Services',

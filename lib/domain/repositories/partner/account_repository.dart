@@ -8,4 +8,5 @@ abstract class AccountRepository {
     required String status,
   });
   Future<void> logout();
+  Future<void> deleteAccount(String password);
 }

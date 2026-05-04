@@ -103,4 +103,24 @@ class AccountProvider {
       );
     }
   }
+
+  Future<void> deleteAccount(String password) async {
+    try {
+      final response = await _apiService.dio.delete(
+        AppUrl.deleteAccount,
+        data: {'password': password},
+      );
+      if (response.statusCode != 200) {
+        throw Exception('Delete account failed: ${response.statusCode}');
+      }
+    } on DioException catch (e) {
+      logger.e('[AccountProvider] [deleteAccount] DioException: ${e.message}');
+      if (e.response?.statusCode == 401) {
+        throw Exception('unauthorized');
+      }
+      throw Exception(
+        e.response?.data['message'] ?? 'Cannot connect to server.',
+      );
+    }
+  }
 }

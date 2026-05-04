@@ -30,4 +30,9 @@ class AccountRepositoryImpl implements AccountRepository {
   Future<void> logout() async {
     await _provider.logout();
   }
+
+  @override
+  Future<void> deleteAccount(String password) async {
+    await _provider.deleteAccount(password);
+  }
 }

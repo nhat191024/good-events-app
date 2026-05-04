@@ -276,6 +276,33 @@ class AccountController extends GetxController {
   //============================================================================
   // AUTHENTICATION
   //============================================================================
+  final TextEditingController deletePasswordController =
+      TextEditingController();
+  final RxBool isDeletePasswordObscure = true.obs;
+
+  Future<void> deleteAccount() async {
+    final password = deletePasswordController.text.trim();
+    if (password.isEmpty) {
+      AppSnackbar.showError(
+        title: 'error'.tr,
+        message: 'password_required'.tr,
+      );
+      return;
+    }
+    isLoading.value = true;
+    try {
+      await _repository.deleteAccount(password);
+      deletePasswordController.clear();
+      StorageService.clearAllData();
+      Get.offAllNamed(Routes.loginScreen);
+    } catch (e) {
+      logger.e('[AccountController] [deleteAccount] error: $e');
+      AppSnackbar.showError(title: 'error'.tr, message: e.toString());
+    } finally {
+      isLoading.value = false;
+    }
+  }
+
   Future<void> logout() async {
     isLoading.value = true;
     try {
