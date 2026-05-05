@@ -18,7 +18,13 @@ class EnvConfig {
   }
 
   static String get appleRedirectUri {
-    return dotenv.env['APPLE_REDIRECT_URI'] ?? '';
+    final redirectUri = dotenv.env['APPLE_REDIRECT_URI'] ?? '';
+
+    if (redirectUri.isEmpty || redirectUri.startsWith('http')) {
+      return redirectUri;
+    }
+
+    return '${apiBaseUrl.replaceAll(RegExp(r'/+$'), '')}/${redirectUri.replaceAll(RegExp(r'^/+'), '')}';
   }
 
   static bool get hasAppleSignInConfig {
