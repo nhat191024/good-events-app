@@ -34,9 +34,19 @@
 					<string>sukientot</string>
 				</array>
 			</dict>
+			<dict>
+				<key>CFBundleTypeRole</key>
+				<string>Editor</string>
+				<key>CFBundleURLSchemes</key>
+				<array>
+					<string>com.googleusercontent.apps.377547535680-0r4hhues9ql79fi8or7e8nsneu17p1qp</string>
+				</array>
+			</dict>
 		</array>
 		<key>CFBundleVersion</key>
 		<string>$(FLUTTER_BUILD_NUMBER)</string>
+		<key>GIDClientID</key>
+		<string>377547535680-0r4hhues9ql79fi8or7e8nsneu17p1qp.apps.googleusercontent.com</string>
 		<key>LSRequiresIPhoneOS</key>
 		<true/>
 		<key>NSCameraUsageDescription</key>
