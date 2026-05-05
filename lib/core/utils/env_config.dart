@@ -12,4 +12,16 @@ class EnvConfig {
   static String get pusherCluster {
     return dotenv.env['PUSHER_CLUSTER'] ?? '';
   }
+
+  static String get appleServiceId {
+    return dotenv.env['APPLE_SERVICE_ID'] ?? '';
+  }
+
+  static String get appleRedirectUri {
+    return dotenv.env['APPLE_REDIRECT_URI'] ?? '';
+  }
+
+  static bool get hasAppleSignInConfig {
+    return appleServiceId.isNotEmpty && appleRedirectUri.isNotEmpty;
+  }
 }

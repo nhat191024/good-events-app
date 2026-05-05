@@ -52,7 +52,9 @@ class AuthRepositoryImpl implements AuthRepository {
           key: LocalStorageKeys.token,
           value: token,
         );
-        logger.i('[AuthRepositoryImpl] [loginWithGoogle] Token saved to storage');
+        logger.i(
+          '[AuthRepositoryImpl] [loginWithGoogle] Token saved to storage',
+        );
       }
 
       final user = UserModel.fromJson(response);
@@ -67,6 +69,50 @@ class AuthRepositoryImpl implements AuthRepository {
       return user;
     } catch (e) {
       logger.e('[AuthRepositoryImpl] [loginWithGoogle] Failed: $e');
+      rethrow;
+    }
+  }
+
+  @override
+  Future<UserModel> loginWithApple({
+    required String identityToken,
+    required String authorizationCode,
+    String? email,
+    String? givenName,
+    String? familyName,
+  }) async {
+    try {
+      final response = await _authProvider.loginWithApple(
+        identityToken: identityToken,
+        authorizationCode: authorizationCode,
+        email: email,
+        givenName: givenName,
+        familyName: familyName,
+      );
+
+      final token = response['token'] as String?;
+      if (token != null) {
+        StorageService.writeStringData(
+          key: LocalStorageKeys.token,
+          value: token,
+        );
+        logger.i(
+          '[AuthRepositoryImpl] [loginWithApple] Token saved to storage',
+        );
+      }
+
+      final user = UserModel.fromJson(response);
+      StorageService.writeMapData(
+        key: LocalStorageKeys.user,
+        value: user.toJson(),
+      );
+
+      logger.i(
+        '[AuthRepositoryImpl] [loginWithApple] Login successful for: ${user.email}',
+      );
+      return user;
+    } catch (e) {
+      logger.e('[AuthRepositoryImpl] [loginWithApple] Failed: $e');
       rethrow;
     }
   }
