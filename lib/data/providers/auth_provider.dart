@@ -70,6 +70,51 @@ class AuthProvider {
     }
   }
 
+  /// Apple Login API call
+  /// POST /auth/apple
+  Future<Map<String, dynamic>> loginWithApple({
+    required String identityToken,
+    required String authorizationCode,
+    String? email,
+    String? givenName,
+    String? familyName,
+  }) async {
+    try {
+      final response = await _apiService.dio.post(
+        AppUrl.loginApple,
+        data: {
+          'identity_token': identityToken,
+          'authorization_code': authorizationCode,
+          if (email != null && email.isNotEmpty) 'email': email,
+          if (givenName != null && givenName.isNotEmpty) 'given_name': givenName,
+          if (familyName != null && familyName.isNotEmpty) 'family_name': familyName,
+        },
+      );
+
+      if (response.statusCode == 200) {
+        return response.data as Map<String, dynamic>;
+      } else {
+        throw Exception(
+          'Apple login failed with status: ${response.statusCode}',
+        );
+      }
+    } on DioException catch (e) {
+      logger.e('[AuthProvider] [loginWithApple] DioException: ${e.message}');
+
+      if (e.response != null) {
+        final errorMessage = e.response?.data['message'] ?? 'Apple login failed';
+        throw Exception(errorMessage);
+      } else {
+        throw Exception(
+          'Không thể kết nối đến server. Vui lòng kiểm tra mạng.',
+        );
+      }
+    } catch (e) {
+      logger.e('[AuthProvider] [loginWithApple] Unknown error: $e');
+      throw Exception('Đã xảy ra lỗi: $e');
+    }
+  }
+
   /// Client Registration API call
   /// POST /register
   Future<Map<String, dynamic>> registerClient(Map<String, dynamic> data) async {
@@ -88,8 +133,7 @@ class AuthProvider {
     } on DioException catch (e) {
       logger.e('[AuthProvider] [registerClient] DioException: ${e.message}');
       if (e.response != null) {
-        final errorMessage =
-            e.response?.data['message'] ?? 'Registration failed';
+        final errorMessage = e.response?.data['message'] ?? 'Registration failed';
         throw Exception(errorMessage);
       } else {
         throw Exception(
@@ -122,8 +166,7 @@ class AuthProvider {
     } on DioException catch (e) {
       logger.e('[AuthProvider] [registerPartner] DioException: ${e.message}');
       if (e.response != null) {
-        final errorMessage =
-            e.response?.data['message'] ?? 'Registration failed';
+        final errorMessage = e.response?.data['message'] ?? 'Registration failed';
         throw Exception(errorMessage);
       } else {
         throw Exception(

@@ -1,6 +1,8 @@
 import 'package:sukientotapp/core/utils/import/global.dart';
+import 'package:sukientotapp/core/utils/env_config.dart';
 import 'package:sukientotapp/domain/repositories/auth_repository.dart';
 import 'package:google_sign_in/google_sign_in.dart';
+import 'package:sign_in_with_apple/sign_in_with_apple.dart';
 
 class LoginController extends GetxController {
   final AuthRepository _authRepository;
@@ -15,6 +17,7 @@ class LoginController extends GetxController {
 
   final isLoading = false.obs;
   final isGoogleLoading = false.obs;
+  final isAppleLoading = false.obs;
 
   @override
   void onInit() {
@@ -71,6 +74,76 @@ class LoginController extends GetxController {
       Get.snackbar('error'.tr, e.toString());
     } finally {
       isGoogleLoading.value = false;
+    }
+  }
+
+  bool get canUseAppleLogin {
+    if (defaultTargetPlatform == TargetPlatform.android) {
+      return EnvConfig.hasAppleSignInConfig;
+    }
+
+    return true;
+  }
+
+  Future<void> loginWithApple() async {
+    if (!canUseAppleLogin) {
+      Get.snackbar('error'.tr, 'apple_login_not_ready'.tr);
+      return;
+    }
+
+    try {
+      isAppleLoading.value = true;
+
+      final credential = await SignInWithApple.getAppleIDCredential(
+        scopes: [
+          AppleIDAuthorizationScopes.email,
+          AppleIDAuthorizationScopes.fullName,
+        ],
+        webAuthenticationOptions:
+            defaultTargetPlatform == TargetPlatform.android
+            ? WebAuthenticationOptions(
+                clientId: EnvConfig.appleServiceId,
+                redirectUri: Uri.parse(EnvConfig.appleRedirectUri),
+              )
+            : null,
+      );
+
+      final identityToken = credential.identityToken;
+      if (identityToken == null || identityToken.isEmpty) {
+        throw Exception('No identity token received');
+      }
+
+      final user = await _authRepository.loginWithApple(
+        identityToken: identityToken,
+        authorizationCode: credential.authorizationCode,
+        email: credential.email,
+        givenName: credential.givenName,
+        familyName: credential.familyName,
+      );
+
+      Get.snackbar(
+        'success'.tr,
+        'login_successful'.trParams({'name': user.name}),
+      );
+      await PusherService.init();
+      await Future.delayed(const Duration(seconds: 1));
+
+      final role = StorageService.readMapData(
+        key: LocalStorageKeys.user,
+        mapKey: 'role',
+      );
+      switch (role) {
+        case 'client':
+          Get.offAllNamed(Routes.clientHome);
+          break;
+        case 'partner':
+          Get.offAllNamed(Routes.partnerHome);
+          break;
+      }
+    } catch (e) {
+      Get.snackbar('error'.tr, e.toString());
+    } finally {
+      isAppleLoading.value = false;
     }
   }
 

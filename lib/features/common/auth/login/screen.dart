@@ -48,10 +48,10 @@ class LoginScreen extends GetView<LoginController> {
                         ),
                       ),
                     ).animate().fadeIn(duration: 300.ms),
-                Image.asset(AppImages.logo, width: 64, height: 64)
-                    .animate()
-                    .fadeIn(delay: 100.ms, duration: 400.ms)
-                    .slideY(begin: -0.15, curve: Curves.easeOut),
+                    Image.asset(AppImages.logo, width: 64, height: 64)
+                        .animate()
+                        .fadeIn(delay: 100.ms, duration: 400.ms)
+                        .slideY(begin: -0.15, curve: Curves.easeOut),
                   ],
                 ),
                 const SizedBox(height: 28),
@@ -243,6 +243,129 @@ class LoginScreen extends GetView<LoginController> {
                           .animate()
                           .fadeIn(delay: 600.ms, duration: 400.ms)
                           .slideY(begin: 0.2, curve: Curves.easeOut),
+                      if (controller.canUseAppleLogin) ...[
+                        const SizedBox(height: 12),
+                        Obx(
+                              () => FButton(
+                                style: FButtonStyle.outline(
+                                  (style) => style.copyWith(
+                                    decoration: FWidgetStateMap({
+                                      WidgetState.disabled: BoxDecoration(
+                                        color: Colors.black.withValues(
+                                          alpha: 0.45,
+                                        ),
+                                        borderRadius: BorderRadius.circular(12),
+                                        border: Border.all(
+                                          color: Colors.black.withValues(
+                                            alpha: 0.45,
+                                          ),
+                                        ),
+                                      ),
+                                      WidgetState.hovered |
+                                          WidgetState.pressed: BoxDecoration(
+                                        color: Colors.black.withValues(
+                                          alpha: 0.88,
+                                        ),
+                                        borderRadius: BorderRadius.circular(12),
+                                        border: Border.all(color: Colors.black),
+                                      ),
+                                      WidgetState.any: BoxDecoration(
+                                        color: Colors.black,
+                                        borderRadius: BorderRadius.circular(12),
+                                        border: Border.all(color: Colors.black),
+                                      ),
+                                    }),
+                                    contentStyle: (contentStyle) =>
+                                        contentStyle.copyWith(
+                                          textStyle: FWidgetStateMap({
+                                            WidgetState.disabled: contentStyle
+                                                .textStyle
+                                                .resolve({
+                                                  WidgetState.disabled,
+                                                })
+                                                .copyWith(color: Colors.white),
+                                            WidgetState.any: contentStyle
+                                                .textStyle
+                                                .resolve({})
+                                                .copyWith(
+                                                  color: Colors.white,
+                                                ),
+                                          }),
+                                          iconStyle: FWidgetStateMap({
+                                            WidgetState.disabled: contentStyle
+                                                .iconStyle
+                                                .resolve({
+                                                  WidgetState.disabled,
+                                                })
+                                                .copyWith(color: Colors.white),
+                                            WidgetState.any: contentStyle
+                                                .iconStyle
+                                                .resolve({})
+                                                .copyWith(
+                                                  color: Colors.white,
+                                                ),
+                                          }),
+                                          circularProgressStyle:
+                                              FWidgetStateMap({
+                                                WidgetState
+                                                    .disabled: contentStyle
+                                                    .circularProgressStyle
+                                                    .resolve({
+                                                      WidgetState.disabled,
+                                                    })
+                                                    .copyWith(
+                                                      iconStyle:
+                                                          const IconThemeData(
+                                                            color: Colors.white,
+                                                            size: 20,
+                                                          ),
+                                                    ),
+                                                WidgetState.any: contentStyle
+                                                    .circularProgressStyle
+                                                    .resolve({})
+                                                    .copyWith(
+                                                      iconStyle:
+                                                          const IconThemeData(
+                                                            color: Colors.white,
+                                                            size: 20,
+                                                          ),
+                                                    ),
+                                              }),
+                                          padding: const EdgeInsets.symmetric(
+                                            horizontal: 16,
+                                            vertical: 14,
+                                          ),
+                                        ),
+                                  ),
+                                ),
+                                onPress: controller.isAppleLoading.value
+                                    ? null
+                                    : controller.loginWithApple,
+                                prefix: controller.isAppleLoading.value
+                                    ? const SizedBox(
+                                        width: 16,
+                                        height: 16,
+                                        child: CircularProgressIndicator(
+                                          strokeWidth: 2,
+                                          color: Colors.white,
+                                        ),
+                                      )
+                                    : const FaIcon(
+                                        FontAwesomeIcons.apple,
+                                        size: 18,
+                                        color: Colors.white,
+                                      ),
+                                child: Text(
+                                  controller.isAppleLoading.value
+                                      ? 'logging_loading'.tr
+                                      : 'apple_login'.tr,
+                                ),
+                              ),
+                            )
+                            .animate()
+                            .fadeIn(delay: 660.ms, duration: 400.ms)
+                            .slideY(begin: 0.2, curve: Curves.easeOut),
+                      ],
                     ],
                   ),
                 ),
