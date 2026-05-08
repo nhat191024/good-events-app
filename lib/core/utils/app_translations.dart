@@ -533,6 +533,11 @@ class AppTranslations extends Translations {
       'accepted_show': 'Bạn đã nhận show #@code',
       'failed_to_accept_show':
           'Không thể nhận show vì bạn đã bị cấm hoặc số dư không đủ.',
+      'accept_error_not_allowed': 'Tài khoản của bạn không được phép nhận đơn.',
+      'accept_error_insufficient_balance':
+          'Số dư tài khoản không đủ mức tối thiểu để nhận show này.',
+      'accept_error_order_not_pending':
+          'Đơn hàng này không còn ở trạng thái chờ, không thể nhận.',
 
       'needs': 'Cần tìm',
 
@@ -1271,6 +1276,12 @@ class AppTranslations extends Translations {
       'accepted_show': 'You have accepted show #@code',
       'failed_to_accept_show':
           'Failed to accept show because you are either banned or have insufficient balance.',
+      'accept_error_not_allowed':
+          'Your account is not allowed to accept orders.',
+      'accept_error_insufficient_balance':
+          'Your account balance does not meet the minimum requirement to accept this show.',
+      'accept_error_order_not_pending':
+          'This order is no longer pending and cannot be accepted.',
 
       'needs': 'Needs',
 

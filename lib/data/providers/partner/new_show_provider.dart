@@ -1,3 +1,4 @@
+import 'package:dio/dio.dart';
 import 'package:sukientotapp/core/services/api_service.dart';
 import 'package:sukientotapp/domain/api_url.dart';
 
@@ -19,12 +20,19 @@ class NewShowProvider {
     }
   }
 
-  Future<bool> acceptBill({required int billId, required double price}) async {
-    final response = await _apiService.dio.post(
-      AppUrl.partnerBillAccept(billId),
-      data: {'price': price},
-    );
-
-    return response.statusCode == 200;
+  Future<String?> acceptBill({required int billId, required double price}) async {
+    try {
+      final response = await _apiService.dio.post(
+        AppUrl.partnerBillAccept(billId),
+        data: {'price': price},
+      );
+      return response.statusCode == 200 ? null : 'UNKNOWN_ERROR';
+    } on DioException catch (e) {
+      final data = e.response?.data;
+      if (data is Map<String, dynamic>) {
+        return data['code'] as String? ?? 'UNKNOWN_ERROR';
+      }
+      return 'UNKNOWN_ERROR';
+    }
   }
 }

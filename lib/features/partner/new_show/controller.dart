@@ -222,10 +222,11 @@ class NewShowController extends GetxController {
   Future<bool> acceptBill({required int billId, required double price}) async {
     isAccepting.value = true;
     try {
-      final success = await _repository.acceptBill(billId: billId, price: price);
-      if (!success) {
+      final errorCode = await _repository.acceptBill(billId: billId, price: price);
+      if (errorCode != null) {
+        final messageKey = _acceptErrorKey(errorCode);
         AppSnackbar.showError(
-          message: 'failed_to_accept_show'.tr,
+          message: messageKey.tr,
           title: 'failed'.tr,
         );
         return false;
@@ -254,6 +255,19 @@ class NewShowController extends GetxController {
       return false;
     } finally {
       isAccepting.value = false;
+    }
+  }
+
+  String _acceptErrorKey(String code) {
+    switch (code) {
+      case 'NOT_ALLOWED_TO_ACCEPT_ORDERS':
+        return 'accept_error_not_allowed';
+      case 'INSUFFICIENT_BALANCE':
+        return 'accept_error_insufficient_balance';
+      case 'ORDER_NOT_PENDING':
+        return 'accept_error_order_not_pending';
+      default:
+        return 'failed_to_accept_show';
     }
   }
 
