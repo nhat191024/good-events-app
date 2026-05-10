@@ -113,6 +113,31 @@ class OrderProvider {
     }
   }
 
+  Future<Map<String, dynamic>> reportUser(
+    int reportedUserId,
+    String title,
+    String description,
+  ) async {
+    try {
+      final response = await _dio.post(
+        AppUrl.reportUser,
+        data: {'reported_user_id': reportedUserId, 'title': title, 'description': description},
+      );
+      return {'success': true, 'data': response.data};
+    } on DioException catch (e) {
+      if (e.response != null && e.response?.statusCode == 422) {
+        return {
+          'success': false,
+          'message': e.response?.data['message'] ?? 'fetch_failed'.tr,
+          'errors': e.response?.data['errors'] ?? {},
+        };
+      }
+      return {'success': false, 'message': e.response?.data?['message'] ?? 'network_error'.tr};
+    } catch (e) {
+      return {'success': false, 'message': e.toString()};
+    }
+  }
+
   Future<dynamic> choosePartner(int orderId, int partnerId, {String? voucherCode}) async {
     try {
       final response = await _dio.post(

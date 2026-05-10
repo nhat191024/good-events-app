@@ -1,5 +1,6 @@
 import 'package:sukientotapp/core/utils/import/global.dart';
 import 'package:sukientotapp/features/common/message/controller.dart';
+import 'package:sukientotapp/features/common/report/report_bottom_sheet.dart';
 
 class ChatAppBar extends StatelessWidget implements PreferredSizeWidget {
   const ChatAppBar({super.key});
@@ -104,6 +105,26 @@ class ChatAppBar extends StatelessWidget implements PreferredSizeWidget {
               );
             }),
           ),
+          const SizedBox(width: 9),
+          Obx(() {
+            final thread = Get.find<MessageController>().selectedThread.value;
+            if (thread == null) {
+              return const SizedBox.shrink();
+            }
+
+            return IconButton(
+              onPressed: () => showReportBottomSheet(
+                reportedBillId: thread.bill.id,
+                billCode: thread.code,
+              ),
+              tooltip: 'report'.tr,
+              icon: Icon(
+                Icons.flag_outlined,
+                color: colors.mutedForeground,
+                size: 20,
+              ),
+            );
+          }),
         ],
       ),
     );

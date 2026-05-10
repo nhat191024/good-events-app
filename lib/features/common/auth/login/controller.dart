@@ -18,6 +18,7 @@ class LoginController extends GetxController {
   final isLoading = false.obs;
   final isGoogleLoading = false.obs;
   final isAppleLoading = false.obs;
+  final acceptedTerms = false.obs;
 
   @override
   void onInit() {
@@ -40,7 +41,50 @@ class LoginController extends GetxController {
     passwordController.dispose();
   }
 
+  void toggleTermsAcceptance(bool value) {
+    acceptedTerms.value = value;
+  }
+
+  Future<void> promptTermsAcceptance() async {
+    if (acceptedTerms.value) {
+      return;
+    }
+
+    final accepted = await Get.dialog<bool>(
+      AlertDialog(
+        title: Text('terms_prompt_title'.tr),
+        content: Text('terms_prompt_message'.tr),
+        actions: [
+          TextButton(
+            onPressed: () => Get.back(result: false),
+            child: Text('cancel'.tr),
+          ),
+          FilledButton(
+            onPressed: () => Get.back(result: true),
+            child: Text('terms_prompt_accept'.tr),
+          ),
+        ],
+      ),
+    );
+
+    if (accepted == true) {
+      acceptedTerms.value = true;
+    }
+  }
+
+  bool _ensureTermsAccepted() {
+    if (acceptedTerms.value) {
+      return true;
+    }
+    promptTermsAcceptance();
+    return false;
+  }
+
   Future<void> loginWithGoogle() async {
+    if (!_ensureTermsAccepted()) {
+      return;
+    }
+
     try {
       isGoogleLoading.value = true;
 
@@ -88,6 +132,10 @@ class LoginController extends GetxController {
   Future<void> loginWithApple() async {
     if (!canUseAppleLogin) {
       Get.snackbar('error'.tr, 'apple_login_not_ready'.tr);
+      return;
+    }
+
+    if (!_ensureTermsAccepted()) {
       return;
     }
 
@@ -148,6 +196,10 @@ class LoginController extends GetxController {
   }
 
   Future<void> login() async {
+    if (!_ensureTermsAccepted()) {
+      return;
+    }
+
     loginFormKey.currentState!.save();
 
     if (!loginFormKey.currentState!.validate()) {

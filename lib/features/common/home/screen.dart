@@ -9,6 +9,7 @@ import 'package:sukientotapp/features/common/home/widget/guest_intro_card.dart';
 import 'package:sukientotapp/features/client/home/widgets/blogs_panel.dart';
 import 'package:sukientotapp/features/client/home/widgets/fake_search_bar.dart';
 import 'package:sukientotapp/features/client/home/widgets/popup_search_sheet.dart';
+import 'package:sukientotapp/features/components/common/language_switch/language_switch.dart';
 
 class GuestHomeScreen extends GetView<GuestHomeController> {
   const GuestHomeScreen({super.key});
@@ -74,6 +75,8 @@ class GuestHomeScreen extends GetView<GuestHomeController> {
                           size: 22,
                         ),
                       ),
+                      SizedBox(width: 5),
+                      LanguageSwitch(),
                     ],
                   ),
                 ],
@@ -113,8 +116,8 @@ class GuestHomeScreen extends GetView<GuestHomeController> {
                           const SizedBox(height: 4),
                           Text(
                             controller.userType.value
-                                ? 'partner_register_now'.tr
-                                : 'customer_register_now'.tr,
+                                ? 'customer_register_now'.tr
+                                : 'partner_register_now'.tr,
                             softWrap: true,
                             maxLines: 2,
                             textAlign: TextAlign.left,

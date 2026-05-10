@@ -11,8 +11,13 @@ abstract class OrderRepository {
 
   Future<OrderDetailModel?> getOrderDetails(int orderId);
   Future<List<AssetOrderModel>> getAssetOrders();
+  Future<Map<String, dynamic>> reportUser({
+    required int reportedUserId,
+    required String title,
+    required String description,
+  });
   Future<Map<String, dynamic>> reportBill({
-    required int billId,
+    required int reportedBillId,
     required String title,
     required String description,
   });

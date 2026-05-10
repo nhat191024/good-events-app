@@ -35,6 +35,16 @@ class AppTranslations extends Translations {
       'apple_login': 'Đăng nhập với Apple',
       'apple_login_not_ready': 'Đăng nhập Apple chưa được cấu hình.',
       'logging_loading': 'Đang đăng nhập...',
+      'terms_of_use': 'Điều khoản sử dụng',
+      'terms_acceptance_text': 'Tôi đồng ý với ',
+      'terms_acceptance_required':
+          'Vui lòng đồng ý với Điều khoản sử dụng và Chính sách bảo mật để tiếp tục.',
+      'terms_zero_tolerance_notice':
+          'Tôi hiểu rằng ứng dụng không chấp nhận nội dung phản cảm hoặc hành vi lạm dụng dưới mọi hình thức.',
+      'terms_prompt_title': 'Đồng ý điều khoản?',
+      'terms_prompt_message':
+          'Bạn cần đồng ý với Điều khoản sử dụng và Chính sách bảo mật để tiếp tục. Bằng cách nhấn đồng ý, nghĩa là bạn đồng ý với Điều khoản sử dụng và Chính sách bảo mật của chúng tôi.',
+      'terms_prompt_accept': 'Đồng ý',
 
       //forgot password screen
       'forgot_password': 'Quên mật khẩu',
@@ -357,10 +367,15 @@ class AppTranslations extends Translations {
 
       // Asset Order Detail
       'report_bill_title': 'Báo cáo sự cố',
+      'report_user_title': 'Báo cáo người dùng',
+      'report_dialog_description':
+          'Vui lòng cung cấp chi tiết về vấn đề bạn đang gặp phải. Chúng tôi sẽ xem xét và xử lý sớm nhất có thể.',
       'report_title_label': 'Tiêu đề',
       'report_title_hint': 'Nhập tiêu đề báo cáo',
       'report_desc_label': 'Mô tả chi tiết',
       'report_desc_hint': 'Trình bày rõ vấn đề bạn gặp phải...',
+      'report': 'Báo cáo',
+      'report_this_bill': 'Báo cáo đơn hàng này',
       'submit_report': 'Gửi báo cáo',
       'report_success_message': 'Gửi báo cáo sự cố thành công!',
       'report_failed': 'Gửi báo cáo thất bại, vui lòng thử lại.',
@@ -411,7 +426,7 @@ class AppTranslations extends Translations {
       'calendar': 'Lịch',
 
       'customer': 'Khách hàng',
-      'partner': 'Nhân sự sự kiện',
+      'partner': 'Nhân sự',
       'service_provider': 'Nhà cung cấp dịch vụ',
 
       'refresh': 'Làm mới',
@@ -821,6 +836,16 @@ class AppTranslations extends Translations {
       'password_invalid': 'Password must be at least 8 characters long.',
 
       'logging_loading': 'Logging in...',
+      'terms_of_use': 'Terms of Use',
+      'terms_acceptance_text': 'I agree to the ',
+      'terms_acceptance_required':
+          'Please agree to the Terms of Use and Privacy Policy to continue.',
+      'terms_zero_tolerance_notice':
+          'I understand there is zero tolerance for objectionable content and abusive behavior.',
+      'terms_prompt_title': 'Accept the terms?',
+      'terms_prompt_message':
+          'You need to accept the Terms of Use and Privacy Policy to continue. By clicking OK you agree to our Terms of Use and Privacy Policy.',
+      'terms_prompt_accept': 'OK',
 
       //forgot password screen
       'forgot_password': 'Forgot Password',
@@ -1532,10 +1557,15 @@ class AppTranslations extends Translations {
 
       // Report bottom sheet
       'report_bill_title': 'Report Issue',
+      'report_user_title': 'Report User',
+      'report_dialog_description':
+          'Please provide details about the issue you are experiencing. We will review and handle it as soon as possible.',
       'report_title_label': 'Title',
       'report_title_hint': 'Enter report title',
       'report_desc_label': 'Description',
       'report_desc_hint': 'Describe the issue clearly...',
+      'report': 'Report',
+      'report_this_bill': 'Report this order',
       'submit_report': 'Submit Report',
       'report_success_message': 'Report submitted successfully!',
       'report_failed': 'Failed to submit report. Please try again.',

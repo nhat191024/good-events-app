@@ -35,6 +35,7 @@ class RegisterController extends GetxController {
   final isLoading = false.obs;
   final isPasswordVisible = false.obs;
   final isConfirmPasswordVisible = false.obs;
+  final acceptedTerms = false.obs;
 
   @override
   void onInit() {
@@ -69,6 +70,45 @@ class RegisterController extends GetxController {
 
   void toggleConfirmPasswordVisibility() {
     isConfirmPasswordVisible.value = !isConfirmPasswordVisible.value;
+  }
+
+  void toggleTermsAcceptance(bool value) {
+    acceptedTerms.value = value;
+  }
+
+  Future<void> promptTermsAcceptance() async {
+    if (acceptedTerms.value) {
+      return;
+    }
+
+    final accepted = await Get.dialog<bool>(
+      AlertDialog(
+        title: Text('terms_prompt_title'.tr),
+        content: Text('terms_prompt_message'.tr),
+        actions: [
+          TextButton(
+            onPressed: () => Get.back(result: false),
+            child: Text('cancel'.tr),
+          ),
+          FilledButton(
+            onPressed: () => Get.back(result: true),
+            child: Text('terms_prompt_accept'.tr),
+          ),
+        ],
+      ),
+    );
+
+    if (accepted == true) {
+      acceptedTerms.value = true;
+    }
+  }
+
+  bool _ensureTermsAccepted() {
+    if (acceptedTerms.value) {
+      return true;
+    }
+    promptTermsAcceptance();
+    return false;
   }
 
   Future<void> fetchProvinces() async {
@@ -111,6 +151,10 @@ class RegisterController extends GetxController {
   }
 
   Future<void> register() async {
+    if (!_ensureTermsAccepted()) {
+      return;
+    }
+
     registerFormKey.currentState!.save();
 
     if (!registerFormKey.currentState!.validate()) {

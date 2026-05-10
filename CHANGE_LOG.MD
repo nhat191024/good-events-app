@@ -2,6 +2,14 @@
 
 All notable changes to this project will be documented in this file.
 
+## [v2.4.18+59]
+
+- Fixed wrong text on the home screen based on role
+- Added TOS acceptance (required when signing in)
+- Updated report bill UI
+- Added report user functionality
+- Added apple login feature
+
 ## [v2.4.17+58]
 
 - Add ability for app to reload data in current order at client side & upcoming show in partner side when have new notification about show
