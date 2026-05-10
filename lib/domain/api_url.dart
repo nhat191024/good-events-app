@@ -59,6 +59,7 @@ class AppUrl {
   static const String choosePartner = '/orders/choose-partner';
   static const String checkVoucherDiscount = '/orders/voucher-discount';
   static const String cancelOrder = '/orders/cancel';
+  static const String reportUser = '/report/user';
   static const String reportBill = '/report/bill';
   static const String submitReview = '/orders/submit-review';
   static const String validateVoucher = '/orders/validate-voucher';

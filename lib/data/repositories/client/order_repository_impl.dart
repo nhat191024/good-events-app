@@ -135,11 +135,20 @@ class OrderRepositoryImpl implements OrderRepository {
 
   @override
   Future<Map<String, dynamic>> reportBill({
-    required int billId,
+    required int reportedBillId,
     required String title,
     required String description,
   }) async {
-    return _provider.reportBill(billId, title, description);
+    return _provider.reportBill(reportedBillId, title, description);
+  }
+
+  @override
+  Future<Map<String, dynamic>> reportUser({
+    required int reportedUserId,
+    required String title,
+    required String description,
+  }) async {
+    return _provider.reportUser(reportedUserId, title, description);
   }
 
   @override
