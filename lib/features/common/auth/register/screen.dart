@@ -1,6 +1,7 @@
 import 'package:sukientotapp/core/utils/import/global.dart';
 import 'package:sukientotapp/features/common/auth/register/controller.dart';
 import 'package:sukientotapp/features/common/auth/register/widgets/partner_location_selector.dart';
+import 'package:sukientotapp/features/common/auth/widgets/terms_acceptance_notice.dart';
 
 class RegisterScreen extends GetView<RegisterController> {
   const RegisterScreen({super.key});
@@ -227,10 +228,19 @@ class RegisterScreen extends GetView<RegisterController> {
                             .slideY(begin: 0.2, curve: Curves.easeOut),
                       ],
 
+                      const SizedBox(height: 20),
+                      Obx(
+                        () => TermsAcceptanceNotice(
+                          value: controller.acceptedTerms.value,
+                          onChanged: controller.toggleTermsAcceptance,
+                        ),
+                      ).animate().fadeIn(delay: 690.ms, duration: 400.ms),
+
                       const SizedBox(height: 28),
                       Obx(
                             () => FButton(
-                              onPress: controller.isLoading.value
+                              onPress: controller.isLoading.value ||
+                                      !controller.acceptedTerms.value
                                   ? null
                                   : controller.register,
                               child: controller.isLoading.value

@@ -18,6 +18,7 @@ class LoginController extends GetxController {
   final isLoading = false.obs;
   final isGoogleLoading = false.obs;
   final isAppleLoading = false.obs;
+  final acceptedTerms = false.obs;
 
   @override
   void onInit() {
@@ -40,7 +41,24 @@ class LoginController extends GetxController {
     passwordController.dispose();
   }
 
+  void toggleTermsAcceptance(bool value) {
+    acceptedTerms.value = value;
+  }
+
+  bool _ensureTermsAccepted() {
+    if (acceptedTerms.value) {
+      return true;
+    }
+
+    Get.snackbar('error'.tr, 'terms_acceptance_required'.tr);
+    return false;
+  }
+
   Future<void> loginWithGoogle() async {
+    if (!_ensureTermsAccepted()) {
+      return;
+    }
+
     try {
       isGoogleLoading.value = true;
 
@@ -88,6 +106,10 @@ class LoginController extends GetxController {
   Future<void> loginWithApple() async {
     if (!canUseAppleLogin) {
       Get.snackbar('error'.tr, 'apple_login_not_ready'.tr);
+      return;
+    }
+
+    if (!_ensureTermsAccepted()) {
       return;
     }
 
@@ -148,6 +170,10 @@ class LoginController extends GetxController {
   }
 
   Future<void> login() async {
+    if (!_ensureTermsAccepted()) {
+      return;
+    }
+
     loginFormKey.currentState!.save();
 
     if (!loginFormKey.currentState!.validate()) {

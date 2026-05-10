@@ -1,5 +1,6 @@
 import 'package:sukientotapp/features/common/auth/login/controller.dart';
 import 'package:sukientotapp/core/utils/import/global.dart';
+import 'package:sukientotapp/features/common/auth/widgets/terms_acceptance_notice.dart';
 
 class LoginScreen extends GetView<LoginController> {
   const LoginScreen({super.key});
@@ -162,10 +163,20 @@ class LoginScreen extends GetView<LoginController> {
 
                       const SizedBox(height: 4),
 
+                      Obx(
+                        () => TermsAcceptanceNotice(
+                          value: controller.acceptedTerms.value,
+                          onChanged: controller.toggleTermsAcceptance,
+                        ),
+                      ).animate().fadeIn(delay: 450.ms, duration: 400.ms),
+
+                      const SizedBox(height: 16),
+
                       // Login button
                       Obx(
                             () => FButton(
-                              onPress: controller.isLoading.value
+                              onPress: controller.isLoading.value ||
+                                      !controller.acceptedTerms.value
                                   ? null
                                   : controller.login,
                               child: controller.isLoading.value
@@ -218,7 +229,8 @@ class LoginScreen extends GetView<LoginController> {
                       Obx(
                             () => FButton(
                               style: FButtonStyle.outline(),
-                              onPress: controller.isGoogleLoading.value
+                              onPress: controller.isGoogleLoading.value ||
+                                      !controller.acceptedTerms.value
                                   ? null
                                   : controller.loginWithGoogle,
                               prefix: controller.isGoogleLoading.value
@@ -338,7 +350,8 @@ class LoginScreen extends GetView<LoginController> {
                                         ),
                                   ),
                                 ),
-                                onPress: controller.isAppleLoading.value
+                                onPress: controller.isAppleLoading.value ||
+                                        !controller.acceptedTerms.value
                                     ? null
                                     : controller.loginWithApple,
                                 prefix: controller.isAppleLoading.value
