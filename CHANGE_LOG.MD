@@ -2,6 +2,11 @@
 
 All notable changes to this project will be documented in this file.
 
+## [v2.4.19+60]
+
+- Add verify feature
+- fix user not verify can login without verify prompt
+
 ## [v2.4.18+59]
 
 - Fixed wrong text on the home screen based on role
