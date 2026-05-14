@@ -286,18 +286,51 @@ class _OtpStep extends StatelessWidget {
             .fadeIn(delay: 300.ms, duration: 400.ms)
             .slideY(begin: 0.2, curve: Curves.easeOut),
         const SizedBox(height: 20),
+        Center(
+          child: Obx(() {
+            final cooldown = controller.resendCooldown.value;
+            final maxAttempts = controller.isMaxAttempts.value;
+            final canResend = cooldown == 0 && !maxAttempts;
+            return TextButton.icon(
+              onPressed: canResend ? controller.resendOtp : null,
+              icon: Icon(
+                maxAttempts
+                    ? Icons.block_rounded
+                    : canResend
+                    ? Icons.refresh_rounded
+                    : Icons.timer_outlined,
+                size: 14,
+              ),
+              label: Text(
+                maxAttempts
+                    ? 'otp_max_attempts'.tr
+                    : canResend
+                    ? 'resend_otp'.tr
+                    : '${'resend_otp_cooldown'.tr} ${cooldown}s',
+                style: TextStyle(
+                  color: canResend
+                      ? context.fTheme.colors.primary
+                      : context.fTheme.colors.mutedForeground,
+                  fontSize: 12,
+                  fontWeight: FontWeight.w600,
+                ),
+              ),
+            );
+          }),
+        ).animate().fadeIn(delay: 380.ms, duration: 400.ms),
+        const Divider(height: 32),
         Row(
+          crossAxisAlignment: CrossAxisAlignment.center,
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
             TextButton.icon(
-              onPressed: controller.resendOtp,
-              icon: const Icon(Icons.refresh_rounded, size: 14),
+              onPressed: controller.logout,
+              icon: const Icon(Icons.logout_rounded, size: 14),
               label: Text(
-                'resend_otp'.tr,
+                'logout'.tr,
                 style: TextStyle(
-                  color: context.fTheme.colors.primary,
-                  fontSize: 12,
-                  fontWeight: FontWeight.w600,
+                  fontSize: 13,
+                  color: context.fTheme.colors.mutedForeground,
                 ),
               ),
             ),
@@ -312,20 +345,6 @@ class _OtpStep extends StatelessWidget {
               ),
             ),
           ],
-        ).animate().fadeIn(delay: 380.ms, duration: 400.ms),
-        const Divider(height: 32),
-        Center(
-          child: TextButton.icon(
-            onPressed: controller.logout,
-            icon: const Icon(Icons.logout_rounded, size: 14),
-            label: Text(
-              'logout'.tr,
-              style: TextStyle(
-                fontSize: 13,
-                color: context.fTheme.colors.mutedForeground,
-              ),
-            ),
-          ),
         ).animate().fadeIn(delay: 440.ms, duration: 400.ms),
       ],
     );

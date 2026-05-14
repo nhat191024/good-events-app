@@ -1,3 +1,5 @@
+import 'dart:async';
+import 'package:sukientotapp/core/utils/app_exceptions.dart';
 import 'package:sukientotapp/core/utils/import/global.dart';
 import 'package:sukientotapp/domain/repositories/auth_repository.dart';
 import 'package:sukientotapp/features/common/home/controller.dart';
@@ -21,6 +23,9 @@ class UserVerifyController extends GetxController {
   late final String maskedPhone;
 
   final isLoading = false.obs;
+  final resendCooldown = 0.obs;
+  final isMaxAttempts = false.obs;
+  Timer? _cooldownTimer;
 
   // check client or partner
   bool get isClientUser => Get.find<GuestHomeController>().userType.value;
@@ -35,6 +40,7 @@ class UserVerifyController extends GetxController {
 
   @override
   void onClose() {
+    _cooldownTimer?.cancel();
     otpController.dispose();
     super.onClose();
   }
@@ -56,7 +62,7 @@ class UserVerifyController extends GetxController {
 
   Future<void> verify() async {
     if (otpController.text.trim().length != 6) {
-      Get.snackbar('error'.tr, 'otp_invalid'.tr);
+      AppSnackbar.showError(title: 'error'.tr, message: 'otp_invalid'.tr);
       return;
     }
 
@@ -64,22 +70,48 @@ class UserVerifyController extends GetxController {
     try {
       if (selectedMethod.value == VerifyMethod.email) {
         // Email verification is handled via link sent to email — no OTP step here
-        Get.snackbar('success'.tr, 'verify_success'.tr);
+        AppSnackbar.showSuccess(
+          title: 'success'.tr,
+          message: 'verify_success'.tr,
+        );
       } else {
         await _authRepository.verifyOtp(otpController.text.trim());
-        Get.snackbar('success'.tr, 'verify_success'.tr);
+        AppSnackbar.showSuccess(
+          title: 'success'.tr,
+          message: 'verify_success'.tr,
+        );
       }
       Get.offAllNamed(isClientUser ? Routes.clientHome : Routes.partnerHome);
+    } on OtpInvalidException {
+      otpController.clear();
+      AppSnackbar.showError(title: 'error'.tr, message: 'otp_invalid'.tr);
+    } on OtpMaxAttemptsException catch (e) {
+      isMaxAttempts.value = true;
+      AppSnackbar.showError(title: 'error'.tr, message: e.message.tr);
     } catch (e) {
-      Get.snackbar('error'.tr, e.toString());
+      AppSnackbar.showError(title: 'error'.tr, message: e.toString());
     } finally {
       isLoading.value = false;
     }
   }
 
   Future<void> resendOtp() async {
+    if (resendCooldown.value > 0) return;
     await _sendOtp();
-    Get.snackbar('success'.tr, 'otp_resent'.tr);
+    AppSnackbar.showSuccess(title: 'success'.tr, message: 'otp_resent'.tr);
+  }
+
+  void _startCooldown([int seconds = 60]) {
+    resendCooldown.value = seconds;
+    _cooldownTimer?.cancel();
+    _cooldownTimer = Timer.periodic(const Duration(seconds: 1), (timer) {
+      if (resendCooldown.value <= 1) {
+        resendCooldown.value = 0;
+        timer.cancel();
+      } else {
+        resendCooldown.value--;
+      }
+    });
   }
 
   /// decides which API to call based on [selectedMethod].
@@ -91,10 +123,24 @@ class UserVerifyController extends GetxController {
           ? 'email'
           : 'phone';
       await _authRepository.sendOtp(method);
-      Get.snackbar('success'.tr, 'otp_sent'.tr);
+      _startCooldown();
+      AppSnackbar.showSuccess(title: 'success'.tr, message: 'otp_sent'.tr);
       logger.d('[UserVerifyController] OTP sent via $method');
+    } on OtpCooldownException catch (e) {
+      _startCooldown(e.retryAfter ?? 60);
+      AppSnackbar.showError(
+        title: 'error'.tr,
+        message: e.message.trParams({
+          'seconds': e.retryAfter?.toString() ?? '60',
+        }),
+      );
+      rethrow;
+    } on OtpMaxAttemptsException catch (e) {
+      isMaxAttempts.value = true;
+      AppSnackbar.showError(title: 'error'.tr, message: e.message.tr);
+      rethrow;
     } catch (e) {
-      Get.snackbar('error'.tr, e.toString());
+      AppSnackbar.showError(title: 'error'.tr, message: e.toString());
       rethrow; // prevent moving to step 2 if the send failed
     } finally {
       isLoading.value = false;
@@ -109,7 +155,7 @@ class UserVerifyController extends GetxController {
         return;
       }
 
-      await _authRepository.logout();
+    await _authRepository.logout();
       StorageService.clearAllData();
       Get.offAllNamed(Routes.guestHomeScreen);
     } catch (e) {

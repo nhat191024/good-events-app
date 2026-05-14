@@ -285,6 +285,16 @@ class AuthProvider {
     } on DioException catch (e) {
       logger.e('[AuthProvider] [sendOtp] DioException: ${e.message}');
       if (e.response != null) {
+        final code = e.response?.data['code'];
+        if (e.response?.statusCode == 429) {
+          if (code == 'OTP_COOLDOWN') {
+            final retryAfter = e.response?.data['retry_after'] as int?;
+            throw OtpCooldownException(retryAfter: retryAfter);
+          }
+          if (code == 'MAX_ATTEMPTS') {
+            throw const OtpMaxAttemptsException();
+          }
+        }
         final errorMessage = e.response?.data['message'] ?? 'Send OTP failed';
         throw Exception(errorMessage);
       } else {
@@ -314,6 +324,19 @@ class AuthProvider {
     } on DioException catch (e) {
       logger.e('[AuthProvider] [verifyOtp] DioException: ${e.message}');
       if (e.response != null) {
+        final code = e.response?.data['code'];
+        if (e.response?.statusCode == 429) {
+          if (code == 'OTP_COOLDOWN') {
+            final retryAfter = e.response?.data['retry_after'] as int?;
+            throw OtpCooldownException(retryAfter: retryAfter);
+          }
+          if (code == 'MAX_ATTEMPTS') {
+            throw const OtpMaxAttemptsException();
+          }
+        }
+        if (e.response?.statusCode == 422 && code == 'INVALID_OTP') {
+          throw const OtpInvalidException();
+        }
         final errorMessage = e.response?.data['message'] ?? 'Invalid OTP';
         throw Exception(errorMessage);
       } else {

@@ -122,6 +122,12 @@ class AppTranslations extends Translations {
       'otp_resent': 'Đã gửi lại mã OTP.',
       'account_unverified':
           'Tài khoản chưa được xác thực. Vui lòng bắt đầu xác thực để tiếp tục.',
+      'otp_cooldown':
+          'Vui lòng đợi trước khi yêu cầu mã OTP mới. (@seconds giây còn lại)',
+      'otp_max_attempts':
+          'Đã quá số lần thử. Vui lòng đợi trước khi yêu cầu mã OTP mới.',
+      'resend_otp_cooldown': 'Bạn có thể yêu cầu mã OTP mới sau @seconds giây.',
+
       //search hints
       'search_hint_1': 'Bạn đang tìm dịch vụ gì?',
       'search_hint_2': 'Bạn cần gì cho sự kiện của mình?',
@@ -929,6 +935,11 @@ class AppTranslations extends Translations {
       'otp_resent': 'OTP has been resent.',
       'account_unverified':
           'Your account is not verified. Please verify to continue.',
+      'otp_cooldown':
+          'Please wait before requesting another OTP. (@seconds seconds remaining)',
+      'otp_max_attempts':
+          'You have reached the maximum number of OTP attempts. Please try again later.',
+      'resend_otp_cooldown': 'You can request a new OTP in @seconds seconds.',
 
       //search hints
       'search_hint_1': 'What service are you looking for?',
