@@ -92,6 +92,10 @@ class AppTranslations extends Translations {
       'please_select_location': 'Vui lòng chọn khu vực của bạn.',
       'failed_to_load_provinces': 'Không thể tải danh sách tỉnh thành.',
       'failed_to_load_wards': 'Không thể tải danh sách quận huyện.',
+      'notifications': 'Thông báo',
+      'no_notifications': 'Chưa có thông báo nào',
+      'conversations': 'Trò chuyện',
+      'orders': 'Đơn hàng',
 
       // verify screen
       'verify_account_title': 'Xác thực tài khoản',
@@ -114,11 +118,8 @@ class AppTranslations extends Translations {
       'back_to_method': 'Quay lại chọn phương thức',
       'otp_invalid': 'Vui lòng nhập đúng mã OTP 6 số.',
       'verify_success': 'Xác thực thành công!',
+      'otp_sent': 'Mã OTP đã được gửi.',
       'otp_resent': 'Đã gửi lại mã OTP.',
-      'notifications': 'Thông báo',
-      'no_notifications': 'Chưa có thông báo nào',
-      'conversations': 'Trò chuyện',
-      'orders': 'Đơn hàng',
 
       //search hints
       'search_hint_1': 'Bạn đang tìm dịch vụ gì?',
@@ -809,7 +810,8 @@ class AppTranslations extends Translations {
       'in_dev': 'Tính năng đang phát triển',
 
       'camera_access_required': 'Yêu cầu quyền truy cập Camera',
-      'camera_permission_denied_desc': 'Bạn đã từ chối quyền truy cập máy ảnh trước đó. Để chụp ảnh, vui lòng vào Cài đặt và cấp quyền cho ứng dụng.',
+      'camera_permission_denied_desc':
+          'Bạn đã từ chối quyền truy cập máy ảnh trước đó. Để chụp ảnh, vui lòng vào Cài đặt và cấp quyền cho ứng dụng.',
       'open_settings': 'Mở Cài đặt',
     },
     'en_US': {
@@ -901,6 +903,29 @@ class AppTranslations extends Translations {
       'no_notifications': 'No notifications',
       'conversations': 'Conversations',
       'orders': 'Orders',
+
+      //verify screen
+      'verify_account': 'Verify Your Account',
+      'verify_account_subtitle': 'Choose verification method  ',
+      'verify_via_email': 'Verify via Email',
+      'verify_via_zalo': 'Verify via Zalo',
+      'verify_zalo_subtitle': 'Send OTP to @phone',
+      'verify_email_title': 'Verify Your Email',
+      'verify_phone_title': 'Verify Your Phone',
+      'verify_email_otp_subtitle':
+          'We have sent an OTP to your email address. Please enter the code to verify.',
+      'verify_phone_otp_subtitle':
+          'We have sent an OTP via Zalo message to your phone number. Please enter the code to verify.',
+      'enter_otp': 'Enter OTP',
+      'continue_btn': 'Continue',
+      'verify_btn': 'Verify',
+      'verifying': 'Verifying...',
+      'resend_otp': 'Resend OTP',
+      'back_to_method': 'Back to method',
+      'otp_invalid': 'Please enter a valid 6-digit OTP.',
+      'verify_success': 'Verification successful!',
+      'otp_sent': 'OTP has been sent.',
+      'otp_resent': 'OTP has been resent.',
 
       //search hints
       'search_hint_1': 'What service are you looking for?',
@@ -1595,7 +1620,8 @@ class AppTranslations extends Translations {
       'in_dev': 'Feature in development',
 
       'camera_access_required': 'Camera Access Required',
-      'camera_permission_denied_desc': 'You previously denied camera access. To take a photo, please go to Settings and enable camera permission for this app.',
+      'camera_permission_denied_desc':
+          'You previously denied camera access. To take a photo, please go to Settings and enable camera permission for this app.',
       'open_settings': 'Open Settings',
     },
   };
