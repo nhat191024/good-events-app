@@ -1,5 +1,6 @@
 import 'package:dio/dio.dart';
 import 'package:sukientotapp/core/services/api_service.dart';
+import 'package:sukientotapp/core/utils/app_exceptions.dart';
 import 'package:sukientotapp/core/utils/logger.dart';
 import 'package:sukientotapp/domain/api_url.dart';
 
@@ -26,6 +27,12 @@ class AuthProvider {
       logger.e('[AuthProvider] [login] DioException: ${e.message}');
 
       if (e.response != null) {
+        final code = e.response?.data['code'];
+        if (e.response?.statusCode == 403 && code == 'UNVERIFIED') {
+          throw UnverifiedUserException(
+            data: e.response!.data as Map<String, dynamic>,
+          );
+        }
         final errorMessage = e.response?.data['message'] ?? 'Login failed';
         throw Exception(errorMessage);
       } else {
@@ -35,7 +42,7 @@ class AuthProvider {
       }
     } catch (e) {
       logger.e('[AuthProvider] [login] Unknown error: $e');
-      throw Exception('Đã xảy ra lỗi: $e');
+      rethrow;
     }
   }
 
@@ -51,13 +58,16 @@ class AuthProvider {
       if (response.statusCode == 200) {
         return response.data as Map<String, dynamic>;
       } else {
-        throw Exception('Google login failed with status: \${response.statusCode}');
+        throw Exception(
+          'Google login failed with status: \${response.statusCode}',
+        );
       }
     } on DioException catch (e) {
       logger.e('[AuthProvider] [loginWithGoogle] DioException: \${e.message}');
 
       if (e.response != null) {
-        final errorMessage = e.response?.data['message'] ?? 'Google login failed';
+        final errorMessage =
+            e.response?.data['message'] ?? 'Google login failed';
         throw Exception(errorMessage);
       } else {
         throw Exception(
@@ -86,8 +96,10 @@ class AuthProvider {
           'identity_token': identityToken,
           'authorization_code': authorizationCode,
           if (email != null && email.isNotEmpty) 'email': email,
-          if (givenName != null && givenName.isNotEmpty) 'given_name': givenName,
-          if (familyName != null && familyName.isNotEmpty) 'family_name': familyName,
+          if (givenName != null && givenName.isNotEmpty)
+            'given_name': givenName,
+          if (familyName != null && familyName.isNotEmpty)
+            'family_name': familyName,
         },
       );
 
@@ -102,7 +114,8 @@ class AuthProvider {
       logger.e('[AuthProvider] [loginWithApple] DioException: ${e.message}');
 
       if (e.response != null) {
-        final errorMessage = e.response?.data['message'] ?? 'Apple login failed';
+        final errorMessage =
+            e.response?.data['message'] ?? 'Apple login failed';
         throw Exception(errorMessage);
       } else {
         throw Exception(
@@ -133,7 +146,8 @@ class AuthProvider {
     } on DioException catch (e) {
       logger.e('[AuthProvider] [registerClient] DioException: ${e.message}');
       if (e.response != null) {
-        final errorMessage = e.response?.data['message'] ?? 'Registration failed';
+        final errorMessage =
+            e.response?.data['message'] ?? 'Registration failed';
         throw Exception(errorMessage);
       } else {
         throw Exception(
@@ -166,7 +180,8 @@ class AuthProvider {
     } on DioException catch (e) {
       logger.e('[AuthProvider] [registerPartner] DioException: ${e.message}');
       if (e.response != null) {
-        final errorMessage = e.response?.data['message'] ?? 'Registration failed';
+        final errorMessage =
+            e.response?.data['message'] ?? 'Registration failed';
         throw Exception(errorMessage);
       } else {
         throw Exception(
@@ -246,11 +261,69 @@ class AuthProvider {
         final errorMessage = e.response?.data['message'] ?? 'Request failed';
         throw Exception(errorMessage);
       } else {
-        throw Exception('Không thể kết nối đến server. Vui lòng kiểm tra mạng.');
+        throw Exception(
+          'Không thể kết nối đến server. Vui lòng kiểm tra mạng.',
+        );
       }
     } catch (e) {
       logger.e('[AuthProvider] [forgotPassword] Unknown error: $e');
       throw Exception('Đã xảy ra lỗi: $e');
+    }
+  }
+
+  /// Send OTP API call
+  /// POST /verify/send-otp
+  Future<void> sendOtp(String method) async {
+    try {
+      final response = await _apiService.dio.post(
+        AppUrl.verifySendOtp,
+        data: {'method': method},
+      );
+      if (response.statusCode != 200) {
+        throw Exception('Send OTP failed with status: ${response.statusCode}');
+      }
+    } on DioException catch (e) {
+      logger.e('[AuthProvider] [sendOtp] DioException: ${e.message}');
+      if (e.response != null) {
+        final errorMessage = e.response?.data['message'] ?? 'Send OTP failed';
+        throw Exception(errorMessage);
+      } else {
+        throw Exception(
+          'Không thể kết nối đến server. Vui lòng kiểm tra mạng.',
+        );
+      }
+    } catch (e) {
+      logger.e('[AuthProvider] [sendOtp] Unknown error: $e');
+      rethrow;
+    }
+  }
+
+  /// Verify OTP (Phone) API call
+  /// POST /verify/otp
+  Future<void> verifyOtp(String otp) async {
+    try {
+      final response = await _apiService.dio.post(
+        AppUrl.verifyOtp,
+        data: {'otp': otp},
+      );
+      if (response.statusCode != 200) {
+        throw Exception(
+          'Verify OTP failed with status: ${response.statusCode}',
+        );
+      }
+    } on DioException catch (e) {
+      logger.e('[AuthProvider] [verifyOtp] DioException: ${e.message}');
+      if (e.response != null) {
+        final errorMessage = e.response?.data['message'] ?? 'Invalid OTP';
+        throw Exception(errorMessage);
+      } else {
+        throw Exception(
+          'Không thể kết nối đến server. Vui lòng kiểm tra mạng.',
+        );
+      }
+    } catch (e) {
+      logger.e('[AuthProvider] [verifyOtp] Unknown error: $e');
+      rethrow;
     }
   }
 }

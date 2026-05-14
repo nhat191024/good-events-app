@@ -120,7 +120,8 @@ class AppTranslations extends Translations {
       'verify_success': 'Xác thực thành công!',
       'otp_sent': 'Mã OTP đã được gửi.',
       'otp_resent': 'Đã gửi lại mã OTP.',
-
+      'account_unverified':
+          'Tài khoản chưa được xác thực. Vui lòng bắt đầu xác thực để tiếp tục.',
       //search hints
       'search_hint_1': 'Bạn đang tìm dịch vụ gì?',
       'search_hint_2': 'Bạn cần gì cho sự kiện của mình?',
@@ -926,6 +927,8 @@ class AppTranslations extends Translations {
       'verify_success': 'Verification successful!',
       'otp_sent': 'OTP has been sent.',
       'otp_resent': 'OTP has been resent.',
+      'account_unverified':
+          'Your account is not verified. Please verify to continue.',
 
       //search hints
       'search_hint_1': 'What service are you looking for?',

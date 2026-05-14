@@ -1,6 +1,7 @@
 import 'package:sukientotapp/data/models/user_model.dart';
 import 'package:sukientotapp/data/providers/auth_provider.dart';
 import 'package:sukientotapp/domain/repositories/auth_repository.dart';
+import 'package:sukientotapp/core/utils/app_exceptions.dart';
 import 'package:sukientotapp/core/utils/logger.dart';
 import 'package:sukientotapp/core/services/localstorage_service.dart';
 
@@ -35,6 +36,25 @@ class AuthRepositoryImpl implements AuthRepository {
         '[AuthRepositoryImpl] [login] Login successful for user: ${user.email}',
       );
       return user;
+    } on UnverifiedUserException catch (e) {
+      final token = e.data['token'] as String?;
+      if (token != null) {
+        StorageService.writeStringData(
+          key: LocalStorageKeys.token,
+          value: token,
+        );
+      }
+
+      final user = UserModel.fromJson(e.data);
+      StorageService.writeMapData(
+        key: LocalStorageKeys.user,
+        value: user.toJson(),
+      );
+
+      logger.w(
+        '[AuthRepositoryImpl] [login] User unverified: ${user.email}',
+      );
+      rethrow;
     } catch (e) {
       logger.e('[AuthRepositoryImpl] [login] Login failed: $e');
       rethrow;
@@ -215,6 +235,30 @@ class AuthRepositoryImpl implements AuthRepository {
       return true;
     } catch (e) {
       logger.e('[AuthRepositoryImpl] [logout] Logout failed: $e');
+      rethrow;
+    }
+  }
+
+  @override
+  Future<void> sendOtp(String method) async {
+    try {
+      logger.i('[AuthRepositoryImpl] [sendOtp] Sending OTP via $method');
+      await _authProvider.sendOtp(method);
+      logger.i('[AuthRepositoryImpl] [sendOtp] OTP sent successfully');
+    } catch (e) {
+      logger.e('[AuthRepositoryImpl] [sendOtp] Failed: $e');
+      rethrow;
+    }
+  }
+
+  @override
+  Future<void> verifyOtp(String otp) async {
+    try {
+      logger.i('[AuthRepositoryImpl] [verifyOtp] Verifying OTP');
+      await _authProvider.verifyOtp(otp);
+      logger.i('[AuthRepositoryImpl] [verifyOtp] OTP verified successfully');
+    } catch (e) {
+      logger.e('[AuthRepositoryImpl] [verifyOtp] Failed: $e');
       rethrow;
     }
   }

@@ -13,6 +13,10 @@ class AppUrl {
   static const String deleteAccount = '/account/delete';
   static const String forgot = '/forgot';
 
+  // Verify
+  static const String verifySendOtp = '/verify/send-otp';
+  static const String verifyOtp = '/verify/otp';
+
   // Firebase Cloud Messaging
   static const String updateFcmToken = '/fcm/update-token';
 

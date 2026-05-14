@@ -14,4 +14,6 @@ abstract class AuthRepository {
   Future<UserModel> registerPartner(Map<String, dynamic> data);
   Future<Map<String, dynamic>?> checkToken();
   Future<bool> logout();
+  Future<void> sendOtp(String method);
+  Future<void> verifyOtp(String otp);
 }

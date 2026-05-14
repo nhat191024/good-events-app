@@ -1,9 +1,14 @@
 import 'package:sukientotapp/core/utils/import/global.dart';
+import 'package:sukientotapp/domain/repositories/auth_repository.dart';
 import 'package:sukientotapp/features/common/home/controller.dart';
 
 enum VerifyMethod { email, zalo }
 
 class UserVerifyController extends GetxController {
+  final AuthRepository _authRepository;
+
+  UserVerifyController(this._authRepository);
+
   /// 1: method selection
   /// 2: OTP
   final step = 1.obs;
@@ -57,13 +62,13 @@ class UserVerifyController extends GetxController {
 
     isLoading.value = true;
     try {
-      // TODO: call the verify OTP API
-      //   await _authRepository.verifyOtp(
-      //     method: selectedMethod.value == VerifyMethod.email ? 'email' : 'phone',
-      //     otp: otpController.text.trim(),
-      //   );
-
-      Get.snackbar('success'.tr, 'verify_success'.tr);
+      if (selectedMethod.value == VerifyMethod.email) {
+        // Email verification is handled via link sent to email — no OTP step here
+        Get.snackbar('success'.tr, 'verify_success'.tr);
+      } else {
+        await _authRepository.verifyOtp(otpController.text.trim());
+        Get.snackbar('success'.tr, 'verify_success'.tr);
+      }
       Get.offAllNamed(isClientUser ? Routes.clientHome : Routes.partnerHome);
     } catch (e) {
       Get.snackbar('error'.tr, e.toString());
@@ -82,17 +87,12 @@ class UserVerifyController extends GetxController {
   Future<void> _sendOtp() async {
     isLoading.value = true;
     try {
-      if (selectedMethod.value == VerifyMethod.email) {
-        // TODO: call send-OTP-via-email API
-        //   await _authRepository.sendOtpEmail();
-        Get.snackbar('success'.tr, 'otp_sent'.tr);
-        logger.d('[UserVerifyController] Sending OTP via EMAIL...');
-      } else {
-        // TODO: call send-OTP-via-Zalo/SMS API
-        //   await _authRepository.sendOtpPhone();
-        Get.snackbar('success'.tr, 'otp_sent'.tr);
-        logger.d('[UserVerifyController] Sending OTP via Zalo/SMS...');
-      }
+      final method = selectedMethod.value == VerifyMethod.email
+          ? 'email'
+          : 'phone';
+      await _authRepository.sendOtp(method);
+      Get.snackbar('success'.tr, 'otp_sent'.tr);
+      logger.d('[UserVerifyController] OTP sent via $method');
     } catch (e) {
       Get.snackbar('error'.tr, e.toString());
       rethrow; // prevent moving to step 2 if the send failed
@@ -101,8 +101,27 @@ class UserVerifyController extends GetxController {
     }
   }
 
-  void logout() {
-    // TODO: clear auth storage and navigate to login
-    Get.offAllNamed(Routes.loginScreen);
+  Future<void> logout() async {
+    try {
+      if (StorageService.readData(key: LocalStorageKeys.token) == null) {
+        StorageService.clearAllData();
+        Get.offAllNamed(Routes.loginScreen);
+        return;
+      }
+
+      await _authRepository.logout();
+      StorageService.clearAllData();
+      Get.offAllNamed(Routes.guestHomeScreen);
+    } catch (e) {
+      logger.e('[AccountController] [logout] error: $e');
+      if (e.toString().contains('unauthorized')) {
+        StorageService.clearAllData();
+        Get.offAllNamed(Routes.loginScreen);
+        return;
+      }
+      AppSnackbar.showError(title: 'error'.tr, message: 'cannot_logout'.tr);
+    } finally {
+      isLoading.value = false;
+    }
   }
 }
