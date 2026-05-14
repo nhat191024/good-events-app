@@ -212,6 +212,13 @@ class AuthProvider {
         return null;
       }
 
+      if (e.response?.statusCode == 403 &&
+          e.response?.data['code'] == 'UNVERIFIED') {
+        throw UnverifiedUserException(
+          data: e.response!.data as Map<String, dynamic>,
+        );
+      }
+
       throw Exception('Không thể xác thực token. Vui lòng thử lại.');
     } catch (e) {
       logger.e('[AuthProvider] [checkToken] Unknown error: $e');

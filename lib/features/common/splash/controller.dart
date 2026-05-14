@@ -1,5 +1,6 @@
 import 'dart:async';
 
+import 'package:sukientotapp/core/utils/app_exceptions.dart';
 import 'package:sukientotapp/core/utils/import/global.dart';
 import 'package:sukientotapp/core/utils/app_videos.dart';
 import 'package:sukientotapp/domain/repositories/auth_repository.dart';
@@ -195,6 +196,14 @@ class SplashController extends GetxController {
 
         Get.offAllNamed(Routes.chooseYoSideScreen);
       }
+    } on UnverifiedUserException {
+      logger.w(
+        '[SplashController] [_checkToken] Token valid but user unverified, redirecting to verify screen',
+      );
+      
+      AppSnackbar.showWarning(message: 'account_unverified'.tr);
+      await Future.delayed(const Duration(seconds: 2));
+      Get.offAllNamed(Routes.userVerifyScreen);
     } catch (e) {
       StorageService.removeData(key: LocalStorageKeys.token);
       StorageService.removeData(key: LocalStorageKeys.user);
