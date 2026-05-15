@@ -249,35 +249,6 @@ class AuthProvider {
     }
   }
 
-  /// Forgot Password API call
-  /// POST /forgot
-  Future<Map<String, dynamic>> forgotPassword(String emailOrPhone) async {
-    try {
-      final response = await _apiService.dio.post(
-        AppUrl.forgot,
-        data: {'email': emailOrPhone},
-      );
-      if (response.statusCode == 200) {
-        return response.data as Map<String, dynamic>;
-      } else {
-        throw Exception('Request failed with status: ${response.statusCode}');
-      }
-    } on DioException catch (e) {
-      logger.e('[AuthProvider] [forgotPassword] DioException: ${e.message}');
-      if (e.response != null) {
-        final errorMessage = e.response?.data['message'] ?? 'Request failed';
-        throw Exception(errorMessage);
-      } else {
-        throw Exception(
-          'Không thể kết nối đến server. Vui lòng kiểm tra mạng.',
-        );
-      }
-    } catch (e) {
-      logger.e('[AuthProvider] [forgotPassword] Unknown error: $e');
-      throw Exception('Đã xảy ra lỗi: $e');
-    }
-  }
-
   /// Send OTP API call
   /// POST /verify/send-otp
   Future<void> sendOtp(String method) async {
@@ -356,4 +327,138 @@ class AuthProvider {
       rethrow;
     }
   }
+
+  /// Forgot password – send OTP (phone) or reset email (email)
+  /// POST /forgot/send
+  /// Body: { method: 'phone'|'email', credential: <value> }
+  Future<void> forgotSendOtp({
+    required String method,
+    required String credential,
+  }) async {
+    try {
+      final response = await _apiService.dio.post(
+        AppUrl.forgotSend,
+        data: {'method': method, 'credential': credential},
+      );
+      if (response.statusCode != 200) {
+        throw Exception(
+          'Forgot send failed with status: ${response.statusCode}',
+        );
+      }
+    } on DioException catch (e) {
+      logger.e('[AuthProvider] [forgotSendOtp] DioException: ${e.message}');
+      if (e.response != null) {
+        final code = e.response?.data['code'];
+        if (e.response?.statusCode == 404 && code == 'USER_NOT_FOUND') {
+          throw const UserNotFoundException();
+        }
+        if (e.response?.statusCode == 429) {
+          if (code == 'OTP_COOLDOWN') {
+            final retryAfter = e.response?.data['seconds'] as int?;
+            throw OtpCooldownException(retryAfter: retryAfter);
+          }
+          if (code == 'MAX_ATTEMPTS') {
+            final retryAfter = e.response?.data['hours'] as int?;
+            throw OtpMaxAttemptsException(retryAfter: retryAfter);
+          }
+        }
+        final errorMessage =
+            e.response?.data['message'] ?? 'Forgot send failed';
+        throw Exception(errorMessage);
+      } else {
+        throw Exception(
+          'Không thể kết nối đến server. Vui lòng kiểm tra mạng.',
+        );
+      }
+    } catch (e) {
+      logger.e('[AuthProvider] [forgotSendOtp] Unknown error: $e');
+      rethrow;
+    }
+  }
+
+  /// Forgot password – verify OTP
+  /// POST /forgot/verify-otp
+  /// Body: { phone: <value>, otp: <value> }
+  /// Returns reset_token on success.
+  Future<String> forgotVerifyOtp({
+    required String phone,
+    required String otp,
+  }) async {
+    try {
+      final response = await _apiService.dio.post(
+        AppUrl.forgotVerifyOtp,
+        data: {'phone': phone, 'otp': otp},
+      );
+      if (response.statusCode == 200) {
+        return response.data['reset_token'] as String;
+      }
+      throw Exception(
+        'Forgot verify OTP failed with status: ${response.statusCode}',
+      );
+    } on DioException catch (e) {
+      logger.e('[AuthProvider] [forgotVerifyOtp] DioException: ${e.message}');
+      if (e.response != null) {
+        final code = e.response?.data['code'];
+        if (e.response?.statusCode == 422 && code == 'INVALID_OTP') {
+          throw const OtpInvalidException();
+        }
+        final errorMessage =
+            e.response?.data['message'] ?? 'Verify OTP failed';
+        throw Exception(errorMessage);
+      } else {
+        throw Exception(
+          'Không thể kết nối đến server. Vui lòng kiểm tra mạng.',
+        );
+      }
+    } catch (e) {
+      logger.e('[AuthProvider] [forgotVerifyOtp] Unknown error: $e');
+      rethrow;
+    }
+  }
+
+  /// Forgot password – reset password with token
+  /// POST /forgot/reset-password
+  /// Body: { reset_token: <token>, password: <newPassword> }
+  Future<void> forgotResetPassword({
+    required String resetToken,
+    required String password,
+  }) async {
+    try {
+      final response = await _apiService.dio.post(
+        AppUrl.forgotResetPassword,
+        data: {
+          'reset_token': resetToken,
+          'password': password,
+          'password_confirmation': password,
+        },
+      );
+      if (response.statusCode != 200) {
+        throw Exception(
+          'Reset password failed with status: ${response.statusCode}',
+        );
+      }
+    } on DioException catch (e) {
+      logger.e(
+        '[AuthProvider] [forgotResetPassword] DioException: ${e.message}',
+      );
+      if (e.response != null) {
+        final code = e.response?.data['code'];
+        if (e.response?.statusCode == 422) {
+          if (code == 'INVALID_TOKEN') throw const InvalidTokenException();
+          if (code == 'USER_NOT_FOUND') throw const UserNotFoundException();
+        }
+        final errorMessage =
+            e.response?.data['message'] ?? 'Reset password failed';
+        throw Exception(errorMessage);
+      } else {
+        throw Exception(
+          'Không thể kết nối đến server. Vui lòng kiểm tra mạng.',
+        );
+      }
+    } catch (e) {
+      logger.e('[AuthProvider] [forgotResetPassword] Unknown error: $e');
+      rethrow;
+    }
+  }
 }
+

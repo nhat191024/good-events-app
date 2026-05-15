@@ -12,6 +12,9 @@ class AppUrl {
   static const String logout = '/logout';
   static const String deleteAccount = '/account/delete';
   static const String forgot = '/forgot';
+  static const String forgotSend = '/forgot/send';
+  static const String forgotVerifyOtp = '/forgot/verify-otp';
+  static const String forgotResetPassword = '/forgot/reset-password';
 
   // Verify
   static const String verifySendOtp = '/verify/send-otp';

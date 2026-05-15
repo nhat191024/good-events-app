@@ -26,8 +26,9 @@ class OtpCooldownException implements Exception {
 /// Thrown when server returns 429 with code MAX_ATTEMPTS.
 class OtpMaxAttemptsException implements Exception {
   final String message;
+  final int? retryAfter;
 
-  const OtpMaxAttemptsException({this.message = 'otp_max_attempts'});
+  const OtpMaxAttemptsException({this.message = 'otp_max_attempts', this.retryAfter});
 
   @override
   String toString() => 'OtpMaxAttemptsException: $message';
@@ -41,4 +42,24 @@ class OtpInvalidException implements Exception {
 
   @override
   String toString() => 'OtpInvalidException: $message';
+}
+
+/// Thrown when server returns 404 with code USER_NOT_FOUND.
+class UserNotFoundException implements Exception {
+  final String message;
+
+  const UserNotFoundException({this.message = 'user_not_found'});
+
+  @override
+  String toString() => 'UserNotFoundException: $message';
+}
+
+/// Thrown when server returns 422 with code INVALID_TOKEN.
+class InvalidTokenException implements Exception {
+  final String message;
+
+  const InvalidTokenException({this.message = 'invalid_token'});
+
+  @override
+  String toString() => 'InvalidTokenException: $message';
 }
