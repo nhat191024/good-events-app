@@ -1,3 +1,5 @@
+import 'package:sukientotapp/core/utils/app_exceptions.dart';
+import 'package:sukientotapp/core/utils/app_validators.dart';
 import 'package:sukientotapp/core/utils/import/global.dart';
 import 'package:sukientotapp/domain/repositories/common/change_password_repository.dart';
 
@@ -26,10 +28,8 @@ class ChangePasswordController extends GetxController {
     return null;
   }
 
-  String? validateNewPassword(String? value) {
-    if (value == null || value.length < 8) return 'password_invalid'.tr;
-    return null;
-  }
+  String? validateNewPassword(String? value) =>
+      AppValidators.validatePassword(value);
 
   String? validateConfirmPassword(String? value) {
     if (value != newPasswordController.text) return 'password_mismatch_error'.tr;
@@ -50,8 +50,13 @@ class ChangePasswordController extends GetxController {
       Get.back();
     } catch (e) {
       logger.e('[ChangePasswordController] [submitChangePassword] error: $e');
-      final message = e.toString().replaceFirst('Exception: ', '');
-      AppSnackbar.showError(message: message);
+      if (e is PasswordValidationException) {
+        final message = e.codes.map((code) => code.tr).join('\n');
+        AppSnackbar.showError(message: message);
+      } else {
+        final message = e.toString().replaceFirst('Exception: ', '');
+        AppSnackbar.showError(message: message);
+      }
     } finally {
       isLoading.value = false;
     }

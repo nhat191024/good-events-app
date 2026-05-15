@@ -1,5 +1,6 @@
 import 'package:dio/dio.dart';
 import 'package:sukientotapp/core/services/api_service.dart';
+import 'package:sukientotapp/core/utils/app_exceptions.dart';
 import 'package:sukientotapp/core/utils/logger.dart';
 import 'package:sukientotapp/domain/api_url.dart';
 
@@ -49,10 +50,26 @@ class ProfileProvider {
       }
     } on DioException catch (e) {
       logger.e('[ProfileProvider] [updatePassword] DioException: ${e.message}');
-      final errorMessage =
-          e.response?.data['message'] ?? 'Failed to update password';
-      throw Exception(errorMessage);
+      if (e.response != null) {
+        _throwIfPasswordValidationError(e.response!.data);
+        final errorMessage =
+            e.response?.data['message'] ?? 'Failed to update password';
+        throw Exception(errorMessage);
+      }
+      throw Exception('Không thể kết nối đến server. Vui lòng kiểm tra mạng.');
     }
+  }
+
+  /// Checks [responseData] for `errors.password` from a 422 Laravel response
+  /// and throws [PasswordValidationException] when password error codes are found.
+  void _throwIfPasswordValidationError(dynamic responseData) {
+    if (responseData is! Map) return;
+    final errors = responseData['errors'];
+    if (errors is! Map) return;
+    final passwordErrors = errors['password'];
+    if (passwordErrors is! List || passwordErrors.isEmpty) return;
+    final codes = passwordErrors.whereType<String>().toList();
+    if (codes.isNotEmpty) throw PasswordValidationException(codes);
   }
 
   Future<Map<String, dynamic>> getProfile() async {

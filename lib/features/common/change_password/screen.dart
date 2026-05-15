@@ -1,4 +1,5 @@
 import 'package:sukientotapp/core/utils/import/global.dart';
+import 'package:sukientotapp/features/common/auth/register/widgets/password_strength_checklist.dart';
 import 'controller.dart';
 
 class ChangePasswordScreen extends GetView<ChangePasswordController> {
@@ -75,6 +76,10 @@ class ChangePasswordScreen extends GetView<ChangePasswordController> {
                       hint: 'new_password_hint'.tr,
                       autovalidateMode: AutovalidateMode.onUserInteraction,
                       validator: controller.validateNewPassword,
+                    ),
+                    const SizedBox(height: 8),
+                    PasswordStrengthChecklist(
+                      controller: controller.newPasswordController,
                     ),
                     const SizedBox(height: 20),
                     FTextFormField.password(
