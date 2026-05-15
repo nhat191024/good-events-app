@@ -51,8 +51,8 @@ class ApiService {
         dio: _dio,
         retries: 3,
         retryDelays: const [
-          Duration(seconds: 1), // wait 1 sec before the first retry
-          Duration(seconds: 2), // wait 2 sec before the second retry
+          Duration(seconds: 3), // wait 3 sec before the first retry
+          Duration(seconds: 3), // wait 3 sec before the second retry
           Duration(seconds: 3), // wait 3 sec before the third retry
         ],
       ),
