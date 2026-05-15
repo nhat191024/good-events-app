@@ -63,3 +63,16 @@ class InvalidTokenException implements Exception {
   @override
   String toString() => 'InvalidTokenException: $message';
 }
+
+/// Thrown when server returns 422 with password validation error codes.
+/// [codes] mirrors the Laravel error code keys, e.g. ["PASSWORD_COMPROMISED"].
+/// Codes that can be validated client-side (MIN_LENGTH_NOT_MET, etc.) will
+/// normally never arrive here because the form validator blocks submission first.
+class PasswordValidationException implements Exception {
+  final List<String> codes;
+
+  const PasswordValidationException(this.codes);
+
+  @override
+  String toString() => 'PasswordValidationException: $codes';
+}

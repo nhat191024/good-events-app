@@ -1,6 +1,8 @@
+import 'package:sukientotapp/core/utils/app_validators.dart';
 import 'package:sukientotapp/core/utils/import/global.dart';
 import 'package:sukientotapp/features/common/auth/register/controller.dart';
 import 'package:sukientotapp/features/common/auth/register/widgets/partner_location_selector.dart';
+import 'package:sukientotapp/features/common/auth/register/widgets/password_strength_checklist.dart';
 import 'package:sukientotapp/features/common/auth/widgets/terms_action_gate.dart';
 import 'package:sukientotapp/features/common/auth/widgets/terms_acceptance_notice.dart';
 
@@ -190,13 +192,17 @@ class RegisterScreen extends GetView<RegisterController> {
                             hint: 'password_hint'.tr,
                             autovalidateMode:
                                 AutovalidateMode.onUserInteraction,
-                            validator: (value) => 8 <= (value?.length ?? 0)
-                                ? null
-                                : 'password_invalid'.tr,
+                            validator: AppValidators.validatePassword,
                           )
                           .animate()
                           .fadeIn(delay: 540.ms, duration: 400.ms)
                           .slideY(begin: 0.2, curve: Curves.easeOut),
+                      const SizedBox(height: 8),
+                      PasswordStrengthChecklist(
+                        controller: controller.passwordController,
+                      )
+                          .animate()
+                          .fadeIn(delay: 560.ms, duration: 400.ms),
                       const SizedBox(height: 16),
 
                       FTextFormField.password(

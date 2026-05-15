@@ -1,4 +1,5 @@
 import 'package:sukientotapp/core/utils/import/global.dart';
+import 'package:sukientotapp/core/utils/app_exceptions.dart';
 import 'package:sukientotapp/domain/repositories/auth_repository.dart';
 import 'package:sukientotapp/domain/repositories/location_repository.dart';
 import 'package:sukientotapp/features/common/home/controller.dart';
@@ -219,7 +220,12 @@ class RegisterController extends GetxController {
       );
     } catch (e) {
       logger.e('[RegisterController] Registration failed: $e');
-      Get.snackbar('error'.tr, e.toString());
+      if (e is PasswordValidationException) {
+        final message = e.codes.map((code) => code.tr).join('\n');
+        AppSnackbar.showError(message: message);
+      } else {
+        AppSnackbar.showError(message: e.toString());
+      }
     } finally {
       isLoading.value = false;
     }

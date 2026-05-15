@@ -146,6 +146,7 @@ class AuthProvider {
     } on DioException catch (e) {
       logger.e('[AuthProvider] [registerClient] DioException: ${e.message}');
       if (e.response != null) {
+        _throwIfPasswordValidationError(e.response!.data);
         final errorMessage =
             e.response?.data['message'] ?? 'Registration failed';
         throw Exception(errorMessage);
@@ -180,6 +181,7 @@ class AuthProvider {
     } on DioException catch (e) {
       logger.e('[AuthProvider] [registerPartner] DioException: ${e.message}');
       if (e.response != null) {
+        _throwIfPasswordValidationError(e.response!.data);
         final errorMessage =
             e.response?.data['message'] ?? 'Registration failed';
         throw Exception(errorMessage);
@@ -191,6 +193,20 @@ class AuthProvider {
     } catch (e) {
       logger.e('[AuthProvider] [registerPartner] Unknown error: $e');
       throw Exception('Đã xảy ra lỗi: $e');
+    }
+  }
+
+  /// Checks [responseData] for `errors.password` from a 422 Laravel response
+  /// and throws [PasswordValidationException] when password error codes are found.
+  void _throwIfPasswordValidationError(dynamic responseData) {
+    if (responseData is! Map) return;
+    final errors = responseData['errors'];
+    if (errors is! Map) return;
+    final passwordErrors = errors['password'];
+    if (passwordErrors is! List || passwordErrors.isEmpty) return;
+    final codes = passwordErrors.whereType<String>().toList();
+    if (codes.isNotEmpty) {
+      throw PasswordValidationException(codes);
     }
   }
 
