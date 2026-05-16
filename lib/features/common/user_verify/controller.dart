@@ -2,7 +2,6 @@ import 'dart:async';
 import 'package:sukientotapp/core/utils/app_exceptions.dart';
 import 'package:sukientotapp/core/utils/import/global.dart';
 import 'package:sukientotapp/domain/repositories/auth_repository.dart';
-import 'package:sukientotapp/features/common/home/controller.dart';
 
 enum VerifyMethod { email, zalo }
 
@@ -28,14 +27,14 @@ class UserVerifyController extends GetxController {
   Timer? _cooldownTimer;
 
   // check client or partner
-  bool get isClientUser => Get.find<GuestHomeController>().userType.value;
-
+  late final bool isClientUser;
   @override
   void onInit() {
     super.onInit();
     final args = Get.arguments as Map<String, dynamic>?;
     maskedEmail = args?['masked_email'] ?? '**@***.com';
     maskedPhone = args?['masked_phone'] ?? '0**...***';
+    isClientUser = args?['isClientUser'] ?? true;
   }
 
   @override
@@ -50,14 +49,46 @@ class UserVerifyController extends GetxController {
   }
 
   Future<void> goToOtpStep() async {
-    // trigger the initial OTP send BEFORE switching to step 2
-    await _sendOtp();
-    step.value = 2;
+    if (selectedMethod.value == VerifyMethod.email) {
+      await _sendOtp();
+    } else {
+      await _sendOtp();
+      step.value = 2;
+    }
   }
 
   void goBackToMethodStep() {
     step.value = 1;
     otpController.clear();
+  }
+
+  Future<void> checkEmailVerificationStatus() async {
+    isLoading.value = true;
+    try {
+      final result = await _authRepository.checkToken();
+      final isTokenValid = result != null && result['valid'] == true;
+
+      if (isTokenValid) {
+        AppSnackbar.showSuccess(
+          title: 'success'.tr,
+          message: 'verify_success'.tr,
+        );
+        Future.delayed(const Duration(seconds: 2), () {
+          Get.offAllNamed(
+            isClientUser ? Routes.clientHome : Routes.partnerHome,
+          );
+        });
+      }
+    } on UnverifiedUserException {
+      logger.w(
+        '[UserVerifyController] [_checkToken] Token valid but user unverified, prompting user to check email',
+      );
+      AppSnackbar.showInfo(title: 'info'.tr, message: 'email_not_verified'.tr);
+    } catch (e) {
+      AppSnackbar.showError(title: 'error'.tr, message: 'error_occurred'.tr);
+    } finally {
+      isLoading.value = false;
+    }
   }
 
   Future<void> verify() async {
@@ -124,7 +155,12 @@ class UserVerifyController extends GetxController {
           : 'phone';
       await _authRepository.sendOtp(method);
       _startCooldown();
-      AppSnackbar.showSuccess(title: 'success'.tr, message: 'otp_sent'.tr);
+      if (selectedMethod.value == VerifyMethod.email) {
+        AppSnackbar.showSuccess(title: 'success'.tr, message: 'email_sent'.tr);
+      } else {
+        AppSnackbar.showSuccess(title: 'success'.tr, message: 'otp_sent'.tr);
+      }
+
       logger.d('[UserVerifyController] OTP sent via $method');
     } on OtpCooldownException catch (e) {
       _startCooldown(e.retryAfter ?? 60);
@@ -155,14 +191,14 @@ class UserVerifyController extends GetxController {
         return;
       }
 
-    await _authRepository.logout();
+      await _authRepository.logout();
       StorageService.clearAllData();
       Get.offAllNamed(Routes.guestHomeScreen);
     } catch (e) {
       logger.e('[AccountController] [logout] error: $e');
       if (e.toString().contains('unauthorized')) {
         StorageService.clearAllData();
-        Get.offAllNamed(Routes.loginScreen);
+        Get.offAllNamed(Routes.guestHomeScreen);
         return;
       }
       AppSnackbar.showError(title: 'error'.tr, message: 'cannot_logout'.tr);

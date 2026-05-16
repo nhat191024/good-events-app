@@ -191,6 +191,22 @@ class _MethodSelectionStep extends StatelessWidget {
             .fadeIn(delay: 320.ms, duration: 400.ms)
             .slideY(begin: 0.2, curve: Curves.easeOut),
         const SizedBox(height: 20),
+        Obx(
+          () => controller.selectedMethod.value == VerifyMethod.email
+              ? Column(
+                  children: [
+                    FButton(
+                          onPress: controller.checkEmailVerificationStatus,
+                          child: Text('check_verification_button'.tr),
+                        )
+                        .animate()
+                        .fadeIn(delay: 400.ms, duration: 400.ms)
+                        .slideY(begin: 0.2, curve: Curves.easeOut),
+                    const SizedBox(height: 20),
+                  ],
+                )
+              : const SizedBox.shrink(),
+        ),
         Center(
           child: TextButton.icon(
             onPressed: controller.logout,
@@ -203,7 +219,7 @@ class _MethodSelectionStep extends StatelessWidget {
               ),
             ),
           ),
-        ).animate().fadeIn(delay: 400.ms, duration: 400.ms),
+        ).animate().fadeIn(delay: 600.ms, duration: 400.ms),
       ],
     );
   }
@@ -306,7 +322,9 @@ class _OtpStep extends StatelessWidget {
                     ? 'otp_max_attempts'.tr
                     : canResend
                     ? 'resend_otp'.tr
-                    : '${'resend_otp_cooldown'.tr} ${cooldown}s',
+                    : 'resend_otp_cooldown'.trParams({
+                        'seconds': cooldown.toString(),
+                      }),
                 style: TextStyle(
                   color: canResend
                       ? context.fTheme.colors.primary

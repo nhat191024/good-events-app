@@ -2,6 +2,16 @@
 
 All notable changes to this project will be documented in this file.
 
+## [v2.5.0+61]
+
+- Fix send verify email route user to input otp screen
+- Remake forgot password flow to support multi method
+- Fix fcm not update after login
+- Update password validate in register screen
+- Update password validate in forgot password
+- Update password validate in change password screen
+- Add allow etx image to my service
+
 ## [v2.4.19+60]
 
 - Add verify feature

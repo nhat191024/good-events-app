@@ -49,16 +49,45 @@ class AppTranslations extends Translations {
       //forgot password screen
       'forgot_password': 'Quên mật khẩu',
       'forgot_password_subtitle':
-          'Nhập email hoặc số điện thoại đã đăng ký. Chúng tôi sẽ gửi liên kết đặt lại mật khẩu cho bạn.',
-      'email_or_phone': 'Email hoặc số điện thoại',
-      'email_or_phone_hint': 'email@example.com hoặc 0987654321',
-      'email_or_phone_required': 'Vui lòng nhập email hoặc số điện thoại.',
-      'sending': 'Đang gửi...',
-      'send_reset_link': 'Gửi liên kết đặt lại',
-      'forgot_password_success_message':
-          'Đã gửi liên kết đặt lại mật khẩu. Vui lòng kiểm tra email hoặc tin nhắn của bạn.',
-      'forgot_password_send_failed':
-          'Gửi liên kết thất bại, vui lòng thử lại sau.',
+          'Hãy chọn phương thức bạn muốn dùng để lấy lại mật khẩu của mình.',
+      'fp_method_phone': 'Qua Zalo OTP',
+      'fp_method_phone_subtitle': 'Gửi mã OTP đến số điện thoại của bạn',
+      'fp_method_email': 'Qua Email',
+      'fp_method_email_subtitle':
+          'Gửi liên kết đặt lại mật khẩu đến địa chỉ email của bạn',
+      'fp_enter_phone_title': 'Nhập số điện thoại của bạn',
+      'fp_enter_phone_subtitle':
+          'Chúng tôi sẽ gửi mã OTP đến số điện thoại của bạn để đặt lại mật khẩu.',
+      'fp_enter_email_title': 'Nhập địa chỉ email của bạn',
+      'fp_enter_email_subtitle':
+          'Chúng tôi sẽ gửi liên kết đặt lại mật khẩu đến địa chỉ email của bạn.',
+      'fp_send_otp': 'Gửi mã OTP',
+      'fp_send_reset_email': 'Gửi liên kết đặt lại mật khẩu',
+      'fp_otp_title': 'Nhập mã OTP',
+      'fp_otp_subtitle':
+          'Chúng tôi đã gửi mã OTP đến số Zalo của bạn. Vui lòng nhập mã để đặt lại mật khẩu.',
+      'fp_email_sent_title': 'Email đã được gửi',
+      'fp_email_sent_subtitle':
+          'Chúng tôi đã gửi liên kết đặt lại mật khẩu đến địa chỉ email của bạn.',
+      'fp_email_sent_card_title': 'Email đã được gửi',
+      'fp_email_spam_hint':
+          'Hãy kiểm tra hộp thư rác nếu bạn không thấy email trong hộp thư đến.',
+      'fp_back_to_login': 'Quay lại đăng nhập',
+      'fp_resend_email': 'Gửi lại email',
+      'fp_new_password_title': 'Đặt mật khẩu mới',
+      'fp_new_password_subtitle': 'Nhập mật khẩu mới cho tài khoản của bạn.',
+      'fp_confirm_new_password': 'Xác nhận mật khẩu mới',
+
+      'fp_user_not_found':
+          'Không tìm thấy người dùng với thông tin đã cung cấp.',
+      'fp_invalid_token':
+          'Token không hợp lệ hoặc đã hết hạn. Vui lòng thử lại từ đầu.',
+
+      'passwords_do_not_match': 'Mật khẩu không khớp.',
+      'fp_reset_password_success':
+          'Mật khẩu đã được đặt lại thành công! Bạn có thể đăng nhập với mật khẩu mới.',
+
+      'resetting_password': 'Đang đặt lại mật khẩu...',
 
       //register screen
       'create_account': 'Tạo tài khoản',
@@ -77,6 +106,19 @@ class AppTranslations extends Translations {
       'password_confirmation': 'Xác nhận mật khẩu',
       'password_confirmation_hint': 'Nhập lại mật khẩu',
       'password_mismatch_error': 'Mật khẩu không khớp.',
+      'password_rule_min_length': 'Mật khẩu phải có ít nhất 12 ký tự.',
+      'password_rule_letters': 'Mật khẩu phải chứa ít nhất một chữ cái.',
+      'password_rule_mixed_case': 'Mật khẩu phải có cả chữ hoa và chữ thường.',
+      'password_rule_numbers': 'Mật khẩu phải chứa ít nhất một chữ số.',
+      'password_rule_symbols': 'Mật khẩu phải chứa ít nhất một ký tự đặc biệt.',
+      'PASSWORD_COMPROMISED':
+          'Mật khẩu này đã xuất hiện trong các vụ rò rỉ dữ liệu. Vui lòng chọn mật khẩu khác.',
+      'MIN_LENGTH_NOT_MET': 'Mật khẩu phải có ít nhất 12 ký tự.',
+      'MISSING_LETTERS': 'Mật khẩu phải chứa ít nhất một chữ cái.',
+      'MISSING_MIXED_CASE': 'Mật khẩu phải có cả chữ hoa và chữ thường.',
+      'MISSING_NUMBERS': 'Mật khẩu phải chứa ít nhất một chữ số.',
+      'MISSING_SYMBOLS': 'Mật khẩu phải chứa ít nhất một ký tự đặc biệt.',
+      'PASSWORD_CONFIRMATION_MISMATCH': 'Mật khẩu xác nhận không khớp.',
       'search': 'Tìm kiếm...',
       'province_city': 'Tỉnh thành',
       'select_province_hint': 'Chọn Khu vực hoạt động của bạn...',
@@ -125,8 +167,13 @@ class AppTranslations extends Translations {
       'otp_cooldown':
           'Vui lòng đợi trước khi yêu cầu mã OTP mới. (@seconds giây còn lại)',
       'otp_max_attempts':
-          'Đã quá số lần thử. Vui lòng đợi trước khi yêu cầu mã OTP mới.',
+          'Đã quá số lần thử. Vui lòng đợi và thử lại sau @hours giờ.',
       'resend_otp_cooldown': 'Bạn có thể yêu cầu mã OTP mới sau @seconds giây.',
+      'email_sent':
+          'Đã gửi email xác thực. Hãy kiểm tra hộp thư rác nếu bạn không thấy email trong hộp thư đến.',
+      'check_verification_button': 'Kiểm tra trạng thái xác thực',
+      'email_not_verified':
+          'Email chưa được xác thực. Vui lòng kiểm tra email của bạn và làm theo hướng dẫn để xác thực.',
 
       //search hints
       'search_hint_1': 'Bạn đang tìm dịch vụ gì?',
@@ -494,6 +541,10 @@ class AppTranslations extends Translations {
       'please_wait_before_refreshing': 'Vui lòng đợi trước khi làm mới.',
       'cooldown_active': 'Đang trong thời gian chờ (@seconds giây)',
 
+      'error_occurred': 'Đã xảy ra lỗi, vui lòng thử lại.',
+
+      'sending': 'Đang gửi...',
+
       ///Show
       'take_order': 'Show Chờ Nhận',
       'waiting_show': 'Show Chờ Xử Lý',
@@ -725,6 +776,8 @@ class AppTranslations extends Translations {
       'add_images': 'Thêm ảnh',
       'uploading_images': 'Đang tải ảnh lên...',
       'images_limit_reached': 'Đã đạt giới hạn 10 ảnh',
+      'image_format_not_supported':
+          'Định dạng ảnh không được hỗ trợ, vui lòng chọn PNG, JPG, JPEG hoặc WEBP',
       'image_too_large': 'Ảnh vượt quá 5MB, vui lòng chọn ảnh khác',
       'delete_image_confirm_title': 'Xóa ảnh?',
       'delete_image_confirm_desc':
@@ -863,16 +916,43 @@ class AppTranslations extends Translations {
       //forgot password screen
       'forgot_password': 'Forgot Password',
       'forgot_password_subtitle':
-          'Enter your registered email or phone number. We will send you a password reset link.',
-      'email_or_phone': 'Email or Phone Number',
-      'email_or_phone_hint': 'email@example.com or 0987654321',
-      'email_or_phone_required': 'Please enter your email or phone number.',
-      'sending': 'Sending...',
-      'send_reset_link': 'Send Reset Link',
-      'forgot_password_success_message':
-          'Password reset link sent. Please check your email or messages.',
-      'forgot_password_send_failed':
-          'Failed to send reset link, please try again.',
+          'Enter your registered email or phone number. We will check and provide a verification method.',
+      'fp_method_phone': 'Via Phone',
+      'fp_method_phone_subtitle':
+          'Send an OTP to your phone number to reset your password.',
+      'fp_method_email': 'Via Email',
+      'fp_method_email_subtitle':
+          'Send a password reset link to your email address.',
+      'fp_enter_phone_title': 'Enter your phone number',
+      'fp_enter_phone_subtitle':
+          'We will send an OTP to your phone number to reset your password.',
+      'fp_enter_email_title': 'Enter your email address',
+      'fp_enter_email_subtitle':
+          'We will send a password reset link to your email address.',
+      'fp_send_otp': 'Send OTP',
+      'fp_send_reset_email': 'Send password reset link',
+      'fp_otp_title': 'Enter OTP',
+      'fp_otp_subtitle':
+          'We have sent an OTP to your Zalo number. Please enter the code to reset your password.',
+      'fp_email_sent_title': 'Email Sent',
+      'fp_email_sent_subtitle':
+          'We have sent a password reset link to your email address.',
+      'fp_email_sent_card_title': 'Email Sent',
+      'fp_email_spam_hint':
+          'Please check your spam folder if you do not see the email in your inbox.',
+      'fp_back_to_login': 'Back to Login',
+      'fp_resend_email': 'Resend Email',
+      'fp_new_password_title': 'Set New Password',
+      'fp_new_password_subtitle': 'Enter a new password for your account.',
+      'fp_confirm_new_password': 'Confirm New Password',
+
+      'fp_user_not_found': 'No account found with that email or phone number.',
+      'fp_invalid_token': 'Invalid or expired token. Please try again.',
+      'passwords_do_not_match': 'Passwords do not match.',
+      'fp_reset_password_success':
+          'Your password has been reset successfully! Please log in with your new password.',
+
+      'resetting_password': 'Resetting password...',
 
       //register screen
       'create_account': 'Create Account',
@@ -891,6 +971,23 @@ class AppTranslations extends Translations {
       'password_confirmation': 'Confirm Password',
       'password_confirmation_hint': 'Re-enter password',
       'password_mismatch_error': 'Passwords do not match.',
+      'password_rule_min_length': 'Password must be at least 12 characters.',
+      'password_rule_letters': 'Password must contain at least one letter.',
+      'password_rule_mixed_case':
+          'Password must contain both upper and lowercase letters.',
+      'password_rule_numbers': 'Password must contain at least one number.',
+      'password_rule_symbols':
+          'Password must contain at least one special character.',
+      'PASSWORD_COMPROMISED':
+          'This password has appeared in a data breach. Please choose a different one.',
+      'MIN_LENGTH_NOT_MET': 'Password must be at least 12 characters.',
+      'MISSING_LETTERS': 'Password must contain at least one letter.',
+      'MISSING_MIXED_CASE':
+          'Password must contain both upper and lowercase letters.',
+      'MISSING_NUMBERS': 'Password must contain at least one number.',
+      'MISSING_SYMBOLS':
+          'Password must contain at least one special character.',
+      'PASSWORD_CONFIRMATION_MISMATCH': 'Password confirmation does not match.',
       'search': 'Search...',
       'province_city': 'Province / City',
       'select_province_hint': 'Select your operating area...',
@@ -938,8 +1035,13 @@ class AppTranslations extends Translations {
       'otp_cooldown':
           'Please wait before requesting another OTP. (@seconds seconds remaining)',
       'otp_max_attempts':
-          'You have reached the maximum number of OTP attempts. Please try again later.',
+          'You have reached the maximum number of OTP attempts. Please try again after @hours hours.',
       'resend_otp_cooldown': 'You can request a new OTP in @seconds seconds.',
+      'email_sent':
+          'Verification email has been sent. Please check your spam folder if you do not see the email in your inbox.',
+      'check_verification_button': 'Check Verification Status',
+      'email_not_verified':
+          'Your email is not verified yet. Please check your inbox and click the verification link.',
 
       //search hints
       'search_hint_1': 'What service are you looking for?',
@@ -1278,6 +1380,10 @@ class AppTranslations extends Translations {
           'Please wait a moment before refreshing again.',
       'cooldown_active': 'Cooldown active. Please wait @seconds seconds.',
 
+      'error_occurred': 'An error occurred. Please try again.',
+
+      'sending': 'Sending...',
+
       ///Show
       'take_order': 'Show available',
       'waiting_show': 'Show in process',
@@ -1513,6 +1619,8 @@ class AppTranslations extends Translations {
       'add_images': 'Add Images',
       'uploading_images': 'Uploading images...',
       'images_limit_reached': 'Limit of 10 images reached',
+      'image_format_not_supported':
+          'Unsupported image format, please choose PNG, JPG, JPEG, or WEBP',
       'image_too_large': 'Image exceeds 5MB, please choose another',
       'delete_image_confirm_title': 'Delete image?',
       'delete_image_confirm_desc':

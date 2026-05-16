@@ -56,7 +56,7 @@ class LoginController extends GetxController {
         'login_successful'.trParams({'name': user.name}),
       );
       await PusherService.init();
-      await NotificationService.init();
+      await NotificationService.syncTokenAfterLogin();
       await Future.delayed(const Duration(seconds: 1));
 
       final role = StorageService.readMapData(
@@ -127,6 +127,7 @@ class LoginController extends GetxController {
         'login_successful'.trParams({'name': user.name}),
       );
       await PusherService.init();
+      await NotificationService.syncTokenAfterLogin();
       await Future.delayed(const Duration(seconds: 1));
 
       final role = StorageService.readMapData(
@@ -167,7 +168,7 @@ class LoginController extends GetxController {
         'login_successful'.trParams({'name': user.name}),
       );
       await PusherService.init();
-      await NotificationService.init();
+      await NotificationService.syncTokenAfterLogin();
       await Future.delayed(const Duration(seconds: 1));
 
       var role = StorageService.readMapData(
@@ -185,7 +186,17 @@ class LoginController extends GetxController {
     } on UnverifiedUserException {
       AppSnackbar.showWarning(message: 'account_unverified'.tr);
       await Future.delayed(const Duration(seconds: 2));
-      Get.toNamed(Routes.userVerifyScreen);
+      Get.toNamed(
+        Routes.userVerifyScreen,
+        arguments: {
+          'isClientUser':
+              StorageService.readMapData(
+                key: LocalStorageKeys.user,
+                mapKey: 'role',
+              ) ==
+              'client',
+        },
+      );
     } catch (e) {
       Get.snackbar('error'.tr, e.toString());
     } finally {

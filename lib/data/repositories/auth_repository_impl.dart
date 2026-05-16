@@ -262,4 +262,61 @@ class AuthRepositoryImpl implements AuthRepository {
       rethrow;
     }
   }
+
+  @override
+  Future<void> forgotSendOtp({
+    required String method,
+    required String credential,
+  }) async {
+    try {
+      logger.i(
+        '[AuthRepositoryImpl] [forgotSendOtp] Sending via $method',
+      );
+      await _authProvider.forgotSendOtp(
+        method: method,
+        credential: credential,
+      );
+      logger.i('[AuthRepositoryImpl] [forgotSendOtp] Sent successfully');
+    } catch (e) {
+      logger.e('[AuthRepositoryImpl] [forgotSendOtp] Failed: $e');
+      rethrow;
+    }
+  }
+
+  @override
+  Future<String> forgotVerifyOtp({
+    required String phone,
+    required String otp,
+  }) async {
+    try {
+      logger.i('[AuthRepositoryImpl] [forgotVerifyOtp] Verifying OTP for $phone');
+      final token = await _authProvider.forgotVerifyOtp(
+        phone: phone,
+        otp: otp,
+      );
+      logger.i('[AuthRepositoryImpl] [forgotVerifyOtp] Verified, token received');
+      return token;
+    } catch (e) {
+      logger.e('[AuthRepositoryImpl] [forgotVerifyOtp] Failed: $e');
+      rethrow;
+    }
+  }
+
+  @override
+  Future<void> forgotResetPassword({
+    required String resetToken,
+    required String password,
+  }) async {
+    try {
+      logger.i('[AuthRepositoryImpl] [forgotResetPassword] Resetting password');
+      await _authProvider.forgotResetPassword(
+        resetToken: resetToken,
+        password: password,
+      );
+      logger.i('[AuthRepositoryImpl] [forgotResetPassword] Password reset successfully');
+    } catch (e) {
+      logger.e('[AuthRepositoryImpl] [forgotResetPassword] Failed: $e');
+      rethrow;
+    }
+  }
 }
