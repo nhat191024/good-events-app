@@ -849,6 +849,7 @@ class AppTranslations extends Translations {
       'add': 'Thêm',
       'add_media': 'Thêm media',
       'update': 'Cập nhật',
+      'tap_to_change_avatar': 'Nhấn để thay đổi ảnh đại diện',
 
       // partner show filter
       'filter_orders': 'Lọc đơn hàng',
@@ -1693,6 +1694,7 @@ class AppTranslations extends Translations {
       'add': 'Add',
       'add_media': 'Add Media',
       'update': 'Update',
+      'tap_to_change_avatar': 'Tap to change avatar',
 
       /// Asset Order Detail
       'asset_order_detail_title': 'Design Order Detail',
