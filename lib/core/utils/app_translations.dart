@@ -653,6 +653,7 @@ class AppTranslations extends Translations {
       'message_setting': 'Cài đặt tin nhắn',
       'report_problem': 'Báo cáo vấn đề',
       'privacy_policy': 'Chính sách bảo mật',
+      'terms_and_policies': 'Chính sách và Quy định',
       'logout': 'Đăng xuất',
 
       'add_bank_not_supported':
