@@ -2,7 +2,7 @@
 
 All notable changes to this project will be documented in this file.
 
-## [v2.5.0+61]
+## [v2.5.1+62]
 
 - Add new term of polices page
 
