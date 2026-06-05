@@ -1,5 +1,6 @@
 import './handle_notification_code.dart';
 import './handle_notification_tap.dart';
+import './handle_notification_terminated_tap.dart';
 import 'package:dio/dio.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/foundation.dart';
@@ -159,11 +160,14 @@ class NotificationService {
 
     // 7. App launched from a terminated-state notification tap
     final initialMessage = await _messaging.getInitialMessage();
+    final title = initialMessage?.notification?.title;
+    final body = initialMessage?.notification?.body;
+    final data = initialMessage?.data;
     if (initialMessage != null) {
       logger.i(
-        '[FCM] App launched from terminated state: ${initialMessage.notification?.title}',
+        '[FCM] App launched from terminated state: $title | body: $body | data: $data',
       );
-      // TODO: navigate to relevant screen based on initialMessage.data
+      HandleNotificationTerminatedTap.handleTap(data);
     }
   }
 
