@@ -71,6 +71,20 @@ class LoginController extends GetxController {
           Get.offAllNamed(Routes.partnerHome);
           break;
       }
+    } on UnverifiedUserException {
+      AppSnackbar.showWarning(message: 'account_unverified'.tr);
+      await Future.delayed(const Duration(seconds: 2));
+      Get.toNamed(
+        Routes.userVerifyScreen,
+        arguments: {
+          'isClientUser':
+              StorageService.readMapData(
+                key: LocalStorageKeys.user,
+                mapKey: 'role',
+              ) ==
+              'client',
+        },
+      );
     } catch (e) {
       Get.snackbar('error'.tr, e.toString());
     } finally {
@@ -142,6 +156,20 @@ class LoginController extends GetxController {
           Get.offAllNamed(Routes.partnerHome);
           break;
       }
+    } on UnverifiedUserException {
+      AppSnackbar.showWarning(message: 'account_unverified'.tr);
+      await Future.delayed(const Duration(seconds: 2));
+      Get.toNamed(
+        Routes.userVerifyScreen,
+        arguments: {
+          'isClientUser':
+              StorageService.readMapData(
+                key: LocalStorageKeys.user,
+                mapKey: 'role',
+              ) ==
+              'client',
+        },
+      );
     } catch (e) {
       Get.snackbar('error'.tr, e.toString());
     } finally {
