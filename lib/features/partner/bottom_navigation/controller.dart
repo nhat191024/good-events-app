@@ -12,6 +12,7 @@ class PartnerBottomNavigationController extends GetxController {
   @override
   void onInit() {
     super.onInit();
+    _setInitialIndexFromArguments();
     _subscribeToUserChannel();
   }
 
@@ -71,5 +72,27 @@ class PartnerBottomNavigationController extends GetxController {
         showController.switchTab(setTab);
       } else {}
     }
+  }
+
+  void _setInitialIndexFromArguments() {
+    final args = Get.arguments;
+    int? initialIndex;
+
+    if (args is Map && args['initialIndex'] is int) {
+      initialIndex = args['initialIndex'] as int;
+    } else {
+      final pendingIndex = StorageService.readData(
+        key: LocalStorageKeys.pendingPartnerTabIndex,
+      )?.toString();
+      if (pendingIndex != null) {
+        StorageService.removeData(key: LocalStorageKeys.pendingPartnerTabIndex);
+        initialIndex = int.tryParse(pendingIndex);
+      }
+    }
+
+    if (initialIndex == null) return;
+    if (initialIndex < 0 || initialIndex > 4) return;
+
+    currentIndex.value = initialIndex;
   }
 }

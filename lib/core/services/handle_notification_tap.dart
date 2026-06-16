@@ -1,6 +1,9 @@
 import 'package:get/get.dart';
+import 'package:sukientotapp/core/routes/pages.dart';
 import 'package:sukientotapp/core/utils/logger.dart';
 import 'package:sukientotapp/features/common/message/controller.dart';
+import 'package:sukientotapp/features/partner/bottom_navigation/controller.dart';
+import 'package:sukientotapp/features/partner/new_show/controller.dart';
 
 class HandleNotificationTap {
   static void handleTap(Map<String, dynamic> data) {
@@ -37,6 +40,7 @@ class HandleNotificationTap {
 
   void handleBillReceivedCode(Map<String, dynamic> data) {
     logger.i('[HandleNotificationTap] Handling tap for bill received');
+    _openNewShowScreen();
   }
 
   void handleNewMessageCode(Map<String, dynamic> data) {
@@ -51,6 +55,34 @@ class HandleNotificationTap {
     } else {
       logger.w(
         '[HandleNotificationTap] MessageController not registered, cannot open thread',
+      );
+    }
+  }
+
+  void _openNewShowScreen() {
+    const newShowTabIndex = 2;
+
+    if (Get.isRegistered<PartnerBottomNavigationController>()) {
+      Get.find<PartnerBottomNavigationController>().setIndex(newShowTabIndex);
+
+      if (Get.currentRoute != Routes.partnerHome) {
+        Get.offAllNamed(
+          Routes.partnerHome,
+          arguments: {'initialIndex': newShowTabIndex},
+        );
+      }
+    } else {
+      Get.offAllNamed(
+        Routes.partnerHome,
+        arguments: {'initialIndex': newShowTabIndex},
+      );
+    }
+
+    if (Get.isRegistered<NewShowController>()) {
+      Get.find<NewShowController>().refreshBills();
+    } else {
+      logger.w(
+        '[HandleNotificationTap] NewShowController not registered, cannot refresh new shows',
       );
     }
   }

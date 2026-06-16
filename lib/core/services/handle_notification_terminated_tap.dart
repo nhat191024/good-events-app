@@ -1,4 +1,3 @@
-import 'package:get/get.dart';
 import 'package:sukientotapp/core/services/localstorage_service.dart';
 import 'package:sukientotapp/core/utils/logger.dart';
 
@@ -27,20 +26,33 @@ class HandleNotificationTerminatedTap {
           logger.w('[HandleNotificationTerminatedTap] Unknown code: $code');
       }
     } else {
-      logger.w('[HandleNotificationTerminatedTap] Received tap without code: $data');
+      logger.w(
+        '[HandleNotificationTerminatedTap] Received tap without code: $data',
+      );
     }
   }
 
   void handleNewBillDetailCode(Map<String, dynamic> data) {
-    logger.i('[HandleNotificationTerminatedTap] Handling tap for new bill detail');
+    logger.i(
+      '[HandleNotificationTerminatedTap] Handling tap for new bill detail',
+    );
   }
 
   void handleBillConfirmedCode(Map<String, dynamic> data) {
-    logger.i('[HandleNotificationTerminatedTap] Handling tap for bill confirmed');
+    logger.i(
+      '[HandleNotificationTerminatedTap] Handling tap for bill confirmed',
+    );
   }
 
   void handleBillReceivedCode(Map<String, dynamic> data) {
     logger.i('[HandleNotificationTerminatedTap] Handling tap for bill received');
+    StorageService.writeStringData(
+      key: LocalStorageKeys.pendingPartnerTabIndex,
+      value: '2',
+    );
+    logger.i(
+      '[HandleNotificationTerminatedTap] Saved pendingPartnerTabIndex=2',
+    );
   }
 
   void handleNewMessageCode(Map<String, dynamic> data) {

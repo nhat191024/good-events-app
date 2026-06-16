@@ -70,6 +70,7 @@ class LocalStorageKeys {
 
   // Pending deep link (from terminated-state notification tap)
   static const String pendingThreadId = "pending_thread_id";
+  static const String pendingPartnerTabIndex = "pending_partner_tab_index";
 
   // App settings
   static const String locale = "locale";
