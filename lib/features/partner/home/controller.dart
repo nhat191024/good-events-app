@@ -67,6 +67,12 @@ class PartnerHomeController extends GetxController {
     final newBalance = dashboardData.value?.balance;
     if (newBalance != null && newBalance != currentBalance) {
       balance.value = newBalance;
+
+      StorageService.writeSingleMapData(
+        key: LocalStorageKeys.user,
+        mapKey: 'wallet_balance',
+        value: newBalance,
+      );
     }
   }
 
