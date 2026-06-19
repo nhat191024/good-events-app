@@ -532,6 +532,7 @@ class AppTranslations extends Translations {
 
       'click_to_upload': 'Nhấn để tải ảnh lên',
       'upload_description': 'PNG, JPG, JPEG, WEBP (Tối đa 5MB)',
+      'profile_upload_description': 'PNG, JPG, JPEG, WEBP (Tối đa 10MB)',
 
       'completed_orders': 'Đơn đã hoàn thành',
       'cancellation_rate': 'Tỷ lệ hủy',
@@ -794,6 +795,7 @@ class AppTranslations extends Translations {
       'image_too_large': 'Ảnh vượt quá 5MB, vui lòng chọn ảnh khác',
       'avatar_image_too_large':
           'Ảnh đại diện vượt quá 10MB, vui lòng chọn ảnh khác',
+      'profile_image_too_large': 'Ảnh vượt quá 10MB, vui lòng chọn ảnh khác',
       'delete_image_confirm_title': 'Xóa ảnh?',
       'delete_image_confirm_desc':
           'Ảnh sẽ bị xóa vĩnh viễn và không thể khôi phục.',
@@ -1365,6 +1367,7 @@ class AppTranslations extends Translations {
 
       'click_to_upload': 'Click to upload',
       'upload_description': 'PNG, JPG, JPEG, WEBP (Maximum 5MB)',
+      'profile_upload_description': 'PNG, JPG, JPEG, WEBP (Maximum 10MB)',
 
       'completed_orders': 'Completed Orders',
       'cancellation_rate': 'Cancelled rate',
@@ -1652,6 +1655,7 @@ class AppTranslations extends Translations {
       'image_too_large': 'Image exceeds 5MB, please choose another',
       'avatar_image_too_large':
           'Avatar image exceeds 10MB, please choose another',
+      'profile_image_too_large': 'Image exceeds 10MB, please choose another',
       'delete_image_confirm_title': 'Delete image?',
       'delete_image_confirm_desc':
           'This image will be permanently deleted and cannot be recovered.',

@@ -23,8 +23,8 @@ class EditProfileController extends GetxController {
 
   EditProfileController(this._repository, this._locationProvider);
 
-  static const int _maxAvatarSizeBytes = 10 * 1024 * 1024;
-  static const Set<String> _allowedAvatarExtensions = {
+  static const int _maxProfileImageSizeBytes = 10 * 1024 * 1024;
+  static const Set<String> _allowedProfileImageExtensions = {
     'jpg',
     'jpeg',
     'png',
@@ -173,10 +173,10 @@ class EditProfileController extends GetxController {
       source: ImageSource.gallery,
     );
     if (image == null) return;
+    if (!await validateProfileImage(image, isAvatar: type == 'avatar')) return;
 
     switch (type) {
       case 'avatar':
-        if (!await _validateAvatarImage(image)) return;
         avatarFile.value = image;
         break;
       case 'selfie':
@@ -191,9 +191,12 @@ class EditProfileController extends GetxController {
     }
   }
 
-  Future<bool> _validateAvatarImage(XFile image) async {
+  Future<bool> validateProfileImage(
+    XFile image, {
+    bool isAvatar = false,
+  }) async {
     final extension = image.name.split('.').last.toLowerCase();
-    if (!_allowedAvatarExtensions.contains(extension)) {
+    if (!_allowedProfileImageExtensions.contains(extension)) {
       AppSnackbar.showError(
         title: 'error'.tr,
         message: 'image_format_not_supported'.tr,
@@ -202,10 +205,12 @@ class EditProfileController extends GetxController {
     }
 
     final size = await image.length();
-    if (size > _maxAvatarSizeBytes) {
+    if (size > _maxProfileImageSizeBytes) {
       AppSnackbar.showError(
         title: 'error'.tr,
-        message: 'avatar_image_too_large'.tr,
+        message: isAvatar
+            ? 'avatar_image_too_large'.tr
+            : 'profile_image_too_large'.tr,
       );
       return false;
     }
