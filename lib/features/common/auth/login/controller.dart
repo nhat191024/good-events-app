@@ -67,18 +67,18 @@ class LoginController extends GetxController {
         case 'client':
           Get.offAllNamed(Routes.clientHome);
 
-          StorageService.readMapData(
+          StorageService.writeStringData(
             key: LocalStorageKeys.currentUIView,
-            mapKey: 'client',
+            value: 'client',
           );
 
           break;
         case 'partner':
           Get.offAllNamed(Routes.partnerHome);
 
-          StorageService.readMapData(
+          StorageService.writeStringData(
             key: LocalStorageKeys.currentUIView,
-            mapKey: 'partner',
+            value: 'partner',
           );
 
           break;
