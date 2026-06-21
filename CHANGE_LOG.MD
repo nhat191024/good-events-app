@@ -7,6 +7,8 @@ All notable changes to this project will be documented in this file.
 - Add filter when click in bill count at client home
 - Fix partner avatar not show in bill detail
 - Add preview image in edit profile
+- Change field background color in book stage
+- Fix error snackbar in login screen
 
 ## [v2.6.3+68]
 
