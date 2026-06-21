@@ -2,6 +2,12 @@
 
 All notable changes to this project will be documented in this file.
 
+## [v2.6.4+69]
+
+- Add filter when click in bill count at client home
+- Fix partner avatar not show in bill detail
+- Add preview image in edit profile
+
 ## [v2.6.3+68]
 
 - Add validation for avatar, cccd, selfie image in profile
