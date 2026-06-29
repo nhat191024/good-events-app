@@ -269,6 +269,16 @@ class AppTranslations extends Translations {
       'booking_stage_location_title': 'Địa điểm tổ chức',
       'booking_stage_location_subtitle':
           'Chọn khu vực và nhập địa chỉ chi tiết.',
+      'booking_stage_photo_title': 'Ảnh yêu cầu',
+      'booking_stage_photo_subtitle':
+          'Tùy chọn: thêm ảnh tham khảo để đối tác hiểu rõ hơn mong muốn của bạn.',
+      'booking_stage_photo_subtitle_2':
+          'Bạn có thể bỏ qua bước này. Hỗ trợ JPEG, PNG, JPG, WEBP và tối đa 20MB.',
+      'booking_stage_photo_cannot_select':
+          'Không thể chọn ảnh. Vui lòng thử lại.',
+      'booking_stage_photo_empty': 'Chưa thêm ảnh',
+      'booking_stage_photo_empty_subtitle':
+          'Ảnh chỉ giúp mô tả yêu cầu rõ hơn, không bắt buộc để đặt show.',
       'start_over': 'Bắt đầu lại',
 
       // client order
@@ -556,6 +566,10 @@ class AppTranslations extends Translations {
 
       'sending': 'Đang gửi...',
 
+      'choose_picture': 'Chọn ảnh',
+      'change_photo': 'Thay đổi ảnh',
+      'remove_photo': 'Bỏ ảnh',
+
       ///Show
       'take_order': 'Show Chờ Nhận',
       'waiting_show': 'Show Chờ Xử Lý',
@@ -812,7 +826,7 @@ class AppTranslations extends Translations {
       'orders_processed': 'Đơn hàng đã nhận',
       'top_services': 'Dịch vụ phổ biến',
       'orders_placed': 'Đơn hàng đã đặt',
-      
+
       ///Statuses
       'success': 'Thành công',
       'failed': 'Thất bại',
@@ -1156,6 +1170,16 @@ class AppTranslations extends Translations {
       'booking_stage_location_title': 'Select location',
       'booking_stage_location_subtitle':
           'Choose area and enter detailed address.',
+      'booking_stage_photo_title': 'Required Photos',
+      'booking_stage_photo_subtitle':
+          'Optional: Add reference photos to help the partner understand your requirements better.',
+      'booking_stage_photo_subtitle_2':
+          'You can skip this step. Supports JPEG, PNG, JPG, WEBP, and up to 20MB.',
+      'booking_stage_photo_cannot_select':
+          'Cannot select photo. Please try again.',
+      'booking_stage_photo_empty': 'No photo added',
+      'booking_stage_photo_empty_subtitle':
+          'Photos only help describe your requirements better, not required to book the show.',
       'start_over': 'Start over',
 
       // client order
@@ -1416,6 +1440,10 @@ class AppTranslations extends Translations {
       'sending': 'Sending...',
 
       'warning': 'Warning',
+
+      'choose_picture': 'Choose picture',
+      'change_photo': 'Change photo',
+      'remove_photo': 'Remove photo',
 
       ///Show
       'take_order': 'Show available',

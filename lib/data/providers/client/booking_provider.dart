@@ -1,4 +1,5 @@
 import 'package:dio/dio.dart';
+import 'package:image_picker/image_picker.dart';
 import 'package:sukientotapp/domain/api_url.dart';
 
 class BookingProvider {
@@ -21,11 +22,32 @@ class BookingProvider {
     }
   }
 
-  Future<Map<String, dynamic>> saveBookingInfo(Map<String, dynamic> payload) async {
+  Future<Map<String, dynamic>> saveBookingInfo(
+    Map<String, dynamic> payload, {
+    XFile? bookingPhoto,
+  }) async {
     try {
+      final Object requestData;
+      final Options? options;
+
+      if (bookingPhoto != null) {
+        requestData = FormData.fromMap({
+          ...payload,
+          'booking_photo': await MultipartFile.fromFile(
+            bookingPhoto.path,
+            filename: bookingPhoto.name,
+          ),
+        });
+        options = Options(contentType: 'multipart/form-data');
+      } else {
+        requestData = payload;
+        options = null;
+      }
+
       final response = await _dio.post(
         AppUrl.quickBookingSave,
-        data: payload,
+        data: requestData,
+        options: options,
       );
       return {
         'success': true,

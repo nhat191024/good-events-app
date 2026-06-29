@@ -6,6 +6,7 @@ import 'package:sukientotapp/data/providers/client/booking_provider.dart';
 import 'package:sukientotapp/domain/repositories/location_repository.dart';
 import 'package:sukientotapp/data/models/location_model.dart';
 import 'package:sukientotapp/data/models/client/event_order_model.dart';
+import 'package:image_picker/image_picker.dart';
 import 'widgets/booking_loading_dialog.dart';
 
 class ClientBookingController extends GetxController {
@@ -13,8 +14,15 @@ class ClientBookingController extends GetxController {
   final LocationRepository _locationRepository;
 
   static const String customEventTypeKey = 'event_type_custom';
-  static const int totalStages = 3;
+  static const int totalStages = 4;
   static const int minEventDurationMinutes = 5;
+  static const int maxBookingPhotoBytes = 20 * 1024 * 1024;
+  static const Set<String> allowedBookingPhotoExtensions = {
+    'jpeg',
+    'jpg',
+    'png',
+    'webp',
+  };
 
   final RxBool isLoading = true.obs;
   final RxBool isSubmitting = false.obs;
@@ -38,6 +46,7 @@ class ClientBookingController extends GetxController {
   final RxString selectedEventType = ''.obs;
 
   final RxString selectedProvince = ''.obs;
+  final Rxn<XFile> bookingPhoto = Rxn<XFile>();
 
   final selectedProvinceModel = Rx<LocationModel?>(null);
   final selectedWardModel = Rx<LocationModel?>(null);
@@ -187,6 +196,24 @@ class ClientBookingController extends GetxController {
     fieldErrors.remove('ward');
   }
 
+  Future<bool> selectBookingPhoto(XFile photo) async {
+    final String? errorMessage = await _validateBookingPhoto(photo);
+    if (errorMessage != null) {
+      fieldErrors['bookingPhoto'] = errorMessage;
+      Get.snackbar('error'.tr, errorMessage);
+      return false;
+    }
+
+    bookingPhoto.value = photo;
+    fieldErrors.remove('bookingPhoto');
+    return true;
+  }
+
+  void removeBookingPhoto() {
+    bookingPhoto.value = null;
+    fieldErrors.remove('bookingPhoto');
+  }
+
   int? _getEventId(String name) {
     return _apiEvents.firstWhereOrNull(
       (e) => (e['name'] as String).trim() == name,
@@ -312,7 +339,25 @@ class ClientBookingController extends GetxController {
       return isValid;
     }
 
+    if (currentStage.value == 3) {
+      return true;
+    }
+
     return true;
+  }
+
+  Future<String?> _validateBookingPhoto(XFile photo) async {
+    final String extension = photo.name.split('.').last.toLowerCase();
+    if (!allowedBookingPhotoExtensions.contains(extension)) {
+      return 'Ảnh chỉ hỗ trợ định dạng JPEG, PNG, JPG hoặc WEBP.';
+    }
+
+    final int fileSize = await photo.length();
+    if (fileSize > maxBookingPhotoBytes) {
+      return 'Ảnh yêu cầu không được vượt quá 20MB.';
+    }
+
+    return null;
   }
 
   Future<void> submitBooking() async {
@@ -368,7 +413,10 @@ class ClientBookingController extends GetxController {
 
     logger.d('Submitting payload: $payload');
 
-    final result = await _bookingProvider.saveBookingInfo(payload);
+    final result = await _bookingProvider.saveBookingInfo(
+      payload,
+      bookingPhoto: bookingPhoto.value,
+    );
 
     if (Get.isDialogOpen ?? false) {
       Get.back(); // Close loading dialog
