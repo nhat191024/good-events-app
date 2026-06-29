@@ -3,7 +3,6 @@ import 'package:sukientotapp/features/client/booking/controller.dart';
 import 'stage_1/booking_stage_time.dart';
 import 'stage_2/booking_stage_event.dart';
 import 'stage_3/booking_stage_location.dart';
-import 'stage_4/booking_stage_photo.dart';
 
 class BookingStageContent extends GetView<ClientBookingController> {
   const BookingStageContent({super.key, required this.stage});
@@ -19,8 +18,6 @@ class BookingStageContent extends GetView<ClientBookingController> {
         return const BookingEventStage();
       case 2:
         return const BookingLocationStage();
-      case 3:
-        return const BookingPhotoStage();
       default:
         return const BookingTimeStage();
     }

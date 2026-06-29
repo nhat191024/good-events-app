@@ -24,20 +24,24 @@ class BookingProvider {
 
   Future<Map<String, dynamic>> saveBookingInfo(
     Map<String, dynamic> payload, {
-    XFile? bookingPhoto,
+    List<XFile> bookingPhotos = const [],
   }) async {
     try {
       final Object requestData;
       final Options? options;
 
-      if (bookingPhoto != null) {
-        requestData = FormData.fromMap({
-          ...payload,
-          'booking_photo': await MultipartFile.fromFile(
-            bookingPhoto.path,
-            filename: bookingPhoto.name,
-          ),
-        });
+      if (bookingPhotos.isNotEmpty) {
+        final formData = FormData.fromMap(payload);
+        for (final photo in bookingPhotos) {
+          formData.files.add(
+            MapEntry(
+              'booking_photo[]',
+              await MultipartFile.fromFile(photo.path, filename: photo.name),
+            ),
+          );
+        }
+
+        requestData = formData;
         options = Options(contentType: 'multipart/form-data');
       } else {
         requestData = payload;

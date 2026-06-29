@@ -14,8 +14,9 @@ class ClientBookingController extends GetxController {
   final LocationRepository _locationRepository;
 
   static const String customEventTypeKey = 'event_type_custom';
-  static const int totalStages = 4;
+  static const int totalStages = 3;
   static const int minEventDurationMinutes = 5;
+  static const int maxBookingPhotos = 5;
   static const int maxBookingPhotoBytes = 20 * 1024 * 1024;
   static const Set<String> allowedBookingPhotoExtensions = {
     'jpeg',
@@ -46,7 +47,7 @@ class ClientBookingController extends GetxController {
   final RxString selectedEventType = ''.obs;
 
   final RxString selectedProvince = ''.obs;
-  final Rxn<XFile> bookingPhoto = Rxn<XFile>();
+  final RxList<XFile> bookingPhotos = <XFile>[].obs;
 
   final selectedProvinceModel = Rx<LocationModel?>(null);
   final selectedWardModel = Rx<LocationModel?>(null);
@@ -196,21 +197,52 @@ class ClientBookingController extends GetxController {
     fieldErrors.remove('ward');
   }
 
-  Future<bool> selectBookingPhoto(XFile photo) async {
-    final String? errorMessage = await _validateBookingPhoto(photo);
-    if (errorMessage != null) {
-      fieldErrors['bookingPhoto'] = errorMessage;
-      Get.snackbar('error'.tr, errorMessage);
-      return false;
+  Future<void> addBookingPhotos(List<XFile> photos) async {
+    if (photos.isEmpty) return;
+
+    final int remainingSlots = maxBookingPhotos - bookingPhotos.length;
+    if (remainingSlots <= 0) {
+      final String message = 'booking_stage_photo_max_error'.tr;
+      fieldErrors['bookingPhoto'] = message;
+      Get.snackbar('error'.tr, message);
+      return;
     }
 
-    bookingPhoto.value = photo;
+    final List<XFile> acceptedPhotos = [];
+    for (final photo in photos.take(remainingSlots)) {
+      final String? errorMessage = await _validateBookingPhoto(photo);
+      if (errorMessage != null) {
+        fieldErrors['bookingPhoto'] = errorMessage;
+        Get.snackbar('error'.tr, errorMessage);
+        return;
+      }
+
+      acceptedPhotos.add(photo);
+    }
+
+    bookingPhotos.addAll(acceptedPhotos);
     fieldErrors.remove('bookingPhoto');
-    return true;
+
+    if (photos.length > remainingSlots) {
+      Get.snackbar('notification'.tr, 'booking_stage_photo_max_notice'.tr);
+    }
   }
 
-  void removeBookingPhoto() {
-    bookingPhoto.value = null;
+  Future<void> addBookingPhoto(XFile photo) async {
+    await addBookingPhotos([photo]);
+  }
+
+  void removeBookingPhotoAt(int index) {
+    if (index < 0 || index >= bookingPhotos.length) {
+      return;
+    }
+
+    bookingPhotos.removeAt(index);
+    fieldErrors.remove('bookingPhoto');
+  }
+
+  void clearBookingPhotos() {
+    bookingPhotos.clear();
     fieldErrors.remove('bookingPhoto');
   }
 
@@ -339,10 +371,6 @@ class ClientBookingController extends GetxController {
       return isValid;
     }
 
-    if (currentStage.value == 3) {
-      return true;
-    }
-
     return true;
   }
 
@@ -415,7 +443,7 @@ class ClientBookingController extends GetxController {
 
     final result = await _bookingProvider.saveBookingInfo(
       payload,
-      bookingPhoto: bookingPhoto.value,
+      bookingPhotos: bookingPhotos.toList(),
     );
 
     if (Get.isDialogOpen ?? false) {
