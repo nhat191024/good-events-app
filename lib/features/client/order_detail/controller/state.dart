@@ -187,6 +187,16 @@ mixin ClientOrderDetailState {
     return null;
   }
 
+  String? get completionPhoto {
+    if (isHistory.value && _historyOrder.value != null) {
+      return _historyOrder.value!.completionPhoto;
+    }
+    if (!isHistory.value && _eventOrder.value != null) {
+      return _eventOrder.value!.completionPhoto;
+    }
+    return null;
+  }
+
   String? get categoryImage {
     if (isHistory.value && _historyOrder.value != null) {
       return _historyOrder.value!.categoryImage;

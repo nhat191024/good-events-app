@@ -89,6 +89,7 @@ class HistoryOrderModel {
   final String? categoryImage;
   final String? eventName;
   final String? arrivalPhoto;
+  final String? completionPhoto;
   final List<String> bookingPhotos;
   final HistoryPartnerModel? partner;
   final HistoryReviewModel? review;
@@ -110,6 +111,7 @@ class HistoryOrderModel {
     this.categoryImage,
     this.eventName,
     this.arrivalPhoto,
+    this.completionPhoto,
     this.bookingPhotos = const <String>[],
     this.partner,
     this.review,
@@ -133,6 +135,7 @@ class HistoryOrderModel {
       categoryImage: json['category_image'] as String?,
       eventName: json['event_name'] as String?,
       arrivalPhoto: json['arrival_photo'] as String?,
+      completionPhoto: json['completion_photo'] as String?,
       bookingPhotos: _parseBookingPhotos(json['booking_photos']),
       partner: json['partner'] != null
           ? HistoryPartnerModel.fromJson(json['partner'] as Map<String, dynamic>)
