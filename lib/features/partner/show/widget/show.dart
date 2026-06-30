@@ -26,6 +26,7 @@ class Show extends StatelessWidget {
     required this.address,
     required this.note,
     required this.currentStatus,
+    this.bookingPhotos = const <String>[],
     this.reviewExists = false,
   });
 
@@ -42,6 +43,7 @@ class Show extends StatelessWidget {
   final String address;
   final String note;
   final String currentStatus;
+  final List<String> bookingPhotos;
   final bool reviewExists;
 
   static const Map<String, Map<String, Color>> _statusColors = {
@@ -303,6 +305,7 @@ class Show extends StatelessWidget {
                       date: date,
                       address: address,
                       note: note,
+                      bookingPhotos: bookingPhotos,
                       total: price,
                     ),
                     isScrollControlled: true,
