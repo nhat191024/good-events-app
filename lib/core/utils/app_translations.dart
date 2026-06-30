@@ -551,6 +551,7 @@ class AppTranslations extends Translations {
       'click_to_change_image': 'Bấm để thay đổi hình ảnh',
       'upload_description': 'PNG, JPG, JPEG, WEBP (Tối đa 5MB)',
       'profile_upload_description': 'PNG, JPG, JPEG, WEBP (Tối đa 10MB)',
+      'show_photo_upload_description': 'PNG, JPG, JPEG, WEBP (Tối đa 20MB)',
 
       'completed_orders': 'Đơn đã hoàn thành',
       'cancellation_rate': 'Tỷ lệ hủy',
@@ -602,6 +603,14 @@ class AppTranslations extends Translations {
       'upload_arrived_photo': 'Tải ảnh đã đến nơi',
       'upload_arrived_photo_desc':
           'Tải ảnh lên để xác nhận bạn đã đến địa điểm.',
+      'arrival_photo_required': 'Vui lòng tải ảnh đã đến nơi.',
+
+      'upload_completion_photo': 'Tải ảnh hoàn thành show',
+      'upload_completion_photo_desc':
+          'Tải ảnh lên để xác nhận show đã được hoàn thành.',
+      'completion_photo_required': 'Vui lòng tải ảnh hoàn thành show.',
+      'show_photo_image_too_large':
+          'Ảnh vượt quá 20MB, vui lòng chọn ảnh khác',
 
       'confirm_complete': 'Xác nhận hoàn thành',
       'confirm_complete_message':
@@ -1410,6 +1419,7 @@ class AppTranslations extends Translations {
       'click_to_change_image': 'Click to change image',
       'upload_description': 'PNG, JPG, JPEG, WEBP (Maximum 5MB)',
       'profile_upload_description': 'PNG, JPG, JPEG, WEBP (Maximum 10MB)',
+      'show_photo_upload_description': 'PNG, JPG, JPEG, WEBP (Maximum 20MB)',
 
       'completed_orders': 'Completed Orders',
       'cancellation_rate': 'Cancelled rate',
@@ -1506,6 +1516,14 @@ class AppTranslations extends Translations {
       'upload_arrived_photo': 'Upload arrived photo',
       'upload_arrived_photo_desc':
           'Upload a photo to confirm you have arrived at the location.',
+      'arrival_photo_required': 'Please upload an arrival photo.',
+
+      'upload_completion_photo': 'Upload completion photo',
+      'upload_completion_photo_desc':
+          'Upload a photo to confirm the show has been completed.',
+      'completion_photo_required': 'Please upload a completion photo.',
+      'show_photo_image_too_large':
+          'Image exceeds 20MB, please choose another',
 
       'confirm_complete': 'Confirm completion',
       'confirm_complete_message':
