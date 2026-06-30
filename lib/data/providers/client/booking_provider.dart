@@ -1,6 +1,7 @@
 import 'package:dio/dio.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:sukientotapp/domain/api_url.dart';
+import 'package:sukientotapp/core/utils/logger.dart';
 
 class BookingProvider {
   final Dio _dio;
@@ -11,7 +12,9 @@ class BookingProvider {
     try {
       final response = await _dio.get(AppUrl.quickBookingEventList);
       if (response.data is List) {
-        return (response.data as List).map((item) => item as Map<String, dynamic>).toList();
+        return (response.data as List)
+            .map((item) => item as Map<String, dynamic>)
+            .toList();
       }
       return [];
     } on DioException catch (e) {
@@ -35,7 +38,7 @@ class BookingProvider {
         for (final photo in bookingPhotos) {
           formData.files.add(
             MapEntry(
-              'booking_photo[]',
+              'booking_photos[]',
               await MultipartFile.fromFile(photo.path, filename: photo.name),
             ),
           );
@@ -48,15 +51,21 @@ class BookingProvider {
         options = null;
       }
 
+      if (requestData is FormData) {
+        logger.d('Request fields: ${requestData.fields}');
+        logger.d(
+          'Request files: ${requestData.files.map((entry) => '${entry.key}: ${entry.value.filename}').toList()}',
+        );
+      } else {
+        logger.d('Request Data: $requestData');
+      }
+
       final response = await _dio.post(
         AppUrl.quickBookingSave,
         data: requestData,
         options: options,
       );
-      return {
-        'success': true,
-        ...response.data,
-      };
+      return {'success': true, ...response.data};
     } on DioException catch (e) {
       if (e.response != null && e.response?.statusCode == 422) {
         return {
@@ -70,10 +79,7 @@ class BookingProvider {
         'message': e.response?.data?['message'] ?? 'network_error',
       };
     } catch (e) {
-      return {
-        'success': false,
-        'message': e.toString(),
-      };
+      return {'success': false, 'message': e.toString()};
     }
   }
 }

@@ -253,7 +253,7 @@ class AppTranslations extends Translations {
       'booking_address_detail': 'Địa chỉ chi tiết',
       'booking_address_placeholder': 'Số nhà, đường...',
       'booking_back': 'Làm lại từ đầu',
-      'booking_submit': 'Đặt show ngay',
+      'booking_submit': 'Tìm đối tác',
       'booking_success': 'Đặt lịch thành công!',
       'please_wait': 'Vui lòng chờ...',
       'event_type_custom': 'Khác',
@@ -269,16 +269,21 @@ class AppTranslations extends Translations {
       'booking_stage_location_title': 'Địa điểm tổ chức',
       'booking_stage_location_subtitle':
           'Chọn khu vực và nhập địa chỉ chi tiết.',
-      'booking_stage_photo_title': 'Ảnh yêu cầu',
+      'booking_stage_photo_title': 'Ảnh đính kèm (Không bắt buộc)',
       'booking_stage_photo_subtitle':
-          'Tùy chọn: thêm ảnh tham khảo để đối tác hiểu rõ hơn mong muốn của bạn.',
+          'Tùy chọn: thêm tối đa 5 ảnh tham khảo để đối tác hiểu rõ hơn mong muốn của bạn.',
       'booking_stage_photo_subtitle_2':
-          'Bạn có thể bỏ qua bước này. Hỗ trợ JPEG, PNG, JPG, WEBP và tối đa 20MB.',
+          'Bạn có thể bỏ qua bước này. Hỗ trợ JPEG, PNG, JPG, WEBP và tối đa 20MB mỗi ảnh.',
       'booking_stage_photo_cannot_select':
           'Không thể chọn ảnh. Vui lòng thử lại.',
       'booking_stage_photo_empty': 'Chưa thêm ảnh',
       'booking_stage_photo_empty_subtitle':
           'Ảnh chỉ giúp mô tả yêu cầu rõ hơn, không bắt buộc để đặt show.',
+      'booking_stage_photo_selected_count': '@count/@max ảnh đã chọn',
+      'booking_stage_photo_full': 'Đã đủ ảnh',
+      'booking_stage_photo_max_error':
+          'Bạn chỉ có thể thêm tối đa 5 ảnh yêu cầu.',
+      'booking_stage_photo_max_notice': 'Chỉ nhận tối đa 5 ảnh yêu cầu.',
       'start_over': 'Bắt đầu lại',
 
       // client order
@@ -1155,7 +1160,7 @@ class AppTranslations extends Translations {
       'booking_address_detail': 'Detailed address',
       'booking_address_placeholder': 'Street, building...',
       'booking_back': 'Start over',
-      'booking_submit': 'Book now',
+      'booking_submit': 'Find partners',
       'booking_success': 'Booking successful!',
       'please_wait': 'Please wait...',
       'event_type_custom': 'Others',
@@ -1170,16 +1175,22 @@ class AppTranslations extends Translations {
       'booking_stage_location_title': 'Select location',
       'booking_stage_location_subtitle':
           'Choose area and enter detailed address.',
-      'booking_stage_photo_title': 'Required Photos',
+      'booking_stage_photo_title': 'Add reference photos (Optional)',
       'booking_stage_photo_subtitle':
-          'Optional: Add reference photos to help the partner understand your requirements better.',
+          'Optional: Add up to 5 reference photos to help the partner understand your requirements better.',
       'booking_stage_photo_subtitle_2':
-          'You can skip this step. Supports JPEG, PNG, JPG, WEBP, and up to 20MB.',
+          'You can skip this step. Supports JPEG, PNG, JPG, WEBP, and up to 20MB per photo.',
       'booking_stage_photo_cannot_select':
           'Cannot select photo. Please try again.',
       'booking_stage_photo_empty': 'No photo added',
       'booking_stage_photo_empty_subtitle':
-          'Photos only help describe your requirements better, not required to book the show.',
+          'You can add up to 5 reference photos to help the partner understand your requirements better.',
+      'booking_stage_photo_selected_count': '@count/@max photos selected',
+      'booking_stage_photo_full': 'Photo limit reached',
+      'booking_stage_photo_max_error':
+          'You can add up to 5 requirement photos only.',
+      'booking_stage_photo_max_notice':
+          'Only up to 5 requirement photos are accepted.',
       'start_over': 'Start over',
 
       // client order
