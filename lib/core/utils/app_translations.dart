@@ -793,6 +793,18 @@ class AppTranslations extends Translations {
 
       ///my services
       'my_services': 'Dịch vụ của tôi',
+      'service_areas': 'Khu vực phục vụ',
+      'select_service_area': 'Chọn khu vực phục vụ',
+      'selected_service_areas': 'Khu vực đã chọn',
+      'select_service_area_wards': 'Chọn phường/khu vực phục vụ',
+      'service_area_count': 'Đã chọn @count khu vực phục vụ',
+      'service_areas_saved': 'Đã lưu khu vực phục vụ thành công!',
+      'no_service_areas': 'Bạn chưa chọn khu vực phục vụ nào',
+      'clear_all': 'Xóa tất cả',
+      'select_all_city_wards': 'Chọn tất cả',
+      'unselect_city_wards': 'Bỏ chọn thành phố này',
+      'ward_count': '@count phường',
+      'unknown_province': 'Chưa rõ thành phố',
       'add_service': 'Thêm dịch vụ',
       'add_service_subtitle':
           'Thêm dịch vụ của bạn. Giới thiệu dịch vụ chỉ hỗ trợ cho admin duyệt không hiển thị cho khách hàng',
@@ -1687,6 +1699,18 @@ class AppTranslations extends Translations {
 
       ///my services
       'my_services': 'My Services',
+      'service_areas': 'Service Areas',
+      'select_service_area': 'Select service area',
+      'selected_service_areas': 'Selected service areas',
+      'select_service_area_wards': 'Select wards/service areas',
+      'service_area_count': '@count service areas selected',
+      'service_areas_saved': 'Service areas saved successfully!',
+      'no_service_areas': 'No service areas selected yet',
+      'clear_all': 'Clear all',
+      'select_all_city_wards': 'Select all',
+      'unselect_city_wards': 'Unselect city',
+      'ward_count': '@count wards',
+      'unknown_province': 'Unknown city',
       'add_service': 'Add Service',
       'add_service_subtitle':
           'Add your service. Service introduction is for admin review only and will not be shown to customers',
