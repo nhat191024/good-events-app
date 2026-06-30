@@ -13,6 +13,7 @@ class ChatBubble extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final isSender = message.isSender;
+    final isImageMessage = message.type == 'image';
     return Padding(
       padding: EdgeInsets.fromLTRB(12, isFirst ? 12 : 2, 12, 2),
       child: Column(
@@ -55,26 +56,42 @@ class ChatBubble extends StatelessWidget {
                 ),
                 child: Container(
                   padding: EdgeInsets.symmetric(
-                    horizontal: message.type == 'image' ? 6 : 14,
-                    vertical: message.type == 'image' ? 6 : 10,
+                    horizontal: isImageMessage ? 0 : 14,
+                    vertical: isImageMessage ? 0 : 10,
                   ),
                   decoration: BoxDecoration(
-                    color: isSender ? AppColors.primary : Colors.white,
-                    borderRadius: BorderRadius.only(
-                      topLeft: const Radius.circular(18),
-                      topRight: const Radius.circular(18),
-                      bottomLeft: Radius.circular(isSender ? 18 : 4),
-                      bottomRight: Radius.circular(isSender ? 4 : 18),
-                    ),
-                    boxShadow: [
-                      BoxShadow(
-                        color: Colors.black.withValues(alpha: 0.07),
-                        blurRadius: 8,
-                        offset: const Offset(0, 2),
-                      ),
-                    ],
+                    color: isImageMessage
+                        ? Colors.transparent
+                        : isSender
+                            ? AppColors.primary
+                            : Colors.white,
+                    borderRadius: isImageMessage
+                        ? null
+                        : BorderRadius.only(
+                            topLeft: const Radius.circular(18),
+                            topRight: const Radius.circular(18),
+                            bottomLeft: Radius.circular(isSender ? 18 : 4),
+                            bottomRight: Radius.circular(isSender ? 4 : 18),
+                          ),
+                    boxShadow: isImageMessage
+                        ? null
+                        : [
+                            BoxShadow(
+                              color: Colors.black.withValues(alpha: 0.07),
+                              blurRadius: 8,
+                              offset: const Offset(0, 2),
+                            ),
+                          ],
                   ),
-                  child: _BubbleContent(message: message, isSender: isSender),
+                  child: isImageMessage
+                      ? _BubbleContent(
+                          message: message,
+                          isSender: isSender,
+                        )
+                      : _BubbleContent(
+                          message: message,
+                          isSender: isSender,
+                        ),
                 ),
               ),
               if (!isSender)
