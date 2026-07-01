@@ -2,6 +2,11 @@
 
 All notable changes to this project will be documented in this file.
 
+## [v2.7.2+72]
+
+- Add option to remove applied voucher
+- Add UI for voucher customer used in order
+
 ## [v2.7.1+71]
 
 - Fix wrong API build
