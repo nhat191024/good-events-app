@@ -12,9 +12,7 @@ class PartnerSection extends GetView<ClientOrderDetailController> {
     return Container(
       decoration: BoxDecoration(
         color: Colors.white,
-        border: Border.all(
-          color: primary.withValues(alpha: 0.12),
-        ),
+        border: Border.all(color: primary.withValues(alpha: 0.12)),
         borderRadius: BorderRadius.circular(12),
         boxShadow: [
           BoxShadow(
@@ -128,8 +126,7 @@ class PartnerSection extends GetView<ClientOrderDetailController> {
   }
 
   Widget _buildNoticeBanner(BuildContext context) {
-    const String noticeText =
-        'Lưu ý: Sau khi đặt đơn, bạn có 48 giờ để chót nhân sự. Sau 48 giờ nếu không có nhân sự nào được chốt thì đơn hàng sẽ tự động hủy';
+    String noticeText = 'time_warning'.tr;
 
     return Container(
       width: double.infinity,

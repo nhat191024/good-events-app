@@ -335,6 +335,8 @@ class AppTranslations extends Translations {
       'please_wait_a_moment':
           'Vui lòng đợi một lúc, chúng tôi đang gửi thông báo đến cho các đối tác gần đó và sẽ tải lại trang cho bạn',
       'proposed_partner_price': 'Giá đối tác đề xuất',
+      'time_warning':
+          'Lưu ý: Sau khi đặt đơn, bạn có 48 giờ để chốt nhân sự. Sau 48 giờ nếu không có nhân sự nào được chốt thì đơn hàng sẽ tự động hủy',
       'completion_rate': 'Tỷ lệ hoàn thành',
       'profile': 'Hồ sơ',
       'choose_partner': 'Chọn đối tác',
@@ -610,8 +612,7 @@ class AppTranslations extends Translations {
       'upload_completion_photo_desc':
           'Tải ảnh lên để xác nhận show đã được hoàn thành.',
       'completion_photo_required': 'Vui lòng tải ảnh hoàn thành show.',
-      'show_photo_image_too_large':
-          'Ảnh vượt quá 20MB, vui lòng chọn ảnh khác',
+      'show_photo_image_too_large': 'Ảnh vượt quá 20MB, vui lòng chọn ảnh khác',
 
       'confirm_complete': 'Xác nhận hoàn thành',
       'confirm_complete_message':
@@ -1283,6 +1284,8 @@ class AppTranslations extends Translations {
       'please_wait_a_moment':
           'Please wait a moment, we are sending notifications to nearby partners and will reload the page for you.',
       'proposed_partner_price': 'Partner Proposed Price',
+      'time_warning':
+          'Note: After placing your order, you have 48 hours to finalize your staffing. After 48 hours, if no staff is finalized, the order will be automatically canceled.',
       'completion_rate': 'Completion Rate',
       'profile': 'Profile',
       'choose_partner': 'Choose Partner',
@@ -1544,8 +1547,7 @@ class AppTranslations extends Translations {
       'upload_completion_photo_desc':
           'Upload a photo to confirm the show has been completed.',
       'completion_photo_required': 'Please upload a completion photo.',
-      'show_photo_image_too_large':
-          'Image exceeds 20MB, please choose another',
+      'show_photo_image_too_large': 'Image exceeds 20MB, please choose another',
 
       'confirm_complete': 'Confirm completion',
       'confirm_complete_message':
@@ -1567,8 +1569,7 @@ class AppTranslations extends Translations {
       'price_quoted': 'You have quoted for show #@code',
       'failed_to_quote_price':
           'Failed to quote price because you are either banned or have insufficient balance.',
-      'quote_error_not_allowed':
-          'Your account is not allowed to quote prices.',
+      'quote_error_not_allowed': 'Your account is not allowed to quote prices.',
       'quote_error_insufficient_balance':
           'Your account balance does not meet the minimum requirement to quote for this show.',
       'quote_error_order_not_pending':
