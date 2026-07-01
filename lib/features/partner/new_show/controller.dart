@@ -17,7 +17,6 @@ class NewShowController extends GetxController {
   final ScrollController scrollController = ScrollController();
 
   final bills = <PartnerBill>[].obs;
-  final availableCategories = <AvailableCategory>[].obs;
   final lastUpdated = ''.obs;
 
   // ─── Filter State ────────────────────────────────────────────────────────────
@@ -170,8 +169,7 @@ class NewShowController extends GetxController {
           }
         }
         bills.assignAll(response.partnerBills);
-        availableCategories.assignAll(response.availableCategories);
-        await _subscribeToCategories();
+        await _subscribeToBroadcastChannels(response.broadcastChannels);
       } else {
         bills.addAll(response.partnerBills);
       }
@@ -271,11 +269,10 @@ class NewShowController extends GetxController {
     }
   }
 
-  Future<void> _subscribeToCategories() async {
+  Future<void> _subscribeToBroadcastChannels(List<String> channels) async {
     await _unsubscribeAll();
 
-    for (final category in availableCategories) {
-      final channelName = 'private-category.${category.id}';
+    for (final channelName in channels) {
       await PusherService.subscribe(
         channelName: channelName,
         eventName: _pusherEventName,
