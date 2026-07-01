@@ -35,6 +35,7 @@ mixin ClientOrderDetailState {
   // Voucher State
   final voucherController = TextEditingController();
   final isCheckingVoucher = false.obs;
+  final isRemovingVoucher = false.obs;
   static final savedVouchers = <int, VoucherModel>{}.obs;
 
   // Unified Getters

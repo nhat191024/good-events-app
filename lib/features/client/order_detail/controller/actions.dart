@@ -493,6 +493,42 @@ extension ClientOrderDetailActions on ClientOrderDetailController {
     }
   }
 
+  Future<void> removeVoucher() async {
+    final savedVoucher = ClientOrderDetailState.savedVouchers[orderId];
+    if (savedVoucher == null) {
+      voucherController.clear();
+      return;
+    }
+
+    isRemovingVoucher.value = true;
+    try {
+      final result = await _repository.removeVoucher(orderId: orderId);
+      final bool success = result['success'] == true || result['status'] == true;
+
+      if (success) {
+        ClientOrderDetailState.savedVouchers.remove(orderId);
+        voucherController.clear();
+        Get.snackbar(
+          'success'.tr,
+          result['message'] ?? 'remove_voucher_success'.tr,
+        );
+        await fetchOrderDetails(showLoading: false);
+      } else {
+        Get.snackbar(
+          'error'.tr,
+          result['message'] ?? 'remove_voucher_failed'.tr,
+          backgroundColor: const Color(0xFFFFEBEE),
+          colorText: const Color(0xFFB71C1C),
+        );
+      }
+    } catch (e) {
+      logger.e('Error removing voucher: $e');
+      Get.snackbar('error'.tr, 'network_error'.tr);
+    } finally {
+      isRemovingVoucher.value = false;
+    }
+  }
+
   void showVoucherResultBottomSheet(VoucherModel voucher) {
     Get.bottomSheet(
       VoucherDetailsBottomSheet(voucher: voucher),

@@ -331,23 +331,33 @@ class DetailedInfoSection extends GetView<ClientOrderDetailController> {
           const SizedBox(height: 10),
           LayoutBuilder(
             builder: (context, constraints) {
-              final Widget field = _buildVoucherField(primary);
-              final Widget button = _buildVoucherButton(primary);
-
-              if (constraints.maxWidth < 360) {
-                return Column(
-                  crossAxisAlignment: CrossAxisAlignment.stretch,
-                  children: [field, const SizedBox(height: 8), button],
+              return Obx(() {
+                final bool hasSavedVoucher =
+                    ClientOrderDetailState.savedVouchers[controller.orderId] !=
+                        null;
+                final Widget field = _buildVoucherField(
+                  primary,
+                  readOnly: hasSavedVoucher,
                 );
-              }
+                final Widget button = hasSavedVoucher
+                    ? _buildRemoveVoucherButton()
+                    : _buildVoucherButton(primary);
 
-              return Row(
-                children: [
-                  Expanded(child: field),
-                  const SizedBox(width: 8),
-                  button,
-                ],
-              );
+                if (constraints.maxWidth < 360) {
+                  return Column(
+                    crossAxisAlignment: CrossAxisAlignment.stretch,
+                    children: [field, const SizedBox(height: 8), button],
+                  );
+                }
+
+                return Row(
+                  children: [
+                    Expanded(child: field),
+                    const SizedBox(width: 8),
+                    button,
+                  ],
+                );
+              });
             },
           ),
         ],
@@ -355,8 +365,9 @@ class DetailedInfoSection extends GetView<ClientOrderDetailController> {
     );
   }
 
-  Widget _buildVoucherField(Color primary) {
+  Widget _buildVoucherField(Color primary, {required bool readOnly}) {
     return TextField(
+      readOnly: readOnly,
       onTapOutside: (event) {
         FocusManager.instance.primaryFocus?.unfocus();
       },
@@ -364,7 +375,7 @@ class DetailedInfoSection extends GetView<ClientOrderDetailController> {
       decoration: InputDecoration(
         hintText: 'voucher_placeholder'.tr,
         filled: true,
-        fillColor: Colors.white,
+        fillColor: readOnly ? const Color(0xFFF1F5F9) : Colors.white,
         contentPadding: const EdgeInsets.symmetric(
           horizontal: 12,
           vertical: 10,
@@ -377,6 +388,13 @@ class DetailedInfoSection extends GetView<ClientOrderDetailController> {
           borderRadius: BorderRadius.circular(8),
           borderSide: BorderSide(color: primary),
         ),
+        suffixIcon: readOnly
+            ? const Icon(
+                Icons.check_circle_rounded,
+                color: Color(0xFF16A34A),
+                size: 20,
+              )
+            : null,
       ),
     );
   }
@@ -409,6 +427,36 @@ class DetailedInfoSection extends GetView<ClientOrderDetailController> {
                   style: const TextStyle(fontWeight: FontWeight.bold),
                 ),
               ),
+      ),
+    );
+  }
+
+  Widget _buildRemoveVoucherButton() {
+    return Obx(
+      () => OutlinedButton.icon(
+        onPressed: controller.isRemovingVoucher.value
+            ? null
+            : () => controller.removeVoucher(),
+        style: OutlinedButton.styleFrom(
+          foregroundColor: AppColors.red700,
+          side: const BorderSide(color: AppColors.red200),
+          backgroundColor: Colors.white,
+          shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(8)),
+        ),
+        icon: controller.isRemovingVoucher.value
+            ? const SizedBox(
+                width: 16,
+                height: 16,
+                child: CircularProgressIndicator(strokeWidth: 2),
+              )
+            : const Icon(Icons.close_rounded, size: 18),
+        label: FittedBox(
+          fit: BoxFit.scaleDown,
+          child: Text(
+            'remove_voucher'.tr,
+            style: const TextStyle(fontWeight: FontWeight.bold),
+          ),
+        ),
       ),
     );
   }
