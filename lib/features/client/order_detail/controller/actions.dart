@@ -18,6 +18,7 @@ extension ClientOrderDetailActions on ClientOrderDetailController {
         final updatedOrder = results[1] as HistoryOrderModel?;
         if (updatedOrder != null) {
           _historyOrder.value = updatedOrder;
+          _syncVoucherController(updatedOrder.voucher?.code);
 
           // Sync back to ClientOrderController's history list if it exists
           if (Get.isRegistered<ClientOrderController>()) {
@@ -42,6 +43,7 @@ extension ClientOrderDetailActions on ClientOrderDetailController {
         final updatedOrder = results[1] as EventOrderModel?;
         if (updatedOrder != null) {
           _eventOrder.value = updatedOrder;
+          _syncVoucherController(updatedOrder.voucher?.code);
 
           // Sync back to ClientOrderController's event orders list if it exists
           if (Get.isRegistered<ClientOrderController>()) {
@@ -495,7 +497,7 @@ extension ClientOrderDetailActions on ClientOrderDetailController {
 
   Future<void> removeVoucher() async {
     final savedVoucher = ClientOrderDetailState.savedVouchers[orderId];
-    if (savedVoucher == null) {
+    if (savedVoucher == null && usedVoucherCode == null) {
       voucherController.clear();
       return;
     }

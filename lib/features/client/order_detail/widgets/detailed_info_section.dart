@@ -142,6 +142,34 @@ class DetailedInfoSection extends GetView<ClientOrderDetailController> {
               valueStyle: context.typography.lg,
             ),
           ),
+          Obx(() {
+            final String? usedVoucherCode = controller.usedVoucherCode;
+            final bool showsVoucherInput =
+                !controller.isHistory.value &&
+                controller.status != 'confirmed' &&
+                controller.status != 'in_job';
+
+            if (usedVoucherCode == null || showsVoucherInput) {
+              return const SizedBox.shrink();
+            }
+
+            return Padding(
+              padding: const EdgeInsets.only(top: 10),
+              child: _buildSummaryTile(
+                context,
+                icon: Icons.local_offer_rounded,
+                label: 'used_voucher'.tr,
+                value: usedVoucherCode,
+                primary: const Color(0xFF16A34A),
+                valueColor: const Color(0xFF166534),
+                trailing: const Icon(
+                  Icons.check_circle_rounded,
+                  color: Color(0xFF16A34A),
+                  size: 18,
+                ),
+              ),
+            );
+          }),
           const SizedBox(height: 20),
           Obx(() {
             if (!controller.isHistory.value &&
@@ -332,14 +360,15 @@ class DetailedInfoSection extends GetView<ClientOrderDetailController> {
           LayoutBuilder(
             builder: (context, constraints) {
               return Obx(() {
+                final bool hasUsedVoucher = controller.usedVoucherCode != null;
                 final bool hasSavedVoucher =
                     ClientOrderDetailState.savedVouchers[controller.orderId] !=
                         null;
                 final Widget field = _buildVoucherField(
                   primary,
-                  readOnly: hasSavedVoucher,
+                  readOnly: hasSavedVoucher || hasUsedVoucher,
                 );
-                final Widget button = hasSavedVoucher
+                final Widget button = hasSavedVoucher || hasUsedVoucher
                     ? _buildRemoveVoucherButton()
                     : _buildVoucherButton(primary);
 

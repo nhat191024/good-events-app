@@ -207,6 +207,27 @@ mixin ClientOrderDetailState {
     return null;
   }
 
+  int? get usedVoucherId {
+    if (isHistory.value && _historyOrder.value != null) {
+      return _historyOrder.value!.voucher?.id;
+    }
+    if (!isHistory.value && _eventOrder.value != null) {
+      return _eventOrder.value!.voucher?.id;
+    }
+    return null;
+  }
+
+  String? get usedVoucherCode {
+    final String? code = isHistory.value
+        ? _historyOrder.value?.voucher?.code
+        : _eventOrder.value?.voucher?.code;
+
+    if (code == null || code.trim().isEmpty) {
+      return null;
+    }
+    return code.trim();
+  }
+
   List<String> get bookingPhotos {
     if (isHistory.value && _historyOrder.value != null) {
       return _historyOrder.value!.bookingPhotos.take(5).toList(growable: false);
