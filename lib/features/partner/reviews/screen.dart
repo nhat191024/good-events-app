@@ -37,11 +37,11 @@ class PartnerReviewsScreen extends GetView<PartnerReviewsController> {
           onRefresh: controller.onRefresh,
           onLoading: controller.onLoading,
           child: controller.reviews.isEmpty
-              ? _EmptyState(onRefresh: controller.onRefresh)
+              ? const _EmptyState()
               : ListView.separated(
                   padding: const EdgeInsets.fromLTRB(16, 12, 16, 28),
                   itemCount: controller.reviews.length,
-                  separatorBuilder: (_, __) => const SizedBox(height: 12),
+                  separatorBuilder: (_, _) => const SizedBox(height: 12),
                   itemBuilder: (context, index) {
                     final review = controller.reviews[index];
                     return _ReviewCard(
@@ -106,8 +106,6 @@ class _ReviewCard extends StatelessWidget {
           children: [
             Row(
               children: [
-                _ReviewAvatar(user: item.user),
-                const SizedBox(width: 10),
                 Expanded(
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
@@ -234,8 +232,6 @@ class _ReviewDetailSheet extends StatelessWidget {
                 Row(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    _ReviewAvatar(user: item.user, size: 46),
-                    const SizedBox(width: 12),
                     Expanded(
                       child: Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
@@ -564,56 +560,8 @@ class _RecommendBadge extends StatelessWidget {
   }
 }
 
-class _ReviewAvatar extends StatelessWidget {
-  final PartnerReviewUserModel user;
-  final double size;
-
-  const _ReviewAvatar({
-    required this.user,
-    this.size = 40,
-  });
-
-  @override
-  Widget build(BuildContext context) {
-    final avatarUrl = user.avatarUrl.trim();
-    final initial = user.name.trim().isNotEmpty
-        ? user.name.trim()[0].toUpperCase()
-        : 'S';
-
-    if (avatarUrl.isNotEmpty) {
-      return FAvatar(
-        image: CachedNetworkImageProvider(avatarUrl),
-        size: size,
-        semanticsLabel: 'Reviewer avatar',
-        fallback: Text(initial),
-      );
-    }
-
-    return Container(
-      width: size,
-      height: size,
-      decoration: BoxDecoration(
-        color: context.fTheme.colors.primary.withValues(alpha: 0.12),
-        shape: BoxShape.circle,
-      ),
-      child: Center(
-        child: Text(
-          initial,
-          style: TextStyle(
-            fontSize: size * 0.42,
-            fontWeight: FontWeight.w800,
-            color: context.fTheme.colors.primary,
-          ),
-        ),
-      ),
-    );
-  }
-}
-
 class _EmptyState extends StatelessWidget {
-  final Future<void> Function() onRefresh;
-
-  const _EmptyState({required this.onRefresh});
+  const _EmptyState();
 
   @override
   Widget build(BuildContext context) {

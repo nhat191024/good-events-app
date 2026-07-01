@@ -103,19 +103,16 @@ class PartnerReviewBillModel {
 class PartnerReviewUserModel {
   final int id;
   final String name;
-  final String avatarUrl;
 
   const PartnerReviewUserModel({
     required this.id,
     required this.name,
-    required this.avatarUrl,
   });
 
   factory PartnerReviewUserModel.fromMap(Map<String, dynamic> map) {
     return PartnerReviewUserModel(
       id: _asInt(map['id']),
       name: map['name'] as String? ?? '',
-      avatarUrl: map['avatar_url'] as String? ?? '',
     );
   }
 }
