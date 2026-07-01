@@ -215,6 +215,43 @@ class NewShowController extends GetxController {
     await fetchRealtimeBills(isInitialFetch: false);
   }
 
+  Future<void> reloadAfterServiceAreasChanged() async {
+    if (isLoading.value) {
+      logger.w(
+        '[NewShow] [ServiceAreasReload] Waiting for current loading to finish',
+      );
+      await _waitForCurrentLoading();
+      if (isLoading.value) {
+        logger.w('[NewShow] [ServiceAreasReload] Skipped after wait timeout');
+        return;
+      }
+    }
+
+    logger.i('[NewShow] [ServiceAreasReload] Reloading bills and channels');
+
+    await _unsubscribeAll();
+    _currentPage = 1;
+    _lastPage = 1;
+    _lastScrollFetchTime = null;
+    _lastRefreshTime = null;
+    hasMorePages.value = true;
+    bills.clear();
+    filterSearch.value = '';
+    filterDate.value = 'all';
+    filterSort.value = 'date_asc';
+    filteredBills.clear();
+    lastUpdated.value = '';
+
+    await fetchRealtimeBills();
+  }
+
+  Future<void> _waitForCurrentLoading() async {
+    for (int i = 0; i < 20; i++) {
+      if (!isLoading.value) return;
+      await Future<void>.delayed(const Duration(milliseconds: 100));
+    }
+  }
+
   final isAccepting = false.obs;
 
   Future<bool> acceptBill({required int billId, required double price}) async {
