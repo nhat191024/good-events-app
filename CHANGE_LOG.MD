@@ -2,6 +2,10 @@
 
 All notable changes to this project will be documented in this file.
 
+## [2.7.3+73]
+
+- Fix env
+
 ## [v2.7.2+72]
 
 - Add option to remove applied voucher
