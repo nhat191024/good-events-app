@@ -828,7 +828,7 @@ class AppTranslations extends Translations {
       'edit_service_subtitle':
           'Danh mục của dịch vụ, hiện không trợ thay đổi giới thiệu',
       'no_services': 'Bạn chưa có dịch vụ nào',
-      'manage_media': 'Quản lý media',
+      'manage_media': 'Quản lý ảnh',
       'service_media_info': 'Giới thiệu dịch vụ cho admin',
       'select_category': 'Chọn danh mục',
       'service_created': 'Dịch vụ đã được tạo thành công!',
