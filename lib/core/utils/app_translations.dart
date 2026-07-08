@@ -689,6 +689,7 @@ class AppTranslations extends Translations {
       'more_setting': 'Cài đặt khác',
 
       'my_profile': 'Hồ sơ của tôi',
+      'introduce': 'Giới thiệu',
       'show_calendar': 'Lịch show',
       'my_reviews': 'Đánh giá của tôi',
       'change_password': 'Đổi mật khẩu',
@@ -806,7 +807,7 @@ class AppTranslations extends Translations {
 
       ///my services
       'my_services': 'Dịch vụ của tôi',
-      'service_areas': 'Khu vực phục vụ',
+      'service_areas': 'Khu vực hoạt động',
       'select_service_area': 'Chọn khu vực phục vụ',
       'selected_service_areas': 'Khu vực đã chọn',
       'select_service_area_wards': 'Chọn phường/khu vực phục vụ',
@@ -1612,6 +1613,7 @@ class AppTranslations extends Translations {
       'more_setting': 'More Setting',
 
       'my_profile': 'My Profile',
+      'introduce': 'Giới thiệu',
       'show_calendar': 'Show Calendar',
       'my_reviews': 'My Reviews',
       'change_password': 'Change Password',
