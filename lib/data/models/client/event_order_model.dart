@@ -20,6 +20,7 @@ class EventOrderModel {
   final int applicantCount;
   final List<String> bookingPhotos;
   final OrderVoucherSummaryModel? voucher;
+  final String createdAt;
 
   EventOrderModel({
     required this.id,
@@ -41,6 +42,7 @@ class EventOrderModel {
     required this.applicantCount,
     required this.bookingPhotos,
     this.voucher,
+    required this.createdAt,
   });
 
   factory EventOrderModel.fromJson(Map<String, dynamic> json) {
@@ -70,6 +72,7 @@ class EventOrderModel {
               json['voucher'] as Map<String, dynamic>,
             )
           : null,
+      createdAt: json['created_at'] as String? ?? ''
     );
   }
 

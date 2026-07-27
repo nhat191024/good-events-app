@@ -172,9 +172,9 @@ mixin ClientOrderDetailState {
 
   String get createdAt {
     if (isHistory.value && _historyOrder.value != null) {
-      return _historyOrder.value!.updatedAt ?? '';
+      return _historyOrder.value!.createdAt ?? '';
     } else if (!isHistory.value && _eventOrder.value != null) {
-      return '${_eventOrder.value!.date} ${_eventOrder.value!.startTime}';
+      return _eventOrder.value!.createdAt;
     }
     return '';
   }
