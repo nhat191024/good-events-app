@@ -795,27 +795,6 @@ class _DropdownContainer extends StatelessWidget {
   }
 }
 
-class _DropdownHint extends StatelessWidget {
-  final String text;
-  final BuildContext context;
-
-  const _DropdownHint({required this.text, required this.context});
-
-  @override
-  Widget build(BuildContext ctx) {
-    return Padding(
-      padding: const EdgeInsets.only(left: 4),
-      child: Text(
-        text,
-        style: TextStyle(
-          fontSize: 13,
-          color: context.fTheme.colors.mutedForeground,
-        ),
-      ),
-    );
-  }
-}
-
 class _LoadingDropdown extends StatelessWidget {
   @override
   Widget build(BuildContext context) {

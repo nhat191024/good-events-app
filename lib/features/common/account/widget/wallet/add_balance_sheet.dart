@@ -22,12 +22,6 @@ class _CurrencyInputFormatter extends TextInputFormatter {
       selection: TextSelection.collapsed(offset: formatted.length),
     );
   }
-
-  static double? parse(String formatted) {
-    final digits = formatted.replaceAll(RegExp(r'[^0-9]'), '');
-    if (digits.isEmpty) return null;
-    return double.tryParse(digits);
-  }
 }
 
 class AddBalanceSheet extends StatelessWidget {
