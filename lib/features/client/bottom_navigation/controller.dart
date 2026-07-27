@@ -1,11 +1,11 @@
 import 'package:pusher_channels_flutter/pusher_channels_flutter.dart';
 import 'package:sukientotapp/core/utils/import/global.dart';
+import 'package:sukientotapp/data/models/client/event_order_model.dart';
 import 'package:sukientotapp/features/client/home/controller.dart';
 import 'package:sukientotapp/features/common/message/controller.dart';
 
 class ClientBottomNavigationController extends GetxController {
   final RxInt currentIndex = 0.obs;
-  var isReverse = false.obs;
 
   static const _pusherEventName = 'SendMessage';
   String? _userChannel;
@@ -16,6 +16,12 @@ class ClientBottomNavigationController extends GetxController {
     super.onInit();
     _setInitialIndexFromArguments();
     _subscribeToUserChannel();
+  }
+
+  @override
+  void onReady() {
+    super.onReady();
+    _openPendingOrderDetail();
   }
 
   @override
@@ -54,7 +60,6 @@ class ClientBottomNavigationController extends GetxController {
 
   void setIndex(int index) {
     final prev = currentIndex.value;
-    isReverse.value = index < currentIndex.value;
     currentIndex.value = index;
 
     // tab switches can keep old/new pages alive briefly due to animated transitions.
@@ -89,5 +94,30 @@ class ClientBottomNavigationController extends GetxController {
     if (initialIndex < 0 || initialIndex > 3) return;
 
     currentIndex.value = initialIndex;
+  }
+
+  void _openPendingOrderDetail() {
+    final args = Get.arguments;
+    if (args is! Map<String, dynamic>) return;
+
+    final pendingOrderDetail = args['pendingOrderDetail'];
+    if (pendingOrderDetail is! Map<String, dynamic>) return;
+
+    final order = pendingOrderDetail['order'];
+    if (order is! EventOrderModel) return;
+
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      if (isClosed || Get.currentRoute != Routes.clientHome) return;
+
+      Get.toNamed(
+        Routes.clientOrderDetail,
+        arguments: <String, dynamic>{
+          'order': order,
+          'isHistory': pendingOrderDetail['isHistory'] == true,
+          'showBookingSubmittedNotice':
+              pendingOrderDetail['showBookingSubmittedNotice'] == true,
+        },
+      );
+    });
   }
 }

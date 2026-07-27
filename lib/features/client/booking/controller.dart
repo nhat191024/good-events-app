@@ -1,6 +1,4 @@
 import 'package:sukientotapp/core/utils/import/global.dart';
-import 'package:sukientotapp/features/client/bottom_navigation/controller.dart';
-import 'package:sukientotapp/features/client/order/controller.dart';
 import 'package:sukientotapp/features/client/home/controller.dart';
 import 'package:sukientotapp/data/providers/client/booking_provider.dart';
 import 'package:sukientotapp/domain/repositories/location_repository.dart';
@@ -463,34 +461,20 @@ class ClientBookingController extends GetxController {
         Get.find<ClientHomeController>().incrementPendingOrders();
       }
 
-      // Pop all screens (including booking flow and partner details)
-      // until we are back at the Main Bottom Navigation screen (ClientHome)
-      Get.until(
-        (route) => route.settings.name == Routes.clientHome || route.isFirst,
-      );
-
-      try {
-        Get.find<ClientBottomNavigationController>().setIndex(1);
-      } catch (e) {
-        logger.e('Navigation controller not found: $e');
-      }
-
-      // Then push order details on top of the Orders tab
-      Get.toNamed(
-        Routes.clientOrderDetail,
+      // Rebuild a deterministic client navigation stack. The bottom navigation
+      // opens the order detail from onReady, after the home route is mounted.
+      Get.offAllNamed(
+        Routes.clientHome,
         arguments: {
-          'order': order,
-          'isHistory': false,
-          'showBookingSubmittedNotice': true,
+          'initialIndex': 1,
+          'pendingOrderDetail': {
+            'order': order,
+            'isHistory': false,
+            'showBookingSubmittedNotice': true,
+          },
         },
       );
 
-      // Trigger a refresh of the current orders tab if the controller is alive
-      try {
-        Get.find<ClientOrderController>().fetchEventOrders();
-      } catch (e) {
-        logger.e('Order controller not found, skipping refresh: $e');
-      }
     } else {
       Get.snackbar('error'.tr, result['message'] ?? 'booking_failed'.tr);
       Get.back(); // Fallback back to partner screen
