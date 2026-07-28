@@ -6,19 +6,10 @@ import 'package:sukientotapp/data/models/client/history_order_model.dart';
 import 'package:sukientotapp/data/models/client/asset_order_model.dart';
 import 'package:sukientotapp/domain/repositories/client/order_repository.dart';
 
-class ClientOrderController extends GetxController
-    with GetTickerProviderStateMixin {
+class ClientOrderController extends GetxController {
   final OrderRepository _repository;
 
   ClientOrderController(this._repository);
-
-  // Parent tab controller (Event Orders | Asset Orders)
-  late TabController parentTabController;
-
-  // Child tab controllers
-  late TabController eventOrdersTabController; // Current | History
-  // All | Pending | Paid | Cancelled
-  late TabController assetOrdersTabController;
 
   final RxInt currentParentTab = 0.obs;
   final RxInt currentEventOrdersTab = 0.obs;
@@ -45,42 +36,6 @@ class ClientOrderController extends GetxController
   void onInit() {
     super.onInit();
 
-    // Initialize parent tabs (2 tabs: Event Orders, Asset Orders)
-    parentTabController = TabController(length: 2, vsync: this);
-
-    // Initialize child tabs
-    eventOrdersTabController = TabController(length: 2, vsync: this);
-    assetOrdersTabController = TabController(length: 3, vsync: this);
-
-    parentTabController.addListener(() {
-      if (!parentTabController.indexIsChanging) {
-        currentParentTab.value = parentTabController.index;
-      }
-    });
-
-    // Listen to event orders tab changes (Current / History)
-    eventOrdersTabController.addListener(() {
-      if (!eventOrdersTabController.indexIsChanging) {
-        // Only reset filters if the tab actually changed
-        if (currentEventOrdersTab.value != eventOrdersTabController.index) {
-          selectedStatusFilters.clear();
-
-          if (eventOrdersTabController.index == 0) {
-            selectedSort.value = 'upcoming';
-          } else {
-            selectedSort.value = 'latest_activity';
-          }
-        }
-
-        currentEventOrdersTab.value = eventOrdersTabController.index;
-        if (eventOrdersTabController.index == 1) {
-          if (!hasFetchedHistory.value) {
-            fetchHistoryOrders();
-          }
-        }
-      }
-    });
-
     // Load initial data
     fetchEventOrders();
     fetchAssetOrders();
@@ -89,12 +44,25 @@ class ClientOrderController extends GetxController
 
   @override
   void onClose() {
-    parentTabController.dispose();
-    eventOrdersTabController.dispose();
-    assetOrdersTabController.dispose();
     _eventOrdersRefreshTimer?.cancel();
 
     super.onClose();
+  }
+
+  void onParentTabChanged(int index) {
+    currentParentTab.value = index;
+  }
+
+  void onEventOrdersTabChanged(int index) {
+    if (currentEventOrdersTab.value != index) {
+      selectedStatusFilters.clear();
+      selectedSort.value = index == 0 ? 'upcoming' : 'latest_activity';
+    }
+
+    currentEventOrdersTab.value = index;
+    if (index == 1 && !hasFetchedHistory.value) {
+      fetchHistoryOrders();
+    }
   }
 
   void _startCurrentEventOrdersAutoRefresh() {

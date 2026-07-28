@@ -2,9 +2,14 @@ import 'package:sukientotapp/core/utils/import/global.dart';
 import '../controller.dart';
 
 class OrderHeader extends StatefulWidget {
-  const OrderHeader({super.key, required this.controller});
+  const OrderHeader({
+    super.key,
+    required this.controller,
+    required this.tabController,
+  });
 
   final ClientOrderController controller;
+  final TabController tabController;
 
   @override
   State<OrderHeader> createState() => _OrderHeaderState();
@@ -137,7 +142,7 @@ class _OrderHeaderState extends State<OrderHeader> {
 
           // Parent Tabs (Event Orders | Asset Orders)
           TabBar(
-            controller: widget.controller.parentTabController,
+            controller: widget.tabController,
             labelColor: context.primary,
             unselectedLabelColor: Colors.black54,
             labelStyle: context.typography.base.copyWith(

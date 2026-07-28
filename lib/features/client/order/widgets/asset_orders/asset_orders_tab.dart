@@ -3,9 +3,14 @@ import '../../controller.dart';
 import 'asset_order_list.dart';
 
 class AssetOrdersTab extends StatelessWidget {
-  const AssetOrdersTab({super.key, required this.controller});
+  const AssetOrdersTab({
+    super.key,
+    required this.controller,
+    required this.tabController,
+  });
 
   final ClientOrderController controller;
+  final TabController tabController;
 
   @override
   Widget build(BuildContext context) {
@@ -16,7 +21,7 @@ class AssetOrdersTab extends StatelessWidget {
           color: Colors.white,
           padding: const EdgeInsets.symmetric(horizontal: 4),
           child: TabBar(
-            controller: controller.assetOrdersTabController,
+            controller: tabController,
             labelColor: context.primary,
             unselectedLabelColor: Colors.black54,
             labelStyle: context.typography.sm.copyWith(fontWeight: FontWeight.w600),
@@ -35,7 +40,7 @@ class AssetOrdersTab extends StatelessWidget {
         // Child TabBarView
         Expanded(
           child: TabBarView(
-            controller: controller.assetOrdersTabController,
+            controller: tabController,
             children: [
               // Paid Orders
               Obx(
