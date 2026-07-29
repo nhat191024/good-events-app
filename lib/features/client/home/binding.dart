@@ -13,14 +13,17 @@ class HomeBinding extends Bindings {
 
     Get.lazyPut<HomeProvider>(
       () => HomeProvider(dio: Get.find<ApiService>().dio),
+      fenix: true,
     );
 
     Get.lazyPut<HomeRepository>(
       () => HomeRepositoryImpl(Get.find<HomeProvider>()),
+      fenix: true,
     );
 
     Get.lazyPut<ClientHomeController>(
       () => ClientHomeController(Get.find<HomeRepository>()),
+      fenix: true,
     );
   }
 }

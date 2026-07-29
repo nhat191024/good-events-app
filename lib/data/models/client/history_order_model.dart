@@ -86,6 +86,7 @@ class HistoryOrderModel {
   final String? note;
   final String? status;
   final String? updatedAt;
+  final String? createdAt;
   final String? categoryName;
   final String? parentCategoryName;
   final String? categoryImage;
@@ -109,6 +110,7 @@ class HistoryOrderModel {
     this.note,
     this.status,
     this.updatedAt,
+    this.createdAt,
     this.categoryName,
     this.parentCategoryName,
     this.categoryImage,
@@ -134,6 +136,7 @@ class HistoryOrderModel {
       note: json['note'] as String?,
       status: json['status'] as String?,
       updatedAt: json['updated_at'] as String?,
+      createdAt: json['created_at'] as String?,
       categoryName: json['category_name'] as String?,
       parentCategoryName: json['parent_category_name'] as String?,
       categoryImage: json['category_image'] as String?,
