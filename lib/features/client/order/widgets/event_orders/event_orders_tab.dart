@@ -5,9 +5,14 @@ import 'current_orders_tab.dart';
 import 'history_orders_tab.dart';
 
 class EventOrdersTab extends StatelessWidget {
-  const EventOrdersTab({super.key, required this.controller});
+  const EventOrdersTab({
+    super.key,
+    required this.controller,
+    required this.tabController,
+  });
 
   final ClientOrderController controller;
+  final TabController tabController;
 
   @override
   Widget build(BuildContext context) {
@@ -20,7 +25,7 @@ class EventOrdersTab extends StatelessWidget {
         Container(
           color: Colors.white,
           child: TabBar(
-            controller: controller.eventOrdersTabController,
+            controller: tabController,
             labelColor: context.primary,
             unselectedLabelColor: Colors.black54,
             labelStyle: context.typography.sm.copyWith(
@@ -39,7 +44,7 @@ class EventOrdersTab extends StatelessWidget {
         // Child TabBarView
         Expanded(
           child: TabBarView(
-            controller: controller.eventOrdersTabController,
+            controller: tabController,
             children: [
               CurrentOrdersTab(controller: controller),
               HistoryOrdersTab(controller: controller),

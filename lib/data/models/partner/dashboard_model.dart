@@ -44,16 +44,6 @@ class DashboardModel {
     );
   }
 
-  static Map<String, String> _parseAvatars(dynamic value) {
-    if (value is Map) {
-      return value.map((key, val) => MapEntry(key.toString(), val.toString()));
-    }
-    if (value is List) {
-      return {};
-    }
-    return {};
-  }
-
   static int _parseInt(dynamic value) {
     if (value == null) return 0;
     if (value is int) return value;

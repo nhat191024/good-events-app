@@ -214,7 +214,11 @@ class AccountController extends GetxController {
       await Future.delayed(const Duration(milliseconds: 100));
       Get.toNamed(
         Routes.webView,
-        arguments: {'url': checkoutUrl, 'title': 'add_balance'.tr},
+        arguments: {
+          'url': checkoutUrl,
+          'title': 'add_balance'.tr,
+          'extraAllowedHosts': <String>['pay.payos.vn'],
+        },
       );
     } catch (e) {
       logger.e('[AccountController] [rechargeWallet] error: $e');

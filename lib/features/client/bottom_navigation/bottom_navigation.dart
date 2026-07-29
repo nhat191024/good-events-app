@@ -1,4 +1,3 @@
-import 'package:animations/animations.dart';
 import 'package:curved_navigation_bar/curved_navigation_bar.dart';
 
 import 'package:sukientotapp/core/utils/import/global.dart';
@@ -59,34 +58,14 @@ class ClientBottomNavigationView
             animationCurve: Curves.fastOutSlowIn,
           ),
         ),
-        //FadeThroughTransition option. Use this if SharedAxisTransition case laggy problem (because Obx)
-        // body: Obx(
-        //   () => PageTransitionSwitcher(
-        //     duration: const Duration(milliseconds: 600),
-        //     transitionBuilder: (child, primaryAnimation, secondaryAnimation) {
-        //       return FadeThroughTransition(
-        //         animation: primaryAnimation,
-        //         secondaryAnimation: secondaryAnimation,
-        //         child: child,
-        //       );
-        //     },
-        //     child: _buildContent(),
-        //   ),
-        // ),
-        body: Obx(
-          () => PageTransitionSwitcher(
-            duration: const Duration(milliseconds: 600),
-            reverse: controller.isReverse.value,
-            transitionBuilder: (child, primaryAnimation, secondaryAnimation) {
-              return SharedAxisTransition(
-                animation: primaryAnimation,
-                secondaryAnimation: secondaryAnimation,
-                transitionType: SharedAxisTransitionType.horizontal,
-                child: child,
-              );
-            },
-            child: _buildContent(),
-          ),
+        body: IndexedStack(
+          index: controller.currentIndex.value,
+          children: const [
+            HomeScreen(),
+            ClientOrderScreen(),
+            MessageScreen(),
+            AccountScreen(),
+          ],
         ),
       ),
     );
@@ -116,20 +95,5 @@ class ClientBottomNavigationView
         ),
       ],
     );
-  }
-
-  Widget _buildContent() {
-    switch (controller.currentIndex.value) {
-      case 0:
-        return const HomeScreen();
-      case 1:
-        return const ClientOrderScreen();
-      case 2:
-        return const MessageScreen();
-      case 3:
-        return const AccountScreen();
-      default:
-        return const HomeScreen();
-    }
   }
 }
