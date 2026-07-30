@@ -8,9 +8,12 @@ import 'package:dio_smart_retry/dio_smart_retry.dart';
 
 import 'package:sukientotapp/core/utils/env_config.dart';
 import 'package:sukientotapp/core/services/localstorage_service.dart';
+import 'package:sukientotapp/core/error_reporting/app_error_reporter.dart';
+import 'package:sukientotapp/core/error_reporting/error_reporting_interceptor.dart';
 
 class ApiService {
   late Dio _dio;
+  final AppErrorReporter _errorReporter;
 
   static final String baseUrl = EnvConfig.apiBaseUrl;
 
@@ -26,7 +29,8 @@ class ApiService {
     return RetryInterceptor.defaultRetryEvaluator(error, attempt);
   }
 
-  ApiService() {
+  ApiService({AppErrorReporter? errorReporter})
+    : _errorReporter = errorReporter ?? AppErrorReporter.instance {
     if (baseUrl.isEmpty || baseUrl == '') {
       throw Exception('API_BASE_URL is not set in environment variables');
     }
@@ -72,6 +76,9 @@ class ApiService {
         ],
       ),
     );
+
+    // Reports only errors that remain after the retry policy is exhausted.
+    _dio.interceptors.add(ErrorReportingInterceptor(reporter: _errorReporter));
 
     //Logging interceptor
     _dio.interceptors.add(

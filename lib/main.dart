@@ -1,3 +1,6 @@
+import 'dart:async';
+import 'dart:ui';
+
 import 'package:flutter_quill/flutter_quill.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:syncfusion_localizations/syncfusion_localizations.dart';
@@ -9,15 +12,78 @@ import 'firebase_options.dart';
 // Import các file của bạn (giữ nguyên)
 import 'package:sukientotapp/core/utils/import/global.dart';
 import 'package:sukientotapp/core/utils/app_translations.dart';
+import 'package:sukientotapp/core/error_reporting/app_error_reporter.dart';
 import 'package:sukientotapp/features/common/dev_overlay/dev_overlay.dart';
 
-void main() async {
-  WidgetsFlutterBinding.ensureInitialized();
-  await dotenv.load();
-  await GetStorage.init();
-  await Firebase.initializeApp(options: DefaultFirebaseOptions.currentPlatform);
-  await NotificationService.init();
-  runApp(const GoodEvent());
+void main() {
+  runZonedGuarded<Future<void>>(
+    () async {
+      WidgetsFlutterBinding.ensureInitialized();
+      _installGlobalErrorHandlers();
+
+      await dotenv.load();
+      await GetStorage.init();
+
+      final errorReporter = AppErrorReporter.instance;
+      await errorReporter.initialize();
+      Get.put<AppErrorReporter>(errorReporter, permanent: true);
+
+      await Firebase.initializeApp(
+        options: DefaultFirebaseOptions.currentPlatform,
+      );
+      await NotificationService.init();
+      runApp(const GoodEvent());
+    },
+    (error, stackTrace) {
+      logger.e(
+        '[GlobalErrorHandler] Unhandled asynchronous error.',
+        error: error,
+        stackTrace: stackTrace,
+      );
+      unawaited(
+        AppErrorReporter.instance.reportRuntimeError(
+          error,
+          stackTrace,
+          source: 'runZonedGuarded',
+        ),
+      );
+    },
+  );
+}
+
+void _installGlobalErrorHandlers() {
+  final previousFlutterHandler = FlutterError.onError;
+  FlutterError.onError = (details) {
+    if (previousFlutterHandler != null) {
+      previousFlutterHandler(details);
+    } else {
+      FlutterError.presentError(details);
+    }
+    unawaited(
+      AppErrorReporter.instance.reportRuntimeError(
+        details.exception,
+        details.stack ?? StackTrace.current,
+        source: details.library ?? 'FlutterError',
+      ),
+    );
+  };
+
+  final previousPlatformHandler = PlatformDispatcher.instance.onError;
+  PlatformDispatcher.instance.onError = (error, stackTrace) {
+    logger.e(
+      '[GlobalErrorHandler] Unhandled platform error.',
+      error: error,
+      stackTrace: stackTrace,
+    );
+    unawaited(
+      AppErrorReporter.instance.reportRuntimeError(
+        error,
+        stackTrace,
+        source: 'PlatformDispatcher',
+      ),
+    );
+    return previousPlatformHandler?.call(error, stackTrace) ?? true;
+  };
 }
 
 class GoodEvent extends StatelessWidget {

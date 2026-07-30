@@ -1,4 +1,7 @@
 class AppUrl {
+  // Application error reporting
+  static const String appErrors = '/app-errors';
+
   // App Settings
   static const String settings = '/settings';
 

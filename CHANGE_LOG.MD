@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file.
 
+## [2.7.7+77]
+
+- Fix create at in order detail
+- Fix some bug in order tab
+- Remove some unused code
+- Fix recharge feature
+
 ## [2.7.6+76]
 
 - Fix translate key when accept new bill
