@@ -2,6 +2,10 @@
 
 All notable changes to this project will be documented in this file.
 
+## [2.7.8+78]
+
+- Add bug report
+
 ## [2.7.7+77]
 
 - Fix create at in order detail
