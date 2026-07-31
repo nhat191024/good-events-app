@@ -285,9 +285,13 @@ class ShowController extends GetxController
           );
         }
       }
-    } catch (e) {
+    } catch (error, stackTrace) {
       Get.snackbar('error'.tr, 'load_data_failed'.tr);
-      logger.e('Failed to load new bills: $e');
+      logger.e(
+        'Failed to load new bills',
+        error: error,
+        stackTrace: stackTrace,
+      );
     } finally {
       isLoading.value = false;
     }
