@@ -2,6 +2,11 @@
 
 All notable changes to this project will be documented in this file.
 
+## [2.7.9+79]
+
+- Enhance bug report
+- Add max price limit when quote price for new show
+
 ## [2.7.8+78]
 
 - Add bug report
