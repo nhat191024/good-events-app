@@ -56,6 +56,12 @@ class _AcceptState extends State<Accept> {
         title: 'error'.tr,
       );
       return;
+    } else if (price > 100000000) {
+      AppSnackbar.showError(
+        message: 'invalid_price_max'.trParams({'max': '100.000.000'}),
+        title: 'error'.tr,
+      );
+      return;
     }
 
     final controller = Get.find<NewShowController>();
