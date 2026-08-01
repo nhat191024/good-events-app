@@ -10,12 +10,15 @@ class HomeBinding extends Bindings {
   void dependencies() {
     Get.lazyPut<DashboardProvider>(
       () => DashboardProvider(Get.find<ApiService>()),
+      fenix: true,
     );
     Get.lazyPut<DashboardRepository>(
       () => DashboardRepositoryImpl(Get.find<DashboardProvider>()),
+      fenix: true,
     );
     Get.lazyPut<PartnerHomeController>(
       () => PartnerHomeController(Get.find<DashboardRepository>()),
+      fenix: true,
     );
   }
 }

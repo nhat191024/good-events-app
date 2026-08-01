@@ -79,14 +79,11 @@ class HandleNotificationTap {
     const newShowTabIndex = 2;
 
     if (Get.isRegistered<PartnerBottomNavigationController>()) {
-      Get.find<PartnerBottomNavigationController>().setIndex(newShowTabIndex);
-
       if (Get.currentRoute != Routes.partnerHome) {
-        Get.offAllNamed(
-          Routes.partnerHome,
-          arguments: {'initialIndex': newShowTabIndex},
-        );
+        Get.until((route) => route.settings.name == Routes.partnerHome);
       }
+
+      Get.find<PartnerBottomNavigationController>().setIndex(newShowTabIndex);
     } else {
       Get.offAllNamed(
         Routes.partnerHome,
@@ -111,14 +108,14 @@ class HandleNotificationTap {
     };
 
     if (Get.isRegistered<PartnerBottomNavigationController>()) {
+      if (Get.currentRoute != Routes.partnerHome) {
+        Get.until((route) => route.settings.name == Routes.partnerHome);
+      }
+
       Get.find<PartnerBottomNavigationController>().setIndex(
         partnerShowBottomTabIndex,
         setTab: showTabIndex,
       );
-
-      if (Get.currentRoute != Routes.partnerHome) {
-        Get.offAllNamed(Routes.partnerHome, arguments: arguments);
-      }
     } else {
       Get.offAllNamed(Routes.partnerHome, arguments: arguments);
     }
@@ -136,16 +133,13 @@ class HandleNotificationTap {
     const clientOrdersTabIndex = 1;
 
     if (Get.isRegistered<ClientBottomNavigationController>()) {
+      if (Get.currentRoute != Routes.clientHome) {
+        Get.until((route) => route.settings.name == Routes.clientHome);
+      }
+
       Get.find<ClientBottomNavigationController>().setIndex(
         clientOrdersTabIndex,
       );
-
-      if (Get.currentRoute != Routes.clientHome) {
-        Get.offAllNamed(
-          Routes.clientHome,
-          arguments: {'initialIndex': clientOrdersTabIndex},
-        );
-      }
     } else {
       Get.offAllNamed(
         Routes.clientHome,

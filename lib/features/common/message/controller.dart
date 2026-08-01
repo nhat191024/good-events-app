@@ -299,11 +299,17 @@ class MessageController extends GetxController {
 
   Future<void> _subscribeToThread(String threadId) async {
     final channelName = 'private-thread.$threadId';
-    await PusherService.subscribe(
+    final subscribed = await PusherService.subscribe(
       channelName: channelName,
       eventName: _pusherEventName,
       onEvent: _onPusherMessage,
     );
+    if (!subscribed) return;
+    if (isClosed) {
+      await PusherService.unsubscribe(channelName);
+      return;
+    }
+
     _subscribedChannel = channelName;
     logger.i('[MessageController] [Pusher] Subscribed to $channelName');
   }

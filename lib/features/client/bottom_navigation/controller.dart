@@ -36,11 +36,17 @@ class ClientBottomNavigationController extends GetxController {
             as int?;
     if (userId == null) return;
     final channelName = 'private-user-messages.$userId';
-    await PusherService.subscribe(
+    final subscribed = await PusherService.subscribe(
       channelName: channelName,
       eventName: _pusherEventName,
       onEvent: _onUserChannelMessage,
     );
+    if (!subscribed) return;
+    if (isClosed) {
+      await PusherService.unsubscribe(channelName);
+      return;
+    }
+
     _userChannel = channelName;
     logger.i('[ClientBottomNav] [Pusher] Subscribed to $channelName');
   }

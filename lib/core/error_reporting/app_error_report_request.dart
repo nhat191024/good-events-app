@@ -64,7 +64,18 @@ class AppErrorReportRequest {
         'api_request': apiRequest,
       if (apiResponse != null && apiResponse!.isNotEmpty)
         'api_response': apiResponse,
-      'occurred_at': occurredAt.toUtc().toIso8601String(),
+      'occurred_at': formatOccurredAt(occurredAt),
     };
+  }
+
+  static String formatOccurredAt(DateTime value) {
+    final local = value.toLocal();
+    final offsetMinutes = local.timeZoneOffset.inMinutes;
+    final sign = offsetMinutes < 0 ? '-' : '+';
+    final absoluteMinutes = offsetMinutes.abs();
+    final hours = (absoluteMinutes ~/ 60).toString().padLeft(2, '0');
+    final minutes = (absoluteMinutes % 60).toString().padLeft(2, '0');
+
+    return '${local.toIso8601String()}$sign$hours:$minutes';
   }
 }

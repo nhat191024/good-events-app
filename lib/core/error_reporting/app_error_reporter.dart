@@ -196,6 +196,7 @@ class AppErrorReporter {
     int? apiStatusCode,
     Map<String, dynamic>? apiRequest,
     Map<String, dynamic>? apiResponse,
+    DateTime? occurredAt,
   }) async {
     try {
       final reportContext = <String, dynamic>{if (context != null) ...context};
@@ -240,7 +241,7 @@ class AppErrorReporter {
         apiResponse: apiResponse == null
             ? null
             : AppErrorSanitizer.sanitizePayloadMap(apiResponse),
-        occurredAt: DateTime.now(),
+        occurredAt: occurredAt ?? DateTime.now(),
       );
 
       await _submit(report);

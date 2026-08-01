@@ -2,6 +2,8 @@ import 'dart:typed_data';
 
 import 'package:dio/dio.dart';
 import 'package:flutter_test/flutter_test.dart';
+import 'package:logger/logger.dart';
+import 'package:sukientotapp/core/error_reporting/app_error_log_bridge.dart';
 import 'package:sukientotapp/core/error_reporting/app_error_report_request.dart';
 import 'package:sukientotapp/core/error_reporting/app_error_reporter.dart';
 import 'package:sukientotapp/core/error_reporting/app_error_sanitizer.dart';
@@ -23,7 +25,12 @@ void main() {
       final json = report.toJson();
 
       expect(json['api_method'], 'GET');
-      expect(json['occurred_at'], '2026-07-30T08:30:00.000Z');
+      final localOccurredAt = DateTime.utc(2026, 7, 30, 8, 30).toLocal();
+      expect(
+        json['occurred_at'],
+        startsWith(localOccurredAt.toIso8601String()),
+      );
+      expect(json['occurred_at'], matches(RegExp(r'[+-]\d{2}:\d{2}$')));
       expect(json.containsKey('stack_trace'), isFalse);
     });
 
@@ -92,6 +99,48 @@ void main() {
       );
 
       expect(AppErrorReporter.classifyDioError(error), AppErrorType.validation);
+    });
+  });
+
+  group('AppErrorLogBridge', () {
+    test('reports caught runtime errors logged with error metadata', () {
+      final event = LogEvent(
+        Level.error,
+        'Failed to load new bills',
+        error: const FormatException('Invalid numeric type'),
+        stackTrace: StackTrace.current,
+      );
+
+      expect(AppErrorLogBridge.shouldReport(event), isTrue);
+    });
+
+    test('does not duplicate Dio errors handled by the interceptor', () {
+      final event = LogEvent(
+        Level.error,
+        'Request failed',
+        error: DioException(
+          requestOptions: RequestOptions(path: '/orders'),
+          type: DioExceptionType.connectionError,
+        ),
+      );
+
+      expect(AppErrorLogBridge.shouldReport(event), isFalse);
+    });
+
+    test('ignores legacy Dio logs that pass only the message', () {
+      final event = LogEvent(
+        Level.error,
+        '[Provider] DioException: connection failed',
+        error: 'connection failed',
+      );
+
+      expect(AppErrorLogBridge.shouldReport(event), isFalse);
+    });
+
+    test('ignores plain error strings without the original error object', () {
+      final event = LogEvent(Level.error, 'An error-looking message');
+
+      expect(AppErrorLogBridge.shouldReport(event), isFalse);
     });
   });
 
