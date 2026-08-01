@@ -11,6 +11,7 @@ class PusherService {
       PusherChannelsFlutter.getInstance();
 
   static bool _initialized = false;
+  static Future<void>? _initializing;
   static String _connectionState = 'DISCONNECTED';
   static final Set<String> _channels = {};
 
@@ -22,6 +23,25 @@ class PusherService {
   static Future<void> init() async {
     if (_initialized) return;
 
+    final initializing = _initializing;
+    if (initializing != null) {
+      await initializing;
+      return;
+    }
+
+    final initialization = _initialize();
+    _initializing = initialization;
+
+    try {
+      await initialization;
+    } finally {
+      if (identical(_initializing, initialization)) {
+        _initializing = null;
+      }
+    }
+  }
+
+  static Future<void> _initialize() async {
     try {
       await _pusher.init(
         apiKey: EnvConfig.pusherAppKey,
@@ -81,23 +101,49 @@ class PusherService {
     }
   }
 
-  static Future<void> subscribe({
+  static Future<bool> subscribe({
     required String channelName,
     required String eventName,
     required void Function(PusherEvent) onEvent,
   }) async {
-    await _pusher.subscribe(
-      channelName: channelName,
-      onEvent: (dynamic event) => onEvent(event as PusherEvent),
-    );
-    _channels.add(channelName);
-    logger.i('[Pusher] [Subscribe] Channel: $channelName, Event: $eventName');
+    try {
+      await init();
+      await _pusher.subscribe(
+        channelName: channelName,
+        onEvent: (dynamic event) => onEvent(event as PusherEvent),
+      );
+      _channels.add(channelName);
+      logger.i('[Pusher] [Subscribe] Channel: $channelName, Event: $eventName');
+      return true;
+    } catch (e, stackTrace) {
+      logger.e(
+        '[Pusher] [Subscribe] Failed for channel: $channelName',
+        error: e,
+        stackTrace: stackTrace,
+      );
+      return false;
+    }
   }
 
-  static Future<void> unsubscribe(String channelName) async {
-    await _pusher.unsubscribe(channelName: channelName);
-    _channels.remove(channelName);
-    logger.i('[Pusher] [Unsubscribe] Channel: $channelName');
+  static Future<bool> unsubscribe(String channelName) async {
+    if (!_initialized) {
+      _channels.remove(channelName);
+      return false;
+    }
+
+    try {
+      await _pusher.unsubscribe(channelName: channelName);
+      _channels.remove(channelName);
+      logger.i('[Pusher] [Unsubscribe] Channel: $channelName');
+      return true;
+    } catch (e, stackTrace) {
+      logger.e(
+        '[Pusher] [Unsubscribe] Failed for channel: $channelName',
+        error: e,
+        stackTrace: stackTrace,
+      );
+      return false;
+    }
   }
 
   static Future<void> disconnect() async {

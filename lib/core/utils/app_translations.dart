@@ -690,6 +690,7 @@ class AppTranslations extends Translations {
       'input_price_quote': 'Nhập giá của bạn',
 
       'invalid_price': 'Vui lòng nhập giá hợp lệ (tối thiểu @min)',
+      'invalid_price_max': 'Vui lòng nhập giá hợp lệ (tối đa @max)',
       'price_quoted': 'Bạn đã báo giá cho show #@code',
       'failed_to_quote_price':
           'Không thể báo giá vì bạn đã bị cấm hoặc số dư không đủ.',
@@ -1648,6 +1649,7 @@ class AppTranslations extends Translations {
       'input_price_quote': 'Input your price',
 
       'invalid_price': 'Please enter a valid price (minimum @min)',
+      'invalid_price_max': 'Please enter a valid price (maximum @max)',
       'price_quoted': 'You have quoted for show #@code',
       'failed_to_quote_price':
           'Failed to quote price because you are either banned or have insufficient balance.',

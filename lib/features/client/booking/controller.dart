@@ -1,4 +1,5 @@
 import 'package:sukientotapp/core/utils/import/global.dart';
+import 'package:sukientotapp/features/client/bottom_navigation/controller.dart';
 import 'package:sukientotapp/features/client/home/controller.dart';
 import 'package:sukientotapp/data/providers/client/booking_provider.dart';
 import 'package:sukientotapp/domain/repositories/location_repository.dart';
@@ -457,27 +458,35 @@ class ClientBookingController extends GetxController {
 
       final order = EventOrderModel.fromJson(result['bill']);
 
-      if (Get.isRegistered<ClientHomeController>()) {
+      if (Get.isRegistered<ClientHomeController>() &&
+          Get.isRegistered<ClientBottomNavigationController>()) {
         Get.find<ClientHomeController>().incrementPendingOrders();
-      }
-
-      // Rebuild a deterministic client navigation stack. The bottom navigation
-      // opens the order detail from onReady, after the home route is mounted.
-      Get.offAllNamed(
-        Routes.clientHome,
-        arguments: {
-          'initialIndex': 1,
-          'pendingOrderDetail': {
+        Get.find<ClientBottomNavigationController>().setIndex(1);
+        Get.offNamed(
+          Routes.clientOrderDetail,
+          arguments: <String, dynamic>{
             'order': order,
             'isHistory': false,
             'showBookingSubmittedNotice': true,
           },
-        },
-      );
+        );
+      } else {
+        // Fallback for deep links or a restored booking route without client home.
+        Get.offAllNamed(
+          Routes.clientHome,
+          arguments: {
+            'initialIndex': 1,
+            'pendingOrderDetail': {
+              'order': order,
+              'isHistory': false,
+              'showBookingSubmittedNotice': true,
+            },
+          },
+        );
+      }
 
     } else {
       Get.snackbar('error'.tr, result['message'] ?? 'booking_failed'.tr);
-      Get.back(); // Fallback back to partner screen
     }
 
     isSubmitting.value = false;

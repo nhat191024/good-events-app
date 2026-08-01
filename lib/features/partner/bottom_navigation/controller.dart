@@ -34,11 +34,17 @@ class PartnerBottomNavigationController extends GetxController {
       return;
     }
     final channelName = 'private-user-messages.$userId';
-    await PusherService.subscribe(
+    final subscribed = await PusherService.subscribe(
       channelName: channelName,
       eventName: 'SendMessage',
       onEvent: _onUserChannelMessage,
     );
+    if (!subscribed) return;
+    if (isClosed) {
+      await PusherService.unsubscribe(channelName);
+      return;
+    }
+
     _userChannel = channelName;
     logger.i('[PartnerBottomNav] [Pusher] Subscribed to $channelName');
   }

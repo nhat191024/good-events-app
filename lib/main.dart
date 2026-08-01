@@ -12,6 +12,7 @@ import 'firebase_options.dart';
 // Import các file của bạn (giữ nguyên)
 import 'package:sukientotapp/core/utils/import/global.dart';
 import 'package:sukientotapp/core/utils/app_translations.dart';
+import 'package:sukientotapp/core/error_reporting/app_error_log_bridge.dart';
 import 'package:sukientotapp/core/error_reporting/app_error_reporter.dart';
 import 'package:sukientotapp/features/common/dev_overlay/dev_overlay.dart';
 
@@ -27,6 +28,7 @@ void main() {
       final errorReporter = AppErrorReporter.instance;
       await errorReporter.initialize();
       Get.put<AppErrorReporter>(errorReporter, permanent: true);
+      AppErrorLogBridge.install(reporter: errorReporter);
 
       await Firebase.initializeApp(
         options: DefaultFirebaseOptions.currentPlatform,

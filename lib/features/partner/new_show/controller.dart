@@ -306,11 +306,17 @@ class NewShowController extends GetxController {
     await _unsubscribeAll();
 
     for (final channelName in channels) {
-      await PusherService.subscribe(
+      final subscribed = await PusherService.subscribe(
         channelName: channelName,
         eventName: _pusherEventName,
         onEvent: _onPusherEvent,
       );
+      if (!subscribed) continue;
+      if (isClosed) {
+        await PusherService.unsubscribe(channelName);
+        continue;
+      }
+
       _subscribedChannels.add(channelName);
     }
   }
