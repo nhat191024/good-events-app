@@ -67,6 +67,7 @@ class MessageListModel {
   final bool isRead;
   final int unreadMessages;
   final MessageBillModel bill;
+  final bool canLeave;
 
   MessageListModel({
     required this.id,
@@ -80,6 +81,7 @@ class MessageListModel {
     required this.isRead,
     required this.unreadMessages,
     required this.bill,
+    this.canLeave = false,
   });
 
   factory MessageListModel.fromJson(Map<String, dynamic> json) {
@@ -122,7 +124,21 @@ class MessageListModel {
       isRead: !isUnread,
       unreadMessages: isUnread ? 1 : 0,
       bill: MessageBillModel.fromJson(json['bill'] as Map<String, dynamic>),
+      canLeave: _parseCanLeave(json),
     );
+  }
+
+  static bool _parseCanLeave(Map<String, dynamic> json) {
+    if (json['can_leave'] is bool) return json['can_leave'] as bool;
+    if (json['membership_source']?.toString() == 'invitation') return true;
+    final membership = json['membership'];
+    if (membership is Map<String, dynamic>) {
+      if (membership['can_leave'] is bool) {
+        return membership['can_leave'] as bool;
+      }
+      return membership['source']?.toString() == 'invitation';
+    }
+    return false;
   }
 
   MessageListModel copyWith({
@@ -137,6 +153,7 @@ class MessageListModel {
     bool? isRead,
     int? unreadMessages,
     MessageBillModel? bill,
+    bool? canLeave,
   }) {
     return MessageListModel(
       id: id ?? this.id,
@@ -150,6 +167,7 @@ class MessageListModel {
       isRead: isRead ?? this.isRead,
       unreadMessages: unreadMessages ?? this.unreadMessages,
       bill: bill ?? this.bill,
+      canLeave: canLeave ?? this.canLeave,
     );
   }
 
@@ -167,6 +185,7 @@ class MessageListModel {
       'isRead': isRead,
       'unreadMessages': unreadMessages,
       'bill': bill.toJson(),
+      'can_leave': canLeave,
     };
   }
 }

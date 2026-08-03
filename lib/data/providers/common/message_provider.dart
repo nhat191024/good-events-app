@@ -2,11 +2,108 @@ import 'package:dio/dio.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:sukientotapp/core/services/api_service.dart';
 import 'package:sukientotapp/core/utils/logger.dart';
+import 'package:sukientotapp/data/models/chat_invitation_model.dart';
+import 'package:sukientotapp/domain/api_url.dart';
+
+class ChatApiException implements Exception {
+  const ChatApiException({required this.message, this.statusCode});
+  final String message;
+  final int? statusCode;
+  @override
+  String toString() => message;
+}
 
 class MessageProvider {
   final ApiService _apiService;
 
   MessageProvider(this._apiService);
+  CancelToken? _userSearchCancelToken;
+
+  Future<List<ChatUserSearchResult>> searchUsersByPhone({
+    required String phone,
+  }) async {
+    _userSearchCancelToken?.cancel('Superseded by a newer search');
+    final cancelToken = CancelToken();
+    _userSearchCancelToken = cancelToken;
+    try {
+      final response = await _apiService.dio.get<Map<String, dynamic>>(
+        AppUrl.chatUserSearch,
+        queryParameters: <String, dynamic>{'phone': phone},
+        cancelToken: cancelToken,
+      );
+      final users = response.data?['users'] as List<dynamic>? ?? const [];
+      return users
+          .whereType<Map<String, dynamic>>()
+          .map(ChatUserSearchResult.fromJson)
+          .toList(growable: false);
+    } on DioException catch (error) {
+      if (CancelToken.isCancel(error)) return const [];
+      throw _chatException(error, fallback: 'Không thể tìm người dùng.');
+    }
+  }
+
+  Future<ChatInvitationResponse> inviteUser({
+    required String threadId,
+    required int userId,
+  }) async {
+    try {
+      final response = await _apiService.dio.post<Map<String, dynamic>>(
+        AppUrl.chatInvitations(threadId),
+        data: <String, int>{'user_id': userId},
+      );
+      return ChatInvitationResponse.fromJson(response.data!);
+    } on DioException catch (error) {
+      throw _chatException(error, fallback: 'Không thể gửi lời mời.');
+    }
+  }
+
+  Future<ChatInvitationResponse> acceptInvitation({
+    required String threadId,
+  }) async {
+    try {
+      final response = await _apiService.dio.post<Map<String, dynamic>>(
+        AppUrl.acceptChatInvitation(threadId),
+      );
+      return ChatInvitationResponse.fromJson(response.data!);
+    } on DioException catch (error) {
+      throw _chatException(error, fallback: 'Không thể chấp nhận lời mời.');
+    }
+  }
+
+  Future<String> leaveThread({required String threadId}) async {
+    try {
+      final response = await _apiService.dio.delete<Map<String, dynamic>>(
+        AppUrl.leaveChatThread(threadId),
+      );
+      return response.data?['message'] as String? ?? 'Bạn đã rời đoạn chat.';
+    } on DioException catch (error) {
+      throw _chatException(error, fallback: 'Không thể rời đoạn chat.');
+    }
+  }
+
+  ChatApiException _chatException(
+    DioException error, {
+    required String fallback,
+  }) {
+    final data = error.response?.data;
+    String? validationMessage;
+    if (data is Map) {
+      final errors = data['errors'];
+      if (errors is Map) {
+        for (final value in errors.values) {
+          if (value is List && value.isNotEmpty) {
+            validationMessage = value.first.toString();
+            break;
+          }
+        }
+      }
+      validationMessage ??= data['message']?.toString();
+    }
+    return ChatApiException(
+      message: validationMessage ?? fallback,
+      statusCode: error.response?.statusCode,
+    );
+  }
 
   Future<Map<String, dynamic>> getThreads({
     required String endpoint,

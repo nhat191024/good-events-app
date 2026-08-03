@@ -12,8 +12,10 @@ import 'package:sukientotapp/domain/repositories/partner/message_repository.dart
 import 'package:sukientotapp/data/models/message_model.dart';
 import 'package:sukientotapp/data/models/message_list_model.dart';
 import 'package:sukientotapp/core/services/call_coordinator.dart';
+import 'package:sukientotapp/data/models/chat_invitation_model.dart';
 
 import 'detail_screen.dart';
+import 'widget/invitation_accept_dialog.dart';
 
 class MessageController extends GetxController {
   final MessageRepository _repository;
@@ -51,6 +53,19 @@ class MessageController extends GetxController {
   final RxBool isResolvingLocation = false.obs;
   final ImagePicker _imagePicker = ImagePicker();
 
+  // ─── Member invitation state ───────────────────────────────────────────────
+  final RxString memberPhoneQuery = ''.obs;
+  final RxList<ChatUserSearchResult> memberSearchResults =
+      <ChatUserSearchResult>[].obs;
+  final RxBool isSearchingMembers = false.obs;
+  final RxString memberSearchError = ''.obs;
+  final RxSet<int> invitingUserIds = <int>{}.obs;
+  final RxSet<int> pendingInvitationUserIds = <int>{}.obs;
+  final RxBool isAcceptingInvitation = false.obs;
+  final RxBool isLeavingThread = false.obs;
+  int _memberSearchGeneration = 0;
+  final Set<String> _invitedMembershipThreadIds = <String>{};
+
   static const int _maxImageSizeBytes = 20 * 1024 * 1024;
   static const Set<String> _allowedImageExtensions = {
     'jpg',
@@ -62,15 +77,168 @@ class MessageController extends GetxController {
   @override
   void onInit() {
     super.onInit();
+    _restoreInvitedMemberships();
     fetchThreads();
     listScrollController.addListener(_onListScroll);
     _handlePendingThreadDeepLink();
+    _handlePendingChatInvitation();
     scrollController.addListener(_onDetailScroll);
     debounce(
       searchQuery,
       (_) => _resetAndFetch(),
       time: const Duration(milliseconds: 500),
     );
+    debounce(
+      memberPhoneQuery,
+      (_) => _searchMembers(),
+      time: const Duration(milliseconds: 400),
+    );
+  }
+
+  void _handlePendingChatInvitation() {
+    final rawInvitation = StorageService.readData(
+      key: LocalStorageKeys.pendingChatInvitation,
+    );
+    if (rawInvitation is! Map) return;
+
+    final invitation = Map<String, dynamic>.from(rawInvitation);
+    final threadId = invitation['thread_id']?.toString();
+    if (threadId == null || threadId.isEmpty) {
+      StorageService.removeData(key: LocalStorageKeys.pendingChatInvitation);
+      return;
+    }
+
+    StorageService.removeData(key: LocalStorageKeys.pendingChatInvitation);
+    WidgetsBinding.instance.addPostFrameCallback((_) async {
+      if (isClosed) return;
+      final accepted = await showChatInvitationDialog(
+        threadId: threadId,
+        controller: this,
+        inviterName: invitation['inviter_name']?.toString(),
+      );
+      if (accepted && !isClosed) {
+        await openThreadById(threadId);
+      }
+    });
+  }
+
+  void _restoreInvitedMemberships() {
+    final stored = StorageService.readData(
+      key: LocalStorageKeys.invitedChatMemberships,
+    );
+    if (stored is! Map) return;
+    _invitedMembershipThreadIds.addAll(
+      stored.entries
+          .where((entry) => entry.value == true)
+          .map((entry) => entry.key.toString()),
+    );
+  }
+
+  void _persistInvitedMemberships() {
+    StorageService.writeMapData(
+      key: LocalStorageKeys.invitedChatMemberships,
+      value: <String, dynamic>{
+        for (final threadId in _invitedMembershipThreadIds) threadId: true,
+      },
+    );
+  }
+
+  void resetMemberSearch() {
+    _memberSearchGeneration++;
+    memberPhoneQuery.value = '';
+    memberSearchResults.clear();
+    memberSearchError.value = '';
+    isSearchingMembers.value = false;
+  }
+
+  void searchMembers(String phone) {
+    memberPhoneQuery.value = phone.trim();
+    if (memberPhoneQuery.value.length < 3) {
+      _memberSearchGeneration++;
+      memberSearchResults.clear();
+      memberSearchError.value = '';
+      isSearchingMembers.value = false;
+    }
+  }
+
+  Future<void> _searchMembers() async {
+    final query = memberPhoneQuery.value;
+    if (query.length < 3) return;
+    final generation = ++_memberSearchGeneration;
+    isSearchingMembers.value = true;
+    memberSearchError.value = '';
+    try {
+      final users = await _repository.searchUsersByPhone(query);
+      if (generation != _memberSearchGeneration) return;
+      memberSearchResults.assignAll(users);
+    } catch (error) {
+      if (generation != _memberSearchGeneration) return;
+      memberSearchResults.clear();
+      memberSearchError.value = error.toString();
+    } finally {
+      if (generation == _memberSearchGeneration) {
+        isSearchingMembers.value = false;
+      }
+    }
+  }
+
+  Future<void> inviteUser(ChatUserSearchResult user) async {
+    final threadId = selectedThreadId;
+    if (threadId.isEmpty || invitingUserIds.contains(user.id)) return;
+    invitingUserIds.add(user.id);
+    try {
+      final response = await _repository.inviteUser(
+        threadId: threadId,
+        userId: user.id,
+      );
+      pendingInvitationUserIds.add(user.id);
+      AppSnackbar.showSuccess(message: response.message);
+    } catch (error) {
+      AppSnackbar.showError(message: error.toString());
+    } finally {
+      invitingUserIds.remove(user.id);
+    }
+  }
+
+  /// Entry point for the notification/deep-link flow once it supplies threadId.
+  Future<bool> acceptInvitation(String threadId) async {
+    if (isAcceptingInvitation.value) return false;
+    isAcceptingInvitation.value = true;
+    try {
+      final response = await _repository.acceptInvitation(threadId);
+      _invitedMembershipThreadIds.add(threadId);
+      _persistInvitedMemberships();
+      await refreshThreads();
+      AppSnackbar.showSuccess(message: response.message);
+      return true;
+    } catch (error) {
+      AppSnackbar.showError(message: error.toString());
+      return false;
+    } finally {
+      isAcceptingInvitation.value = false;
+    }
+  }
+
+  Future<bool> leaveSelectedThread() async {
+    final threadId = selectedThreadId;
+    if (threadId.isEmpty || isLeavingThread.value) return false;
+    isLeavingThread.value = true;
+    try {
+      final message = await _repository.leaveThread(threadId);
+      await _unsubscribeThread();
+      filteredMessages.removeWhere((thread) => thread.id == threadId);
+      _invitedMembershipThreadIds.remove(threadId);
+      _persistInvitedMemberships();
+      selectedThread.value = null;
+      messagesDetail.clear();
+      AppSnackbar.showSuccess(message: message);
+      return true;
+    } catch (error) {
+      AppSnackbar.showError(message: error.toString());
+      return false;
+    } finally {
+      isLeavingThread.value = false;
+    }
   }
 
   @override
@@ -130,7 +298,20 @@ class MessageController extends GetxController {
 
       final threads = (response['threads'] as List<dynamic>? ?? [])
           .map((e) => MessageListModel.fromJson(e as Map<String, dynamic>))
+          .map(
+            (thread) => _invitedMembershipThreadIds.contains(thread.id)
+                ? thread.copyWith(canLeave: true)
+                : thread,
+          )
           .toList();
+      final serverLeaveableThreadIds = threads
+          .where((thread) => thread.canLeave)
+          .map((thread) => thread.id);
+      final membershipCount = _invitedMembershipThreadIds.length;
+      _invitedMembershipThreadIds.addAll(serverLeaveableThreadIds);
+      if (_invitedMembershipThreadIds.length != membershipCount) {
+        _persistInvitedMemberships();
+      }
 
       hasMore.value = response['has_more'] as bool? ?? false;
       _currentPage = (response['current_page'] as int? ?? _currentPage);
@@ -230,6 +411,7 @@ class MessageController extends GetxController {
   /// Opens a thread and loads the first page of messages from the API.
   Future<void> openThread(MessageListModel thread) async {
     await _unsubscribeThread();
+    pendingInvitationUserIds.clear();
     selectedThread.value = thread;
     callCoordinator.setThreadContext(
       threadId: thread.id,

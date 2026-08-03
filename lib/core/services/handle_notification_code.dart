@@ -30,6 +30,9 @@ class NotificationHandler {
         case 'NEW_MESSAGE':
           NotificationHandler().handleNewMessageCode(data);
           break;
+        case 'CHAT_INVITATION':
+          NotificationHandler().handleChatInvitationCode(data);
+          break;
         case 'NEW_REVIEW_RECEIVED':
           NotificationHandler().handleNewReviewReceivedCode(data);
           break;
@@ -104,6 +107,17 @@ class NotificationHandler {
     } else {
       logger.i('[NotificationHandler] New message for threadId: $threadId');
     }
+  }
+
+  void handleChatInvitationCode(Map<String, dynamic> data) {
+    final threadId = data['thread_id']?.toString();
+    if (threadId == null || threadId.isEmpty) {
+      logger.w('[NotificationHandler] CHAT_INVITATION missing thread_id');
+      return;
+    }
+    logger.i(
+      '[NotificationHandler] Chat invitation received for thread=$threadId; waiting for user tap',
+    );
   }
 
   void handleNewReviewReceivedCode(Map<String, dynamic> data) {
