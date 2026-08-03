@@ -4,6 +4,8 @@ import 'package:flutter/gestures.dart';
 import 'package:sukientotapp/core/utils/import/global.dart';
 import 'package:sukientotapp/data/models/message_model.dart'; // Correct import
 import 'package:url_launcher/url_launcher.dart';
+import 'package:sukientotapp/features/common/message/controller.dart';
+import 'package:sukientotapp/features/common/call/widgets/call_ui.dart';
 
 class ChatBubble extends StatelessWidget {
   final MessageModel message;
@@ -13,6 +15,9 @@ class ChatBubble extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    if (message.type == 'call') {
+      return _CallMessageCard(message: message, isFirst: isFirst);
+    }
     final isSender = message.isSender;
     final isImageMessage = message.type == 'image';
     return Padding(
@@ -104,6 +109,165 @@ class ChatBubble extends StatelessWidget {
       ),
     );
   }
+}
+
+class _CallMessageCard extends StatelessWidget {
+  const _CallMessageCard({required this.message, required this.isFirst});
+
+  final MessageModel message;
+  final bool isFirst;
+
+  @override
+  Widget build(BuildContext context) {
+    final currentUserId = StorageService.readMapData(
+      key: LocalStorageKeys.user,
+      mapKey: 'id',
+    ) as int?;
+    final isOutgoing = currentUserId != null
+        ? message.userId == currentUserId
+        : message.isSender;
+    final summary = message.call;
+
+    return Padding(
+      padding: EdgeInsets.fromLTRB(12, isFirst ? 12 : 4, 12, 4),
+      child: Align(
+        alignment: isOutgoing ? Alignment.centerRight : Alignment.centerLeft,
+        child: ConstrainedBox(
+          constraints: BoxConstraints(
+            maxWidth: MediaQuery.sizeOf(context).width * 0.76,
+            minWidth: 230,
+          ),
+          child: Container(
+            decoration: BoxDecoration(
+              color: Colors.white,
+              borderRadius: BorderRadius.circular(16),
+              border: Border.all(color: const Color(0xFFE5E7EB)),
+              boxShadow: [
+                BoxShadow(
+                  color: Colors.black.withValues(alpha: 0.06),
+                  blurRadius: 8,
+                  offset: const Offset(0, 2),
+                ),
+              ],
+            ),
+            child: Column(
+              mainAxisSize: MainAxisSize.min,
+              children: [
+                Padding(
+                  padding: const EdgeInsets.fromLTRB(14, 14, 14, 12),
+                  child: Row(
+                    children: [
+                      Container(
+                        width: 42,
+                        height: 42,
+                        decoration: BoxDecoration(
+                          color: AppColors.primary.withValues(alpha: 0.1),
+                          shape: BoxShape.circle,
+                        ),
+                        child: Stack(
+                          alignment: Alignment.center,
+                          children: [
+                            Icon(
+                              Icons.call_rounded,
+                              color: AppColors.primary,
+                              size: 21,
+                            ),
+                            Positioned(
+                              right: 6,
+                              top: 6,
+                              child: Icon(
+                                isOutgoing
+                                    ? Icons.north_east_rounded
+                                    : Icons.south_west_rounded,
+                                color: AppColors.primary,
+                                size: 11,
+                              ),
+                            ),
+                          ],
+                        ),
+                      ),
+                      const SizedBox(width: 12),
+                      Expanded(
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            Text(
+                              isOutgoing ? 'Cuộc gọi đi' : 'Cuộc gọi đến',
+                              style: const TextStyle(
+                                color: Color(0xFF111827),
+                                fontSize: 14,
+                                fontWeight: FontWeight.w700,
+                              ),
+                            ),
+                            const SizedBox(height: 4),
+                            Text(
+                              summary?.formattedDuration ?? '0 giây',
+                              style: const TextStyle(
+                                color: Color(0xFF6B7280),
+                                fontSize: 12,
+                              ),
+                            ),
+                          ],
+                        ),
+                      ),
+                      Text(
+                        message.time,
+                        style: const TextStyle(
+                          color: Color(0xFF9CA3AF),
+                          fontSize: 10,
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
+                const Divider(height: 1, color: Color(0xFFE5E7EB)),
+                InkWell(
+                  onTap: () => _callAgain(context),
+                  borderRadius: const BorderRadius.vertical(
+                    bottom: Radius.circular(16),
+                  ),
+                  child: Padding(
+                    padding: const EdgeInsets.symmetric(vertical: 11),
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        Icon(Icons.call_rounded, color: AppColors.primary, size: 17),
+                        const SizedBox(width: 7),
+                        Text(
+                          'Gọi lại',
+                          style: TextStyle(
+                            color: AppColors.primary,
+                            fontSize: 13,
+                            fontWeight: FontWeight.w700,
+                          ),
+                        ),
+                      ],
+                    ),
+                  ),
+                ),
+              ],
+            ),
+          ),
+        ),
+      ),
+    );
+  }
+
+  Future<void> _callAgain(BuildContext context) async {
+    if (!Get.isRegistered<MessageController>()) return;
+    final controller = Get.find<MessageController>();
+    final thread = controller.selectedThread.value;
+    if (thread == null) {
+      AppSnackbar.showError(message: 'Không tìm thấy cuộc trò chuyện để gọi lại.');
+      return;
+    }
+    await showStartCallSheet(
+      context: context,
+      thread: thread,
+      coordinator: controller.callCoordinator,
+    );
+  }
+
 }
 
 class _BubbleContent extends StatelessWidget {

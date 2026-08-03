@@ -30,10 +30,36 @@ class MessageBillModel {
   }
 }
 
+class MessageThreadParticipant {
+  const MessageThreadParticipant({
+    required this.id,
+    required this.name,
+    this.avatar,
+    this.role,
+  });
+
+  final int id;
+  final String name;
+  final String? avatar;
+  final String? role;
+
+  factory MessageThreadParticipant.fromJson(Map<String, dynamic> json) =>
+      MessageThreadParticipant(
+        id: (json['id'] ?? json['user_id']) is int
+            ? (json['id'] ?? json['user_id']) as int
+            : int.tryParse((json['id'] ?? json['user_id'])?.toString() ?? '') ??
+                  0,
+        name: json['name']?.toString() ?? '',
+        avatar: json['avatar']?.toString(),
+        role: json['role']?.toString().toLowerCase(),
+      );
+}
+
 class MessageListModel {
   final String id;
   final String subject;
   final List<String> names;
+  final List<MessageThreadParticipant> participants;
   final String code;
   final String? newestMessage;
   final String? newestMessageSender;
@@ -46,6 +72,7 @@ class MessageListModel {
     required this.id,
     this.subject = '',
     required this.names,
+    this.participants = const [],
     required this.code,
     required this.newestMessage,
     required this.newestMessageSender,
@@ -59,8 +86,12 @@ class MessageListModel {
     final participants = json['participants'] as List<dynamic>? ?? [];
     final latestMessage = json['latest_message'] as Map<String, dynamic>?;
 
-    final participantNames = participants
-        .map((p) => (p as Map<String, dynamic>)['name'] as String? ?? '')
+    final typedParticipants = participants
+        .whereType<Map<String, dynamic>>()
+        .map(MessageThreadParticipant.fromJson)
+        .toList(growable: false);
+    final participantNames = typedParticipants
+        .map((p) => p.name)
         .where((name) => name.isNotEmpty)
         .toList();
 
@@ -72,15 +103,18 @@ class MessageListModel {
         (latestBody.isNotEmpty
             ? latestBody
             : latestType == 'image'
-                ? '[Ảnh]'
+            ? '[Ảnh]'
                 : latestType == 'location'
                     ? 'Vị trí hiện tại'
+                    : latestType == 'call'
+                        ? '[Cuộc gọi]'
                     : null);
 
     return MessageListModel(
       id: json['id'].toString(),
       subject: json['subject'] as String? ?? '',
       names: participantNames,
+      participants: typedParticipants,
       code: json['code'] as String? ?? '',
       newestMessage: latestPreviewText,
       newestMessageSender: latestMessage?['sender_name'] as String?,
@@ -95,6 +129,7 @@ class MessageListModel {
     String? id,
     String? subject,
     List<String>? names,
+    List<MessageThreadParticipant>? participants,
     String? code,
     String? newestMessage,
     String? newestMessageSender,
@@ -107,6 +142,7 @@ class MessageListModel {
       id: id ?? this.id,
       subject: subject ?? this.subject,
       names: names ?? this.names,
+      participants: participants ?? this.participants,
       code: code ?? this.code,
       newestMessage: newestMessage ?? this.newestMessage,
       newestMessageSender: newestMessageSender ?? this.newestMessageSender,
@@ -122,6 +158,9 @@ class MessageListModel {
       'id': id,
       'subject': subject,
       'names': names,
+      'participants': participants
+          .map((p) => {'id': p.id, 'name': p.name, 'avatar': p.avatar})
+          .toList(),
       'newestMessage': newestMessage,
       'newestMessageSender': newestMessageSender,
       'time': time,
