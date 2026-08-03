@@ -2,6 +2,15 @@
 
 All notable changes to this project will be documented in this file.
 
+## [2.8.0+80]
+
+- Add voice call in chat
+- Add voice call UI
+- Add call coming banner
+- Add push noti for call coming
+- Add invite member to chat flow
+- Add cencor phone number in chat
+
 ## [2.7.9+79]
 
 - Enhance bug report

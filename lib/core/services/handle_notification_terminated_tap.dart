@@ -26,6 +26,9 @@ class HandleNotificationTerminatedTap {
         case 'NEW_MESSAGE':
           HandleNotificationTerminatedTap().handleNewMessageCode(data);
           break;
+        case 'CHAT_INVITATION':
+          HandleNotificationTerminatedTap().handleChatInvitationCode(data);
+          break;
         case 'NEW_REVIEW_RECEIVED':
           HandleNotificationTerminatedTap().handleNewReviewReceivedCode(data);
           break;
@@ -106,6 +109,36 @@ class HandleNotificationTerminatedTap {
     logger.i(
       '[HandleNotificationTerminatedTap] Saved pendingThreadId=$threadId',
     );
+  }
+
+  void handleChatInvitationCode(Map<String, dynamic> data) {
+    final threadId = data['thread_id']?.toString();
+    if (threadId == null || threadId.isEmpty) {
+      logger.w(
+        '[HandleNotificationTerminatedTap] CHAT_INVITATION missing thread_id',
+      );
+      return;
+    }
+
+    StorageService.writeMapData(
+      key: LocalStorageKeys.pendingChatInvitation,
+      value: Map<String, dynamic>.from(data),
+    );
+    final role = StorageService.readMapData(
+      key: LocalStorageKeys.user,
+      mapKey: 'role',
+    )?.toString();
+    if (role == 'client') {
+      StorageService.writeStringData(
+        key: LocalStorageKeys.pendingClientTabIndex,
+        value: '2',
+      );
+    } else if (role == 'partner') {
+      StorageService.writeStringData(
+        key: LocalStorageKeys.pendingPartnerTabIndex,
+        value: '3',
+      );
+    }
   }
 
   void handleNewReviewReceivedCode(Map<String, dynamic> data) {

@@ -1,6 +1,7 @@
 import 'dart:typed_data';
 
 import 'package:dio/dio.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:logger/logger.dart';
 import 'package:sukientotapp/core/error_reporting/app_error_log_bridge.dart';
@@ -12,6 +13,11 @@ import 'package:sukientotapp/core/services/api_service.dart';
 import 'package:sukientotapp/main.dart' show GoodEvent;
 
 void main() {
+  test('error reporting is disabled by default in debug builds', () {
+    expect(kDebugMode, isTrue);
+    expect(AppErrorReporter.isEnabled, isFalse);
+  });
+
   group('AppErrorReportRequest', () {
     test('normalizes API method and omits null values', () {
       final report = AppErrorReportRequest(

@@ -1,4 +1,5 @@
 import 'package:image_picker/image_picker.dart';
+import 'package:sukientotapp/data/models/chat_invitation_model.dart';
 import 'package:sukientotapp/data/providers/common/message_provider.dart';
 import 'package:sukientotapp/domain/api_url.dart';
 import 'package:sukientotapp/domain/repositories/partner/message_repository.dart';
@@ -51,4 +52,22 @@ class MessageRepositoryImpl implements MessageRepository {
       location: location,
     );
   }
+
+  @override
+  Future<List<ChatUserSearchResult>> searchUsersByPhone(String phone) =>
+      _provider.searchUsersByPhone(phone: phone);
+
+  @override
+  Future<ChatInvitationResponse> inviteUser({
+    required String threadId,
+    required int userId,
+  }) => _provider.inviteUser(threadId: threadId, userId: userId);
+
+  @override
+  Future<ChatInvitationResponse> acceptInvitation(String threadId) =>
+      _provider.acceptInvitation(threadId: threadId);
+
+  @override
+  Future<String> leaveThread(String threadId) =>
+      _provider.leaveThread(threadId: threadId);
 }
