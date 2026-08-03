@@ -3,11 +3,18 @@ import 'package:sukientotapp/core/utils/logger.dart';
 import 'package:sukientotapp/features/client/order/controller.dart';
 import 'package:sukientotapp/features/partner/show/controller.dart';
 import 'package:sukientotapp/features/common/message/controller.dart';
+import 'package:sukientotapp/core/services/call_coordinator.dart';
 import 'package:sukientotapp/features/partner/home/controller.dart';
 import 'package:sukientotapp/features/partner/reviews/controller.dart';
 
 class NotificationHandler {
   static void handleMessage(Map<String, dynamic> data) {
+    if (data['type']?.toString() == 'incoming_call') {
+      if (Get.isRegistered<CallCoordinator>()) {
+        Get.find<CallCoordinator>().handleIncomingNotification(data);
+      }
+      return;
+    }
     final code = data['code'];
     if (code != null) {
       switch (code) {

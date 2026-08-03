@@ -1,4 +1,5 @@
 import 'package:sukientotapp/core/utils/import/global.dart';
+import 'package:sukientotapp/core/services/call_coordinator.dart';
 
 import 'package:sukientotapp/data/models/partner/wallet_transaction_model.dart';
 import 'package:sukientotapp/domain/repositories/partner/account_repository.dart';
@@ -302,7 +303,11 @@ class AccountController extends GetxController {
     }
     isLoading.value = true;
     try {
+      await NotificationService.unregisterDeviceBeforeLogout();
       await _repository.deleteAccount(password);
+      if (Get.isRegistered<CallCoordinator>()) {
+        await Get.find<CallCoordinator>().disposeCall(notifyServer: true);
+      }
       deletePasswordController.clear();
       StorageService.clearAllData();
       Get.offAllNamed(Routes.loginScreen);
@@ -317,6 +322,10 @@ class AccountController extends GetxController {
   Future<void> logout() async {
     isLoading.value = true;
     try {
+      await NotificationService.unregisterDeviceBeforeLogout();
+      if (Get.isRegistered<CallCoordinator>()) {
+        await Get.find<CallCoordinator>().disposeCall(notifyServer: true);
+      }
       if (StorageService.readData(key: LocalStorageKeys.token) == null) {
         StorageService.clearAllData();
         Get.offAllNamed(Routes.loginScreen);
