@@ -1,6 +1,8 @@
 import 'package:sukientotapp/core/utils/import/global.dart';
 import 'package:sukientotapp/features/common/message/controller.dart';
 import 'package:sukientotapp/features/common/report/report_bottom_sheet.dart';
+import 'package:sukientotapp/features/common/call/widgets/call_ui.dart';
+import 'package:sukientotapp/core/services/call_coordinator.dart';
 
 class ChatAppBar extends StatelessWidget implements PreferredSizeWidget {
   const ChatAppBar({super.key});
@@ -106,6 +108,40 @@ class ChatAppBar extends StatelessWidget implements PreferredSizeWidget {
             }),
           ),
           const SizedBox(width: 9),
+          Obx(() {
+            final messageController = Get.find<MessageController>();
+            final thread = messageController.selectedThread.value;
+            if (thread == null) return const SizedBox.shrink();
+            final coordinator = messageController.callCoordinator;
+            final hasCall = coordinator.activeCall.value != null;
+            return IconButton(
+              onPressed: () async {
+                if (hasCall) {
+                  final connected = coordinator.localState.value == LocalCallState.connected ||
+                      coordinator.localState.value == LocalCallState.reconnecting;
+                  if (!connected) {
+                    final session = await coordinator.joinActiveCall();
+                    if (session == null) return;
+                  }
+                  await openAudioCallScreen();
+                  return;
+                }
+                if (context.mounted) {
+                  await showStartCallSheet(
+                    context: context,
+                    thread: thread,
+                    coordinator: coordinator,
+                  );
+                }
+              },
+              tooltip: hasCall ? 'Mở cuộc gọi' : 'Gọi âm thanh',
+              icon: Icon(
+                hasCall ? Icons.call_rounded : Icons.add_call,
+                color: hasCall ? const Color(0xFF059669) : colors.mutedForeground,
+                size: 21,
+              ),
+            );
+          }),
           Obx(() {
             final thread = Get.find<MessageController>().selectedThread.value;
             if (thread == null) {

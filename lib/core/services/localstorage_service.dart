@@ -50,7 +50,19 @@ class StorageService {
   }
 
   static void clearAllData() {
+    final pushDeviceId = box.read<String>(LocalStorageKeys.pushDeviceId);
+    final fcmToken = box.read<String>(LocalStorageKeys.fcmToken);
+    final voipToken = box.read<String>(LocalStorageKeys.voipToken);
     box.erase();
+    if (pushDeviceId != null && pushDeviceId.isNotEmpty) {
+      box.write(LocalStorageKeys.pushDeviceId, pushDeviceId);
+    }
+    if (fcmToken != null && fcmToken.isNotEmpty) {
+      box.write(LocalStorageKeys.fcmToken, fcmToken);
+    }
+    if (voipToken != null && voipToken.isNotEmpty) {
+      box.write(LocalStorageKeys.voipToken, voipToken);
+    }
   }
 
   static dynamic updateMapData({
@@ -80,6 +92,8 @@ class LocalStorageKeys {
 
   // Firebase Cloud Messaging
   static const String fcmToken = "fcm_token";
+  static const String pushDeviceId = "push_device_id";
+  static const String voipToken = "voip_token";
 
   // Pending deep link (from terminated-state notification tap)
   static const String pendingThreadId = "pending_thread_id";

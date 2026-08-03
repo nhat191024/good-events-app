@@ -7,6 +7,10 @@ class HandleNotificationTerminatedTap {
       logger.w('[HandleNotificationTerminatedTap] Received tap with null data');
       return;
     }
+    if (data['type']?.toString() == 'incoming_call') {
+      HandleNotificationTerminatedTap().handleIncomingCall(data);
+      return;
+    }
     final code = data['code'];
     if (code != null) {
       switch (code) {
@@ -33,6 +37,15 @@ class HandleNotificationTerminatedTap {
         '[HandleNotificationTerminatedTap] Received tap without code: $data',
       );
     }
+  }
+
+  void handleIncomingCall(Map<String, dynamic> data) {
+    final threadId = int.tryParse(data['thread_id']?.toString() ?? '');
+    if (threadId == null) return;
+    StorageService.writeStringData(
+      key: LocalStorageKeys.pendingThreadId,
+      value: threadId.toString(),
+    );
   }
 
   void handleNewBillDetailCode(Map<String, dynamic> data) {
