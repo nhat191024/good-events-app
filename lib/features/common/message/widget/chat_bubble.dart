@@ -2,6 +2,7 @@ import 'dart:io';
 
 import 'package:flutter/gestures.dart';
 import 'package:sukientotapp/core/utils/import/global.dart';
+import 'package:sukientotapp/core/utils/phone_number_censor.dart';
 import 'package:sukientotapp/data/models/message_model.dart'; // Correct import
 import 'package:url_launcher/url_launcher.dart';
 import 'package:sukientotapp/features/common/message/controller.dart';
@@ -438,17 +439,18 @@ class _LinkifiedMessageTextState extends State<_LinkifiedMessageText> {
   @override
   Widget build(BuildContext context) {
     _disposeRecognizers();
+    final String censoredText = PhoneNumberCensor.censor(widget.text);
     final spans = <InlineSpan>[];
     int currentIndex = 0;
 
-    for (final match in _urlRegExp.allMatches(widget.text)) {
+    for (final match in _urlRegExp.allMatches(censoredText)) {
       if (match.start > currentIndex) {
         spans.add(
-          TextSpan(text: widget.text.substring(currentIndex, match.start)),
+          TextSpan(text: censoredText.substring(currentIndex, match.start)),
         );
       }
 
-      final rawMatch = widget.text.substring(match.start, match.end);
+      final rawMatch = censoredText.substring(match.start, match.end);
       final trimmed = _trimTrailingPunctuation(rawMatch);
       final trailing = rawMatch.substring(trimmed.length);
       final recognizer = TapGestureRecognizer()
@@ -473,8 +475,8 @@ class _LinkifiedMessageTextState extends State<_LinkifiedMessageText> {
       currentIndex = match.end;
     }
 
-    if (currentIndex < widget.text.length) {
-      spans.add(TextSpan(text: widget.text.substring(currentIndex)));
+    if (currentIndex < censoredText.length) {
+      spans.add(TextSpan(text: censoredText.substring(currentIndex)));
     }
 
     return RichText(

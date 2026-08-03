@@ -6,6 +6,7 @@ import 'package:geolocator/geolocator.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:pusher_channels_flutter/pusher_channels_flutter.dart';
 import 'package:sukientotapp/core/utils/import/global.dart';
+import 'package:sukientotapp/core/utils/phone_number_censor.dart';
 
 import 'package:sukientotapp/domain/repositories/partner/message_repository.dart';
 import 'package:sukientotapp/data/models/message_model.dart';
@@ -571,6 +572,7 @@ class MessageController extends GetxController {
 
   Future<void> sendMessage() async {
     final text = messageController.text.trim();
+    final String censoredText = PhoneNumberCensor.censor(text);
     final images = List<XFile>.from(selectedImages);
     if (text.isEmpty && images.isEmpty) return;
     final threadId = selectedThreadId;
@@ -579,8 +581,8 @@ class MessageController extends GetxController {
 
     final bool isImageMessage = images.isNotEmpty;
     final String previewText = isImageMessage
-        ? (text.isEmpty ? '[Ảnh]' : text)
-        : text;
+        ? (censoredText.isEmpty ? '[Ảnh]' : censoredText)
+        : censoredText;
 
     final currentUserName =
         StorageService.readMapData(key: LocalStorageKeys.user, mapKey: 'name')
@@ -600,7 +602,7 @@ class MessageController extends GetxController {
 
     final optimistic = MessageModel(
       sender: currentUserName,
-      text: isImageMessage ? text : previewText,
+      text: isImageMessage ? censoredText : previewText,
       type: isImageMessage ? 'image' : 'text',
       previewText: previewText,
       attachments: optimisticAttachments,
@@ -620,7 +622,7 @@ class MessageController extends GetxController {
       await _repository.sendMessage(
         threadId: threadId,
         type: isImageMessage ? 'image' : 'text',
-        body: text.isEmpty ? null : text,
+        body: censoredText.isEmpty ? null : censoredText,
         images: isImageMessage ? images : null,
       );
       _markOptimisticSent(optimistic);
