@@ -20,6 +20,15 @@ class AppErrorReporter {
 
   static final AppErrorReporter instance = AppErrorReporter._();
 
+  static const bool _enableInDebug = bool.fromEnvironment(
+    'ENABLE_ERROR_REPORTING_IN_DEBUG',
+    defaultValue: false,
+  );
+
+  /// Error reporting is disabled in debug builds unless explicitly enabled
+  /// with --dart-define=ENABLE_ERROR_REPORTING_IN_DEBUG=true.
+  static bool get isEnabled => !kDebugMode || _enableInDebug;
+
   static const Duration _deduplicationWindow = Duration(seconds: 45);
   static const int _maxFingerprints = 75;
   static const int _maxPendingReports = 10;
@@ -41,6 +50,12 @@ class AppErrorReporter {
   }
 
   Future<void> _initialize() async {
+    if (!isEnabled) {
+      _pendingReports.clear();
+      logger.i('[AppErrorReporter] Reporting is disabled in debug mode.');
+      return;
+    }
+
     final baseUrl = EnvConfig.apiBaseUrl;
     if (baseUrl.isEmpty) {
       logger.w('[AppErrorReporter] API_BASE_URL is empty; reporting disabled.');
@@ -121,6 +136,8 @@ class AppErrorReporter {
   }
 
   Future<void> reportApiError(DioException error) async {
+    if (!isEnabled) return;
+
     final request = error.requestOptions;
     final response = error.response;
     final type = classifyDioError(error);
@@ -198,6 +215,8 @@ class AppErrorReporter {
     Map<String, dynamic>? apiResponse,
     DateTime? occurredAt,
   }) async {
+    if (!isEnabled) return;
+
     try {
       final reportContext = <String, dynamic>{if (context != null) ...context};
       try {
@@ -279,6 +298,8 @@ class AppErrorReporter {
   }
 
   Future<void> _submit(AppErrorReportRequest report) async {
+    if (!isEnabled) return;
+
     final fingerprint = _fingerprint(report);
     if (_isDuplicate(fingerprint)) return;
 
@@ -294,6 +315,8 @@ class AppErrorReporter {
   }
 
   Future<void> _send(AppErrorReportRequest report) async {
+    if (!isEnabled) return;
+
     try {
       final payload = report.toJson();
       if (_appVersion != null) payload['app_version'] = _appVersion;
