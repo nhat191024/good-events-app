@@ -2,6 +2,10 @@
 
 All notable changes to this project will be documented in this file.
 
+## [2.8.1+81]
+
+- Remove FOREGROUND_SERVICE_MEDIA_PROJECTION permission
+
 ## [2.8.0+80]
 
 - Add voice call in chat
