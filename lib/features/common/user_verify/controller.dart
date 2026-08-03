@@ -1,6 +1,7 @@
 import 'dart:async';
 import 'package:sukientotapp/core/utils/app_exceptions.dart';
 import 'package:sukientotapp/core/utils/import/global.dart';
+import 'package:sukientotapp/core/services/call_coordinator.dart';
 import 'package:sukientotapp/domain/repositories/auth_repository.dart';
 
 enum VerifyMethod { email, zalo }
@@ -202,6 +203,10 @@ class UserVerifyController extends GetxController {
 
   Future<void> logout() async {
     try {
+      await NotificationService.unregisterDeviceBeforeLogout();
+      if (Get.isRegistered<CallCoordinator>()) {
+        await Get.find<CallCoordinator>().disposeCall(notifyServer: true);
+      }
       if (StorageService.readData(key: LocalStorageKeys.token) == null) {
         StorageService.clearAllData();
         Get.offAllNamed(Routes.loginScreen);

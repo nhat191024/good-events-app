@@ -87,15 +87,66 @@ class MessageLocationModel {
   }
 }
 
+class CallMessageSummary {
+  const CallMessageSummary({
+    required this.id,
+    required this.durationSeconds,
+    this.startedAt,
+    this.endedAt,
+  });
+
+  final String id;
+  final int durationSeconds;
+  final DateTime? startedAt;
+  final DateTime? endedAt;
+
+  String get formattedDuration => formatDuration(durationSeconds);
+
+  static String formatDuration(int totalSeconds) {
+    final safeSeconds = totalSeconds < 0 ? 0 : totalSeconds;
+    final hours = safeSeconds ~/ 3600;
+    final minutes = (safeSeconds % 3600) ~/ 60;
+    final seconds = safeSeconds % 60;
+    final parts = <String>[];
+    if (hours > 0) parts.add('$hours giờ');
+    if (minutes > 0) parts.add('$minutes phút');
+    if (seconds > 0 || parts.isEmpty) parts.add('$seconds giây');
+    return parts.join(' ');
+  }
+
+  factory CallMessageSummary.fromJson(Map<String, dynamic> json) =>
+      CallMessageSummary(
+        id: json['id']?.toString() ?? '',
+        durationSeconds: _asInt(json['duration_seconds']) ?? 0,
+        startedAt: DateTime.tryParse(json['started_at']?.toString() ?? ''),
+        endedAt: DateTime.tryParse(json['ended_at']?.toString() ?? ''),
+      );
+
+  Map<String, dynamic> toJson() => {
+    'id': id,
+    'duration_seconds': durationSeconds,
+    'started_at': startedAt?.toIso8601String(),
+    'ended_at': endedAt?.toIso8601String(),
+  };
+
+  static int? _asInt(dynamic value) {
+    if (value is int) return value;
+    if (value is num) return value.toInt();
+    return int.tryParse(value?.toString() ?? '');
+  }
+}
+
 class MessageModel {
   final int? id;
   final int? threadId;
+  final int? userId;
   final String sender;
   final String text;
   final String type;
   final String previewText;
   final List<MessageAttachmentModel> attachments;
   final MessageLocationModel? location;
+  final CallMessageSummary? call;
   final bool isSender;
   final bool sended;
   final String time;
@@ -105,11 +156,13 @@ class MessageModel {
     this.id,
     this.sender = '',
     this.threadId,
+    this.userId,
     required this.text,
     this.type = 'text',
     String? previewText,
     this.attachments = const [],
     this.location,
+    this.call,
     required this.isSender,
     required this.sended,
     required this.time,
@@ -151,7 +204,9 @@ class MessageModel {
         ? Map<String, dynamic>.from(json['message'] as Map)
         : json;
     final senderId =
-        _asInt(json['sender_id']) ?? _asInt(message['sender_id']);
+        _asInt(json['sender_id']) ??
+        _asInt(message['sender_id']) ??
+        _asInt(message['user_id']);
     final threadId = _asInt(message['thread_id']);
     final user = json['user'] is Map
         ? Map<String, dynamic>.from(json['user'] as Map)
@@ -162,6 +217,7 @@ class MessageModel {
     final attachments = _parseAttachments(attachmentsRaw);
     final locationRaw = message['location'] ?? json['location'];
     final location = _parseLocation(locationRaw);
+    final call = _parseCall(message['call'] ?? json['call']);
     final body =
         (message['body'] as String?) ?? (json['body'] as String?) ?? '';
     final previewText =
@@ -172,6 +228,7 @@ class MessageModel {
     return MessageModel(
       id: _asInt(message['id']),
       threadId: threadId,
+      userId: _asInt(message['user_id']) ?? senderId,
       sender:
           (user['name'] as String?) ?? (json['sender_name'] as String?) ?? '',
       text: body,
@@ -179,6 +236,7 @@ class MessageModel {
       previewText: previewText,
       attachments: attachments,
       location: location,
+      call: call,
       isSender: currentUserId != null && senderId == currentUserId,
       sended: true,
       time: diffForHumans(createdAt),
@@ -189,11 +247,13 @@ class MessageModel {
   factory MessageModel.fromJson(Map<String, dynamic> json) {
     return MessageModel(
       threadId: json['threadId'] as int?,
+      userId: _asInt(json['userId']),
       text: json['text'] ?? '',
       type: json['type'] as String? ?? 'text',
       previewText: json['previewText'] as String?,
       attachments: _parseAttachments(json['attachments']),
       location: _parseLocation(json['location']),
+      call: _parseCall(json['call']),
       isSender: json['isSender'] ?? false,
       sended: json['sended'] ?? false,
       time: json['time'] ?? '',
@@ -204,11 +264,13 @@ class MessageModel {
   Map<String, dynamic> toJson() {
     return {
       'threadId': threadId,
+      'userId': userId,
       'text': text,
       'type': type,
       'previewText': previewText,
       'attachments': attachments.map((e) => e.toJson()).toList(),
       'location': location?.toJson(),
+      'call': call?.toJson(),
       'isSender': isSender,
       'sended': sended,
       'time': time,
@@ -231,6 +293,16 @@ class MessageModel {
       if (first is Map) {
         return MessageLocationModel.fromJson(Map<String, dynamic>.from(first));
       }
+    }
+    return null;
+  }
+
+  static CallMessageSummary? _parseCall(dynamic value) {
+    if (value is Map<String, dynamic>) {
+      return CallMessageSummary.fromJson(value);
+    }
+    if (value is Map) {
+      return CallMessageSummary.fromJson(Map<String, dynamic>.from(value));
     }
     return null;
   }
@@ -259,6 +331,7 @@ class MessageModel {
     if (body.isNotEmpty) return body;
     if (type == 'image') return '[Ảnh]';
     if (type == 'location') return location?.label ?? 'Vị trí hiện tại';
+    if (type == 'call') return '[Cuộc gọi]';
     return '';
   }
 }

@@ -86,13 +86,39 @@ class ApiService {
         requestHeader: true,
         requestBody: true,
         filter: (options, args) {
+          if (_isCallEndpoint(options.path)) return false;
           //  return !options.uri.path.contains('posts');
           return !args.isResponse || !args.hasUint8ListData;
         },
       ),
     );
-    _dio.interceptors.add(DioLogInterceptor());
+    _dio.interceptors.add(_SafeDioLogInterceptor());
   }
 
   Dio get dio => _dio;
+}
+
+bool _isCallEndpoint(String path) =>
+    path.contains('/calls') || path.contains('/calls/');
+
+class _SafeDioLogInterceptor extends Interceptor {
+  final DioLogInterceptor _delegate = DioLogInterceptor();
+
+  @override
+  void onRequest(RequestOptions options, RequestInterceptorHandler handler) {
+    if (_isCallEndpoint(options.path)) return handler.next(options);
+    _delegate.onRequest(options, handler);
+  }
+
+  @override
+  void onResponse(Response<dynamic> response, ResponseInterceptorHandler handler) {
+    if (_isCallEndpoint(response.requestOptions.path)) return handler.next(response);
+    _delegate.onResponse(response, handler);
+  }
+
+  @override
+  void onError(DioException error, ErrorInterceptorHandler handler) {
+    if (_isCallEndpoint(error.requestOptions.path)) return handler.next(error);
+    _delegate.onError(error, handler);
+  }
 }

@@ -7,9 +7,16 @@ import 'package:sukientotapp/features/common/message/controller.dart';
 import 'package:sukientotapp/features/partner/bottom_navigation/controller.dart';
 import 'package:sukientotapp/features/partner/new_show/controller.dart';
 import 'package:sukientotapp/features/partner/show/controller.dart';
+import 'package:sukientotapp/core/services/call_coordinator.dart';
 
 class HandleNotificationTap {
   static void handleTap(Map<String, dynamic> data) {
+    if (data['type']?.toString() == 'incoming_call') {
+      if (Get.isRegistered<CallCoordinator>()) {
+        Get.find<CallCoordinator>().handleIncomingNotification(data);
+      }
+      return;
+    }
     final code = data['code'];
     if (code != null) {
       switch (code) {
