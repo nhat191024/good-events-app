@@ -1,3 +1,4 @@
+import 'package:flutter/widgets.dart';
 import 'package:get/get.dart';
 import 'package:sukientotapp/core/routes/pages.dart';
 import 'package:sukientotapp/core/utils/logger.dart';
@@ -8,6 +9,8 @@ import 'package:sukientotapp/features/partner/bottom_navigation/controller.dart'
 import 'package:sukientotapp/features/partner/new_show/controller.dart';
 import 'package:sukientotapp/features/partner/show/controller.dart';
 import 'package:sukientotapp/core/services/call_coordinator.dart';
+import 'package:sukientotapp/core/services/localstorage_service.dart';
+import 'package:sukientotapp/features/common/message/widget/invitation_accept_dialog.dart';
 
 class HandleNotificationTap {
   static void handleTap(Map<String, dynamic> data) {
@@ -31,6 +34,9 @@ class HandleNotificationTap {
           break;
         case 'NEW_MESSAGE':
           HandleNotificationTap().handleNewMessageCode(data);
+          break;
+        case 'CHAT_INVITATION':
+          HandleNotificationTap().handleChatInvitationCode(data);
           break;
         case 'NEW_REVIEW_RECEIVED':
           HandleNotificationTap().handleNewReviewReceivedCode(data);
@@ -71,6 +77,58 @@ class HandleNotificationTap {
       logger.w(
         '[HandleNotificationTap] MessageController not registered, cannot open thread',
       );
+    }
+  }
+
+  void handleChatInvitationCode(Map<String, dynamic> data) {
+    final threadId = data['thread_id']?.toString();
+    if (threadId == null || threadId.isEmpty) {
+      logger.w('[HandleNotificationTap] CHAT_INVITATION missing thread_id');
+      return;
+    }
+
+    if (!Get.isRegistered<MessageController>()) {
+      StorageService.writeMapData(
+        key: LocalStorageKeys.pendingChatInvitation,
+        value: Map<String, dynamic>.from(data),
+      );
+      _openMessagesTab();
+      return;
+    }
+
+    _openMessagesTab();
+    WidgetsBinding.instance.addPostFrameCallback((_) async {
+      if (!Get.isRegistered<MessageController>()) return;
+      final controller = Get.find<MessageController>();
+      final accepted = await showChatInvitationDialog(
+        threadId: threadId,
+        controller: controller,
+        inviterName: data['inviter_name']?.toString(),
+      );
+      if (accepted && !controller.isClosed) {
+        await controller.openThreadById(threadId);
+      }
+    });
+  }
+
+  void _openMessagesTab() {
+    if (Get.isRegistered<ClientBottomNavigationController>()) {
+      Get.find<ClientBottomNavigationController>().setIndex(2);
+      return;
+    }
+    if (Get.isRegistered<PartnerBottomNavigationController>()) {
+      Get.find<PartnerBottomNavigationController>().setIndex(3);
+      return;
+    }
+
+    final role = StorageService.readMapData(
+      key: LocalStorageKeys.user,
+      mapKey: 'role',
+    )?.toString();
+    if (role == 'client') {
+      Get.offAllNamed(Routes.clientHome, arguments: {'initialIndex': 2});
+    } else if (role == 'partner') {
+      Get.offAllNamed(Routes.partnerHome, arguments: {'initialIndex': 3});
     }
   }
 

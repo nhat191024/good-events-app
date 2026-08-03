@@ -1,4 +1,5 @@
 import 'package:sukientotapp/core/utils/import/global.dart';
+import 'package:sukientotapp/core/utils/phone_number_censor.dart';
 
 import 'controller.dart';
 import 'widget/header.dart';
@@ -235,8 +236,10 @@ class _MessageScreenState extends State<MessageScreen> {
                                           ),
                                         TextSpan(
                                           text:
-                                              message.newestMessage ??
-                                              'no_messages'.tr,
+                                              PhoneNumberCensor.censor(
+                                                message.newestMessage ??
+                                                    'no_messages'.tr,
+                                              ),
                                           style: context.typography.xs.copyWith(
                                             color: context
                                                 .fTheme

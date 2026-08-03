@@ -84,6 +84,13 @@ class AppUrl {
   static const String chats = '/chat';
   static String chatMessages(String threadId) =>
       '/chat/threads/$threadId/messages';
+  static const String chatUserSearch = '/chat/users/search';
+  static String chatInvitations(String threadId) =>
+      '/chat/threads/$threadId/invitations';
+  static String acceptChatInvitation(String threadId) =>
+      '/chat/threads/$threadId/invitations/accept';
+  static String leaveChatThread(String threadId) =>
+      '/chat/threads/$threadId/participants/me';
   static String createCall(String threadId) =>
       '/chat/threads/$threadId/calls';
   static String activeCall(String threadId) =>

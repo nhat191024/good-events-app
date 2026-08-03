@@ -92,7 +92,9 @@ class NotificationScreen extends GetView<NotificationController> {
                           shape: BoxShape.circle,
                         ),
                         child: Icon(
-                          Icons.notifications,
+                          item.isChatInvitation
+                              ? Icons.person_add_alt_1_rounded
+                              : Icons.notifications,
                           color: context.primary,
                         ),
                       ),

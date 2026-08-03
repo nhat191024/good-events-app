@@ -3,8 +3,11 @@ import 'package:sukientotapp/data/models/common/notification_model.dart';
 import 'package:sukientotapp/domain/repositories/common/notification_repository.dart';
 import 'package:sukientotapp/domain/repositories/client/order_repository.dart';
 import 'package:sukientotapp/features/client/home/controller.dart';
+import 'package:sukientotapp/features/client/bottom_navigation/controller.dart';
 import 'package:sukientotapp/features/partner/bottom_navigation/controller.dart';
 import 'package:sukientotapp/features/partner/home/controller.dart';
+import 'package:sukientotapp/features/common/message/controller.dart';
+import 'package:sukientotapp/features/common/message/widget/invitation_accept_dialog.dart';
 
 class NotificationController extends GetxController {
   final NotificationRepository _repository;
@@ -107,10 +110,54 @@ class NotificationController extends GetxController {
   }
 
   Future<void> readNotification(NotificationModel notification) async {
+    if (notification.isChatInvitation) {
+      await _openChatInvitation(notification);
+      return;
+    }
     if (isServiceProvider) {
       await readPartnerNotification(notification);
     } else {
       await readClientNotification(notification);
+    }
+  }
+
+  Future<void> _openChatInvitation(NotificationModel notification) async {
+    final markReadFuture = _markAsRead(notification);
+    Get.back<void>();
+    if (Get.isRegistered<ClientBottomNavigationController>()) {
+      Get.find<ClientBottomNavigationController>().setIndex(2);
+    } else if (Get.isRegistered<PartnerBottomNavigationController>()) {
+      Get.find<PartnerBottomNavigationController>().setIndex(3);
+    }
+
+    WidgetsBinding.instance.addPostFrameCallback((_) async {
+      if (!Get.isRegistered<MessageController>()) {
+        AppSnackbar.showError(message: 'Không thể mở lời mời lúc này.');
+        return;
+      }
+      final messageController = Get.find<MessageController>();
+      final threadId = notification.threadId!.toString();
+      final accepted = await showChatInvitationDialog(
+        threadId: threadId,
+        controller: messageController,
+        inviterName: notification.inviterName,
+      );
+      if (accepted && !messageController.isClosed) {
+        await messageController.openThreadById(threadId);
+      }
+    });
+    await markReadFuture;
+  }
+
+  Future<void> _markAsRead(NotificationModel notification) async {
+    if (!notification.unread) return;
+    notification.unread = false;
+    notifications.refresh();
+    _syncNotificationBadge();
+    try {
+      await _repository.readNotification(notification.id);
+    } catch (e) {
+      logger.e('Error reading notification: $e');
     }
   }
 
