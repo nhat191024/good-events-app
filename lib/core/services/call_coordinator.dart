@@ -1,0 +1,503 @@
+import 'dart:async';
+
+import 'package:agora_rtc_engine/agora_rtc_engine.dart';
+import 'package:flutter/widgets.dart';
+import 'package:get/get.dart';
+import 'package:permission_handler/permission_handler.dart';
+import 'package:sukientotapp/core/utils/logger.dart';
+import 'package:sukientotapp/core/services/call_ringtone_service.dart';
+import 'package:sukientotapp/core/services/localstorage_service.dart';
+import 'package:sukientotapp/core/services/notification_service.dart';
+import 'package:sukientotapp/data/models/common/call_model.dart';
+import 'package:sukientotapp/domain/repositories/common/call_repository.dart';
+
+enum LocalCallState {
+  idle,
+  creating,
+  ringing,
+  joining,
+  connected,
+  reconnecting,
+  leaving,
+  ended,
+  failed,
+}
+
+/// Owns the single Agora engine and coordinates server call state with RTC state.
+/// Widgets should invoke these actions instead of calling HTTP or Agora directly.
+class CallCoordinator extends GetxService with WidgetsBindingObserver {
+  CallCoordinator(this._repository);
+
+  static const Duration unansweredCallTimeout = Duration(seconds: 60);
+
+  final CallRepository _repository;
+  final Rx<CallModel?> activeCall = Rx<CallModel?>(null);
+  final Rx<LocalCallState> localState = LocalCallState.idle.obs;
+  final RxBool isMuted = false.obs;
+  final RxBool isSpeakerEnabled = true.obs;
+  final RxSet<int> remoteUids = <int>{}.obs;
+  final RxString errorMessage = ''.obs;
+  final RxString audioDebugState = ''.obs;
+  final RxString threadTitle = ''.obs;
+
+  RtcEngine? _engine;
+  String? _currentThreadId;
+  bool _actionInProgress = false;
+  bool _isInChannel = false;
+  Timer? _unansweredCallTimer;
+
+  void setThreadContext({required String threadId, required String title}) {
+    if (_currentThreadId != null && _currentThreadId != threadId) {
+      threadTitle.value = '';
+    }
+    _currentThreadId = threadId;
+    threadTitle.value = title.trim();
+  }
+
+  @override
+  void onInit() {
+    super.onInit();
+    WidgetsBinding.instance.addObserver(this);
+  }
+
+  @override
+  void onClose() {
+    WidgetsBinding.instance.removeObserver(this);
+    unawaited(disposeCall(notifyServer: false));
+    super.onClose();
+  }
+
+  @override
+  void didChangeAppLifecycleState(AppLifecycleState state) {
+    if (state == AppLifecycleState.resumed && _currentThreadId != null) {
+      unawaited(reconcile(_currentThreadId!));
+    }
+  }
+
+  Future<CallSession?> createAudioCall({
+    required String threadId,
+    required List<int> invitedUserIds,
+  }) async {
+    if (_actionInProgress || invitedUserIds.isEmpty) return null;
+    _actionInProgress = true;
+    _currentThreadId = threadId;
+    localState.value = LocalCallState.creating;
+    errorMessage.value = '';
+    try {
+      final session = await _repository.create(
+        threadId: threadId,
+        type: CallType.audio,
+        invitedUserIds: invitedUserIds,
+      );
+      activeCall.value = session.call;
+      _startUnansweredCallTimer(session.call);
+      await CallRingtoneService.playOutgoing();
+      await _connect(session);
+      return session;
+    } on CallApiException catch (error) {
+      await CallRingtoneService.stop();
+      if (error.statusCode == 409) {
+        await reconcile(threadId);
+      } else {
+        _fail(error.message);
+      }
+      return null;
+    } catch (error, stackTrace) {
+      await CallRingtoneService.stop();
+      logger.e(
+        '[CallCoordinator] Failed to initialize outgoing call',
+        error: error,
+        stackTrace: stackTrace,
+      );
+      _fail('Không thể khởi tạo âm thanh cuộc gọi.');
+      return null;
+    } finally {
+      _actionInProgress = false;
+    }
+  }
+
+  Future<void> reconcile(String threadId) async {
+    if (_currentThreadId != null && _currentThreadId != threadId) {
+      threadTitle.value = '';
+    }
+    _currentThreadId = threadId;
+    try {
+      final call = await _repository.active(threadId);
+      if (call == null || call.status == CallStatus.ended) {
+        activeCall.value = null;
+        if (_isInChannel) await disposeCall(notifyServer: false);
+        return;
+      }
+      activeCall.value = call;
+      if (call.participants.length > 1) {
+        _cancelUnansweredCallTimer();
+      }
+      if (!_isInChannel) {
+        localState.value = LocalCallState.ringing;
+        final currentUserId = StorageService.readMapData(
+          key: LocalStorageKeys.user,
+          mapKey: 'id',
+        ) as int?;
+        final hasPendingInvite = call.invitedUsers.any(
+          (user) => user.id == currentUserId && user.status == CallInviteStatus.pending,
+        );
+        if (hasPendingInvite) await CallRingtoneService.playIncoming();
+      }
+    } on CallApiException catch (error) {
+      if (error.statusCode == 404) activeCall.value = null;
+      logger.w('[CallCoordinator] Active call reconcile failed: ${error.message}');
+    }
+  }
+
+  Future<CallSession?> joinActiveCall() async {
+    final call = activeCall.value;
+    if (call == null || _actionInProgress || _isInChannel) return null;
+    _actionInProgress = true;
+    errorMessage.value = '';
+    try {
+      await NotificationService.cancelIncomingCall(call.id);
+      await CallRingtoneService.stop();
+      final session = await _repository.join(call.id);
+      activeCall.value = session.call;
+      await _connect(session);
+      return session;
+    } on CallApiException catch (error) {
+      _handleApiFailure(error);
+      return null;
+    } catch (error, stackTrace) {
+      await CallRingtoneService.stop();
+      logger.e(
+        '[CallCoordinator] Failed to join Agora call',
+        error: error,
+        stackTrace: stackTrace,
+      );
+      _fail('Không thể kết nối âm thanh cuộc gọi.');
+      return null;
+    } finally {
+      _actionInProgress = false;
+    }
+  }
+
+  Future<void> leave() async {
+    if (_actionInProgress) return;
+    _actionInProgress = true;
+    localState.value = LocalCallState.leaving;
+    final callId = activeCall.value?.id;
+    final threadId = _currentThreadId;
+    final currentUserId = StorageService.readMapData(
+      key: LocalStorageKeys.user,
+      mapKey: 'id',
+    ) as int?;
+    final isInitiator = activeCall.value?.initiator?.id == currentUserId;
+    bool endedCall = false;
+    try {
+      if (callId != null && isInitiator && remoteUids.isEmpty) {
+        await _repository.end(callId);
+        endedCall = true;
+      } else if (callId != null) {
+        await _repository.leave(callId);
+      }
+    } on CallApiException catch (error) {
+      errorMessage.value = error.message;
+    } finally {
+      await disposeCall(notifyServer: false);
+      activeCall.value = null;
+      _actionInProgress = false;
+      if (endedCall) {
+        localState.value = LocalCallState.ended;
+      } else if (threadId != null) {
+        await reconcile(threadId);
+      }
+    }
+  }
+
+  Future<void> decline() async {
+    final call = activeCall.value;
+    if (call == null || _actionInProgress) return;
+    _actionInProgress = true;
+    try {
+      await NotificationService.cancelIncomingCall(call.id);
+      await CallRingtoneService.stop();
+      await _repository.decline(call.id);
+      activeCall.value = null;
+      localState.value = LocalCallState.idle;
+    } on CallApiException catch (error) {
+      if (error.statusCode == 409) {
+        activeCall.value = null;
+        localState.value = LocalCallState.idle;
+        await reconcile(call.threadId.toString());
+      } else {
+        _handleApiFailure(error);
+      }
+    } finally {
+      _actionInProgress = false;
+    }
+  }
+
+  Future<void> end() async {
+    final call = activeCall.value;
+    if (call == null || _actionInProgress) return;
+    _actionInProgress = true;
+    try {
+      await CallRingtoneService.stop();
+      await _repository.end(call.id);
+      await disposeCall(notifyServer: false);
+      activeCall.value = null;
+      localState.value = LocalCallState.ended;
+    } on CallApiException catch (error) {
+      _handleApiFailure(error);
+    } finally {
+      _actionInProgress = false;
+    }
+  }
+
+  Future<void> setMuted(bool muted) async {
+    await _engine?.muteLocalAudioStream(muted);
+    isMuted.value = muted;
+  }
+
+  Future<void> setSpeakerEnabled(bool enabled) async {
+    await _applySpeakerRoute(enabled);
+  }
+
+  Future<void> handleRealtimeCall(Map<String, dynamic> payload) async {
+    final raw = payload['call'];
+    if (raw is! Map<String, dynamic>) return;
+    final incoming = CallModel.fromJson(raw);
+    final current = activeCall.value;
+    if (current != null && current.id != incoming.id) return;
+    if (incoming.status == CallStatus.ended) {
+      activeCall.value = null;
+      await disposeCall(notifyServer: false);
+      localState.value = LocalCallState.ended;
+      return;
+    }
+    await reconcile(incoming.threadId.toString());
+  }
+
+  /// FCM is only a ringing signal. Credentials are fetched only after accept.
+  Future<void> handleIncomingNotification(Map<String, dynamic> data) async {
+    if (data['type']?.toString() != 'incoming_call') return;
+    final threadId = int.tryParse(data['thread_id']?.toString() ?? '');
+    if (threadId == null) return;
+    await reconcile(threadId.toString());
+  }
+
+  Future<void> _connect(CallSession session) async {
+    if (session.call.type != CallType.audio) {
+      throw const CallApiException(message: 'Ứng dụng hiện chỉ hỗ trợ cuộc gọi âm thanh.');
+    }
+    localState.value = LocalCallState.joining;
+    final permission = await Permission.microphone.request();
+    if (!permission.isGranted) {
+      throw const CallApiException(message: 'Bạn cần cấp quyền microphone để gọi.');
+    }
+
+    await _releaseEngine();
+    final engine = createAgoraRtcEngine();
+    _engine = engine;
+    await engine.initialize(RtcEngineContext(appId: session.credentials.appId));
+    engine.registerEventHandler(
+      RtcEngineEventHandler(
+        onJoinChannelSuccess: (connection, elapsed) {
+          _isInChannel = true;
+          localState.value = LocalCallState.connected;
+          unawaited(_applySpeakerRoute(isSpeakerEnabled.value));
+          logger.i(
+            '[CallCoordinator] Joined Agora channel uid=${connection.localUid}',
+          );
+          if (session.call.initiator?.id != session.credentials.uid) {
+            unawaited(CallRingtoneService.stop());
+          }
+        },
+        onUserJoined: (connection, remoteUid, elapsed) {
+          _cancelUnansweredCallTimer();
+          remoteUids.add(remoteUid);
+          logger.i('[CallCoordinator] Remote user joined uid=$remoteUid');
+          unawaited(CallRingtoneService.stop());
+        },
+        onUserOffline: (connection, remoteUid, reason) {
+          remoteUids.remove(remoteUid);
+          logger.i('[CallCoordinator] Remote user offline uid=$remoteUid reason=$reason');
+          if (reason == UserOfflineReasonType.userOfflineQuit &&
+              remoteUids.isEmpty) {
+            unawaited(_endIfInitiatorIsLastUser(session.call.id));
+          }
+        },
+        onConnectionStateChanged: (connection, state, reason) {
+          if (state == ConnectionStateType.connectionStateReconnecting) {
+            localState.value = LocalCallState.reconnecting;
+          } else if (state == ConnectionStateType.connectionStateConnected &&
+              _isInChannel) {
+            localState.value = LocalCallState.connected;
+          }
+        },
+        onTokenPrivilegeWillExpire: (connection, token) {
+          unawaited(_renewToken(session.call.id));
+        },
+        onLocalAudioStateChanged: (connection, state, reason) {
+          audioDebugState.value = 'local:$state/$reason';
+          logger.i('[CallCoordinator] Local audio state=$state reason=$reason');
+        },
+        onRemoteAudioStateChanged: (connection, remoteUid, state, reason, elapsed) {
+          audioDebugState.value = 'remote:$remoteUid/$state/$reason';
+          logger.i(
+            '[CallCoordinator] Remote audio uid=$remoteUid state=$state reason=$reason',
+          );
+        },
+        onFirstLocalAudioFramePublished: (connection, elapsed) {
+          logger.i('[CallCoordinator] Local microphone audio is publishing');
+        },
+        onFirstRemoteAudioDecoded: (connection, remoteUid, elapsed) {
+          logger.i('[CallCoordinator] Remote audio decoded uid=$remoteUid');
+        },
+        onError: (errorCode, message) {
+          audioDebugState.value = 'error:$errorCode';
+          logger.e('[CallCoordinator] Agora error=$errorCode message=$message');
+        },
+      ),
+    );
+    await engine.setClientRole(role: ClientRoleType.clientRoleBroadcaster);
+    await engine.enableAudio();
+    await engine.enableLocalAudio(true);
+    await engine.muteAllRemoteAudioStreams(false);
+    await engine.adjustRecordingSignalVolume(100);
+    await engine.adjustPlaybackSignalVolume(100);
+    await engine.setAudioProfile(
+      profile: AudioProfileType.audioProfileSpeechStandard,
+      scenario: AudioScenarioType.audioScenarioMeeting,
+    );
+    await engine.setDefaultAudioRouteToSpeakerphone(true);
+    await engine.joinChannel(
+      token: session.credentials.token,
+      channelId: session.credentials.channel,
+      uid: session.credentials.uid,
+      options: const ChannelMediaOptions(
+        clientRoleType: ClientRoleType.clientRoleBroadcaster,
+        channelProfile: ChannelProfileType.channelProfileCommunication,
+        autoSubscribeAudio: true,
+        publishMicrophoneTrack: true,
+      ),
+    );
+  }
+
+  Future<void> _applySpeakerRoute(bool enabled) async {
+    final engine = _engine;
+    if (engine == null || !_isInChannel) return;
+    try {
+      await engine.setEnableSpeakerphone(enabled);
+      isSpeakerEnabled.value = enabled;
+    } on AgoraRtcException catch (error) {
+      // Audio routing availability varies by device/headset. It must not make
+      // an otherwise successful Agora channel join fail.
+      logger.w(
+        '[CallCoordinator] Unable to change speaker route: ${error.code}',
+      );
+    }
+  }
+
+  Future<void> _renewToken(String callId) async {
+    try {
+      final session = await _repository.join(callId);
+      activeCall.value = session.call;
+      await _engine?.renewToken(session.credentials.token);
+    } on CallApiException catch (error) {
+      logger.w('[CallCoordinator] Agora token renewal failed: ${error.message}');
+    }
+  }
+
+  Future<void> disposeCall({required bool notifyServer}) async {
+    _cancelUnansweredCallTimer();
+    final callId = activeCall.value?.id;
+    if (callId != null) {
+      await NotificationService.cancelIncomingCall(callId);
+    }
+    await CallRingtoneService.stop();
+    if (notifyServer && activeCall.value != null) {
+      try {
+        await _repository.leave(activeCall.value!.id);
+      } on CallApiException catch (_) {}
+    }
+    await _releaseEngine();
+    remoteUids.clear();
+    isMuted.value = false;
+    isSpeakerEnabled.value = true;
+    audioDebugState.value = '';
+    if (localState.value != LocalCallState.ended) {
+      localState.value = LocalCallState.idle;
+    }
+  }
+
+  Future<void> _releaseEngine() async {
+    final engine = _engine;
+    _engine = null;
+    _isInChannel = false;
+    if (engine == null) return;
+    try {
+      await engine.leaveChannel();
+    } catch (_) {}
+    await engine.release();
+  }
+
+  void _handleApiFailure(CallApiException error) {
+    if (error.statusCode == 403 || error.statusCode == 404) {
+      activeCall.value = null;
+    }
+    _fail(error.message);
+  }
+
+  void _fail(String message) {
+    errorMessage.value = message;
+    localState.value = LocalCallState.failed;
+  }
+
+  void _startUnansweredCallTimer(CallModel call) {
+    _cancelUnansweredCallTimer();
+    _unansweredCallTimer = Timer(unansweredCallTimeout, () async {
+      // Reconcile once before ending in case the RTC callback was missed while
+      // the app was backgrounded or reconnecting.
+      await reconcile(call.threadId.toString());
+      final currentCall = activeCall.value;
+      final currentUserId = StorageService.readMapData(
+        key: LocalStorageKeys.user,
+        mapKey: 'id',
+      ) as int?;
+      final isSameCall = currentCall?.id == call.id;
+      final isInitiator = currentCall?.initiator?.id == currentUserId;
+      if (!isSameCall ||
+          !isInitiator ||
+          remoteUids.isNotEmpty ||
+          (currentCall?.participants.length ?? 0) > 1) {
+        return;
+      }
+
+      logger.i(
+        '[CallCoordinator] Ending unanswered call after '
+        '${unansweredCallTimeout.inSeconds}s',
+      );
+      await end();
+    });
+  }
+
+  void _cancelUnansweredCallTimer() {
+    _unansweredCallTimer?.cancel();
+    _unansweredCallTimer = null;
+  }
+
+  Future<void> _endIfInitiatorIsLastUser(String callId) async {
+    final call = activeCall.value;
+    final currentUserId = StorageService.readMapData(
+      key: LocalStorageKeys.user,
+      mapKey: 'id',
+    ) as int?;
+    if (call?.id != callId ||
+        call?.initiator?.id != currentUserId ||
+        remoteUids.isNotEmpty ||
+        _actionInProgress) {
+      return;
+    }
+
+    logger.i('[CallCoordinator] Last remote user left; ending call.');
+    await end();
+  }
+}

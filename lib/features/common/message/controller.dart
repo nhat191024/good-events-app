@@ -10,12 +10,14 @@ import 'package:sukientotapp/core/utils/import/global.dart';
 import 'package:sukientotapp/domain/repositories/partner/message_repository.dart';
 import 'package:sukientotapp/data/models/message_model.dart';
 import 'package:sukientotapp/data/models/message_list_model.dart';
+import 'package:sukientotapp/core/services/call_coordinator.dart';
 
 import 'detail_screen.dart';
 
 class MessageController extends GetxController {
   final MessageRepository _repository;
-  MessageController(this._repository);
+  final CallCoordinator callCoordinator;
+  MessageController(this._repository, this.callCoordinator);
 
   // ─── Thread List State ────────────────────────────────────────────────────────
   final RxList<MessageListModel> filteredMessages = <MessageListModel>[].obs;
@@ -183,11 +185,12 @@ class MessageController extends GetxController {
 
   // ─── User Channel event handler (called by BottomNavController) ─────────────
   void onUserChannelEvent(PusherEvent event) {
-    if (event.eventName != _pusherEventName) return;
+    final eventName = _normalizedPusherEventName(event.eventName);
+    if (eventName != _pusherEventName) return;
     if (event.data == null) return;
 
     try {
-      final data = jsonDecode(event.data!) as Map<String, dynamic>;
+      final data = _decodePusherPayload(event.data);
       final currentUserId =
           StorageService.readMapData(key: LocalStorageKeys.user, mapKey: 'id')
               as int?;
@@ -227,11 +230,16 @@ class MessageController extends GetxController {
   Future<void> openThread(MessageListModel thread) async {
     await _unsubscribeThread();
     selectedThread.value = thread;
+    callCoordinator.setThreadContext(
+      threadId: thread.id,
+      title: thread.subject,
+    );
     _messagesPage = 1;
     _messagesHasMore = true;
     messagesDetail.clear();
     await loadMessages();
     await _subscribeToThread(thread.id);
+    await callCoordinator.reconcile(thread.id);
   }
 
   void closeThread() {
@@ -315,11 +323,17 @@ class MessageController extends GetxController {
   }
 
   void _onPusherMessage(PusherEvent event) {
-    if (event.eventName != _pusherEventName) return;
+    final eventName = _normalizedPusherEventName(event.eventName);
+    if (eventName != _pusherEventName && eventName != 'CallUpdated') return;
     if (event.data == null) return;
 
     try {
-      final data = jsonDecode(event.data!) as Map<String, dynamic>;
+      final data = _decodePusherPayload(event.data);
+      if (eventName == 'CallUpdated') {
+        unawaited(callCoordinator.handleRealtimeCall(data));
+        return;
+      }
+      if (eventName != _pusherEventName) return;
       final currentUserId =
           StorageService.readMapData(key: LocalStorageKeys.user, mapKey: 'id')
               as int?;
@@ -328,7 +342,14 @@ class MessageController extends GetxController {
         currentUserId: currentUserId,
       );
 
-      if (incoming.isSender) return;
+      // Regular outgoing messages already have an optimistic local item.
+      // Call summaries are created only by the backend, so the initiator must
+      // also accept the realtime event to see the card immediately.
+      if (incoming.isSender && incoming.type != 'call') return;
+      if (incoming.id != null &&
+          messagesDetail.any((message) => message.id == incoming.id)) {
+        return;
+      }
 
       messagesDetail.insert(0, incoming);
       scrollToBottom();
@@ -354,6 +375,26 @@ class MessageController extends GetxController {
     } catch (e) {
       logger.e('[MessageController] [Pusher] Error parsing event: $e');
     }
+  }
+
+  String _normalizedPusherEventName(String eventName) =>
+      eventName.replaceFirst(RegExp(r'^\.'), '');
+
+  Map<String, dynamic> _decodePusherPayload(dynamic payload) {
+    if (payload is String) {
+      final decoded = jsonDecode(payload);
+      if (decoded is Map) {
+        return Map<String, dynamic>.from(decoded);
+      }
+    } else if (payload is Map) {
+      // Platform channels can return Map<Object?, Object?>. The JSON round-trip
+      // normalizes both top-level and nested keys to String safely.
+      final decoded = jsonDecode(jsonEncode(payload));
+      if (decoded is Map) {
+        return Map<String, dynamic>.from(decoded);
+      }
+    }
+    throw const FormatException('Unsupported Pusher payload');
   }
 
   Future<void> _unsubscribeThread() async {

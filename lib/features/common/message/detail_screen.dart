@@ -3,6 +3,7 @@ import 'controller.dart';
 import 'widget/chat_app_bar.dart';
 import 'widget/chat_bubble.dart';
 import 'widget/chat_input.dart';
+import 'package:sukientotapp/features/common/call/widgets/call_ui.dart';
 
 class MessageDetailScreen extends GetView<MessageController> {
   const MessageDetailScreen({super.key});
@@ -15,6 +16,10 @@ class MessageDetailScreen extends GetView<MessageController> {
       appBar: const ChatAppBar(),
       body: Column(
         children: [
+          ActiveCallBanner(
+            coordinator: controller.callCoordinator,
+            threadId: controller.selectedThreadId,
+          ),
           Expanded(
             child: Obx(() {
               if (controller.isLoadingMessages.value &&

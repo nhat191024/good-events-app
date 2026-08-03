@@ -15,6 +15,12 @@ import 'package:sukientotapp/core/utils/app_translations.dart';
 import 'package:sukientotapp/core/error_reporting/app_error_log_bridge.dart';
 import 'package:sukientotapp/core/error_reporting/app_error_reporter.dart';
 import 'package:sukientotapp/features/common/dev_overlay/dev_overlay.dart';
+import 'package:sukientotapp/core/services/api_service.dart';
+import 'package:sukientotapp/core/services/call_coordinator.dart';
+import 'package:sukientotapp/data/providers/common/call_provider.dart';
+import 'package:sukientotapp/data/repositories/common/call_repository_impl.dart';
+import 'package:sukientotapp/domain/repositories/common/call_repository.dart';
+import 'package:sukientotapp/features/common/call/widgets/call_ui.dart';
 
 void main() {
   runZonedGuarded<Future<void>>(
@@ -29,6 +35,16 @@ void main() {
       await errorReporter.initialize();
       Get.put<AppErrorReporter>(errorReporter, permanent: true);
       AppErrorLogBridge.install(reporter: errorReporter);
+
+      final apiService = Get.put<ApiService>(ApiService(), permanent: true);
+      final callRepository = Get.put<CallRepository>(
+        CallRepositoryImpl(CallProvider(apiService)),
+        permanent: true,
+      );
+      Get.put<CallCoordinator>(
+        CallCoordinator(callRepository),
+        permanent: true,
+      );
 
       await Firebase.initializeApp(
         options: DefaultFirebaseOptions.currentPlatform,
@@ -197,7 +213,9 @@ class GoodEvent extends StatelessWidget {
 
         return FTheme(
           data: theme,
-          child: DevOverlay(child: child!),
+          child: GlobalIncomingCallOverlay(
+            child: DevOverlay(child: child!),
+          ),
         );
       },
     );

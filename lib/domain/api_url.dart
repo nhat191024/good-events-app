@@ -25,6 +25,8 @@ class AppUrl {
 
   // Firebase Cloud Messaging
   static const String updateFcmToken = '/fcm/update-token';
+  static const String pushDevices = '/push/devices';
+  static String pushDevice(String deviceId) => '/push/devices/$deviceId';
 
   // Location APIs
   static const String locations = '/locations';
@@ -82,6 +84,14 @@ class AppUrl {
   static const String chats = '/chat';
   static String chatMessages(String threadId) =>
       '/chat/threads/$threadId/messages';
+  static String createCall(String threadId) =>
+      '/chat/threads/$threadId/calls';
+  static String activeCall(String threadId) =>
+      '/chat/threads/$threadId/calls/active';
+  static String joinCall(String callId) => '/calls/$callId/join';
+  static String leaveCall(String callId) => '/calls/$callId/leave';
+  static String declineCall(String callId) => '/calls/$callId/decline';
+  static String endCall(String callId) => '/calls/$callId/end';
 
   // Partner Services
   static const String partnerServices = '/partner/service/index';
