@@ -37,6 +37,7 @@ class _CallResumeNavigatorState extends State<CallResumeNavigator>
     with WidgetsBindingObserver {
   late final CallCoordinator _coordinator;
   late final Worker _callStateWorker;
+  Timer? _navigationRetryTimer;
   bool _isAppResumed = false;
 
   @override
@@ -65,8 +66,25 @@ class _CallResumeNavigatorState extends State<CallResumeNavigator>
     }
   }
 
+  @override
+  void didUpdateWidget(covariant CallResumeNavigator oldWidget) {
+    super.didUpdateWidget(oldWidget);
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      _openCallUiIfNeeded();
+    });
+  }
+
   void _openCallUiIfNeeded() {
     if (!mounted || !_isAppResumed || _isAudioCallScreenOpen) return;
+    // During a cold start, SplashController replaces the whole navigation
+    // stack with the home route. Opening the call screen before that would
+    // make it part of the discarded stack while the Agora session stays live.
+    if (Get.currentRoute == Routes.splashScreen) {
+      _scheduleNavigationRetry();
+      return;
+    }
+    _navigationRetryTimer?.cancel();
+    _navigationRetryTimer = null;
     if (_coordinator.activeCall.value == null) return;
     final state = _coordinator.localState.value;
     final isOngoing = state == LocalCallState.joining ||
@@ -75,8 +93,17 @@ class _CallResumeNavigatorState extends State<CallResumeNavigator>
     if (isOngoing) unawaited(openAudioCallScreen());
   }
 
+  void _scheduleNavigationRetry() {
+    if (_navigationRetryTimer?.isActive == true) return;
+    _navigationRetryTimer = Timer(
+      const Duration(milliseconds: 250),
+      _openCallUiIfNeeded,
+    );
+  }
+
   @override
   void dispose() {
+    _navigationRetryTimer?.cancel();
     WidgetsBinding.instance.removeObserver(this);
     _callStateWorker.dispose();
     super.dispose();

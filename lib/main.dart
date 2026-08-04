@@ -49,8 +49,8 @@ void main() {
       await Firebase.initializeApp(
         options: DefaultFirebaseOptions.currentPlatform,
       );
-      await NotificationService.init();
       runApp(const GoodEvent());
+      unawaited(NotificationService.init());
     },
     (error, stackTrace) {
       logger.e(
@@ -214,9 +214,7 @@ class GoodEvent extends StatelessWidget {
         return FTheme(
           data: theme,
           child: CallResumeNavigator(
-            child: GlobalIncomingCallOverlay(
-              child: DevOverlay(child: child!),
-            ),
+            child: DevOverlay(child: child!),
           ),
         );
       },
