@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:sukientotapp/core/services/call_coordinator.dart';
 import 'package:sukientotapp/core/utils/import/global.dart';
 import 'package:sukientotapp/data/models/common/call_model.dart';
@@ -5,12 +7,83 @@ import 'package:sukientotapp/data/models/message_list_model.dart';
 import 'package:sukientotapp/features/common/call/screen.dart';
 
 const int _adminUserId = 2;
+bool _isAudioCallScreenOpen = false;
 
 Future<void> openAudioCallScreen() async {
-  await Get.to<void>(
-    () => const AudioCallScreen(),
-    transition: Transition.downToUp,
-  );
+  if (_isAudioCallScreenOpen) return;
+  _isAudioCallScreenOpen = true;
+  try {
+    await Get.to<void>(
+      () => const AudioCallScreen(),
+      transition: Transition.downToUp,
+    );
+  } finally {
+    _isAudioCallScreenOpen = false;
+  }
+}
+
+/// Reopens the in-call UI when iOS brings the app to the foreground after the
+/// user taps the system CallKit status indicator.
+class CallResumeNavigator extends StatefulWidget {
+  const CallResumeNavigator({required this.child, super.key});
+
+  final Widget child;
+
+  @override
+  State<CallResumeNavigator> createState() => _CallResumeNavigatorState();
+}
+
+class _CallResumeNavigatorState extends State<CallResumeNavigator>
+    with WidgetsBindingObserver {
+  late final CallCoordinator _coordinator;
+  late final Worker _callStateWorker;
+  bool _isAppResumed = false;
+
+  @override
+  void initState() {
+    super.initState();
+    _coordinator = Get.find<CallCoordinator>();
+    _isAppResumed =
+        WidgetsBinding.instance.lifecycleState == AppLifecycleState.resumed;
+    WidgetsBinding.instance.addObserver(this);
+    _callStateWorker = ever<LocalCallState>(
+      _coordinator.localState,
+      (_) => _openCallUiIfNeeded(),
+    );
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      _openCallUiIfNeeded();
+    });
+  }
+
+  @override
+  void didChangeAppLifecycleState(AppLifecycleState state) {
+    _isAppResumed = state == AppLifecycleState.resumed;
+    if (_isAppResumed) {
+      WidgetsBinding.instance.addPostFrameCallback((_) {
+        _openCallUiIfNeeded();
+      });
+    }
+  }
+
+  void _openCallUiIfNeeded() {
+    if (!mounted || !_isAppResumed || _isAudioCallScreenOpen) return;
+    if (_coordinator.activeCall.value == null) return;
+    final state = _coordinator.localState.value;
+    final isOngoing = state == LocalCallState.joining ||
+        state == LocalCallState.connected ||
+        state == LocalCallState.reconnecting;
+    if (isOngoing) unawaited(openAudioCallScreen());
+  }
+
+  @override
+  void dispose() {
+    WidgetsBinding.instance.removeObserver(this);
+    _callStateWorker.dispose();
+    super.dispose();
+  }
+
+  @override
+  Widget build(BuildContext context) => widget.child;
 }
 
 Future<void> showStartCallSheet({
