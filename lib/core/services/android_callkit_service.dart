@@ -67,11 +67,10 @@ class AndroidCallkitService {
         incomingCallNotificationChannelName: 'Cuộc gọi đến',
         missedCallNotificationChannelName: 'Cuộc gọi nhỡ',
         isShowCallID: false,
-        isShowFullLockedScreen: true,
+        isShowFullLockedScreen: false,
         isImportant: true,
-        // Let Android open the incoming call screen through the notification's
-        // full-screen PendingIntent. Starting an Activity directly from the
-        // FCM background isolate is blocked on recent Android versions.
+        // Android displays a standard heads-up call notification. The app does
+        // not request or use full-screen intent access.
         isFullScreen: false,
         textAccept: 'Trả lời',
         textDecline: 'Từ chối',

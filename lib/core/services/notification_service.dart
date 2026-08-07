@@ -69,7 +69,7 @@ Future<void> _showIncomingCallNotification(Map<String, dynamic> data) async {
       importance: Importance.max,
       priority: Priority.max,
       category: AndroidNotificationCategory.call,
-      fullScreenIntent: true,
+      fullScreenIntent: false,
       ongoing: true,
       autoCancel: false,
       visibility: NotificationVisibility.public,
@@ -183,10 +183,6 @@ class NotificationService {
           AndroidFlutterLocalNotificationsPlugin
         >();
     await androidNotifications?.createNotificationChannel(_incomingCallChannel);
-    final fullScreenGranted = await androidNotifications
-        ?.requestFullScreenIntentPermission();
-    logger.i('[FCM] Full-screen intent permission granted: $fullScreenGranted');
-
     final launchDetails = await _localNotifications
         .getNotificationAppLaunchDetails();
     final launchPayload = launchDetails?.notificationResponse?.payload;
