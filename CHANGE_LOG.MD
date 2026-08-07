@@ -2,6 +2,10 @@
 
 All notable changes to this project will be documented in this file.
 
+## [2.8.3+83]
+
+- Remove USE_FULL_SCREEN_INTENT from android build
+
 ## [2.8.2+82]
 
 - Add voip call for android
