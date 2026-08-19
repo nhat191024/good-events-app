@@ -214,8 +214,10 @@ class GoodEvent extends StatelessWidget {
         return FTheme(
           data: theme,
           child: CallResumeNavigator(
-            child: CallRecoveryBanner(
-              child: DevOverlay(child: child!),
+            child: GlobalIncomingCallOverlay(
+              child: CallRecoveryBanner(
+                child: DevOverlay(child: child!),
+              ),
             ),
           ),
         );
