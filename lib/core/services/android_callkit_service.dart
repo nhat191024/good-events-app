@@ -8,6 +8,7 @@ import 'package:flutter/services.dart';
 import 'package:get/get.dart';
 import 'package:sukientotapp/core/services/api_service.dart';
 import 'package:sukientotapp/core/services/call_coordinator.dart';
+import 'package:sukientotapp/core/services/call_ringtone_service.dart';
 import 'package:sukientotapp/core/utils/logger.dart';
 import 'package:sukientotapp/domain/api_url.dart';
 
@@ -118,6 +119,7 @@ class AndroidCallkitService {
   static Future<void> endCall(String callId) async {
     if (!_isAndroid) return;
     _acceptedCallIds.remove(callId);
+    await CallRingtoneService.stop();
     try {
       await _nativeCallChannel.invokeMethod<void>('stopOngoingCall');
     } on PlatformException catch (error) {
