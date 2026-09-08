@@ -61,6 +61,9 @@ class EditProfileController extends GetxController {
 
   RxString get role => Get.find<MyProfileController>().role;
 
+  bool get _canUpdateIdentityVerification =>
+      role.value == 'partner' && !initialProfile.isLegit;
+
   @override
   void onInit() {
     super.onInit();
@@ -91,9 +94,8 @@ class EditProfileController extends GetxController {
     partnerNameController = TextEditingController(
       text: initialProfile.partnerName ?? '',
     );
-    identityCardController = TextEditingController(
-      text: initialProfile.identityCardNumber ?? '',
-    );
+    // Identity card data is intentionally never pre-filled from the API.
+    identityCardController = TextEditingController();
     videoUrlController = TextEditingController(
       text: initialProfile.videoUrl,
     );
@@ -255,8 +257,10 @@ class EditProfileController extends GetxController {
 
       if (role.value == 'partner') {
         formDataMap['partner_name'] = partnerNameController.text.trim();
-        formDataMap['identity_card_number'] = identityCardController.text
-            .trim();
+        final identityCardNumber = identityCardController.text.trim();
+        if (_canUpdateIdentityVerification && identityCardNumber.isNotEmpty) {
+          formDataMap['identity_card_number'] = identityCardNumber;
+        }
         if (selectedWard.value != null) {
           formDataMap['location_id'] = selectedWard.value!.id;
         } else if (selectedProvince.value != null) {
@@ -278,14 +282,14 @@ class EditProfileController extends GetxController {
             filename: selfieFile.value!.name,
           );
         }
-        if (frontCardFile.value != null) {
+        if (_canUpdateIdentityVerification && frontCardFile.value != null) {
           formDataMap['front_identity_card_image'] =
               await MultipartFile.fromFile(
                 frontCardFile.value!.path,
                 filename: frontCardFile.value!.name,
               );
         }
-        if (backCardFile.value != null) {
+        if (_canUpdateIdentityVerification && backCardFile.value != null) {
           formDataMap['back_identity_card_image'] =
               await MultipartFile.fromFile(
                 backCardFile.value!.path,

@@ -444,7 +444,6 @@ class _PartnerCard extends StatelessWidget {
             _UploadRow(
               icon: FIcons.idCard,
               label: 'identity_card_image_front'.tr,
-              initialImageUrl: controller.initialProfile.frontIdentityCardImage,
               validator: controller.validateProfileImage,
               onPicked: (f) => controller.frontCardFile.value = f,
               onRemoved: () => controller.frontCardFile.value = null,
@@ -453,7 +452,6 @@ class _PartnerCard extends StatelessWidget {
             _UploadRow(
               icon: FIcons.idCard,
               label: 'identity_card_image_back'.tr,
-              initialImageUrl: controller.initialProfile.backIdentityCardImage,
               validator: controller.validateProfileImage,
               onPicked: (f) => controller.backCardFile.value = f,
               onRemoved: () => controller.backCardFile.value = null,
