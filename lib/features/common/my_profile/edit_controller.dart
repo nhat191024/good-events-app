@@ -106,6 +106,14 @@ class EditProfileController extends GetxController {
   }
 
   @override
+  void onReady() {
+    super.onReady();
+    if (_canUpdateIdentityVerification) {
+      _showIdentityVerificationPendingDialog();
+    }
+  }
+
+  @override
   void onClose() {
     nameController.dispose();
     emailController.dispose();
@@ -403,6 +411,77 @@ class EditProfileController extends GetxController {
                 child: Text(
                   'cancel'.tr,
                   style: const TextStyle(color: Colors.black45, fontSize: 13.5),
+                ),
+              ),
+            ],
+          ),
+        ),
+      ),
+      barrierDismissible: true,
+    );
+  }
+
+  void _showIdentityVerificationPendingDialog() {
+    Get.dialog(
+      Dialog(
+        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(20)),
+        backgroundColor: Colors.white,
+        child: Padding(
+          padding: const EdgeInsets.fromLTRB(24, 28, 24, 20),
+          child: Column(
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              Container(
+                padding: const EdgeInsets.all(16),
+                decoration: BoxDecoration(
+                  color: AppColors.primary.withValues(alpha: 0.12),
+                  shape: BoxShape.circle,
+                ),
+                child: Icon(
+                  Icons.pending_outlined,
+                  color: AppColors.primary,
+                  size: 36,
+                ),
+              ),
+              const SizedBox(height: 16),
+              Text(
+                'identity_verification_pending_title'.tr,
+                textAlign: TextAlign.center,
+                style: const TextStyle(
+                  fontSize: 17,
+                  fontWeight: FontWeight.bold,
+                ),
+              ),
+              const SizedBox(height: 10),
+              Text(
+                'identity_verification_pending_message'.tr,
+                textAlign: TextAlign.center,
+                style: const TextStyle(
+                  fontSize: 13.5,
+                  color: Colors.black54,
+                  height: 1.45,
+                ),
+              ),
+              const SizedBox(height: 24),
+              SizedBox(
+                width: double.infinity,
+                child: ElevatedButton(
+                  style: ElevatedButton.styleFrom(
+                    backgroundColor: AppColors.primary,
+                    foregroundColor: Colors.white,
+                    padding: const EdgeInsets.symmetric(vertical: 13),
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(12),
+                    ),
+                  ),
+                  onPressed: Get.back,
+                  child: Text(
+                    'identity_verification_pending_confirm'.tr,
+                    style: const TextStyle(
+                      fontWeight: FontWeight.bold,
+                      fontSize: 14.5,
+                    ),
+                  ),
                 ),
               ),
             ],
