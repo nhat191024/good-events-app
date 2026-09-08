@@ -431,15 +431,14 @@ class _PartnerCard extends StatelessWidget {
           const SizedBox(height: 16),
           Divider(color: context.fTheme.colors.border),
           const SizedBox(height: 12),
-          _UploadRow(
-            icon: FIcons.camera,
-            label: 'selfie_image'.tr,
-            initialImageUrl: controller.initialProfile.selfieImage,
-            validator: controller.validateProfileImage,
-            onPicked: (f) => controller.selfieFile.value = f,
-            onRemoved: () => controller.selfieFile.value = null,
-          ),
           if (!controller.initialProfile.isLegit) ...[
+            _UploadRow(
+              icon: FIcons.camera,
+              label: 'selfie_image'.tr,
+              validator: controller.validateProfileImage,
+              onPicked: (f) => controller.selfieFile.value = f,
+              onRemoved: () => controller.selfieFile.value = null,
+            ),
             const SizedBox(height: 12),
             _UploadRow(
               icon: FIcons.idCard,
