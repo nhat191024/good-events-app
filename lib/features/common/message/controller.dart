@@ -1183,7 +1183,7 @@ class MessageController extends GetxController {
         return null;
       }
 
-      return Geolocator.getCurrentPosition(
+      return await Geolocator.getCurrentPosition(
         locationSettings: const LocationSettings(
           accuracy: LocationAccuracy.high,
         ),
