@@ -9,6 +9,7 @@ import 'package:sukientotapp/features/common/message/controller.dart';
 import 'package:sukientotapp/features/common/call/widgets/call_ui.dart';
 import 'cached_message_avatar.dart';
 import 'price_increase_request_card.dart';
+import 'attachment_card.dart';
 
 class ChatBubble extends StatelessWidget {
   final MessageModel message;
@@ -18,6 +19,9 @@ class ChatBubble extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    if (message.type == 'file' || message.type == 'video') {
+      return ChatAttachmentBubble(message: message);
+    }
     if (message.type == 'price_increase_request' &&
         message.priceIncreaseRequest != null) {
       return Padding(

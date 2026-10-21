@@ -115,6 +115,13 @@ class NotificationHandler {
       return;
     } else {
       logger.i('[NotificationHandler] New message for threadId: $threadId');
+      if (Get.isRegistered<MessageController>()) {
+        final MessageController controller = Get.find<MessageController>();
+        if (controller.selectedThreadId == threadId.toString()) {
+          controller.loadMessages();
+        }
+        controller.refreshThreads();
+      }
     }
   }
 
