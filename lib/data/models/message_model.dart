@@ -245,8 +245,15 @@ class MessageModel {
   final PriceIncreaseRequestModel? priceIncreaseRequest;
   final bool isSender;
   final bool sended;
-  final String time;
+  final DateTime? createdAt;
+  final String _time;
   final String date;
+
+  String get time => timeAt(DateTime.now());
+
+  String timeAt(DateTime now) => createdAt == null
+      ? _time
+      : diffForHumans(createdAt!.toIso8601String(), now: now);
 
   MessageModel({
     this.id,
@@ -263,11 +270,16 @@ class MessageModel {
     this.priceIncreaseRequest,
     required this.isSender,
     required this.sended,
-    required this.time,
+    required String time,
+    this.createdAt,
     required this.date,
-  }) : previewText = previewText ?? text;
+  }) : _time = time,
+       previewText = previewText ?? text;
 
-  MessageModel copyWith({PriceIncreaseRequestModel? priceIncreaseRequest}) {
+  MessageModel copyWith({
+    PriceIncreaseRequestModel? priceIncreaseRequest,
+    bool? sended,
+  }) {
     return MessageModel(
       id: id,
       threadId: threadId,
@@ -282,18 +294,19 @@ class MessageModel {
       call: call,
       priceIncreaseRequest: priceIncreaseRequest ?? this.priceIncreaseRequest,
       isSender: isSender,
-      sended: sended,
-      time: time,
+      sended: sended ?? this.sended,
+      time: _time,
+      createdAt: createdAt,
       date: date,
     );
   }
 
   /// Converts an ISO 8601 timestamp string to a human-readable relative time.
-  static String diffForHumans(String isoString) {
+  static String diffForHumans(String isoString, {DateTime? now}) {
     if (isoString.isEmpty) return '';
     final DateTime? dateTime = DateTime.tryParse(isoString);
     if (dateTime == null) return isoString;
-    final Duration diff = DateTime.now().difference(dateTime);
+    final Duration diff = (now ?? DateTime.now()).difference(dateTime);
     if (diff.inSeconds < 60) return 'just_now'.tr;
     if (diff.inMinutes < 60) {
       final m = diff.inMinutes;
@@ -401,6 +414,7 @@ class MessageModel {
       isSender: currentUserId != null && resolvedSenderId == currentUserId,
       sended: true,
       time: diffForHumans(createdAt),
+      createdAt: DateTime.tryParse(createdAt),
       date: '',
     );
   }
@@ -422,6 +436,9 @@ class MessageModel {
       isSender: json['isSender'] ?? false,
       sended: json['sended'] ?? false,
       time: json['time'] ?? '',
+      createdAt: DateTime.tryParse(
+        (json['created_at'] ?? json['createdAt'])?.toString() ?? '',
+      ),
       date: json['date'] ?? '',
     );
   }
@@ -441,6 +458,7 @@ class MessageModel {
       'isSender': isSender,
       'sended': sended,
       'time': time,
+      'created_at': createdAt?.toIso8601String(),
       'date': date,
     };
   }

@@ -42,6 +42,8 @@ class MessageController extends GetxController {
   final Rx<MessageListModel?> selectedThread = Rx<MessageListModel?>(null);
   final RxBool isLoadingMessages = false.obs;
   final RxBool isLoadingOlderMessages = false.obs;
+  final Rx<DateTime> messageTimeNow = DateTime.now().obs;
+  Timer? _messageTimeTimer;
   int _messagesPage = 1;
   bool _messagesHasMore = true;
 
@@ -272,6 +274,8 @@ class MessageController extends GetxController {
 
   Future<void> disposeUploads() async {
     if (_uploadsDisposed) return;
+    _messageTimeTimer?.cancel();
+    _messageTimeTimer = null;
     _uploadsDisposed = true;
     _threadGeneration++;
     for (final CancelToken token in _uploadTokens.values) {
@@ -490,6 +494,7 @@ class MessageController extends GetxController {
 
   @override
   void onClose() {
+    _messageTimeTimer?.cancel();
     unawaited(disposeUploads());
     _unsubscribeThread();
     messageController.dispose();
@@ -686,6 +691,11 @@ class MessageController extends GetxController {
     if (isClosed || generation != _threadGeneration) return;
     pendingInvitationUserIds.clear();
     selectedThread.value = thread;
+    _messageTimeTimer?.cancel();
+    messageTimeNow.value = DateTime.now();
+    _messageTimeTimer = Timer.periodic(const Duration(seconds: 15), (_) {
+      messageTimeNow.value = DateTime.now();
+    });
     _updateCanRequestPriceIncrease();
     callCoordinator.setThreadContext(
       threadId: thread.id,
@@ -703,6 +713,8 @@ class MessageController extends GetxController {
   }
 
   void closeThread() {
+    _messageTimeTimer?.cancel();
+    _messageTimeTimer = null;
     _threadGeneration++;
     messageController.clear();
     selectedImages.clear();
@@ -1154,6 +1166,7 @@ class MessageController extends GetxController {
         : <MessageAttachmentModel>[];
 
     final optimistic = MessageModel(
+      createdAt: DateTime.now(),
       sender: currentUserName,
       senderAvatar: currentUserAvatar,
       text: isImageMessage ? censoredText : previewText,
@@ -1416,6 +1429,7 @@ class MessageController extends GetxController {
       )?.toString();
       const previewText = '[Vị trí]';
       optimistic = MessageModel(
+        createdAt: DateTime.now(),
         sender: currentUserName,
         senderAvatar: currentUserAvatar,
         text: previewText,
@@ -1549,19 +1563,7 @@ class MessageController extends GetxController {
     final idx = messagesDetail.indexOf(optimistic);
     if (idx == -1) return;
 
-    messagesDetail[idx] = MessageModel(
-      sender: optimistic.sender,
-      senderAvatar: optimistic.senderAvatar,
-      text: optimistic.text,
-      type: optimistic.type,
-      previewText: optimistic.previewText,
-      attachments: optimistic.attachments,
-      location: optimistic.location,
-      isSender: optimistic.isSender,
-      sended: true,
-      time: optimistic.time,
-      date: optimistic.date,
-    );
+    messagesDetail[idx] = optimistic.copyWith(sended: true);
   }
 
   void _updateThreadPreview({required String threadId, required String text}) {

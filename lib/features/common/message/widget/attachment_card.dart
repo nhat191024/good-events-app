@@ -6,6 +6,7 @@ import 'package:sukientotapp/data/models/message_model.dart';
 import '../controller.dart';
 import '../video_screen.dart';
 import 'cached_message_avatar.dart';
+import 'message_timestamp.dart';
 
 class ChatAttachmentBubble extends StatefulWidget {
   const ChatAttachmentBubble({super.key, required this.message});
@@ -125,7 +126,10 @@ class _ChatAttachmentBubbleState extends State<ChatAttachmentBubble> {
                       ),
                     ),
                     const SizedBox(height: 4),
-                    Text(message.time, style: context.typography.xs),
+                    MessageTimestamp(
+                      message: message,
+                      style: context.typography.xs,
+                    ),
                   ],
                 ),
               ),
