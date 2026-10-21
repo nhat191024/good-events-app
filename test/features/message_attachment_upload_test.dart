@@ -184,6 +184,56 @@ void main() {
     },
   );
 
+  test('incoming video without an avatar is enriched from history', () async {
+    final Completer<Map<String, dynamic>> response =
+        Completer<Map<String, dynamic>>();
+    int historyCalls = 0;
+    repository.history = (String _, int page) {
+      historyCalls++;
+      return response.future;
+    };
+    controller.onUserChannelEvent(
+      PusherEvent(
+        channelName: 'private-user-messages.7',
+        eventName: 'SendMessage',
+        data: <String, dynamic>{
+          'sender_id': 8,
+          'message': <String, dynamic>{
+            ..._raw(90),
+            'user_id': 8,
+            'type': 'video',
+          },
+          'user': <String, Object?>{'id': 8, 'name': 'Client', 'avatar': null},
+        },
+      ),
+    );
+    expect(historyCalls, 1);
+    response.complete(<String, dynamic>{
+      'messages': <Object>[
+        <String, dynamic>{
+          'sender_id': 8,
+          'message': <String, dynamic>{
+            ..._raw(90),
+            'user_id': 8,
+            'type': 'video',
+          },
+          'user': <String, Object>{
+            'id': 8,
+            'name': 'Client',
+            'avatar': 'https://media.example/client.png',
+          },
+        },
+      ],
+      'hasMore': false,
+    });
+    await Future<void>.delayed(Duration.zero);
+    expect(controller.messagesDetail, hasLength(1));
+    expect(
+      controller.resolveSenderAvatar(controller.messagesDetail.single),
+      'https://media.example/client.png',
+    );
+  });
+
   test('upload completion does not insert into a different thread', () async {
     final ChatUploadTask pending = task();
     controller.attachmentUploads.add(pending);

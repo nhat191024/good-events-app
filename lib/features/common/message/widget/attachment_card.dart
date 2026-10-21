@@ -64,6 +64,9 @@ class _ChatAttachmentBubbleState extends State<ChatAttachmentBubble> {
   @override
   Widget build(BuildContext context) {
     final MessageModel message = widget.message;
+    final String? senderAvatar = Get.isRegistered<MessageController>()
+        ? Get.find<MessageController>().resolveSenderAvatar(message)
+        : message.senderAvatar;
     final MessageAttachmentModel? attachment = message.attachments.firstOrNull;
     return Padding(
       padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 5),
@@ -74,7 +77,7 @@ class _ChatAttachmentBubbleState extends State<ChatAttachmentBubble> {
         crossAxisAlignment: CrossAxisAlignment.end,
         children: <Widget>[
           if (!message.isSender) ...<Widget>[
-            CachedMessageAvatar(imageUrl: message.senderAvatar),
+            CachedMessageAvatar(imageUrl: senderAvatar),
             const SizedBox(width: 8),
           ],
           Flexible(
@@ -130,7 +133,7 @@ class _ChatAttachmentBubbleState extends State<ChatAttachmentBubble> {
           ),
           if (message.isSender) ...<Widget>[
             const SizedBox(width: 8),
-            CachedMessageAvatar(imageUrl: message.senderAvatar),
+            CachedMessageAvatar(imageUrl: senderAvatar),
           ],
         ],
       ),
@@ -246,6 +249,8 @@ class ChatUploadBubble extends StatelessWidget {
             ),
           ),
         ),
+        const SizedBox(width: 8),
+        CachedMessageAvatar(imageUrl: controller.uploadSenderAvatar),
       ],
     ),
   );

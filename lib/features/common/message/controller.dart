@@ -21,6 +21,7 @@ import 'package:sukientotapp/data/models/chat_upload_model.dart';
 import 'package:sukientotapp/core/services/chat_media_service.dart';
 
 import 'detail_screen.dart';
+import 'message_avatar_resolver.dart';
 import 'widget/invitation_accept_dialog.dart';
 
 class MessageController extends GetxController {
@@ -90,6 +91,37 @@ class MessageController extends GetxController {
   List<ChatUploadTask> get visibleUploads => attachmentUploads
       .where((ChatUploadTask task) => task.threadId == selectedThreadId)
       .toList();
+
+  String? get currentUserAvatar => StorageService.readMapData(
+    key: LocalStorageKeys.user,
+    mapKey: 'avatar_url',
+  )?.toString();
+
+  String? resolveSenderAvatar(MessageModel message) =>
+      resolveMessageSenderAvatar(
+        message: message,
+        history: messagesDetail,
+        participants:
+            selectedThread.value?.participants ??
+            const <MessageThreadParticipant>[],
+        currentUserId: currentUserId,
+        currentUserAvatar: currentUserAvatar,
+        alternateCurrentUserAvatar: StorageService.readMapData(
+          key: LocalStorageKeys.user,
+          mapKey: 'avatar',
+        )?.toString(),
+      );
+
+  String? get uploadSenderAvatar => resolveSenderAvatar(
+    MessageModel(
+      userId: currentUserId,
+      text: '',
+      isSender: true,
+      sended: false,
+      time: '',
+      date: '',
+    ),
+  );
 
   Future<void> clearSelectedAttachment() async {
     final ChatAttachmentSelection? previous = selectedAttachment.value;
@@ -812,6 +844,11 @@ class MessageController extends GetxController {
       messagesDetail.assignAll(
         _uniqueMessages(<MessageModel>[incoming, ...messagesDetail]),
       );
+      if ((incoming.type == 'file' || incoming.type == 'video') &&
+          resolveSenderAvatar(incoming) == null) {
+        // History enriches file/video realtime payloads whose avatar is null.
+        unawaited(loadMessages());
+      }
       scrollToBottom();
 
       // Update the thread's newestMessage preview in the list
